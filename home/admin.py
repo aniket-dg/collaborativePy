@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Contact, NewsLetter, TPP
 
-# Register your models here.
+admin.site.register(Contact)
+admin.site.register(NewsLetter)
+admin.site.register(TPP)
+

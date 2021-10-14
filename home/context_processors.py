@@ -15,3 +15,7 @@ def get_email(request):
     return context
 
 
+# Website url (sitemap)
+def get_website_url(request):
+    context = {'website_url': 'stellar.ai'}
+    return context

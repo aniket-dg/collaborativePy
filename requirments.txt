@@ -1,0 +1,8 @@
+django-ckeditor
+django-crispy-forms
+django-debug-toolbar
+django-filter
+django-maintenance-mode
+django-widget-tweaks
+pip-chill
+social-auth-app-django

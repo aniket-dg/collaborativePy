@@ -21,6 +21,14 @@ INSTALLED_APPS = [
     'chat',
 
     # Third Party Modules
+    'crispy_forms',  # crispy forms
+    'ckeditor',  # Rich text editor
+    'social_django',  # Social Login
+    'django_filters',  # Filters
+    'widget_tweaks',  # Widget Tweaks
+    'maintenance_mode',  # maintenance_mode
+    'debug_toolbar',  # Debug Toolbar
+
 ]
 
 MIDDLEWARE = [
@@ -33,7 +41,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     # Third party
-    'social_django.middleware.SocialAuthExceptionMiddleware'  # Social Django
     'maintenance_mode.middleware.MaintenanceModeMiddleware',  # Maintenance
     'debug_toolbar.middleware.DebugToolbarMiddleware',  # Debugger
 ]
@@ -61,7 +68,9 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
 
                 # Context Processors django custom
-                'home.context_processors.get_current_year_to_context',  # CY
+                'home.context_processors.get_current_year_to_context',  # Current Year
+                'home.context_processors.get_email',  # Email Support
+                'home.context_processors.get_website_url',  # Website url (sitemap)
 
                 # Third Party
                 'social_django.context_processors.backends',  # Social Django
