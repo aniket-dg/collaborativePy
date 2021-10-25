@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'widget_tweaks',  # Widget Tweaks
     'maintenance_mode',  # maintenance_mode
     'debug_toolbar',  # Debug Toolbar
+    'channels', # Channels for chat
 
 ]
 
@@ -81,8 +82,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'stellar_ai.wsgi.application'
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -113,6 +112,16 @@ USE_TZ = True
 USE_I18N = False
 USE_L10N = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Channel
+# TODO for production setup redis server
+WSGI_APPLICATION = 'stellar_ai.wsgi.application'
+ASGI_APPLICATION = "stellar_ai.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 # User Model
 AUTH_USER_MODEL = 'users.User'  # Custom User Model

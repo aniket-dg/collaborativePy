@@ -11,6 +11,7 @@ from .managers import UserManager
 
 class User(AbstractBaseUser, PermissionsMixin):
     # Required
+    username = models.CharField(_('User Name'), max_length=200, null=True, blank=True)
     email = models.EmailField(_('Email'), unique=True, max_length=320, help_text='Provide an email for registration')
 
     # Optional
