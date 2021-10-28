@@ -1,0 +1,60 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- Content -->
+<div class="page-content">
+    <!-- inner page banner -->
+    <div class="dlab-bnr-inr" style="background-image:url('{% static 'images/background/bg1.jpg' %}'); background-size: cover; background-position: top center; background-repeat: no-repeat;">
+        <div class="container">
+            <div class="dlab-bnr-inr-entry text-white">
+                <h1>We’re Crep </h1>
+                <p>We help companies we believe in get results. Let us show you how</p>
+            </div>
+        </div>
+    </div>
+    <!-- inner page banner END -->
+    <!-- inner page banner END -->
+    <div class="content-block">
+
+<div class="section-full bg-white content-inner-2">
+    <div class="container">
+        <div class="section-head text-center">
+            <span class="sub-title text-primary">Pricing Plan</span>
+            <h2 class="title text-secondry">Simple pricing that works</h2>
+        </div>
+        <div class="row">
+            {% for object in object_list %}
+            <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+                <div class="pricingtable-wrapper">
+                    <div class="pricingtable-inner">
+                        <div class="pricingtable-price"> 
+                            <span style="font-size: 1.8em;" class="pricingtable-bx text-primary">₹{{ object.cost }}</span>
+                        </div>
+                        <div class="pricingtable-title">
+                            <h2>{{ object.title }}</h2>
+                        </div>
+                        <ul class="pricingtable-features">
+                            <li>{{object.description}}</li>
+                            <!-- <li>30-40 Keywords</li>
+                            <li>Connect Domain</li>
+                            <li>Ideal for smaller professional websites</li>
+                            <li>Business &amp; eCommerce</li> -->
+                        </ul>
+                        <div class="pricingtable-footer"> <a href="{% url 'order:payment-request' object.id %}" class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a> </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+
+</div>
+</div>
+<!-- Content END-->
+
+{% endblock content %}

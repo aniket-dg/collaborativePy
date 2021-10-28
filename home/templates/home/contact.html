@@ -1,5 +1,116 @@
 {% extends "home/base.html" %}
-
+{% load static %}
 {% block content %}
+
+<!-- Content -->
+<div class="page-content">
+    <!-- inner page banner -->
+    <div class="dlab-bnr-inr" style="background-image:url('{% static 'images/background/bg1.jpg' %}'); background-size: cover; background-position: top center; background-repeat: no-repeat;">
+        <div class="container">
+            <div class="dlab-bnr-inr-entry text-white">
+                <h1>We’re Crep </h1>
+                <p>We help companies we believe in get results. Let us show you how</p>
+            </div>
+        </div>
+    </div>
+    <!-- inner page banner END -->
+    <div class="content-block">
+        <div class="section-full content-inner bg-white contact-box style1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-7 m-b30 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="section-head text-left">
+                            <h2 class="title">Reach out to us</h2>
+                            <p class="m-b0">Get in touch and let us know how we can help.</p>
+                        </div>
+                        <div class="dzFormMsg"></div>
+                        <form method="post" class="dzForm" action="script/contact.php">
+                            <input type="hidden" value="Contact" name="dzToDo">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input name="dzName" type="text" required class="form-control" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input name="dzName" type="text" required class="form-control" placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input name="dzEmail" type="email" class="form-control" required  placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input name="dzLink" type="text" required class="form-control" placeholder="Link">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <textarea name="dzMessage" rows="4" class="form-control" required placeholder="Message"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <div class="g-recaptcha" data-sitekey="6LefsVUUAAAAADBPsLZzsNnETChealv6PYGzv3ZN" data-callback="verifyRecaptchaCallback" data-expired-callback="expiredRecaptchaCallback"></div>
+                                        <input class="form-control d-none" style="display:none;" data-recaptcha="true" required data-error="Please complete the Captcha">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <button name="submit" type="submit" value="Submit" class="btn radius-xl green btn-lg btn-aware">Send Message<span></span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-xl-4 col-lg-5 m-b30 d-flex align-items-center wow fadeInUp" data-wow-delay="0.4s">
+                        <img class="content-img img-move2" src="images/contact.png"  alt="">
+                    </div>
+                </div>
+                <div class="row content-inner-3">
+                    <div class="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="icon-bx-wraper content-info  m-b30 center">
+                            <div class="icon-md gradient-two m-b30 m-t5">
+                                <a href="javascript:void(0)" class="icon-cell text-white">
+                                    <i class="ti-email"></i>
+                                </a>
+                            </div>
+                            <div class="icon-content">
+                                <h4 class="dlab-tilte m-b5">Email address</h4>
+                                <p>Supportstore@msimple.net <br/> Info@Simplenet.net</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="icon-bx-wraper content-info m-b30 center">
+                            <div class="icon-md gradient-four m-b30 m-t5">
+                                <a href="javascript:void(0)" class="icon-cell text-white">
+                                    <i class="ti-location-pin"></i>
+                                </a>
+                            </div>
+                            <div class="icon-content">
+                                <h4 class="dlab-tilte m-b5">Office Location</h4>
+                                <p>62 Arlington St. Suite 100 Boston, CA 01117, USA</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 m-b30 wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="contact-details">
+                            <h2 class="text-secondry">Quick calls?</h2>
+                            <div class="contact-user">
+                                <img src="images/contect-user.jpg" alt="">
+                                <h5>Mahfuz Riad</h5>
+                            </div>
+                            <p>Want to get hired or want to hire us? Type away below.Schedule a short introductory call </p>
+                            <span class="email-text">Contact @example.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Content END-->
 
 {% endblock content %}

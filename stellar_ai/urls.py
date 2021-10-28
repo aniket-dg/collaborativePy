@@ -11,6 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('users.urls')),
     path('chat/', include('chat.urls')),
+    path('order/', include('order.urls')),
     path('', include('home.urls')),
 
     path('', views.handler403),

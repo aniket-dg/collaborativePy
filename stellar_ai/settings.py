@@ -1,5 +1,5 @@
 from pathlib import Path
-from .local_settings import *
+# from .local_settings import *
 
 import os
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'home',
     'users',
     'chat',
+    'order',
 
     # Third Party Modules
     'crispy_forms',  # crispy forms
@@ -118,9 +119,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 WSGI_APPLICATION = 'stellar_ai.wsgi.application'
 ASGI_APPLICATION = "stellar_ai.asgi.application"
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
 }
 
 # User Model
@@ -144,5 +148,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = Email
-EMAIL_HOST_PASSWORD = Email_Pass
+EMAIL_HOST_USER = 'Email'
+EMAIL_HOST_PASSWORD = 'Email_Pass'

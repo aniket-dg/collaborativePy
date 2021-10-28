@@ -1,32 +1,24 @@
 {% extends "home/base.html" %}
-
+{% load static %}
 {% block content %}
-  <!-- ========== MAIN CONTENT ========== -->
-        <main id="content" role="main">
-            <!-- breadcrumb -->
-            <div class="bg-gray-13 bg-md-transparent">
-                <div class="container">
-                    <!-- breadcrumb -->
-                    <div class="my-md-3">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
-                                <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="/">Home</a></li>
-                                <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">
-                                    {{page}}</li>
-                            </ol>
-                        </nav>
-                    </div>
-                    <!-- End breadcrumb -->
-                </div>
+
+<div class="page-content">
+    <!-- inner page banner -->
+    <div class="dlab-bnr-inr" style="background-image:url('{% static 'images/background/bg1.jpg' %}'); background-size: cover; background-position: top center; background-repeat: no-repeat;">
+        <div class="container">
+            <div class="dlab-bnr-inr-entry text-white">
+                <h1>We’re Crep </h1>
+                <p>We help companies we believe in get results. Let us show you how</p>
             </div>
-            <!-- End breadcrumb -->
+        </div>
+    </div>
+    <!-- inner page banner END -->
+    <!-- inner page banner END -->
+    <div class="content-block container my-5">
+        {{tpp|safe}}
+    </div>
+</div>
 
-            <div class="container">
-                {{tpp|safe}}
-            </div>
-
-
-        </main>
 
 
   {% endblock content %}

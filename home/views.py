@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 
+from order.models import Plan
 from .forms import NewsLetterForm
 from .models import Contact, TPP
 
@@ -75,3 +77,6 @@ class Terms(View):
         return render(self.request, 'home/terms_and_condition.html', {'tpp': tpp, 'page': page_name})
 
 
+class PlanListView(ListView):
+    model = Plan
+    template_name = 'home/plan.html'

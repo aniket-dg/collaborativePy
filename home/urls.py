@@ -18,6 +18,9 @@ urlpatterns = [
     path('policy/<str:page_name>/', views.Terms.as_view(), name='terms'),
     path('sitemap.xml/', TemplateView.as_view(template_name='home/sitemap.html'), name='sitemap'),
     path('robots.txt/', TemplateView.as_view(template_name='home/robots.html'), name='robots'),
+
+
+    path('plan/', views.PlanListView.as_view(), name='plan-list'),
 ]
 if settings.DEBUG:
     urlpatterns += static.static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

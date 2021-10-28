@@ -21,7 +21,7 @@ class SignUpView(View):
         context = {
             'register_form': register_form,
         }
-        return render(self.request, 'users/form.html', context)
+        return render(self.request, 'users/user_register.html', context)
 
     def post(self, *args, **kwargs):
         register_form = RegistrationForm(self.request.POST)
@@ -37,7 +37,7 @@ class SignUpView(View):
 # Login View
 class LoginView(SuccessMessageMixin, FormView):
     form_class = LoginForm
-    template_name = 'users/form.html'
+    template_name = 'users/login.html'
     success_url = '/'
 
     def form_valid(self, form):
@@ -56,7 +56,7 @@ class LoginView(SuccessMessageMixin, FormView):
                 login(self.request, user)
                 url_redirect = self.request.POST.get('redirect', None)
                 if url_redirect:
-                    return redirect('order:checkout')
+                    return redirect(url_redirect)
                 return redirect('home:home')
             else:
                 messages.warning(self.request, 'Your account is not active, Please contact Support!')
