@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 <!-- Content -->
@@ -8,8 +9,8 @@
     <div class="dlab-bnr-inr" style="background-image:url('{% static 'images/background/bg1.jpg' %}'); background-size: cover; background-position: top center; background-repeat: no-repeat;">
         <div class="container">
             <div class="dlab-bnr-inr-entry text-white">
-                <h1>We’re Crep </h1>
-                <p>We help companies we believe in get results. Let us show you how</p>
+                <h1>Contact Us</h1>
+                <p>Contact us for anything and we will reach out to you soon</p>
             </div>
         </div>
     </div>
@@ -24,40 +25,32 @@
                             <p class="m-b0">Get in touch and let us know how we can help.</p>
                         </div>
                         <div class="dzFormMsg"></div>
-                        <form method="post" class="dzForm" action="script/contact.php">
+                        <form method="post" class="dzForm">
+                            {% csrf_token %}
                             <input type="hidden" value="Contact" name="dzToDo">
                             <div class="row">
+                                
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <input name="dzName" type="text" required class="form-control" placeholder="First Name">
+                                        <input name="name" type="text" id="id_name" required class="form-control" placeholder="Name">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <input name="dzName" type="text" required class="form-control" placeholder="Last Name">
+                                        <input name="email" type="email" id="id_email" class="form-control" required  placeholder="Email">
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input name="dzEmail" type="email" class="form-control" required  placeholder="Email">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <input name="dzLink" type="text" required class="form-control" placeholder="Link">
+                                        <input type="tel"  name="mobile" id="id_mobile" pattern="[789][0-9]{9}" required class="form-control" placeholder="Mobile Number">
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group">
-                                        <textarea name="dzMessage" rows="4" class="form-control" required placeholder="Message"></textarea>
+                                        <textarea name="description" rows="4" id="id_description" class="form-control" required placeholder="Message"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <div class="g-recaptcha" data-sitekey="6LefsVUUAAAAADBPsLZzsNnETChealv6PYGzv3ZN" data-callback="verifyRecaptchaCallback" data-expired-callback="expiredRecaptchaCallback"></div>
-                                        <input class="form-control d-none" style="display:none;" data-recaptcha="true" required data-error="Please complete the Captcha">
-                                    </div>
-                                </div>
+                                
                                 <div class="col-md-12 col-sm-12">
                                     <button name="submit" type="submit" value="Submit" class="btn radius-xl green btn-lg btn-aware">Send Message<span></span></button>
                                 </div>
@@ -65,7 +58,7 @@
                         </form>
                     </div>
                     <div class="col-xl-4 col-lg-5 m-b30 d-flex align-items-center wow fadeInUp" data-wow-delay="0.4s">
-                        <img class="content-img img-move2" src="images/contact.png"  alt="">
+                        <img class="content-img img-move2" src="{% static 'images/overview/pic3.png' %}"  alt="">
                     </div>
                 </div>
                 <div class="row content-inner-3">
@@ -73,7 +66,7 @@
                         <div class="icon-bx-wraper content-info  m-b30 center">
                             <div class="icon-md gradient-two m-b30 m-t5">
                                 <a href="javascript:void(0)" class="icon-cell text-white">
-                                    <i class="ti-email"></i>
+                                    <i class="fas fa-envelope-open-text"></i>
                                 </a>
                             </div>
                             <div class="icon-content">
@@ -86,7 +79,7 @@
                         <div class="icon-bx-wraper content-info m-b30 center">
                             <div class="icon-md gradient-four m-b30 m-t5">
                                 <a href="javascript:void(0)" class="icon-cell text-white">
-                                    <i class="ti-location-pin"></i>
+                                    <i class="fas fa-map-marker-alt"></i>
                                 </a>
                             </div>
                             <div class="icon-content">
@@ -99,7 +92,7 @@
                         <div class="contact-details">
                             <h2 class="text-secondry">Quick calls?</h2>
                             <div class="contact-user">
-                                <img src="images/contect-user.jpg" alt="">
+                                <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=580&q=80" alt="">
                                 <h5>Mahfuz Riad</h5>
                             </div>
                             <p>Want to get hired or want to hire us? Type away below.Schedule a short introductory call </p>

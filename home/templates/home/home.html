@@ -401,28 +401,20 @@
                     <div class="col-lg-7 col-md-7 m-b30 wow fadeInRight" data-wow-delay="0.3s">
                         <div class="contact-box contact-white">
                             <div class="section-head text-left text-white">
-                                <h2 class="title">Say hi to your team <br>of experts</h2>
-                                <p>Before we put our thinking caps on, tell us a few things <br>about yourself</p>
+                                <h2 class="title">Subscribe to Our Newsletter</h2>
+                                <p>Get all latest update in your mailbox directly</p>
                             </div>
                             <div class="dzFormMsg"></div>
-                            <form method="post" class="dzForm" action="script/contact.php">
+                            <form method="post" class="dzForm" action="{% url 'home:news-letter' %}">
+                                {% csrf_token %}
                                 <input type="hidden" value="Contact" name="dzToDo">
                                 <div class="row">
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            <input name="dzName" type="text" required class="form-control" placeholder="Enter your name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            <input name="dzEmail" type="email" class="form-control" required placeholder="Your Email Address">
-                                        </div>
-                                    </div>
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <textarea name="dzMessage" rows="4" class="form-control" required placeholder="Your message here"></textarea>
+                                            <input name="email" type="email" required class="form-control" placeholder="Enter your Email Address">
                                         </div>
                                     </div>
+                                    
                                     <div class="col-md-12 col-sm-12">
                                         <button name="submit" type="submit" value="Submit" class="btn radius-xl red btn-md btn-aware">SEND<span></span></button>
                                     </div>

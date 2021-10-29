@@ -34,6 +34,7 @@
     <!-- STYLESHEETS -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/plugins.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'plugins/fontawesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="{% static 'plugins/line-awesome/css/line-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'plugins/flaticon/flaticon.css' %}">
@@ -51,6 +52,12 @@
     <link rel="stylesheet" type="text/css" href="{% static 'plugins/revolution/revolution/css/revolution.min.css' %}">
 
 </head>
+
+<style>
+    .header-style1 .main-bar {
+        background-color: #fff;
+    }
+</style>
 
 <body id="bg">
     <div class="page-wraper">
@@ -128,6 +135,7 @@
         </header>
         <!-- header END -->
         
+        <br><br><br><br>
         {% block content %}
         {% endblock %}
 
