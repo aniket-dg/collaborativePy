@@ -1,14 +1,355 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
+
+<!-- Mirrored from friendkit.cssninja.io/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 21 Oct 2021 14:42:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title> Stellar AI | Sign Up</title>
+    <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}"/>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/core.css' %}">
 </head>
+
 <body>
-<form method="post">
-    {% csrf_token %}
-    {{ register_form }}
-    <button type="submit">Submit</button>
-</form>
+    <form method="post" id="registerForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="account_type" value="" id="accountType">
+        <script>
+            function setAccountType(type)
+            {
+                $('#accountType').val(type);
+            }
+        </script>
+    <!-- Pageloader -->
+    <div class="pageloader"></div>
+    <div class="infraloader is-active"></div>
+    <div class="signup-wrapper">
+
+        <div class="fake-nav" style="height: 70px;">
+            <a href="/" class="logo">
+                <img src="{% static 'images/logo/stellar-1.jpeg' %}"  style="max-width: 70px;" alt="">
+            </a>
+        </div>
+
+        <div class="process-bar-wrap">
+            <div class="process-bar">
+                <div class="progress-wrap">
+                    <div class="track"></div>
+                    <div class="bar"></div>
+                    <!-- <div id="step-dot-1" class="dot is-first is-active is-current" data-step="0">
+                        <i data-feather="smile"></i>
+                    </div> -->
+                    <div id="step-dot-1" class="dot is-first is-active is-current" data-step="0">
+                        <i data-feather="user"></i>
+                    </div>
+                    <div id="step-dot-2" class="dot is-third" data-step="50">
+                        <i data-feather="image"></i>
+                    </div>
+                    <div id="step-dot-3" class="dot is-fifth" data-step="100">
+                        <i data-feather="lock"></i>
+                    </div>
+                    <!-- <div id="step-dot-5" class="dot is-fifth" data-step="100">
+                        <i data-feather="flag"></i>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+       <!-- Messages -->
+    <style>
+        .custom-alert{
+            height: fit-content;
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 999999;
+        }
+        .notification{
+            max-width: 80vw;
+            min-width: 280px;
+            padding: 1rem;
+            padding-right: 2rem;
+            animation: slide-up 6s ease-in-out 1 alternate forwards;
+        }
+        .notification.is-success {
+            background-color: #1ce589;
+            /* color: rgba(0,0,0,.7); */
+            color: #fff;
+        }
+        .notification.is-danger {
+            background-color: #f71416;
+            color: #fff;
+        }
+        .notification.is-info {
+            background-color: #3e8ed0;
+            color: #fff;
+        }
+        .notification.is-warning {
+            background-color: #ffe08a;
+            color: rgba(0,0,0,.7);
+        }
+        .notification>.delete {
+            right: .5rem;
+            position: absolute;
+            top: .5rem;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            color: white;
+            background-color: rgba(10,10,10,.2);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+        @keyframes slide-up {
+            0%{
+                opacity: 0;
+                transform: translateY(1rem);
+            }
+            10%{
+                opacity: 1;
+                transform: translateY(0);
+            }
+            90%{
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100%{
+                opacity: 0;
+                transform: translateY(1rem);
+            }
+        }
+    </style>
+    {% if messages %}
+    <div class="custom-alert is-custom">
+        {% for message in messages %}
+            <div class="notification {% if message.tags %} is-{{message.tags}} {% else %} is-primary {% endif %}" data-role="alert">
+                <button class="delete" onclick="this.closest('.notification').remove()">&#10006;</button>
+                {{message}}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    
+
+        <div class="outer-panel">
+            <div class="outer-panel-inner">
+                <div class="process-title mt-4">
+                    <h2 id="step-title-1" class="step-title is-active">Tell us more about you.</h2>
+                    <h2 id="step-title-3" class="step-title">Upload a profile picture.</h2>
+                    <h2 id="step-title-5" class="step-title">Secure your account.</h2>
+                </div>
+
+                <div id="signup-panel-1" class="process-panel-wrap is-active is-narrow">
+                    <div class="form-panel">
+                        <div class="field">
+                            <label>First Name</label>
+                            <div class="control">
+                                <input type="text" class="input" name="first_name" placeholder="Enter your first name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Last Name</label>
+                            <div class="control">
+                                <input type="text" class="input" name="last_name" placeholder="Enter your last name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Username</label>
+                            <div class="control">
+                                <input type="text" class="input" name="username" placeholder="Enter your username">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="email">Email*</label>
+                            <div class="control">
+                                <input type="email" id="email" class="input" name="email" placeholder="Enter your email address">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="buttons">
+                        <a class="button process-button" style="margin-right: auto;" href="{% url 'home:home' %}">&#8592; Home</a>
+                        <a class="button process-button is-next" data-step="step-dot-2">Next</a>
+                    </div>
+                </div>
+
+                <div id="signup-panel-3" class="process-panel-wrap is-narrow">
+                    <div class="form-panel">
+                        <div class="photo-upload">
+                            <div class="preview">
+                                <img id="preview_profile_image" src="" alt="Uploaded Image" style="display: none;">
+                                <label for="profile_image" class="upload-button">
+                                    <i data-feather="plus"></i>
+                                </label>
+                                <input name="profile_image" id="profile_image" type="file" accept="image/*" alt="" style="display: none;">
+                            </div>
+                            <div class="limitation">
+                                <small>Only images with a size lower than 3MB are allowed.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="buttons">
+                        <a class="button process-button" data-step="step-dot-1">Back</a>
+                        <a class="button process-button is-next" data-step="step-dot-3">Next</a>
+                    </div>
+                </div>
+
+                <div id="signup-panel-5" class="process-panel-wrap is-narrow">
+                    <div class="form-panel">
+                        <div class="field">
+                            <label>Password</label>
+                            <div class="control">
+                                <input type="password" name="password1" class="input" placeholder="Choose a password" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Repeat Password</label>
+                            <div class="control">
+                                <input type="password" name="password2" class="input" placeholder="Repeat your password" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Phone Number</label>
+                            <div class="control">
+                                <input type="number" class="input" name="phone_number" placeholder="Enter your phone number">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="buttons">
+                        <a class="button process-button" data-step="step-dot-2">Back</a>
+                        <button type="submit" class="button" style="background-color: #5596e6; color: white;">Sign Up</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <!--Edit Credit card Modal-->
+        <div id="crop-modal" class="modal is-small crop-modal is-animated">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <h3>Crop your picture</h3>
+                        <div class="close-wrap">
+                            <button class="close-modal" aria-label="close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                    </header>
+                    <div class="modal-card-body">
+                        <div id="cropper-wrapper" class="cropper-wrapper">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   </form>
+
+
+    <!-- Concatenated js plugins and jQuery -->
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{% static 'assets/data/tipuedrop_content.js' %}"></script>
+
+    <!-- Core js -->
+    <script src="{% static 'assets/js/global.js' %}"></script>
+
+    <!-- Navigation options js -->
+    <script src="{% static 'assets/js/navbar-v1.js' %}"></script>
+    <script src="{% static 'assets/js/navbar-v2.js' %}"></script>
+    <script src="{% static 'assets/js/navbar-mobile.js' %}"></script>
+    <script src="{% static 'assets/js/navbar-options.js' %}"></script>
+    <script src="{% static 'assets/js/sidebar-v1.js' %}"></script>
+
+    <!-- Core instance js -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/chat.js' %}"></script>
+    <script src="{% static 'assets/js/touch.js' %}"></script>
+    <script src="{% static 'assets/js/tour.js' %}"></script>
+
+    <!-- Components js -->
+    <script src="{% static 'assets/js/explorer.js' %}"></script>
+    <script src="{% static 'assets/js/widgets.js' %}"></script>
+    <script src="{% static 'assets/js/modal-uploader.js' %}"></script>
+    <script src="{% static 'assets/js/popovers-users.js' %}"></script>
+    <script src="{% static 'assets/js/popovers-pages.js' %}"></script>
+    <script src="{% static 'assets/js/lightbox.js' %}"></script>
+
+    <!-- Landing page js -->
+
+    <!-- Signup page js -->
+    <script src="{% static 'assets/js/signup.js' %}"></script>
+
+    <!-- Feed pages js -->
+
+    <!-- profile js -->
+
+    <!-- stories js -->
+
+    <!-- friends js -->
+
+    <!-- questions js -->
+
+    <!-- video js -->
+
+    <!-- events js -->
+
+    <!-- news js -->
+
+    <!-- shop js -->
+
+    <!-- inbox js -->
+
+    <!-- settings js -->
+
+    <!-- map page js -->
+
+    <!-- elements page js -->
+
+    <!-- Custom Scripts -->
+    <script>
+    {
+        // Shows image preview after uploading.
+        let oldImage = null;
+        previewEl = document.getElementById('preview_profile_image');
+        document.getElementById('profile_image').addEventListener('change', function(e){
+            const file = e.target.files[0];
+            if (oldImage !== null) {
+                URL.revokeObjectURL(oldImage)
+                previewEl.style.display = 'none';
+            }
+            if (file){
+                oldImage = URL.createObjectURL(file)
+                previewEl.src = oldImage;
+                previewEl.style.display = 'inline-block';
+            }
+            
+        });
+    }
+    </script>
 </body>
+
+
+<!-- Mirrored from friendkit.cssninja.io/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 21 Oct 2021 14:42:32 GMT -->
 </html>

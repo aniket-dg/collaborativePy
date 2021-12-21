@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from order.models import Plan, Payment
 
 
+
 class PaymentRequestView(View):
     def get(self, *args, **kwargs):
         user = self.request.user
@@ -58,3 +59,5 @@ class PaymentResponseView(View):
             print("Payment Fail!")
             messages.warning(self.request, "Payment Fail!")
             return redirect('home:home')
+
+

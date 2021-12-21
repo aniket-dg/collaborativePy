@@ -7,6 +7,12 @@ class Plan(models.Model):
     duration = models.IntegerField(null=True, blank=True, help_text="Enter how many days plan valid")
     description = models.TextField(null=True, blank=True)
 
+    # Permissions
+    group_create = models.BooleanField(default=False)
+    add_people = models.BooleanField(default=False)
+    total_group_create_size = models.IntegerField(default=0)
+    group_size = models.IntegerField(default=0)
+
     def __str__(self):
         return f"{self.title}_{self.cost}"
 

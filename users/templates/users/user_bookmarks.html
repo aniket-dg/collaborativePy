@@ -1,0 +1,628 @@
+{% load static %}
+
+<div id="job-content" class="content-section">
+    <div class="column is-12">
+        <div class="box-heading">
+            <h4>Bookmarked Posts</h4>
+            <div class="button-wrap">
+                <button type="button" class="button is-active">Recent</button>
+<!--                <button type="button" class="button">Popular</button>-->
+            </div>
+        </div>
+
+        <div class="profile-timeline">
+
+            <!-- html/partials/pages/profile/posts/timeline-post1.html -->
+            <!-- Timeline POST  -->
+
+            <div id="flag-reason-bookmark" class="is-hidden"
+                style="z-index: 1000; width: 50%; position: fixed; top: 30%; left: 25%; border: 2px solid black; background: white; border-radius: 12px;">
+                <a onclick="closeFlag_bookmark()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-x">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </a>
+                <div class="column is-12" style="margin-top: 10px;">
+                    <div class="field field-group" style="margin-top: 5px;">
+                        <label>Reason</label>
+                        <div class="control has-icon">
+                            <input type="text" class="input is-fade" placeholder="Reason..." name="flag-reason-bookmark"
+                                required>
+                            <div class="form-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-briefcase">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="FlagPost_bookmark()" style="margin-top: 10px;"
+                        class="button is-solid primary-button raised">Submit</button>
+                </div>
+                <input type="text" name="flag-post-bookmark-id" hidden>
+            </div>
+            {% for bookmark in bookmark_list %}
+
+            <div class="profile-post">
+                <!-- Timeline -->
+                <div class="time is-hidden-mobile">
+                    <div class="img-container">
+
+                        <img src="{{ profile_user.profile_image.url }}"
+                            data-demo-src="{{ profile_user.profile_image.url }}" alt="">
+                    </div>
+                </div>
+                <!-- Post -->
+                <div class="card is-post">
+                    <!-- Main wrap -->
+                    <div id="content-wrap-bookmark{{bookmark.post.id}}" class="content-wrap">
+                        <!-- Header -->
+                        <div class="card-heading">
+                            <div class="user-block">
+                                <div class="image">
+                                    <img src="{{ bookmark.post.user.profile_image.url }}"
+                                        data-demo-src="{{ bookmark.post.user.profile_image.url }}"
+                                        data-user-popover="0" alt="">
+                                </div>
+                                <div class="user-info">
+                                    <a href="#">{{bookmark.post.user.get_full_name}}</a>
+                                    <span class="time">{{bookmark.post.user.username}}</span>
+                                </div>
+                            </div>
+
+                            <div id="options-bookmark-{{bookmark.post.id}" class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                                            <div>
+                                                                <div class="button">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                                                                </div>
+                                                            </div>
+                                                            <div class="dropdown-menu" role="menu">
+                                                                <div class="dropdown-content">
+                                                                    <a onclick="BookMark_post('{{bookmark.post.id}}')"
+                                class="dropdown-item">
+                                <div class="media">
+                                    <svg id="book-mark-bookmark{{bookmark.post.id}}" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" fill="#1589FF" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="feather feather-bookmark">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                    <div class="media-content">
+                                        <h3>Bookmark</h3>
+                                        <small>Add this post to your bookmarks.</small>
+                                    </div>
+                                </div>
+                                </a>
+<!--                                <a class="dropdown-item">-->
+<!--                                    <div class="media">-->
+<!--                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"-->
+<!--                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"-->
+<!--                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">-->
+<!--                                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>-->
+<!--                                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>-->
+<!--                                        </svg>-->
+<!--                                        <div class="media-content">-->
+<!--                                            <h3>Notify me</h3>-->
+<!--                                            <small>Send me the updates.</small>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </a>-->
+                                <hr class="dropdown-divider">
+                                <a onclick="openFlag_bookamrk('{{bookmark.post.id}}')" class="dropdown-item">
+                                    <div class="media">
+                                        <svg id="flag-post-bookmark-{{bookmark.post.id}}"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-flag">
+                                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                                            <line x1="4" y1="22" x2="4" y2="15"></line>
+                                        </svg>
+                                        <div class="media-content">
+                                            <h3>Flag</h3>
+                                            <small>In case of inappropriate content.</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Header -->
+
+                <!-- Post body -->
+                <div class="card-body">
+                    <!-- Post body text -->
+                    <div class="post-text">
+                        <p>{{bookmark.post.description}}</p>
+                        {% if bookmark.post.code %}
+                        <div style="background-color: #f5f5f5;border-radius: 0.5em;padding: 0.5em;margin-top: 1em;"><pre><code>
+                            {% autoescape off %}
+                            {{bookmark.post.code}}
+                            {% endautoescape %}
+                        </code></pre></div>
+                        {% endif %}
+                    </div>
+                    <!-- Featured image -->
+                    <div class="post-image">
+                        {% if bookmark.post.image1 %}
+                        <a data-fancybox="post{{bookmark.post.id}}" data-lightbox-type="comments"
+                            data-thumb="{{bookmark.post.image1.url}}" href="{{bookmark.post.image1.url}}"
+                            data-demo-href="{{bookmark.post.image1.url}}' %}">
+                            <img src="{{bookmark.post.image1.url}}" alt="" style="width: 100%;height: auto;margin-top: 1em;">
+                        </a>
+                        {% endif %}
+<!--                        {% if bookmark.post.image2 %}-->
+<!--                        <a data-fancybox="post{{bookmark.post.id}}" data-lightbox-type="comments"-->
+<!--                            data-thumb="{{bookmark.post.image2.url}}" href="{{bookmark.post.image2.url}}"-->
+<!--                            data-demo-href="{{bookmark.post.image2.url}}' %}">-->
+<!--                            <img src="{{bookmark.post.image2.url}}" alt="">-->
+<!--                        </a>-->
+<!--                        {% endif %}-->
+<!--                        {% if bookmark.post.image3 %}-->
+<!--                        <a data-fancybox="post{{bookmark.post.id}}" data-lightbox-type="comments"-->
+<!--                            data-thumb="{{bookmark.post.image3.url}}" href="{{bookmark.post.image3.url}}"-->
+<!--                            data-demo-href="{{bookmark.post.image3.url}}' %}">-->
+<!--                            <img src="{{bookmark.post.image3.url}}" alt="">-->
+<!--                        </a>-->
+<!--                        {% endif %}-->
+<!--                        {% if bookmark.post.image4 %}-->
+<!--                        <a data-fancybox="post{{bookmark.post.id}}" data-lightbox-type="comments"-->
+<!--                            data-thumb="{{bookmark.post.image4.url}}" href="{{bookmark.post.image4.url}}"-->
+<!--                            data-demo-href="{{bookmark.post.image4.url}}' %}">-->
+<!--                            <img src="{{bookmark.post.image4.url}}" alt="">-->
+<!--                        </a>-->
+<!--                        {% endif %}-->
+<!--                        {% if bookmark.post.image5 %}-->
+<!--                        <a data-fancybox="post{{bookmark.post.id}}" data-lightbox-type="comments"-->
+<!--                            data-thumb="{{bookmark.post.image5.url}}" href="{{bookmark.post.image5.url}}"-->
+<!--                            data-demo-href="{{bookmark.post.image5.url}}' %}">-->
+<!--                            <img src="{{bookmark.post.image5.url}}" alt="">-->
+<!--                        </a>-->
+<!--                        {% endif %}-->
+                        <!-- Post actions -->
+                        {% if user in bookmark.post.liked_by.all %}
+                        <div class="like-wrapper">
+                            <a href="javascript:void(0);" onclick="like('{{bookmark.post.id}}')"
+                                class="like-button is-active">
+                                <i class="mdi mdi-heart not-liked bouncy"></i>
+                                <i class="mdi mdi-heart is-liked bouncy"></i>
+                                <span class="like-overlay"></span>
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="like-wrapper">
+                            <a href="javascript:void(0);" onclick="like('{{bookmark.post.id}}')" class="like-button">
+                                <i class="mdi mdi-heart not-liked bouncy"></i>
+                                <i class="mdi mdi-heart is-liked bouncy"></i>
+                                <span class="like-overlay"></span>
+                            </a>
+                        </div>
+                        {% endif %}
+
+
+<!--                        <div class="fab-wrapper is-share">-->
+<!--                            <a href="javascript:void(0);" class="small-fab share-fab modal-trigger"-->
+<!--                                data-modal="share-modal">-->
+<!--                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"-->
+<!--                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"-->
+<!--                                    stroke-linejoin="round" class="feather feather-link-2">-->
+<!--                                    <path-->
+<!--                                        d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3">-->
+<!--                                    </path>-->
+<!--                                    <line x1="8" y1="12" x2="16" y2="12"></line>-->
+<!--                                </svg>-->
+<!--                            </a>-->
+<!--                        </div>-->
+
+                        <div class="fab-wrapper is-share">
+                            <a href="javascript:void(0);" class="small-fab"
+                                onclick="display_comments_bookmark('{{bookmark.post.id}}')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-message-circle">
+                                    <path
+                                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                    </path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Post body -->
+
+                <!-- Post footer -->
+                <div class="card-footer">
+                    <!-- Followers -->
+                    <div class="likers-group">
+<!--                        <img src="{% static 'social_assets/img/avatars/milly.jpg' %}"-->
+<!--                            data-demo-src="{% static 'social_assets/img/avatars/milly.jpg' %}" data-user-popover="7"-->
+<!--                            alt="">-->
+<!--                        <img src="{% static 'social_assets/img/avatars/david.jpg' %}"-->
+<!--                            data-demo-src="{% static 'social_assets/img/avatars/david.jpg' %}" data-user-popover="4"-->
+<!--                            alt="">-->
+<!--                        <img src="{% static 'social_assets/img/avatars/nelly.png' %}"-->
+<!--                            data-demo-src="{% static 'social_assets/img/avatars/nelly.png' %}" data-user-popover="9"-->
+<!--                            alt="">-->
+                    </div>
+                    <div class="likers-text">
+<!--                        <p>-->
+<!--                            <a href="#">Milly</a>,-->
+<!--                            <a href="#">David</a>-->
+<!--                        </p>-->
+                        <p><span class="likes-display{{bookmark.post.id}}">{{bookmark.post.liked_by.all | length}}</span> people liked this post</p>
+                    </div>
+                    <!-- Post statistics -->
+                    <div class="social-count" style="margin-top: 1em;">
+                        <div class="likes-count">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-heart">
+                                <path
+                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                </path>
+                            </svg>
+                            <span
+                                class="likes-display{{bookmark.post.id}}">{{bookmark.post.liked_by.all | length}}</span>
+                        </div>
+<!--                        <div class="shares-count">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"-->
+<!--                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"-->
+<!--                                stroke-linejoin="round" class="feather feather-link-2">-->
+<!--                                <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3">-->
+<!--                                </path>-->
+<!--                                <line x1="8" y1="12" x2="16" y2="12"></line>-->
+<!--                            </svg>-->
+<!--                            <span>32</span>-->
+<!--                        </div>-->
+                        <div class="comments-count">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-message-circle">
+                                <path
+                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                </path>
+                            </svg>
+                            <span
+                                id="comment-counter-bookmark{{bookmark.post.id}}">{{bookmark.post.comments|length}}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Post footer -->
+            </div>
+            <!-- /Main wrap -->
+
+            <!-- Comments -->
+            <div id="comments-wrap-bookmark{{bookmark.post.id}}" class="comments-wrap is-hidden">
+                <!-- Header -->
+                <div class="comments-heading">
+                    <h4>Comments
+                        <small id="comment-header-bookmark{{bookmark.post.id}}">(0)</small>
+                    </h4>
+                    <div onclick="closeComment_bookmark('{{bookmark.post.id}}')" class="close-comments">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-x">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </div>
+                </div>
+                <!-- Header -->
+
+                <!-- Comments body -->
+                <div id="comment-body-bookmark{{bookmark.post.id}}" class="comments-body has-slimscroll"></div>
+                <!-- Comments body -->
+
+                <!-- Comments footer -->
+                <div class="card-footer">
+                    <div class="media post-comment has-emojis">
+                        <!-- Textarea -->
+                        <div class="media-content">
+                            <div class="field">
+                                <p class="control">
+                                    <textarea name="comment-bookmark{{bookmark.post.id}}"
+                                        class="textarea comment-textarea" rows="5" placeholder="Write a comment..."
+                                        id="post-comment-textarea-1"></textarea>
+                                </p>
+                            </div>
+                            <center><small id="comment-text-action-bookmark{{bookmark.post.id}}" style="color: red; display: none;background: #FADBDE;padding: 0.5em;border-radius: 0.5em;">Enter some comment</small></center>
+<!--                            <small id="comment-text-action-bookmark{{bookmark.post.id}}"-->
+<!--                                style="color: red; display: none;">This filed is-->
+<!--                                required!...</small>-->
+                            <!-- Additional actions -->
+                            <div class="actions">
+                                <div class="image is-32x32">
+                                    <img class="is-rounded" src="{{request.user.get_profile_image}}"
+                                        data-demo-src="{{request.user.get_profile_image}}"
+                                        data-user-popover="0" alt="">
+                                </div>
+                                <div class="toolbar">
+<!--                                    <div class="action is-auto">-->
+<!--                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"-->
+<!--                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"-->
+<!--                                            stroke-linecap="round" stroke-linejoin="round"-->
+<!--                                            class="feather feather-at-sign">-->
+<!--                                            <circle cx="12" cy="12" r="4"></circle>-->
+<!--                                            <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path>-->
+<!--                                        </svg>-->
+<!--                                    </div>-->
+<!--                                    <div class="action is-emoji" id="post-comment-button-1">-->
+<!--                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"-->
+<!--                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"-->
+<!--                                            stroke-linecap="round" stroke-linejoin="round"-->
+<!--                                            class="feather feather-smile">-->
+<!--                                            <circle cx="12" cy="12" r="10"></circle>-->
+<!--                                            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>-->
+<!--                                            <line x1="9" y1="9" x2="9.01" y2="9"></line>-->
+<!--                                            <line x1="15" y1="9" x2="15.01" y2="9"></line>-->
+<!--                                        </svg>-->
+<!--                                    </div>-->
+<!--                                    <div class="action is-upload">-->
+<!--                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"-->
+<!--                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"-->
+<!--                                            stroke-linecap="round" stroke-linejoin="round"-->
+<!--                                            class="feather feather-camera">-->
+<!--                                            <path-->
+<!--                                                d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">-->
+<!--                                            </path>-->
+<!--                                            <circle cx="12" cy="13" r="4"></circle>-->
+<!--                                        </svg>-->
+<!--                                        <input type="file">-->
+<!--                                    </div>-->
+                                    <a onclick="postComment_bookmark('{{bookmark.post.id}}')"
+                                        class="button is-solid primary-button raised">Post Comment</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Comments footer -->
+            </div>
+            <!-- /Comments -->
+        </div>
+        <!-- /Post -->
+    </div>
+
+            {% empty %}
+
+                <div class="page-placeholder">
+                <div class="placeholder-content">
+                    <img class="light-image" src="{% static 'social_assets/img/illustrations/placeholders/1.svg' %}" alt="" />
+                    <img class="dark-image" src="{% static 'social_assets/img/illustrations/placeholders/1.svg' %}" alt="" />
+                    <h3>You don't have any BookMark Post yet.</h3>
+<!--                    <p class="is-large">Too bad. Looks like you didn't make friends yet. But don't fret that-->
+<!--                        should start anytime soon.</p>-->
+                </div>
+                </div>
+
+    {% endfor %}
+
+    <video width="800" height="450" controls="" id="myVideo" style="display:none;">
+        <source src="{% static 'social_assets/img/demo/video/source/dress.mp4" type="video/mp4">
+                                            <source src="{% static 'social_assets/img/demo/video/source/dress.webm" type="video/webm">
+                                            <source src="{% static 'social_assets/img/demo/video/source/dress.ogg" type="video/ogg">
+                                            Your browser doesn't support HTML5 video tag.
+                                        </video>
+
+                                    </div>
+                                </div>
+
+                            </div>
+<script>
+
+    function getCommentListBookmark(id) {
+        host = window.location.host;
+        let url = `{% url 'post:api-comment-list' %}?post_id=${id}`;
+        console.log(url);
+        $.ajax({
+            url : url,
+            success: function(response)
+            {
+                document.getElementById('comment-counter-bookmark' + id).innerHTML = response.length;
+                $("#comment-header-bookmark" + id).html("(" + response.length + ")");
+                document.getElementById('comment-body-bookmark' + id).innerHTML = "";
+                $.each(response, function (cmt_id, data) {
+                if (data['user_profile'] === '') {
+                    var profile = "{% static 'social_assets/img/avatars/dan.jpg' %}" ; } else { var
+                profile=window.location.origin + '/media/' + data['user_profile']; }
+                document.getElementById('comment-body-bookmark' + id).innerHTML +=`<div class="media is-comment">
+                <div class="media-left">
+                <div class="image">
+                <img src="` + profile + `" data-demo-src="" data-user-popover="1" alt="">
+                </div>
+                 </div>
+                <div class="media-content">
+                <a href="/user/profile/` + data['post_user_id'] +`">` + data['post_user'] + `</a>
+                <span class="time">` + data['user'] + `  &nbsp;&nbsp; --  &nbsp;&nbsp; ` + data['timestamp'] + ` </span>
+                <p>` + data['comment'] + `</p>
+
+                <div class="controls">
+<!--                <div class="like-count">-->
+<!--                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"-->
+<!--                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"-->
+<!--                        class="feather feather-thumbs-up">-->
+<!--                        <path-->
+<!--                            d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3">-->
+<!--                        </path>-->
+<!--                    </svg>-->
+<!--                    <span>4</span>-->
+<!--                </div>-->
+<!--                <div class="reply">-->
+<!--                    <a>Reply</a>-->
+<!--                </div>-->
+<!--                <div class="edit">-->
+<!--                    <a>Edit</a>-->
+<!--                </div>-->
+                </div>
+                </div>
+                <div class="media-right">
+                <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                <div>
+                    <div class="button">
+                        <i data-feather="more-vertical"></i>
+                    </div>
+                </div>
+                <div class="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                        <a class="dropdown-item">
+                            <div class="media">
+                                <i data-feather="x"></i>
+                                <div class="media-content">
+                                    <h3>Hide</h3>
+                                    <small>Hide this comment.</small>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item">
+                            <div class="media">
+                                <i data-feather="flag"></i>
+                                <div class="media-content">
+                                    <h3>Report</h3>
+                                    <small>Report this comment.</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                </div>
+                </div>
+                </div>`;   
+                    });
+        
+                
+            }
+        });
+}
+
+function display_comments_bookmark(id) {
+// $("#comment-text-action-bookmark" + id).css({
+// display: "none"
+// });
+$('#comments-wrap-bookmark' + id).removeClass('is-hidden');
+$('#content-wrap-bookmark' + id).addClass('is-hidden');
+getCommentListBookmark(id);
+}
+
+function closeComment_bookmark(id) {
+$('#comments-wrap-bookmark' + id).addClass('is-hidden');
+$('#content-wrap-bookmark' + id).removeClass('is-hidden');
+}
+
+function postComment_bookmark(id) {
+var formData = new FormData();
+var comment = $("textarea[name='comment-bookmark" + id + "']").val();
+if (comment === "") {
+$("#comment-text-action-bookmark" + id).css({
+display: "block"
+});
+}
+else {
+$("#comment-text-action-bookmark" + id).css({
+display: "none"
+});
+formData.append('csrfmiddlewaretoken', $("input[name='csrfmiddlewaretoken']").val());
+formData.append('id', id);
+formData.append('comment', comment);
+$.ajax({
+type: "POST",
+url: "{% url 'post:comment' %}",
+data: formData,
+contentType: false,
+processData: false,
+success: function (response) {
+if (response['status'] === false) {
+alert(response['Message']);
+}
+$("textarea[name='comment-bookmark" + id + "']").val("");
+display_comments_bookmark(id);
+},
+error: function (response) {
+alert(response['Message']);
+},
+});
+}
+}
+
+function BookMark_post(id){
+var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
+$("#options-bookmark-" + id).removeClass('is-active');
+$.ajax({
+async: true,
+method: "POST",
+url: "{% url 'post:book-mark' %}",
+data: {
+csrfmiddlewaretoken: csrfmiddlewaretoken,
+'id': id,
+},
+success: function (response) {
+if(response['Status'] === false){
+alert(response['Message']);
+}
+else if(response['Status'] === 1){
+$('#book-mark-bookmark' + id).css('fill', '#1589FF');
+$('#book-mark-' + id).css('fill', '#1589FF');
+}
+else{
+$('#book-mark-bookmark' + id).css('fill', 'none');
+$('#book-mark-' + id).css('fill', 'none');
+}
+},
+error: function (response) {
+alert(response['Message']);
+},
+});
+}
+
+function FlagPost_bookmark(){
+var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
+$("#options-bookmark-" + id).removeClass('is-active');
+$('#flag-reason').removeClass('is-hidden');
+var id = $("input[name='flag-post-bookmark-id']").val();
+var reason = $("input[name='flag-reason-bookmark']").val();
+if(reason === ""){
+alert("Please tell us the reason...");
+}
+else{
+$.ajax({
+async: true,
+method: "POST",
+url: "{% url 'post:flag-post' %}",
+data: {
+csrfmiddlewaretoken: csrfmiddlewaretoken,
+'id': id,
+'reason': reason,
+},
+success: function (response) {
+console.log(response, id);
+if(response['Status'] === false){
+alert(response['Message']);
+}
+else if(response['Status'] === true){
+$('#flag-post-bookmark-' + id).css('fill', '#FF0000');
+$('#flag-reason-bookmark').addClass('is-hidden');
+alert("Your response added succesfully...");
+window.location.reload();
+}
+},
+error: function (response) {
+alert(response['Message']);
+},
+});
+}
+}
+function openFlag_bookamrk(id){
+$('#flag-reason-bookmark').removeClass('is-hidden');
+$("input[name='flag-post-bookmark-id']").val(id);
+}
+function closeFlag_bookmark(){
+$('#flag-reason-bookmark').addClass('is-hidden');
+}
+
+
+</script>

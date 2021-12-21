@@ -11,7 +11,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    # 'django.contrib.sessions', # it is replaced with user_session module
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
@@ -20,6 +20,8 @@ INSTALLED_APPS = [
     'users',
     'chat',
     'order',
+    'analytics',
+    'post',
 
     # Third Party Modules
     'crispy_forms',  # crispy forms
@@ -30,12 +32,18 @@ INSTALLED_APPS = [
     'maintenance_mode',  # maintenance_mode
     'debug_toolbar',  # Debug Toolbar
     'channels', # Channels for chat
+    'rest_framework',
+    'django_user_agents',
+    'user_sessions',
+    'oauth2_provider',
+    'corsheaders',
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    # 'django.contrib.sessions.middleware.SessionMiddleware', # it is replaced with user_sessions
+    'user_sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -45,9 +53,15 @@ MIDDLEWARE = [
     # Third party
     'maintenance_mode.middleware.MaintenanceModeMiddleware',  # Maintenance
     'debug_toolbar.middleware.DebugToolbarMiddleware',  # Debugger
+    'django_user_agents.middleware.UserAgentMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
+SESSION_ENGINE = 'user_sessions.backends.db'
+SILENCED_SYSTEM_CHECKS = ['admin.E410']
 AUTHENTICATION_BACKENDS = (
+    'oauth2_provider.backends.OAuth2Backend',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.linkedin.LinkedinOAuth2',
@@ -127,16 +141,33 @@ CHANNEL_LAYERS = {
     },
 }
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    },
+}
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         'LOCATION': '127.0.0.1:11211',
+#     }
+# }
+# USER_AGENTS_CACHE = 'default'
+#
+
+
+
 # User Model
 AUTH_USER_MODEL = 'users.User'  # Custom User Model
 
 # BootStrap
 CRISPY_TEMPLATE_PACK = 'bootstrap4'  # To use Bootstrap
 
-LOGIN_URL = 'login'  # Login URL
-LOGOUT_URL = 'login'  # Logout URL
+LOGIN_URL = 'user:login'  # Login URL
+LOGOUT_URL = 'user:login'  # Logout URL
 LOGIN_REDIRECT_URL = '/'  # Redirect after login
-
+LOGOUT_REDIRECT_URL = 'user:login'
 # Basic Static and Media Files settings
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

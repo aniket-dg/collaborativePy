@@ -10,13 +10,10 @@ app_name = 'home'
 urlpatterns = [
     path('', views.Home.as_view(), name='home'),
     path('contact/', views.ContactView.as_view(), name='contact'),
-    path('newsletter/', views.NewsLetterCreateView.as_view(), name='news-letter'),
+    path('newsletter', views.NewsLetterCreateView.as_view(), name='news-letter'),
 
     path('about/', TemplateView.as_view(template_name="home/about.html"), name='about'),
     path('contact/', TemplateView.as_view(template_name="home/contact.html"), name='contact'),
-    path('social/', TemplateView.as_view(template_name="home/social_base.html"), name='social'),
-    path('dashboard/', TemplateView.as_view(template_name="users/dashboard.html"), name='db'),
-    path('tchat/', TemplateView.as_view(template_name="chat/chat-direct.html"), name='ct'),
 
     path('policy/<str:page_name>/', views.Terms.as_view(), name='terms'),
     path('sitemap.xml/', TemplateView.as_view(template_name='home/sitemap.html'), name='sitemap'),

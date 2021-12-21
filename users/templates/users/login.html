@@ -2,6 +2,8 @@
 {% load static %}
 {% block content %}
 
+
+
 <div class="login-wrapper">
 
     <!-- Main Wrapper -->
@@ -39,27 +41,32 @@
                         </div>
                         <!--Form-->
                         <div class="login-form">
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input email-input" type="text" placeholder="jennadavis@gmail.com">
-                                    <div class="input-icon">
-                                        <i data-feather="user"></i>
+                        <form  method="post">
+                            {% csrf_token %}
+                            
+                                <div class="field">
+                                    <div class="control">
+                                        <input name="email" class="input email-input" type="text" placeholder="jennadavis@gmail.com">
+                                        <div class="input-icon">
+                                            <i data-feather="user"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input password-input" type="password" placeholder="●●●●●●●">
-                                    <div class="input-icon">
-                                        <i data-feather="lock"></i>
+                                <div class="field">
+                                    <div class="control">
+                                        <input name="password" class="input password-input" type="password" placeholder="●●●●●●●">
+                                        <div class="input-icon">
+                                            <i data-feather="lock"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="field">
-                                <div class="control">
-                                    <button class="button is-solid primary-button raised is-rounded is-fullwidth">Login</button>
+                                <div class="field">
+                                    <div class="control">
+                                        <button type="submit" class="button is-solid primary-button raised is-rounded is-fullwidth">Login</button>
+                                    </div>
                                 </div>
-                            </div>
+                            
+                        </form>
                         </div>
                         <div class="section forgot-password">
                             <div class="has-text-centered">

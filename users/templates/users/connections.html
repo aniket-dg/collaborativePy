@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Connections</title>
+</head>
+<body>
+
+<h1>All users:</h1><br>
+    {% for object in remaining_users %}
+    <h3>{{ object }}</h3>
+        <form method="post">
+        <input type="hidden" name="id" value="{{ object.id }}">
+        {% csrf_token %}
+        <button type="submit">Send request</button>
+        </form><br>
+    {% endfor %}
+<br><br><br>
+
+
+<h1>User Connetions list:</h1><br>
+    {% for object in connected_users %}
+    <h3>{{ object }}</h3><br>
+    {% endfor %}
+<br><br><br>
+
+<h1>User requested list:</h1><br>
+    {% for object in requested_users %}
+    <h3>{{ object}}</h3>
+
+    {% endfor %}
+<br><br><br>
+
+<h1>User received list:</h1><br>
+    {% for object in received_users %}
+    <h3>{{ object }}</h3><br>
+        <form method="post" action="{% url 'user:accept-user' %}">
+        <input type="hidden" name="id" value="{{ object.connection_user.id }}">
+        {% csrf_token %}
+        <button type="submit" form="accept_user_form">Accept request</button>
+        </form><br>
+    {% endfor %}
+<br><br><br>
+
+
+</body>
+</html>

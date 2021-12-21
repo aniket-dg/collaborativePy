@@ -1,0 +1,221 @@
+{% load static %}
+
+                            <div id="personal-content" class="content-section">
+                                <!-- Friends about card -->
+                                <div class="about-card">
+                                    <!-- Header -->
+                                    <div class="header">
+                                        <div class="icon-title">
+                                            <!-- <i class="mdi mdi-account-group"></i> -->
+                                            <h3>Friends</h3>
+                                        </div>
+                                        <div class="actions">
+<!--                                            <div class="button-wrapper">-->
+<!--                                                <a class="button">Invitations</a>-->
+<!--                                                <div class="indicator">-->
+<!--                                                    <span>8</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+                                            <!-- Dropdown -->
+<!--                                            <div class="dropdown is-spaced is-accent is-right dropdown-trigger">-->
+<!--                                                <div>-->
+<!--                                                    <div class="button">-->
+<!--                                                        <i data-feather="more-vertical"></i>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="dropdown-menu" role="menu">-->
+<!--                                                    <div class="dropdown-content">-->
+<!--                                                        <a href="#" class="dropdown-item">-->
+<!--                                                            <div class="media">-->
+<!--                                                                <i data-feather="smile"></i>-->
+<!--                                                                <div class="media-content">-->
+<!--                                                                    <h3>Manage</h3>-->
+<!--                                                                    <small>Manage your friend list.</small>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+<!--                                                        </a>-->
+<!--                                                        <a class="dropdown-item">-->
+<!--                                                            <div class="media">-->
+<!--                                                                <i data-feather="search"></i>-->
+<!--                                                                <div class="media-content">-->
+<!--                                                                    <h3>Find friends</h3>-->
+<!--                                                                    <small>Search for new friends.</small>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+<!--                                                        </a>-->
+<!--                                                        <hr class="dropdown-divider">-->
+<!--                                                        <a href="#" class="dropdown-item">-->
+<!--                                                            <div class="media">-->
+<!--                                                                <i data-feather="eye"></i>-->
+<!--                                                                <div class="media-content">-->
+<!--                                                                    <h3>View all</h3>-->
+<!--                                                                    <small>View all friends.</small>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+<!--                                                        </a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+                                        </div>
+                                    </div>
+                                    <div class="body">
+                                        <div class="columns friends-columns is-multiline">
+
+                                            {% for user in received_users %}
+                                            <!-- Friend -->
+                                            <div class="column is-6">
+                                                <a  class="friend-small-card">
+                                                    <img src="{{ user.connection_user.profile_image.url }}" data-demo-src="{{ user.connection_user.profile_image.url }}" data-user-popover="9" alt="">
+                                                    <div class="meta">
+                                                        <span>{{ user.connection_user.username }}</span>
+                                                        <span>{{ user.connection_user.get_full_name }}</span>
+                                                    {#  Span contains friends count of that user  #}
+                                                    </div>
+                                                    <!-- Dropdown -->
+                                                    <div style="display: inline-flex;margin-left: auto;">
+                                                            <div class="">
+                                                                <i data-feather="check-circle"></i>
+                                                            </div>
+                                                    </div>
+                                                    <div class="dropdown is-spaced is-accent is-right dropdown-trigger">
+                                                        <div>
+                                                            <div class="button">
+                                                                <i data-feather="more-vertical"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="dropdown-menu" role="menu">
+                                                            <div class="dropdown-content">
+                                                                <div onclick="this.querySelector(`button[type='submit']`).click()" class="dropdown-item">
+                                                                    <div class="media">
+                                                                        <i data-feather="check-circle"></i>
+                                                                        <div class="media-content">
+                                                                            <form method="post" action="{% url 'user:accept-user' %}">
+                                                                            <input type="hidden" name="id" value="{{ user.connection_user.id }}">
+                                                                            {% csrf_token %}
+                                                                            <h3><button style="border: none; background-color: transparent; outline: none; box-sizing: none; font-weight: 500; color: inherit; padding:0px" type="submit">Accept Request</button></h3>
+                                                                            <small>Accept friend request</small>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                {% if request.user == connection_user.user %}
+                                                                <a href="{% url 'user:profile' %}" class="dropdown-item">
+                                                                {% else %}
+                                                                <a href="{% url 'user:friend-profile' user.id %}" class="dropdown-item">
+                                                                {% endif %}
+                                                                    <div class="media">
+                                                                        <i data-feather="user"></i>
+                                                                        <div class="media-content">
+                                                                            <h3>View Profile</h3>
+                                                                            <small>Open this user profile.</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+
+                                                                <!-- <a class="dropdown-item" href="">
+                                                                    <div class="media">
+                                                                        <i data-feather="message-square"></i>
+                                                                        <div class="media-content">
+                                                                            <h3>Message</h3>
+                                                                            <small></small>
+                                                                        </div>
+                                                                    </div>
+                                                                </a> -->
+                                                                <hr class="dropdown-divider">
+                                                                <a href="#" class="dropdown-item">
+                                                                    <div class="media">
+                                                                        <i data-feather="delete"></i>
+                                                                        <div class="media-content">
+                                                                            <h3>Delete</h3>
+                                                                            <small>Remove from friend list.</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <!-- Friend -->
+                                            {% endfor %}
+
+                                        </div><hr>
+                                        <div class="columns friends-columns is-multiline">
+
+                                            {% for user in connected_users %}
+                                            <!-- Friend -->
+                                            <div class="column is-6">
+                                                <div class="friend-small-card">
+                                                    <img src="{{ user.profile_image.url }}" data-demo-src="{{ user.profile_image.url }}" data-user-popover="9" alt="">
+                                                    <div class="meta">
+                                                        <span>{{ user.username }}</span>
+                                                        <span>{{ user.get_full_name }}</span>
+                                                    {#  Span contains friends count of that user  #}
+                                                    </div>
+                                                    <!-- Dropdown -->
+                                                    <div class="dropdown is-spaced is-accent is-right dropdown-trigger">
+                                                        <div>
+                                                            <div class="button">
+                                                                <i data-feather="more-vertical"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="dropdown-menu" role="menu">
+                                                            <div class="dropdown-content">
+                                                                {% if request.user == user %}
+                                                                <a href="{% url 'user:profile' %}" class="dropdown-item">
+                                                                {% else %}
+                                                                <a href="{% url 'user:friend-profile' user.id %}" class="dropdown-item">
+                                                                {% endif %}
+                                                                    <div class="media">
+                                                                        <i data-feather="user"></i>
+                                                                        <div class="media-content">
+                                                                            <h3>View Profile</h3>
+                                                                            <small>Open this user profile.</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                                <a class="dropdown-item" href="{% url 'chat:chat' %}">
+                                                                    <div class="media">
+                                                                        <i data-feather="message-square"></i>
+                                                                        <div class="media-content">
+                                                                            <h3>Message</h3>
+                                                                            <small>Send a message to this user.</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                                <hr class="dropdown-divider">
+                                                                <a href="#" class="dropdown-item">
+                                                                    <div class="media">
+                                                                        <i data-feather="delete"></i>
+                                                                        <div class="media-content">
+                                                                            <h3>Unfriend</h3>
+                                                                            <small>Remove from friend list.</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Friend -->
+
+                                            {% empty %}
+
+                                                <div class="page-placeholder">
+                                                <div class="placeholder-content">
+                                                    <img class="light-image" src="{% static 'social_assets/img/illustrations/placeholders/2.svg' %}" alt="" />
+                                                    <img class="dark-image" src="{% static 'social_assets/img/illustrations/placeholders/2-dark.svg' %}" alt="" />
+                                                    <h3>You don't have any friends yet.</h3>
+                                <!--                    <p class="is-large">Too bad. Looks like you didn't make friends yet. But don't fret that-->
+                                <!--                        should start anytime soon.</p>-->
+                                                </div>
+                                                </div>
+
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>

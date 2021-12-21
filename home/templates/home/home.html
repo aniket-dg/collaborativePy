@@ -3,21 +3,50 @@
 
 {% block content %}
 
+<style>
+    .full-height {
+  height: 100%;
+}
+#myVideo {
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+</style>
 <!-- Content -->
 
+<!-- {#{% if messages %}
+   {% for item in messages %}
 
+       <div class="alert alert-{{ item.tags }}" role="alert">
+  {{ item }}
+</div>
+    {% endfor %}
+    {% endif %}#} -->
 <div class="page-content bg-white">
     <!-- Slider Banner -->
-    <div class="dlab-bnr-inr" style="background-image:url('{% static 'images/background/bg1.jpg' %}'); background-size: cover; background-position: top center; background-repeat: no-repeat;">
-        <div class="container">
-            <div class="dlab-bnr-inr-entry text-white">
-                <h1>We’re Crep </h1>
-                <p>We help companies we believe in get results. Let us show you how</p>
-            </div>
-        </div>
+
+
+    <div class="full-height">
+        <video id="myVideo" autoplay muted loop>
+          <source src="{% static 'video/dark.mp4' %}" type="video/mp4">
+          <source src="{% static 'video/dark.mp4' %}" type="video/ogg">
+        </video>
     </div>
+
+
+<!--     <div class="dlab-bnr-inr" style="background-image:url('{% static 'images/background/bg1.jpg' %}'); background-size: cover; background-position: top center; background-repeat: no-repeat;">-->
+<!--        <div class="container">-->
+<!--            <div class="dlab-bnr-inr-entry text-white">-->
+<!--                <h1>We’re Crep </h1>-->
+<!--                <p>We help companies we believe in get results. Let us show you how</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
     <!-- Slider Banner -->
-    <div class="content-block mt-5">
+    <br><br><br><br><br>
+    <div class="content-block" style="margin-top: 5em;">
         <!-- featured box -->
         <div class="section-full bg-white text-center">
             <div class="container">
@@ -82,65 +111,72 @@
         </div>
         <!-- about us end -->
         <!-- customer box -->
-        <div class="section-full bg-white customer-area-one" style="background-image:url({% static 'images/background/bg7.png' %}); background-repeat:no-repeat; background-position:center left; background-size:50%;">
-            <div class="container">
-                <div class="section-head text-center">
-                    <h2 class="title">Build a brand customers love</h2>
-                    <p>We are an Creative agency, based in New York. Vision Every company is performing best online. Mission Helping businesses to find the perfect and most succesful strategy, to be online.</p>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="row sp0 counter-area1">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.2s">
-                                <div class="counter-box counter-box1 img-move">
-                                    <div class="counter-info">
-                                        <h4 class="title">Projects</h4>
-                                        <span class="counter">30</span>
-                                        <span>K</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.4s">
-                                <div class="counter-box counter-box2 img-move">
-                                    <div class="counter-info">
-                                        <h4 class="title">Cups of Coffee</h4>
-                                        <span class="counter">451</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.6s">
-                                <div class="counter-box counter-box3 img-move2">
-                                    <div class="counter-info">
-                                        <h4 class="title">Customers</h4>
-                                        <span class="counter">120</span>
-                                        <span>K</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.8s">
-                                <div class="counter-box counter-box4 img-move2">
-                                    <div class="counter-info">
-                                        <h4 class="title">Clients</h4>
-                                        <span class="counter">130</span>
-                                        <span>K</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 wow fadeInRight" data-wow-delay="0.8s">
-                        <div class="customer-box1">
-                            <div class="dlab-media img-move2">
-                                <img src="{% static 'images/about/about-2.png' %}" alt="">
-                            </div>
-                            <p class="font-20">We start by analyzing your design and sorting it out. We’ll extract all the necessary images, logos, and icons.</p>
-                            <h5>Increase customer lifetime value</h5>
-                            <p class="m-b0">Let our AI power your entire customer journey, from awareness through purchase, to increase sales, average order value, and loyalty, and get a centralized picture of cost, ROI, and impact.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+<!--        <div class="section-full bg-white customer-area-one" style="background-image:url({% static 'images/background/bg7.png' %}); background-repeat:no-repeat; background-position:center left; background-size:50%;">-->
+<!--            <div class="container">-->
+<!--                <div class="section-head text-center">-->
+<!--                    <h2 class="title">Build a brand customers love</h2>-->
+<!--                    <p>We are an Creative agency, based in New York. Vision Every company is performing best online. Mission Helping businesses to find the perfect and most succesful strategy, to be online.</p>-->
+<!--                </div>-->
+
+
+<!--                <div class="row align-items-center">-->
+<!--                    <div class="col-lg-6 col-md-6">-->
+<!--                        <div class="row sp0 counter-area1">-->
+<!--                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.2s">-->
+<!--                                <div class="counter-box counter-box1 img-move">-->
+<!--                                    <div class="counter-info">-->
+<!--                                        <h4 class="title">Projects</h4>-->
+<!--                                        <span class="counter">30</span>-->
+<!--                                        <span>K</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.4s">-->
+<!--                                <div class="counter-box counter-box2 img-move">-->
+<!--                                    <div class="counter-info">-->
+<!--                                        <h4 class="title">Cups of Coffee</h4>-->
+<!--                                        <span class="counter">451</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.6s">-->
+<!--                                <div class="counter-box counter-box3 img-move2">-->
+<!--                                    <div class="counter-info">-->
+<!--                                        <h4 class="title">Customers</h4>-->
+<!--                                        <span class="counter">120</span>-->
+<!--                                        <span>K</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.8s">-->
+<!--                                <div class="counter-box counter-box4 img-move2">-->
+<!--                                    <div class="counter-info">-->
+<!--                                        <h4 class="title">Clients</h4>-->
+<!--                                        <span class="counter">130</span>-->
+<!--                                        <span>K</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-6 col-md-6 wow fadeInRight" data-wow-delay="0.8s">-->
+<!--                        <div class="customer-box1">-->
+<!--                            <div class="dlab-media img-move2">-->
+<!--                                <img src="{% static 'images/about/about-2.png' %}" alt="">-->
+<!--                            </div>-->
+<!--                            <p class="font-20">We start by analyzing your design and sorting it out. We’ll extract all the necessary images, logos, and icons.</p>-->
+<!--                            <h5>Increase customer lifetime value</h5>-->
+<!--                            <p class="m-b0">Let our AI power your entire customer journey, from awareness through purchase, to increase sales, average order value, and loyalty, and get a centralized picture of cost, ROI, and impact.</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--        </div>-->
+
+
         <!-- customer box end -->
         <!-- overview box -->
         <div class="section-full bg-white content-inner-1">
@@ -206,190 +242,198 @@
         </div>
         <!-- overview box end -->
         <!-- testimonials -->
-        <div class="section-full bg-white content-inner-1">
-            <div class="container">
-                <div class="row align-items-end">
-                    <div class="col-lg-7 col-md-6 m-b30 wow fadeInLeft" data-wow-delay="0.3s">
-                        <div class="testimonial-carousel owl-carousel owl-theme dots-style-1 owl-none">
-                            <div class="item">
-                                <div class="testimonial-1">
-                                    <div class="testimonial-text quote-left">
-                                        <p>Since we began our partnership with Restoration Digital Marketing, our web traffic has increased tremendously. This has led to increased phone calls, that are legitimate leads, which has equaled increased
-                                            revenue. Jeff has been great to work with and is extremely helpful and knowledgeable. </p>
-                                    </div>
-                                    <div class="testimonial-detail clearfix">
-                                        <h5 class="testimonial-name">Mahfuz Riad</h5>
-                                        <span>Ux & Product Designer</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="testimonial-1">
-                                    <div class="testimonial-text quote-left">
-                                        <p>Since we began our partnership with Restoration Digital Marketing, our web traffic has increased tremendously. This has led to increased phone calls, that are legitimate leads, which has equaled increased
-                                            revenue. Jeff has been great to work with and is extremely helpful and knowledgeable. </p>
-                                    </div>
-                                    <div class="testimonial-detail clearfix">
-                                        <h5 class="testimonial-name m-t0 m-b5">Mahfuz Riad</h5>
-                                        <span>Ux & Product Designer</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="testimonial-1">
-                                    <div class="testimonial-text quote-left">
-                                        <p>Since we began our partnership with Restoration Digital Marketing, our web traffic has increased tremendously. This has led to increased phone calls, that are legitimate leads, which has equaled increased
-                                            revenue. Jeff has been great to work with and is extremely helpful and knowledgeable. </p>
-                                    </div>
-                                    <div class="testimonial-detail clearfix">
-                                        <h5 class="testimonial-name m-t0 m-b5">Mahfuz Riad</h5>
-                                        <span>Ux & Product Designer</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 col-md-6 wow fadeInRight" data-wow-delay="0.6s">
-                        <img src="{% static 'images/testimonials/pic1.png' %}" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+<!--        <div class="section-full bg-white content-inner-1">-->
+<!--            <div class="container">-->
+<!--                <div class="row align-items-end">-->
+<!--                    <div class="col-lg-7 col-md-6 m-b30 wow fadeInLeft" data-wow-delay="0.3s">-->
+<!--                        <div class="testimonial-carousel owl-carousel owl-theme dots-style-1 owl-none">-->
+<!--                            <div class="item">-->
+<!--                                <div class="testimonial-1">-->
+<!--                                    <div class="testimonial-text quote-left">-->
+<!--                                        <p>Since we began our partnership with Restoration Digital Marketing, our web traffic has increased tremendously. This has led to increased phone calls, that are legitimate leads, which has equaled increased-->
+<!--                                            revenue. Jeff has been great to work with and is extremely helpful and knowledgeable. </p>-->
+<!--                                    </div>-->
+<!--                                    <div class="testimonial-detail clearfix">-->
+<!--                                        <h5 class="testimonial-name">Mahfuz Riad</h5>-->
+<!--                                        <span>Ux & Product Designer</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="item">-->
+<!--                                <div class="testimonial-1">-->
+<!--                                    <div class="testimonial-text quote-left">-->
+<!--                                        <p>Since we began our partnership with Restoration Digital Marketing, our web traffic has increased tremendously. This has led to increased phone calls, that are legitimate leads, which has equaled increased-->
+<!--                                            revenue. Jeff has been great to work with and is extremely helpful and knowledgeable. </p>-->
+<!--                                    </div>-->
+<!--                                    <div class="testimonial-detail clearfix">-->
+<!--                                        <h5 class="testimonial-name m-t0 m-b5">Mahfuz Riad</h5>-->
+<!--                                        <span>Ux & Product Designer</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="item">-->
+<!--                                <div class="testimonial-1">-->
+<!--                                    <div class="testimonial-text quote-left">-->
+<!--                                        <p>Since we began our partnership with Restoration Digital Marketing, our web traffic has increased tremendously. This has led to increased phone calls, that are legitimate leads, which has equaled increased-->
+<!--                                            revenue. Jeff has been great to work with and is extremely helpful and knowledgeable. </p>-->
+<!--                                    </div>-->
+<!--                                    <div class="testimonial-detail clearfix">-->
+<!--                                        <h5 class="testimonial-name m-t0 m-b5">Mahfuz Riad</h5>-->
+<!--                                        <span>Ux & Product Designer</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-5 col-md-6 wow fadeInRight" data-wow-delay="0.6s">-->
+<!--                        <img src="{% static 'images/testimonials/pic1.png' %}" alt="">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
         <!-- testimonials end -->
         <!-- meet our team Team -->
-        <div class="section-full bg-white content-inner-1">
-            <div class="container">
-                <div class="section-head text-center">
-                    <h2 class="title">Our Expert</h2>
-                </div>
-                <div class="team-carousel owl-carousel owl-theme owl-btn-1 m-b30">
-                    <div class="item">
-                        <div class="team-box style1 text-center wow fadeInUp" data-wow-delay="0.2s">
-                            <div class="dlab-media">
-                                <a href="teachers-details.html">
-                                <img src="{% static 'images/team/pic1.png' %}" alt="">
-                            </a>
-                            </div>
-                            <div class="team-info">
-                                <h5 class="team-title"><a href="teachers-details.html">Mahfuz Riad</a></h5>
-                                <span class="team-position">SEO Expert</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="team-box style1 green text-center wow fadeInUp" data-wow-delay="0.4s">
-                            <div class="dlab-media">
-                                <a href="teachers-details.html">
-                                <img src="{% static 'images/team/pic2.png' %}" alt="">
-                            </a>
-                            </div>
-                            <div class="team-info">
-                                <h5 class="team-title"><a href="teachers-details.html">John Copa</a></h5>
-                                <span class="team-position">Creative Ui Expert</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="team-box style1 pink text-center wow fadeInUp" data-wow-delay="0.6s">
-                            <div class="dlab-media">
-                                <a href="teachers-details.html">
-                                <img src="{% static 'images/team/pic3.png' %}" alt="">
-                            </a>
-                            </div>
-                            <div class="team-info">
-                                <h5 class="team-title"><a href="teachers-details.html">Foqrul islam</a></h5>
-                                <span class="team-position">Content Creation Expert</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="team-box style1 yellow text-center wow fadeInUp" data-wow-delay="0.8s">
-                            <div class="dlab-media">
-                                <a href="teachers-details.html">
-                                <img src="{% static 'images/team/pic4.png' %}" alt="">
-                            </a>
-                            </div>
-                            <div class="team-info">
-                                <h5 class="team-title"><a href="teachers-details.html">Masum Rana</a></h5>
-                                <span class="team-position">Nav Salimian</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+<!--        <div class="section-full bg-white content-inner-1">-->
+<!--            <div class="container">-->
+<!--                <div class="section-head text-center">-->
+<!--                    <h2 class="title">Our Expert</h2>-->
+<!--                </div>-->
+<!--                <div class="team-carousel owl-carousel owl-theme owl-btn-1 m-b30">-->
+<!--                    <div class="item">-->
+<!--                        <div class="team-box style1 text-center wow fadeInUp" data-wow-delay="0.2s">-->
+<!--                            <div class="dlab-media">-->
+<!--                                <a href="teachers-details.html">-->
+<!--                                <img src="{% static 'images/team/pic1.png' %}" alt="">-->
+<!--                            </a>-->
+<!--                            </div>-->
+<!--                            <div class="team-info">-->
+<!--                                <h5 class="team-title"><a href="teachers-details.html">Mahfuz Riad</a></h5>-->
+<!--                                <span class="team-position">SEO Expert</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="item">-->
+<!--                        <div class="team-box style1 green text-center wow fadeInUp" data-wow-delay="0.4s">-->
+<!--                            <div class="dlab-media">-->
+<!--                                <a href="teachers-details.html">-->
+<!--                                <img src="{% static 'images/team/pic2.png' %}" alt="">-->
+<!--                            </a>-->
+<!--                            </div>-->
+<!--                            <div class="team-info">-->
+<!--                                <h5 class="team-title"><a href="teachers-details.html">John Copa</a></h5>-->
+<!--                                <span class="team-position">Creative Ui Expert</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="item">-->
+<!--                        <div class="team-box style1 pink text-center wow fadeInUp" data-wow-delay="0.6s">-->
+<!--                            <div class="dlab-media">-->
+<!--                                <a href="teachers-details.html">-->
+<!--                                <img src="{% static 'images/team/pic3.png' %}" alt="">-->
+<!--                            </a>-->
+<!--                            </div>-->
+<!--                            <div class="team-info">-->
+<!--                                <h5 class="team-title"><a href="teachers-details.html">Foqrul islam</a></h5>-->
+<!--                                <span class="team-position">Content Creation Expert</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="item">-->
+<!--                        <div class="team-box style1 yellow text-center wow fadeInUp" data-wow-delay="0.8s">-->
+<!--                            <div class="dlab-media">-->
+<!--                                <a href="teachers-details.html">-->
+<!--                                <img src="{% static 'images/team/pic4.png' %}" alt="">-->
+<!--                            </a>-->
+<!--                            </div>-->
+<!--                            <div class="team-info">-->
+<!--                                <h5 class="team-title"><a href="teachers-details.html">Masum Rana</a></h5>-->
+<!--                                <span class="team-position">Nav Salimian</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
         <!-- meet our team end -->
         <!-- pricing table -->
-        <div class="section-full bg-white content-inner-2">
-            <div class="container">
-                <div class="section-head text-center">
-                    <span class="sub-title text-primary">Pricing Plan</span>
-                    <h2 class="title text-secondry">Simple pricing that works</h2>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.3s">
-                        <div class="pricingtable-wrapper">
-                            <div class="pricingtable-inner">
-                                <div class="pricingtable-price">
-                                    <span class="pricingtable-bx text-primary">$19</span>
-                                </div>
-                                <div class="pricingtable-title">
-                                    <h2>Core Business </h2>
-                                </div>
-                                <ul class="pricingtable-features">
-                                    <li>1-2 target pages </li>
-                                    <li>30-40 Keywords</li>
-                                    <li>Connect Domain</li>
-                                    <li>Ideal for smaller professional websites</li>
-                                    <li>Business & eCommerce</li>
-                                </ul>
-                                <div class="pricingtable-footer"> <a href="javascript:void(0);" class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a> </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="pricingtable-wrapper">
-                            <div class="pricingtable-inner">
-                                <div class="pricingtable-price">
-                                    <span class="pricingtable-bx text-primary">$49</span>
-                                </div>
-                                <div class="pricingtable-title">
-                                    <h2>Core Business </h2>
-                                </div>
-                                <ul class="pricingtable-features">
-                                    <li>1-2 target pages </li>
-                                    <li>30-40 Keywords</li>
-                                    <li>Connect Domain</li>
-                                    <li>Ideal for smaller professional websites</li>
-                                    <li>Business & eCommerce</li>
-                                </ul>
-                                <div class="pricingtable-footer"> <a href="javascript:void(0);" class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a> </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.9s">
-                        <div class="pricingtable-wrapper">
-                            <div class="pricingtable-inner">
-                                <div class="pricingtable-price">
-                                    <span class="pricingtable-bx text-primary">$99</span>
-                                </div>
-                                <div class="pricingtable-title">
-                                    <h2>Core Business </h2>
-                                </div>
-                                <ul class="pricingtable-features">
-                                    <li>1-2 target pages </li>
-                                    <li>30-40 Keywords</li>
-                                    <li>Connect Domain</li>
-                                    <li>Ideal for smaller professional websites</li>
-                                    <li>Business & eCommerce</li>
-                                </ul>
-                                <div class="pricingtable-footer"> <a href="javascript:void(0);" class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a> </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--        <div class="section-full bg-white content-inner-2">-->
+<!--            <div class="container">-->
+<!--                <div class="section-head text-center">-->
+<!--                    <span class="sub-title text-primary">Pricing Plan</span>-->
+<!--                    <h2 class="title text-secondry">Simple pricing that works</h2>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.3s">-->
+<!--                        <div class="pricingtable-wrapper">-->
+<!--                            <div class="pricingtable-inner">-->
+<!--                                <div class="pricingtable-price">-->
+<!--                                    <span class="pricingtable-bx text-primary">$19</span>-->
+<!--                                </div>-->
+<!--                                <div class="pricingtable-title">-->
+<!--                                    <h2>Core Business </h2>-->
+<!--                                </div>-->
+<!--                                <ul class="pricingtable-features">-->
+<!--                                    <li>1-2 target pages </li>-->
+<!--                                    <li>30-40 Keywords</li>-->
+<!--                                    <li>Connect Domain</li>-->
+<!--                                    <li>Ideal for smaller professional websites</li>-->
+<!--                                    <li>Business & eCommerce</li>-->
+<!--                                </ul>-->
+<!--                                <div class="pricingtable-footer"> <a href="javascript:void(0);" class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a> </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.6s">-->
+<!--                        <div class="pricingtable-wrapper">-->
+<!--                            <div class="pricingtable-inner">-->
+<!--                                <div class="pricingtable-price">-->
+<!--                                    <span class="pricingtable-bx text-primary">$49</span>-->
+<!--                                </div>-->
+<!--                                <div class="pricingtable-title">-->
+<!--                                    <h2>Core Business </h2>-->
+<!--                                </div>-->
+<!--                                <ul class="pricingtable-features">-->
+<!--                                    <li>1-2 target pages </li>-->
+<!--                                    <li>30-40 Keywords</li>-->
+<!--                                    <li>Connect Domain</li>-->
+<!--                                    <li>Ideal for smaller professional websites</li>-->
+<!--                                    <li>Business & eCommerce</li>-->
+<!--                                </ul>-->
+<!--                                <div class="pricingtable-footer"> <a href="javascript:void(0);" class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a> </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.9s">-->
+<!--                        <div class="pricingtable-wrapper">-->
+<!--                            <div class="pricingtable-inner">-->
+<!--                                <div class="pricingtable-price">-->
+<!--                                    <span class="pricingtable-bx text-primary">$99</span>-->
+<!--                                </div>-->
+<!--                                <div class="pricingtable-title">-->
+<!--                                    <h2>Core Business </h2>-->
+<!--                                </div>-->
+<!--                                <ul class="pricingtable-features">-->
+<!--                                    <li>1-2 target pages </li>-->
+<!--                                    <li>30-40 Keywords</li>-->
+<!--                                    <li>Connect Domain</li>-->
+<!--                                    <li>Ideal for smaller professional websites</li>-->
+<!--                                    <li>Business & eCommerce</li>-->
+<!--                                </ul>-->
+<!--                                <div class="pricingtable-footer"> <a href="javascript:void(0);" class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a> </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
         <!-- pricing table end -->
         <!-- contact form -->
         <div class="section-full bg-white content-inner" style="background-image: url({% static 'images/background/bg1.jpg' %}); background-size: cover;">
@@ -428,6 +472,319 @@
         <!-- contact form end -->
     </div>
 </div>
+
+<!-- Popup Question Modal -->
+<style>
+    #popup-question-wrap{
+        background-color: rgb(240, 240, 240);
+        overflow-y: scroll;
+        position: fixed;
+        inset: 0px;
+        height: 80vh;
+        max-width: 768px;
+    }
+    @media (min-width: 768px) {
+        #popup-question-wrap{
+            inset: 4rem;
+            width: 75%;
+        }
+    }
+    .question-block{
+        background-color: white;
+        padding: 2rem 1.5rem;
+        box-shadow: 0 0 1px 0 grey;
+    }
+    input[type=radio]:checked+label:before {
+        border-color: #ed5ab0 !important;
+    }
+    #popup-question-wrap>.delete {
+        right: .5rem;
+        position: absolute;
+        top: .5rem;
+        font-size: 1rem;
+        color: white;
+        background-color: rgba(10,10,10,.2);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        pointer-events: auto;
+    }
+    #custom-overlay{
+        position: fixed;
+        inset: 0 0 0 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.685);
+        z-index: 999998;
+    }
+</style>
+<script>
+    // window.addEventListener('load', function (e) {
+    //     setTimeout(() => {
+    //         console.log(document.getElementById('popup-question-wrap').style.display)
+    //         document.getElementById('popup-question-wrap').style.display='block !important';
+    //     }, 2000);
+    // })
+    function rmModalAndOverlay(e) {
+        const delEl = e.closest('#popup-question-wrap');
+        delEl.previousElementSibling.remove();
+        delEl.remove();
+    }
+</script>
+<div id="custom-overlay"></div>
+<div id="popup-question-wrap" class="m-auto shadow radius-md" style="z-index: 999999;">
+    <button class="delete d-flex align-items-center justify-content-center" 
+    onclick="rmModalAndOverlay(this)">✖</button>
+    <form action="" method="POST" class="popup-question-form container px-md-5 py-4">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-12">
+                <div class="question-block radius-md m-2" style="padding: 1rem 1rem;">
+                    <h4 for="id_age" class="mb-1">Please answer the following questions, so that we can get to know you better.</h4>
+                    <hr class="my-3">
+                    {% if user.is_authenticated %}
+                        <p class="mb-2">Logged In as <span class="font-weight-bold">{{request.user.email}}</span></p>
+                    {% else %}
+                        <p class="mb-2">Already have an account? <a href="{% url 'user:login' %}" class="text-primary font-weight-bold">Login</a></p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="question-block radius-md m-2">
+                    <label class="mb-1 font-weight-normal">1. What is your age?</label>
+                    <div class="d-block mt-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="age" id="id_age1" value="12-18" required>
+                            <label class="form-check-label" for="id_age1">12-18</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="age" id="id_age2" value="18-24" required>
+                            <label class="form-check-label" for="id_age2">18-24</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="age" id="id_age3" value="24-30" required>
+                            <label class="form-check-label" for="id_age3">24-30</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="age" id="id_age4" value="Above 30" required>
+                            <label class="form-check-label" for="id_age4">Above 30</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="question-block radius-md m-2">
+                    <label class="mb-1 font-weight-normal">2. Have any previous knowledge about ML/DL/AI?</label>
+                    <div class="d-block mt-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="previous_knowledge" id="id_previous_knowledge1" value="Yes" required>
+                            <label class="form-check-label" for="id_previous_knowledge1">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="previous_knowledge" id="id_previous_knowledge2" value="No" required>
+                            <label class="form-check-label" for="id_previous_knowledge2">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="question-block radius-md m-2">
+                    <label class="mb-1">3. Have worked more in?</label>
+                    <div class="ml-2">
+                        <div class="row mt-2">
+                            <div class="form-check col-6 mb-2">
+                                <input class="form-check-input" type="radio" name="worked_in" id="id_worked_in1" value="MACHINE_LEARNING" required>
+                                <label class="form-check-label" for="id_worked_in1">Machine learning</label>
+                            </div>
+                            <div class="form-check col-6 mb-2">
+                                <input class="form-check-input" type="radio" name="worked_in" id="id_worked_in2" value="DEEP_LEARNING" required>
+                                <label class="form-check-label" for="id_worked_in2">Deep learning</label>
+                            </div>
+                            <div class="form-check col-6 mb-2">
+                                <input class="form-check-input" type="radio" name="worked_in" id="id_worked_in3" value="JUST_PYTHON_CODING" required>
+                                <label class="form-check-label" for="id_worked_in3">Just python coding</label>
+                            </div>
+                            <div class="form-check col-6 mb-2">
+                                <input class="form-check-input" type="radio" name="worked_in" id="id_worked_in4" value="NONE_OF_THE_ABOVE" required>
+                                <label class="form-check-label" for="id_worked_in4">None of the above</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="question-block radius-md m-2">
+                    <label class="mb-1 font-weight-normal">4. Finds coding really difficult?</label>
+                    <div class="d-block mt-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="coding_difficult" id="id_coding_difficul1" value="Yes" required>
+                            <label class="form-check-label" for="id_coding_difficul1">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="coding_difficult" id="id_coding_difficul2" value="No" required>
+                            <label class="form-check-label" for="id_coding_difficul2">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="question-block radius-md m-2">
+                    <label class="mb-1 font-weight-normal">5. Does any ML/DL/AI courses or studied Artificial Intelligence in college yet?</label>
+                    <div class="d-block mt-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="study" id="id_study1" value="Yes" required>
+                            <label class="form-check-label" for="id_study1">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="study" id="id_study2" value="No" required>
+                            <label class="form-check-label" for="id_study2">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="question-block radius-md m-2">
+                    <label class="mb-1 font-weight-normal">6. Likes to study/create/work/do projects?</label>
+                    <div class="d-block mt-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="team_preference" id="id_team_preference1" value="Alone" required>
+                            <label class="form-check-label" for="id_team_preference1">Alone</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="team_preference" id="id_team_preference2" value="In a team" required>
+                            <label class="form-check-label" for="id_team_preference2">In a team</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="question-block radius-md m-2">
+                    <label class="mb-1">7. Specify your functionality area?</label>
+                    <div class="ml-2">
+                        <div class="row mt-2">
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Finance and accounts</label>" type="checkbox" id="id_functionality_area1" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area1">Finance and accounts</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Sales and marketing" type="checkbox" id="id_functionality_area2" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area2">Sales and marketing</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Office operation / Hr" type="checkbox" id="id_functionality_area3" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area3">Office operation / Hr</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Production / Maintainance / Quality" type="checkbox" id="id_functionality_area4" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area4">Production / Maintainance / Quality</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="IT / Software / Telecom" type="checkbox" id="id_functionality_area5" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area5">IT / Software / Telecom</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Agriculture / farming / dairy" type="checkbox" id="id_functionality_area6" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area6">Agriculture / farming / dairy</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Construction/Real Estate" type="checkbox" id="id_functionality_area7" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area7">Construction/Real Estate</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Entertainment and media" type="checkbox" id="id_functionality_area8" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area8">Entertainment and media</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Education / Teachers / professor" type="checkbox" id="id_functionality_area9" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area9">Education / Teachers / professor</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Bpo / ITES / Telecaller / Customer care" type="checkbox" id="id_functionality_area10" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area10">Bpo / ITES / Telecaller / Customer care</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Fashion Designing" type="checkbox" id="id_functionality_area11" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area11">Fashion Designing</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Content / Editor / journalists" type="checkbox" id="id_functionality_area12" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area12">Content / Editor / journalists</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Legal / law" type="checkbox" id="id_functionality_area13" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area13">Legal / law</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Travelling agencies" type="checkbox" id="id_functionality_area14" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area14">Travelling agencies</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Bio tech / R&D / Scientists" type="checkbox" id="id_functionality_area15" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area15">Bio tech / R&D / Scientists</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Data scientists / Machine learning engineer / AI" type="checkbox" id="id_functionality_area16" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area16">Data scientists / Machine learning engineer / AI</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Student" type="checkbox" id="id_functionality_area17" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area17">Student</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Medicine / Biology / Pharmaceutical" type="checkbox" id="id_functionality_area18" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area18">Medicine / Biology / Pharmaceutical</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Electrical / Electronics / Electronic and telecommunications" type="checkbox" id="id_functionality_area19" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area19">Electrical / Electronics / Electronic and telecommunications</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Mechanical" type="checkbox" id="id_functionality_area20" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area20">Mechanical</label>
+                            </div>
+                            <div class="form-check col-12 mb-2">
+                                <input name="functionality_area" value="Chemical" type="checkbox" id="id_functionality_area21" class="form-control">
+                                <label class="form-check-label" for="id_functionality_area21">Chemical</label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Finance and accounts 
+            Sales and marketing
+            Office operation /Hr
+            Production/Maintainance /Quality
+            It /Software /Telecom
+            Agriculture/farming/dairy
+            Construction/Real Estate
+            Entertainment and media
+            Education/Teachers/professor
+            Bpo/ITES/Telecaller/Customer care
+            Fashion Designing
+            Content/Editor/ journalists
+            Legal/ law
+            Travelling agencies
+            Bio tech /R&D /Scientists
+            Data scientists/Machine learning engineer/AI
+            Student
+            Medicine/Biology /Pharmaceutical
+            Electrical /Electronics/Electronic and telecommunications
+            Mechanical
+            Chemical -->
+            <div class="col-12 text-center mt-3">
+                <button name="submit" type="submit" value="Submit" class="btn radius-sm btn-gradient btn-md py-2 btn-aware">Submit<span></span></button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Popup Question Modal END -->
+
 <!-- Content END-->
 
 {% endblock content %}

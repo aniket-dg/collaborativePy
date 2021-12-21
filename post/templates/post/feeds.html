@@ -1,0 +1,1270 @@
+{% extends "home/social_base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+    .hljs-type, .hljs-title, .hljs-section, .hljs-attribute, .hljs-quote, .hljs-built_in, .hljs-builtin-name{
+       color: #3f88e3;
+    }
+
+    .hljs-keyword, .hljs-selector-tag, .hljs-literal{
+      color: #f39200;
+    }
+</style>
+
+<div class="view-wrapper">
+
+    <!-- Container -->
+    <div id="main-feed" class="container">
+
+        <!-- Content placeholders at page load -->
+        <!-- this holds the animated content placeholders that show up before content -->
+        <div id="shadow-dom" class="view-wrap">
+            <div class="columns">
+
+                <div class="column is-3">
+
+                    <!-- Placeload element -->
+                    <div class="placeload weather-widget-placeload">
+                        <div class="header">
+                            <div class="inner-wrap">
+                                <div class="img loads"></div>
+                                <div class="content-shape loads"></div>
+                                <div class="content-shape loads"></div>
+                            </div>
+                        </div>
+                        <div class="body">
+                            <div class="inner-wrap">
+                                <div class="rect loads"></div>
+                                <div class="content-shape loads"></div>
+                                <div class="content-shape loads"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Placeload element -->
+                    <div class="placeload list-placeload">
+                        <div class="header">
+                            <div class="content-shape loads"></div>
+                        </div>
+                        <div class="body">
+                            <div class="flex-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="flex-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="flex-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="flex-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column is-6">
+
+                    <!-- Placeload element -->
+                    <div class="placeload compose-placeload">
+                        <div class="header">
+                            <div class="content-shape is-lg loads"></div>
+                            <div class="content-shape is-lg loads"></div>
+                            <div class="content-shape is-lg loads"></div>
+                        </div>
+                        <div class="body">
+                            <div class="img loads"></div>
+                            <div class="inner-wrap">
+                                <div class="content-shape loads"></div>
+                                <div class="content-shape loads"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Placeload element -->
+                    <div class="placeload post-placeload">
+                        <div class="header">
+                            <div class="img loads"></div>
+                            <div class="header-content">
+                                <div class="content-shape loads"></div>
+                                <div class="content-shape loads"></div>
+                            </div>
+                        </div>
+                        <div class="image-placeholder loads"></div>
+                        <div class="placeholder-footer">
+                            <div class="footer-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Placeload element -->
+                    <div class="placeload post-placeload">
+                        <div class="header">
+                            <div class="img loads"></div>
+                            <div class="header-content">
+                                <div class="content-shape loads"></div>
+                                <div class="content-shape loads"></div>
+                            </div>
+                        </div>
+                        <div class="image-placeholder loads"></div>
+                        <div class="placeholder-footer">
+                            <div class="footer-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Placeload element -->
+                    <div class="placeload post-placeload">
+                        <div class="header">
+                            <div class="img loads"></div>
+                            <div class="header-content">
+                                <div class="content-shape loads"></div>
+                                <div class="content-shape loads"></div>
+                            </div>
+                        </div>
+                        <div class="image-placeholder loads"></div>
+                        <div class="placeholder-footer">
+                            <div class="footer-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Placeload element -->
+                    <div class="placeload post-placeload">
+                        <div class="header">
+                            <div class="img loads"></div>
+                            <div class="header-content">
+                                <div class="content-shape loads"></div>
+                                <div class="content-shape loads"></div>
+                            </div>
+                        </div>
+                        <div class="image-placeholder loads"></div>
+                        <div class="placeholder-footer">
+                            <div class="footer-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column is-3">
+
+                    <!-- Placeload element -->
+                    <div class="placeload stories-placeload">
+                        <div class="header">
+                            <div class="content-shape loads"></div>
+                        </div>
+                        <div class="body">
+                            <div class="flex-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="flex-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="flex-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="flex-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Placeload element -->
+                    <div class="placeload mini-widget-placeload">
+                        <div class="body">
+                            <div class="inner-wrap">
+                                <div class="img loads"></div>
+                                <div class="content-shape loads"></div>
+                                <div class="content-shape loads"></div>
+                                <div class="content-shape loads"></div>
+                                <div class="button-shape loads"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Placeload element -->
+                    <div class="placeload list-placeload">
+                        <div class="header">
+                            <div class="content-shape loads"></div>
+                        </div>
+                        <div class="body">
+                            <div class="flex-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="flex-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="flex-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="flex-block">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Feed page main wrapper -->
+        <div id="activity-feed" class="view-wrap true-dom is-hidden">
+            <div class="columns">
+                <!-- Left side column -->
+                <div class="column is-3 is-hidden-mobile">
+                    <!-- Weather widget -->
+                    <!-- /partials/widgets/weather-widget.html -->
+                    <div class="card is-weather-card has-background-image"
+                        data-background="assets/img/illustrations/cards/weather-bg.svg' %}">
+                        <div class="card-heading">
+                            <div class="dropdown is-spaced is-accent is-right dropdown-trigger is-light">
+                                <div>
+                                    <div class="button">
+                                        <i data-feather="more-vertical"></i>
+                                    </div>
+                                </div>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <a href="#" class="dropdown-item">
+                                            <div class="media">
+                                                <i data-feather="map-pin"></i>
+                                                <div class="media-content">
+                                                    <h3>Change City</h3>
+                                                    <small>Change the displayed city.</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="dropdown-item">
+                                            <div class="media">
+                                                <i data-feather="rotate-ccw"></i>
+                                                <div class="media-content">
+                                                    <h3>Synchronize</h3>
+                                                    <small>Synchronize with a weather source.</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a class="dropdown-item">
+                                            <div class="media">
+                                                <i data-feather="settings"></i>
+                                                <div class="media-content">
+                                                    <h3>Settings</h3>
+                                                    <small>Access widget settings.</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <hr class="dropdown-divider">
+                                        <a href="#" class="dropdown-item">
+                                            <div class="media">
+                                                <i data-feather="trash-2"></i>
+                                                <div class="media-content">
+                                                    <h3>Remove</h3>
+                                                    <small>Removes this widget from your feed.</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="temperature">
+                                <span>71</span>
+                            </div>
+                            <div class="weather-icon">
+                                <div>
+                                    <i data-feather="sun"></i>
+                                    <h4>Sunny</h4>
+                                    <div class="details">
+                                        <span>Real Feel: 78° </span>
+                                        <span>Rain Chance: 5%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="previsions">
+                                <div class="day">
+                                    <span>Mon</span>
+                                    <i data-feather="sun"></i>
+                                    <span>69°</span>
+                                </div>
+                                <div class="day">
+                                    <span>Tue</span>
+                                    <i data-feather="cloud-lightning"></i>
+                                    <span>74°</span>
+                                </div>
+                                <div class="day">
+                                    <span>Wed</span>
+                                    <i data-feather="cloud-lightning"></i>
+                                    <span>73°</span>
+                                </div>
+                                <div class="day">
+                                    <span>Thu</span>
+                                    <i data-feather="sun"></i>
+                                    <span>68°</span>
+                                </div>
+                                <div class="day">
+                                    <span>Fri</span>
+                                    <i data-feather="cloud-drizzle"></i>
+                                    <span>55°</span>
+                                </div>
+                                <div class="day">
+                                    <span>Sat</span>
+                                    <i data-feather="cloud-rain"></i>
+                                    <span>58°</span>
+                                </div>
+                                <div class="day">
+                                    <span>Sun</span>
+                                    <i data-feather="sun"></i>
+                                    <span>64°</span>
+                                </div>
+                            </div>
+                            <div class="current-date-location has-text-centered">
+                                <span class="date">Sunday, 18th 2018</span>
+                                <span class="location"> <i data-feather="map-pin"></i> Los Angeles, CA</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fake Ad -->
+
+                </div>
+                <!-- /Left side column -->
+
+                <!-- Middle column -->
+                <div class="column is-6">
+
+                    <!-- Publishing Area -->
+                    <!-- /partials/pages/feed/compose-card.html -->
+                    <form enctype="multipart/form-data" action="{% url 'post:post' %}" method="post">
+                        {% csrf_token %}
+                        <div id="compose-card" class="card is-new-content">
+                            <!-- Top tabs -->
+                            <input type="text" name="category" id="category" hidden value="Question/Errors">
+                            <div class="tabs-wrapper">
+                                <div class="tabs is-boxed is-fullwidth">
+                                    <ul>
+                                        <li id="question-error" class="is-active">
+                                            <a onclick="valSet('question-error', 'category', 'Question/Errors')">
+                                                <span class="icon is-small"><i data-feather="edit-3"></i></span>
+                                                <span>Question/Errors</span>
+                                            </a>
+                                        </li>
+                                        <li id="discussion-informative">
+                                            <a
+                                                onclick="valSet('discussion-informative', 'category', 'Discussion and Informative')">
+                                                <span class="icon is-small"><i data-feather="folder"></i></span>
+                                                <span>Discussion and Informative</span>
+                                            </a>
+                                        </li>
+                                        <!-- Close X button -->
+                                        <li class="close-wrap">
+                                            <span class="close-publish">
+                                                <i data-feather="x"></i>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Tab content -->
+                                <div class="tab-content">
+                                    <!-- Compose form -->
+                                    <div class="compose">
+                                        <div class="compose-form">
+                                            <a href="../user/profile/">
+                                            {% if user.profile_image %}
+                                            <img src="{{ user.profile_image.url }}" alt="">
+                                            {% else %}
+                                            <img src="https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
+                                                alt="">
+                                            {% endif %}
+                                            </a>
+                                            <div class="control">
+                                                <textarea name="description" id="publish" class="textarea" rows="5"
+                                                    placeholder="Write description here..."></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div id="feed-upload" class="feed-upload">
+
+                                        </div>
+
+                                        <div id="options-summary" class="options-summary"></div>
+
+                                        <div id="tag-suboption" class="is-autocomplete is-suboption is-hidden">
+                                            <!-- Tag friends suboption -->
+                                            <div id="tag-list" class="tag-list"></div>
+                                            <div class="control">
+                                                <input id="users-autocpl" type="text" class="input"
+                                                    placeholder="Who are you with?">
+                                                <div class="icon">
+                                                    <i data-feather="search"></i>
+                                                </div>
+                                                <div class="close-icon is-main">
+                                                    <i data-feather="x"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /Tag friends suboption -->
+
+                                        <!-- Activities suboption -->
+
+                                        <!-- /Activities suboption -->
+
+                                        <!-- Location suboption -->
+
+
+                                        <!-- Link suboption -->
+
+
+                                        <!-- GIF suboption -->
+
+                                    </div>
+                                    <!-- /Compose form -->
+
+                                    <!-- General extended options -->
+                                    <div id="extended-options" class="compose-options is-hidden">
+                                        <div class="columns is-multiline is-full">
+                                            <!-- Upload action -->
+                                            <div class="column is-6 is-narrower">
+                                                <div class="compose-option is-centered">
+                                                    <i data-feather="camera"></i>
+                                                    <span>Photo</span>
+                                                    <input id="group-avatar-upload" type="file"
+                                                        accept=".png, .jpg, .jpeg" onchange="readURL(this)" multiple>
+                                                </div>
+                                            </div>
+                                            <!-- Mood action -->
+                                        </div>
+                                    </div>
+                                            <!-- /General extended options -->
+
+                                            <!-- General basic options -->
+                                            <div id="basic-options" class="compose-options">
+                                                <!-- Upload action -->
+                                                <div class="compose-option">
+                                                    <i data-feather="camera"></i>
+                                                    <span>Media</span>
+                                                    <input type="file" name="images" id="media-input" accept=".png, .jpg, .jpeg"
+                                                        onchange="mediaFiles()">
+                                                </div>
+                                                <!-- Mood action -->
+                                            </div>
+                                            <!-- /General basic options -->
+
+                                            <!-- Hidden Options -->
+                                            <div class="hidden-options">
+                                                <div class="target-channels">
+                                                    <!-- Publication Channel -->
+                                                    <div class="channel">
+                                                        <div class="channel-icon">
+                                                            <i data-feather="globe"></i>
+                                                        </div>
+                                                        <div class="channel-name">Language</div>
+                                                        <!-- Dropdown menu -->
+                                                        <div id="dropdown-language"
+                                                            class="dropdown is-spaced is-modern is-right is-neutral dropdown-trigger">
+                                                            <div>
+                                                                <input type="text" name="language" id="language" hidden>
+                                                                <button style="min-width: 220px;" class="button"
+                                                                    aria-haspopup="true">
+                                                                    <!-- <i class="main-icon" data-feather="smile"></i> -->
+                                                                    <span id="btn_lang">Options</span>
+                                                                    <i class="caret" data-feather="chevron-down"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="dropdown-menu" role="menu">
+                                                                <div class="dropdown-content">
+                                                                    {% for item in languages %}
+                                                                    <button
+                                                                        onclick="valSet('btn_lang', 'language', '{{ item }}')"
+                                                                        class="dropdown-item"
+                                                                        style="border: none; background: none; cursor: pointer;">
+                                                                        <div class="media">
+                                                                            <i data-feather="globe"></i>
+                                                                            <div class="media-content">
+                                                                                <h3>{{ item }}</h3>
+                                                                                <small>{{ item }} based Question</small>
+                                                                            </div>
+                                                                        </div>
+                                                                    </button>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Publication Channel -->
+                                                    <div class="channel">
+                                                        <div class="channel-icon">
+                                                            <i data-feather="briefcase"></i>
+                                                        </div>
+
+                                                        <div class="channel-name">Scope of Work</div>
+                                                        <!-- Dropdown menu -->
+                                                        <div id="dropdown-scope"
+                                                            class="dropdown is-spaced is-modern is-right is-neutral dropdown-trigger">
+                                                            <div>
+                                                                <input type="text" name="scope_of_work"
+                                                                    id="scope-of-work" hidden>
+                                                                <button style="min-width: 220px;" class="button"
+                                                                    aria-haspopup="true">
+                                                                    <!-- <i class="main-icon" data-feather="smile"></i> -->
+                                                                    <span id="btn_sow">Choose</span>
+                                                                    <i class="caret" data-feather="chevron-down"></i>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="dropdown-menu" role="menu">
+                                                                <div class="dropdown-content">
+                                                                    {% for item in scopes %}
+                                                                    <button
+                                                                        onclick="valSet('btn_sow', 'scope-of-work', '{{ item }}')"
+                                                                        class="dropdown-item"
+                                                                        style="border: none; background: none; cursor: pointer;">
+                                                                        <div class="media">
+                                                                            <i data-feather="globe"></i>
+                                                                            <div class="media-content">
+                                                                                <h3>{{ item }}</h3>
+                                                                                <small>Choose to {{ item }}</small>
+                                                                            </div>
+                                                                        </div>
+                                                                    </button>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <!-- Footer buttons -->
+                                            <div class="more-wrap">
+                                                <!-- View more button -->
+<!--                                                <button id="show-compose-friends" type="button" class="button is-more"-->
+<!--                                                    aria-haspopup="true">-->
+<!--                                                    <i data-feather="more-vertical"></i>-->
+<!--                                                    <span>View More</span>-->
+<!--                                                </button>-->
+                                                <!-- Publish button -->
+                                                <button id="publish-button" onclick="postSubmit()" type="button"
+                                                    class="button is-solid accent-button is-fullwidth is-disabled">
+                                                    Publish
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    </form>
+                    <!-- Post 1 -->
+                    <div class="no-post"></div>
+
+                    <div id="refresh-div">
+                        <div id="flag-reason" class="is-hidden" style="z-index: 1000; width: 50%; position: fixed; top: 30%; left: 25%; border: 2px solid black; background: white; border-radius: 12px;">
+                            <a onclick="closeFlag()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="feather feather-x">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </a>
+                            <div class="column is-12" style="margin-top: 10px;">
+                                <div class="field field-group" style="margin-top: 5px;">
+                                    <label>Reason</label>
+                                    <div class="control has-icon">
+                                        <input type="text" class="input is-fade" placeholder="Reason..." name="flag-reason" required>
+                                        <div class="form-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button onclick="FlagPost()" style="margin-top: 10px;" class="button is-solid primary-button raised">Submit</button>
+                            </div>
+                            <input type="text" name="flag-post-id" hidden>
+                        </div>
+                    </div>
+
+                    <!-- Load more posts -->
+                    <div id="load-more-btn" class=" load-more-wrap narrow-top has-text-centered">
+                        <a onclick="morePost()" id="load-more" class="load-more-button">Load More</a>
+                    </div>
+                    <div id="no-post-tag" class=" load-more-wrap narrow-top has-text-centered" style="display: none;">
+                        <p>No more posts!...</p>
+                    </div>
+                    <!-- /Load more posts -->
+
+                </div>
+                <!-- /Middle column -->
+
+                <!-- Right side column -->
+                <div class="column is-3">
+
+                    <!-- Stories widget -->
+                    <!-- /partials/widgets/stories-widget.html -->
+                    <div class="card">
+                        <div class="card-heading is-bordered">
+                            <h4>Filters</h4>
+                        </div>
+                        <div class="card-body no-padding">
+                            <div class="feed-menu-v1">
+                                <ul style="padding-right: 0;" class="main-menu">
+                                    <li class="is-active">
+                                        <a>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-activity">
+                                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                            </svg>
+                                            <span>Category</span>
+                                            <span class="close-icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-chevron-right">
+                                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                                </svg>
+                                            </span>
+                                        </a>
+                                        <ul class="submenu" style="display: block;">
+                                            <li class="is-subactive">
+                                                <a id="filter-all" onclick="clearAllFilters()">Sort By All</a>
+                                            </li>
+                                            {% for item in category %}
+                                            <li class="is-subactive">
+                                                <a id="filter-all" onclick="setCategory('{{ item }}')">{{ item }}</a>
+                                            </li>
+                                            {% endfor %}
+
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-help-circle">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            <span>LANGUAGES</span>
+                                            <span class="close-icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-chevron-right">
+                                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                                </svg>
+                                            </span>
+                                        </a>
+                                        <ul class="submenu">
+                                            {% for item in languages %}
+                                            <li>
+                                                <a id="filter-python" onclick="setLanguage('{{ item }}')">{{ item }}</a>
+                                            </li>
+                                            {% endfor %}
+
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <img src="https://img.icons8.com/ios/16/000000/info.png" />
+                                            <span>Scope</span>
+                                            <span class="close-icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-chevron-right">
+                                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                                </svg>
+                                            </span>
+                                        </a>
+                                        <ul class="submenu">
+                                            {% for item in scopes %}
+                                            <li>
+                                                <a id="filter-scope1" onclick="setScope('{{ item }}')">{{ item }}</a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Birthday widget -->
+                    <!-- /partials/widgets/birthday-widget.html -->
+                    </div>
+                <!-- /Right side column -->
+            </div>
+        </div>
+        <!-- /Feed page main wrapper -->
+    </div>
+    <!-- /Container -->
+
+    <!-- Create group modal in compose card -->
+    <!-- /partials/pages/feed/modals/create-group-modal.html -->
+
+    <!-- Albums onboarding modal -->
+    <!-- /partials/pages/feed/modals/albums-help-modal.html -->
+
+    <!-- Album upload modal -->
+    <!-- /partials/pages/feed/modals/albums-modal.html -->
+
+    <!-- Live video onboarding modal -->
+    <!-- /partials/pages/feed/modals/videos-help-modal.html -->
+
+
+
+
+    <!-- Live video modal -->
+    <!-- /partials/pages/feed/modals/videos-modal.html -->
+
+    <!-- Share from feed modal -->
+    <!-- /partials/pages/feed/modals/share-modal.html -->
+
+    <!-- No Stream modal -->
+    <!-- /partials/pages/feed/modals/no-stream-modal.html -->
+<!--    <div id="no-stream-modal" class="modal no-stream-modal is-xsmall has-light-bg">-->
+<!--        <div class="modal-background"></div>-->
+<!--        <div class="modal-content">-->
+
+<!--            <div class="card">-->
+<!--                <div class="card-heading">-->
+<!--                    <h3></h3>-->
+<!--                    &lt;!&ndash; Close X button &ndash;&gt;-->
+<!--                    <div class="close-wrap">-->
+<!--                        <span class="close-modal">-->
+<!--                            <i data-feather="x"></i>-->
+<!--                        </span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="card-body has-text-centered">-->
+
+<!--                    <div class="image-wrap">-->
+<!--                        <img src="{% static 'social_assets/img/illustrations/characters/no-stream.svg' %}" alt="">-->
+<!--                    </div>-->
+
+<!--                    <h3>Streaming Disabled</h3>-->
+<!--                    <p>Streaming is not allowed from mobile web. Please use our mobile apps for mobile streaming.</p>-->
+
+<!--                    <div class="action">-->
+<!--                        <a href="index.html#demos-section" class="button is-solid accent-button raised is-fullwidth">Got-->
+<!--                            It</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <!-- Google places Lib -->
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyAGLO_M5VT7BsVdjMjciKoH1fFJWWdhDPU&amp;libraries=places">
+    </script>
+</div>
+
+
+
+
+
+
+
+{% endblock content %}
+{% block script %}
+<script>
+
+
+
+
+    function closeComment(id) {
+        $('#comments-wrap' + id).addClass('is-hidden');
+        $('#content-wrap' + id).removeClass('is-hidden');
+    }
+
+    var searchbox = document.getElementById('search_input');
+    searchbox.addEventListener('keyup', function () {
+        var search = false;
+        var searchQuery = this.value;
+        $('#tipue_drop_content').css('display', 'block');
+        $('#tipue_drop_wrapper').empty();
+        $(".is-post").each(function () {
+            if ($(this).data("description").includes(searchQuery)) {
+                search = true;
+                $('#tipue_drop_wrapper').append(`
+                <a onclick="searchResult(` + $(this).data("id") + `)">
+                    <div class="tipue_drop_item">
+                        <div class="tipue_drop_left">
+                            <img src="` + $(this).data("profile") + `" class="tipue_drop_image">
+                        </div>
+                        <div class="tipue_drop_right">
+                            ` + $(this).data("description") + `<div><small>` + $(this).data("username") + `</small>
+                        </div>
+                    </div>
+                </div>
+                </a>
+                `);
+            } else if ($(this).data("username").includes(searchQuery)) {
+                search = true;
+                $('#tipue_drop_wrapper').append(`
+                <a onclick="searchResult(` + $(this).data("id") + `)">
+                    <div class="tipue_drop_item">
+                        <div class="tipue_drop_left">
+                            <img src="` + $(this).data("profile") + `" class="tipue_drop_image">
+                        </div>
+                        <div class="tipue_drop_right">
+                            ` + $(this).data("description") + `
+                            <div>
+                                <small>` + $(this).data("username") + `</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                `);
+            }
+        });
+        if (search === false) {
+            $('#tipue_drop_wrapper').html(`
+            <div class="tipue_drop_item">
+                <div class="tipue_drop_right">
+                    <span style="color: red;">No search results!...</span>
+                </div>
+            </div>`);
+        }
+    });
+
+    function searchResult(id) {
+        $(".is-post").each(function () {
+            if ($(this).data("id") === id) {
+                $(this).css('display', 'block');
+            } else {
+                $(this).css('display', 'none');
+            }
+        });
+    }
+
+    $(document).ready(function () {
+
+        morePostOnReady();
+    });
+
+    function valSet(btn, des, val) {
+        document.getElementById(des).value = val;
+        if (des == 'category') {
+            if (btn === 'question-error') {
+                $('#question-error').addClass('is-active');
+                $('#discussion-informative').removeClass('is-active');
+            } else {
+                $('#question-error').removeClass('is-active');
+                $('#discussion-informative').addClass('is-active');
+            }
+        } else {
+            document.getElementById(btn).innerHTML = val;
+            if ($("#dropdown-language").hasClass('is-active')) {
+                $('#dropdown-language').removeClass('is-active');
+            } else {
+                $("#dropdown-scope").removeClass('is-active');
+            }
+        }
+    }
+
+    let extracted_code;
+    let process_description;
+    let original_code;
+    function formatCode()
+    {
+        let description = $('#publish').val();
+
+        if(description.indexOf('#')>=0) {
+            original_code = description.substring(
+                description.indexOf("#") + 2,
+                description.lastIndexOf("#") - 1);
+            console.log(original_code);
+
+            process_desc = description.replace(original_code, "");
+            process_description = process_desc.slice(0, -4);
+            extracted_code = hljs.highlightAuto(original_code).value;
+        }
+        else{
+            process_description = description;
+            extracted_code = '';
+        }
+    }
+
+    function postSubmit() {
+        var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
+        data.append("category", $("input[name='category']").val());
+
+        data.append("language", $("input[name='language']").val());
+        data.append("scope_of_work", $("input[name='scope_of_work']").val());
+        $('#feed-upload').children().each(function () {
+            var blobObject = blobCreationFromURL($(this).children("img").attr('src'));
+            data.append("images", blobObject);
+        });
+        formatCode();
+        data.append("description", process_description);
+        data.append("code", extracted_code);
+        $.ajax({
+            type: "POST",
+            url: "{% url 'post:post' %}",
+            data: data,
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response['Status'] === true) {
+                    location.reload();
+                } else {
+                    alert(response['Message']);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        });
+    }
+    // Function converts url to file
+    function blobCreationFromURL(dataURI) {
+        const splitDataURI = dataURI.split(',')
+        const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
+        const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
+
+        const ia = new Uint8Array(byteString.length)
+        for (let i = 0; i < byteString.length; i++)
+            ia[i] = byteString.charCodeAt(i)
+
+        return new Blob([ia], {
+            type: mimeString
+        })
+    }
+
+    function like(id, user) {
+        var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
+        if ($('#like-button' + id).hasClass('is-active')) {
+            $('#like-button' + id).removeClass('is-active');
+        } else {
+            $('#like-button' + id).addClass('is-active');
+        }
+        $.ajax({
+            async: true,
+            method: "POST",
+            url: "{% url 'post:like' %}",
+            data: {
+                csrfmiddlewaretoken: csrfmiddlewaretoken,
+                'id': id,
+                'user': user
+            },
+            success: function (response) {
+                $('.likes-display' + id).html(response['likes']);
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        });
+    }
+
+    function getCommentList(id) {
+        let url = "apiV1/comment/list/";
+        $.getJSON(url + `?post_id=${id}`, function (response) {
+            document.getElementById('comment-counter' + id).innerHTML = response.length;
+            $("#comment-header" + id).html("(" + response.length + ")");
+            document.getElementById('comment-body' + id).innerHTML = "";
+
+            $.each(response, function (cmt_id, data)
+            {
+                if (data['user_profile'] === '') {
+                    var profile = "{% static 'social_assets/img/avatars/dan.jpg' %}";
+                } else {
+                    var profile = window.location.origin + '/media/' + data['user_profile'];
+                }
+                document.getElementById('comment-body' + id).innerHTML +=
+                    `
+                            <div class="media is-comment">
+                            <div class="media-left">
+                                <div class="image">
+                                    <img src="` + profile + `"
+                                        data-demo-src="" data-user-popover="1" alt="">
+                                </div>
+                            </div>
+                            <div class="media-content">
+                                <a href="/user/profile/` + data['post_user_id'] +`">` + data['post_user'] + `</a>
+                                <span class="time">` + data['user'] + `  &nbsp;&nbsp; - &nbsp;&nbsp;`+ data['timestamp'] +` </span>
+                                <p>` + data['comment'] + `</p>
+
+                                <div class="controls">
+<!--                                    <div class="like-count">-->
+<!--                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>-->
+<!--                                        <span>4</span>-->
+<!--                                    </div>-->
+<!--                                    <div class="reply">-->
+<!--                                        <a>Reply</a>-->
+<!--                                    </div>-->
+<!--                                    <div class="edit">-->
+<!--                                        <a>Edit</a>-->
+<!--                                    </div>-->
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                    <div>
+                                        <div class="button">
+                                            <i data-feather="more-vertical"></i>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="x"></i>
+                                                    <div class="media-content">
+                                                        <h3>Hide</h3>
+                                                        <small>Hide this comment.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="flag"></i>
+                                                    <div class="media-content">
+                                                        <h3>Report</h3>
+                                                        <small>Report this comment.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+            });
+
+        });
+    }
+
+    function postComment(id) {
+        var formData = new FormData();
+        var comment = $("textarea[name='comment" + id + "']").val();
+        if (comment === "") {
+            $("#comment-text-action" + id).css({
+                display: "block"
+            });
+        } else {
+            $("#comment-text-action" + id).css({
+                display: "none"
+            });
+            formData.append('csrfmiddlewaretoken', $("input[name='csrfmiddlewaretoken']").val());
+            formData.append('id', id);
+            formData.append('comment', comment);
+            $.ajax({
+                type: "POST",
+                url: "{% url 'post:comment' %}",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response['status'] === false) {
+                        alert(response['Message']);
+                    }
+                    $("textarea[name='comment" + id + "']").val("");
+                    getSingleComment(id);
+                },
+                error: function (response) {
+                    alert(response['Message']);
+                },
+            });
+        }
+    }
+
+    function display_comments(id) {
+        $("#comment-text-action" + id).css({
+            display: "none"
+        });
+        $('#comments-wrap' + id).removeClass('is-hidden');
+        $('#content-wrap' + id).addClass('is-hidden');
+        getCommentList(id);
+    }
+
+    function postOptions(id) {
+        $("#options-" + id).addClass('is-active');
+    }
+
+    function BookMark(id){
+        var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
+        $("#options-" + id).removeClass('is-active');
+        $.ajax({
+            async: true,
+            method: "POST",
+            url: "{% url 'post:book-mark' %}",
+            data: {
+                csrfmiddlewaretoken: csrfmiddlewaretoken,
+                'id': id,
+            },
+            success: function (response) {
+                if(response['Status'] === false){
+                    alert(response['Message']);
+                }
+                else if(response['Status'] === 1){
+                    $('#book-mark-' + id).css('fill', '#1589FF');
+                }
+                else{
+                    $('#book-mark-' + id).css('fill', 'none');
+                }
+            },
+            error: function (response) {
+                alert(response['Message']);
+            },
+        });
+    }
+
+    function FlagPost(){
+        var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
+        $("#options-" + id).removeClass('is-active');
+        $('#flag-reason').removeClass('is-hidden');
+        var id = $("input[name='flag-post-id']").val();
+        var reason = $("input[name='flag-reason']").val();
+        if(reason === ""){
+            alert("Please tell us the reason...");
+        }
+        else{
+            $.ajax({
+                async: true,
+                method: "POST",
+                url: "{% url 'post:flag-post' %}",
+                data: {
+                    csrfmiddlewaretoken: csrfmiddlewaretoken,
+                    'id': id,
+                    'reason': reason,
+                },
+                success: function (response) {
+                    console.log(response, id);
+                    if(response['Status'] === false){
+                        alert(response['Message']);
+                    }
+                    else if(response['Status'] === true){
+                        $('#flag-post-' + id).css('fill', '#FF0000');
+                        $('#feed-post-' + id).addClass('is-hidden');
+                        $('#flag-reason').addClass('is-hidden');
+                        alert('Your response has been submitted successfully...');
+                    }
+                    // else{
+                    //     $('#flag-post-' + id).css('fill', 'none');
+                    // }
+                },
+                error: function (response) {
+                    alert(response['Message']);
+                },
+            });
+        }
+    }
+
+    function openFlag(id){
+        $('#flag-reason').removeClass('is-hidden');
+        $("input[name='flag-post-id']").val(id);
+    }
+
+    function closeFlag(){
+        $('#flag-reason').addClass('is-hidden');
+    }
+
+    function mediaFiles() {
+        $('#media-input').attr('disabled', true);
+            const file = document.querySelector('#media-input').files;
+        file.forEach(element => {
+            getBase64(element).then(
+                data => $("#feed-upload").append(`
+                    <div class="upload-wrap">
+                        <img src="` + data + `">
+                        <span class="remove-file">
+                            <svg onclick="$(this).parent().parent().remove(); enableInput();" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18">
+                                </line><line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </span>
+                    </div>
+                `)
+            );
+        });
+    }
+    function enableInput()
+    {
+        $('#media-input').removeAttr('disabled');
+    }
+
+    function getBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+</script>
+    {% include 'post/feeds-js.html' %}
+
+{% endblock %}

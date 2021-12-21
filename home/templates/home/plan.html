@@ -20,7 +20,7 @@
 <div class="section-full bg-white content-inner-2">
     <div class="container">
         <div class="section-head text-center">
-            <span class="sub-title text-primary">Pricing Plan</span>
+            <!-- <span class="sub-title text-primary">Pricing Plan</span> -->
             <h2 class="title text-secondry">Simple pricing that works</h2>
         </div>
         <div class="row">
@@ -34,14 +34,14 @@
                         <div class="pricingtable-title">
                             <h2>{{ object.title }}</h2>
                         </div>
-                        <ul class="pricingtable-features">
+                        <ul class="pricingtable-features px-4">
                             <li>{{object.description}}</li>
                             <!-- <li>30-40 Keywords</li>
                             <li>Connect Domain</li>
                             <li>Ideal for smaller professional websites</li>
                             <li>Business &amp; eCommerce</li> -->
                         </ul>
-                        <div class="pricingtable-footer"> <a href="{% url 'order:payment-request' object.id %}" class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a> </div>
+                        <div class="pricingtable-footer"> <a href="{% url 'order:payment-request' object.id %}" class="btn outline outline-1 radius-xl btn-aware">Buy Now<span></span></a> </div>
                     </div>
                 </div>
             </div>
@@ -49,10 +49,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 </div>
 </div>
 <!-- Content END-->

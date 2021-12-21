@@ -1,0 +1,50 @@
+{% extends 'analytics/base.html' %}
+{% load crispy_forms_tags %} 
+{% load static %} 
+
+{% block title %}
+<h2 class="has-text-centered">
+    Plan Details
+</h2>
+{% endblock title %}
+
+{% block data %}
+
+
+<div class="column is-12">
+    <!-- user stats -->
+    <div class="stats-wrapper">
+        <div class="stats-header">
+            
+            <div class="user-info">
+                <h4>Plan {{object.title}}</h4>
+                
+            </div>
+            <div class="main-stats">
+                <div class="stat-block">
+                    <h4>Cost</h4>
+                    <p>₹ {{object.cost}}</p>
+                </div>
+                <div style="border-right: 0;" class="stat-block is-centered">
+                    <h4>Duration</h4>
+                    <p>{{object.duration}} days</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div style="border:1px solid #e0e0e0; padding:30px; border-radius:8px;" class="achievements">
+            
+            <div class="ml-5">
+                {{object.description}}
+            </div>
+            
+            
+        </div>
+
+        
+    </div>
+</div>
+
+
+{% endblock data %}

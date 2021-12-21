@@ -5,6 +5,7 @@ from django.conf import settings
 
 from . import views
 
+app_name='user'
 
 urlpatterns = [
     # Social Login
@@ -35,6 +36,22 @@ urlpatterns = [
     path('password-reset-complete/',
          auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'),
          name='password_reset_complete'),
+
+    path('bookmark/list/', views.BookMarkListView.as_view(), name='bookmark-list'),
+    path('profile/', views.UserProfileView.as_view(), name='profile'),
+    path('connections/', views.UserConnection.as_view(), name='connections'),
+    path('accept/request/', views.AcceptUserRequest.as_view(), name='accept-user'),
+    path('send/request/', views.SendUserRequest.as_view(), name='send-request'),
+
+    path('profile/<int:pk>/', views.UserFriendProfileView.as_view(), name='friend-profile'),
+
+
+    # Userdate urls
+    path('userdata/', views.UserData.as_view(), name='userdata'),
+
+    path('send/user/request/<int:user_id>/', views.SendRequest.as_view(), name='send-user-request'),
+    path('accept/user/request/<int:id>/', views.AcceptRequest.as_view(), name='accept-user-request'),
+
 ]
 
 if settings.DEBUG:

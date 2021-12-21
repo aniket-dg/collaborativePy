@@ -25,6 +25,8 @@ def handler500(request, *args, **kwargs):
 class Home(View):
     def get(self, *args, **kwargs):
         context = {}
+        if self.request.user.is_authenticated:
+            return redirect('post:post')
         # context['parent_category_list'] = ParentCategory.objects.all()
         return render(self.request, 'home/home.html', context)
 

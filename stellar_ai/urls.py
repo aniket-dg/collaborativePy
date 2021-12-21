@@ -12,12 +12,18 @@ urlpatterns = [
     path('user/', include('users.urls')),
     path('chat/', include('chat.urls')),
     path('order/', include('order.urls')),
+    path('post/', include('post.urls')),
+    path('analytics/', include('analytics.urls')),
     path('', include('home.urls')),
+
+    # Oauth
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
     path('', views.handler403),
     path('', views.handler404),
     path('', views.handler500),
     path('__debug__/', include(debug_toolbar.urls)),
+    path(r'', include('user_sessions.urls', 'user_sessions')),
 ]
 
 handler403 = 'home.views.handler403'

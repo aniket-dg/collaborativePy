@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plan Update View</title>
+</head>
+<body>
+    <form method="post" action="{% url 'analytics:user-plan-update' %}">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{ request.user.id }}">
+        <input type="hidden" name="plan_id" value="3">
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

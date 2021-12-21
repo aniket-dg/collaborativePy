@@ -1,0 +1,281 @@
+from datetime import datetime, timedelta
+
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import render, redirect
+
+# Create your views here.
+from django.views import View
+from django.views.generic import CreateView, UpdateView, DetailView, ListView, DeleteView
+
+from chat.forms import PostCreateForm
+from post.models import Post, FlagInappropriate
+from home.models import Contact
+from order.models import Plan
+from users.models import User
+
+
+class PlanCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Plan
+    fields = '__all__'
+    template_name = 'analytics/plan_create.html'
+
+    def form_valid(self, form):
+        plan = form.instance
+        plan.save()
+        messages.success(self.request, "Plan created successfully!")
+        return redirect('analytics:plan-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class PlanUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Plan
+    fields = '__all__'
+    template_name = 'analytics/plan_create.html'
+
+    def form_valid(self, form):
+        plan = form.instance
+        plan.save()
+        messages.success(self.request, "Plan updated successfully!")
+        return redirect('analytics:plan-detail', pk=self.kwargs.get('pk'))
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class PlanDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Plan
+    template_name = 'analytics/plan_detail.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class PlanListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Plan
+    template_name = 'analytics/plan_list.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class PlanDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Plan
+    template_name = 'analytics/delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        plan = self.get_object()
+        plan.delete()
+        messages.success(self.request, "Plan deleted!")
+        return redirect('analytics:plan-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
+class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Post
+    form_class = PostCreateForm
+    template_name = 'analytics/post_create.html'
+
+    def form_valid(self, form):
+        post = form.instance
+        post.save()
+        messages.success(self.request, "Post created successfully!")
+        return redirect('analytics:post-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    form_class = PostCreateForm
+    template_name = 'analytics/post_create.html'
+
+    def form_valid(self, form):
+        post = form.instance
+        post.save()
+        messages.success(self.request, "Post updated successfully!")
+        return redirect('analytics:post-detail', pk=self.kwargs.get('pk'))
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class PostDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Post
+    template_name = 'analytics/post_detail.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class PostListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Post
+    template_name = 'analytics/post_list.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'analytics/delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        plan = self.get_object()
+        plan.delete()
+        messages.success(self.request, "Post deleted!")
+        return redirect('analytics:post-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
+class ContactListView(LoginRequiredMixin, ListView):
+    model = Contact
+    template_name = 'analytics/contact_list.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class ContactStatusUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def get(self, *args, **kwargs):
+        contact = Contact.objects.filter(id=self.kwargs.get('pk')).first()
+        if contact:
+            contact.seen = True
+            contact.save()
+            return redirect('analytics:contact-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class ContactDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Contact
+
+    def delete(self, request, *args, **kwargs):
+        contact = self.get_object()
+        contact.delete()
+        messages.success(self.request, "Contact Deleted!")
+        return redirect('analytics:contact-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
+class FlagInappropriateListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = FlagInappropriate
+    template_name = 'analytics/flaginappropriate_list.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class FlagInappropriateDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = FlagInappropriate
+
+    def delete(self, request, *args, **kwargs):
+        flag = self.get_object()
+        post = flag.post
+        post.delete()
+        messages.success(self.request, "Post Deleted!")
+        return redirect('analytics:flag_inappropriate-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
+class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = User
+    template_name = 'analytics/user_list.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class UserDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = User
+    template_name = 'analytics/user_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserDetailView, self).get_context_data(**kwargs)
+        user = self.get_object()
+        context['plan_exist'] = user.is_plan_available()
+        context['remaining_days'] = user.remaining_days()
+        context['plans'] = Plan.objects.all()
+        return context
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class UserPlanUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
+
+    def get(self,*args, **kwargs):
+        return render(self.request, 'analytics/plan_update.html')
+
+    def post(self, *args, **kwargs):
+        pk = self.request.POST.get('user_id')
+        user = User.objects.filter(id=int(pk)).last()
+        if not user:
+            messages.warning(self.request, "User not found")
+            return redirect('analytics:user-list')
+        if not user.payment:
+            messages.warning(self.request, "User doesn't have any active plan")
+            return redirect('analytics:user-list')
+
+        plan_id = self.request.POST.get('plan_id')
+        plan = Plan.objects.filter(id=int(plan_id)).last()
+        if not plan:
+            messages.warning(self.request, "Plan not found")
+            return redirect('analytics:user-list')
+        payment = user.payment
+        remaining_days = user.remaining_days()
+
+        payment.plan = plan
+        today = datetime.now().date()
+        valid_till = today + timedelta(int(plan.duration))
+        payment.valid_till = valid_till
+        payment.save()
+        valid_till = payment.valid_till + timedelta(int(remaining_days))
+        payment.valid_till = valid_till
+        payment.save()
+        user.save()
+        messages.success(self.request, "Plan updated successfully")
+        return redirect('analytics:user-detail', pk=user.id)
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = User
+
+    def delete(self, request, *args, **kwargs):
+        user = self.get_object()
+        user.delete()
+        messages.success(self.request, "User deleted!")
+        return redirect('analytics:user-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
