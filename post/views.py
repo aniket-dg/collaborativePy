@@ -211,9 +211,9 @@ class LoadMore(View):
 
     def get(self, *args, **kwargs):
         if self.request.GET['category'] == 'normal':
-            p = Paginator(Post.objects.filter(category__in=['Question/Errors', 'Discussion and Informative']), 2)
+            p = Paginator(Post.objects.filter(category__in=['Question/Errors', 'Discussion and Informative']), 10)
         else:
-            p = Paginator(Post.objects.filter(category__in=['Skeleton Code']), 2)
+            p = Paginator(Post.objects.filter(category__in=['Skeleton Code']), 10)
         current_status = int(self.request.GET['current_posts'])
         if p.count <= current_status:
             return JsonResponse({
@@ -372,7 +372,7 @@ class LoadMoreSkeletonPost(View):
     """
 
     def get(self, *args, **kwargs):
-        p = Paginator(SkeletonPost.objects.all(), 2)
+        p = Paginator(SkeletonPost.objects.all(), 10)
         current_status = int(self.request.GET['current_posts'])
         if p.count <= current_status:
             return JsonResponse({
@@ -424,6 +424,7 @@ class LoadMoreSkeletonPost(View):
         return JsonResponse({'posts': posts})
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class SkeletonPostCommentView(View):
     """
     :param request:
@@ -462,10 +463,15 @@ class LoadMorePost(View):
     def get(self, *args, **kwargs):
         self_post = self.request.GET.get('self')
         if self_post:
-            print("Aniket self")
-            p = Paginator(Post.objects.filter(user=self.request.user), 2)
+            user_id = self.request.GET.get('user_id')
+            if user_id:
+                user = User.objects.filter(id=int(user_id)).last()
+                if user:
+                    p = Paginator(Post.objects.filter(user=user), 10)
+            else:
+                p = Paginator(Post.objects.filter(user=self.request.user), 10)
         else:
-            p = Paginator(Post.objects.all(), 2)
+            p = Paginator(Post.objects.all(), 10)
 
         current_status = int(self.request.GET['current_posts'])
         if p.count <= current_status:
@@ -507,9 +513,9 @@ class LoadMorePost(View):
             except ValueError:
                 image5 = ""
             posts.append({
-                'user': post.user.username, 'profile': profile, 'post_id': post.id, 'category': post.category,
+                'user': post.user.get_full_name(),'user_id':post.user.id, 'profile': profile, 'post_id': post.id, 'category': post.category,
                 'description': post.description, 'language': post.language, 'likes': post.liked_by.count(),
-                'scope_of_work': post.scope_of_work, 'timestamp': post.timestamp.strftime("%H:%M:%S %d-%m-%Y"),
+                'scope_of_work': post.scope_of_work, 'timestamp': post.user.username,
                 'like_status': True if self.request.user in post.liked_by.all() else False, 'image1': image1,
                 'comments': PostComment.objects.filter(post=post).count(), 'image2': image2, 'image3': image3,
                 'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.code
@@ -521,13 +527,18 @@ class LoadMorePost(View):
 class DeletePost(View):
     def get(self, *args, **kwargs):
         post_id = self.kwargs.get('pk')
-        post = Post.objects.filter(id=post_id)
+        post = Post.objects.filter(id=post_id, user=self.request.user).last()
         redirect_url = self.request.META.get('HTTP_REFERER')
         if not post:
             messages.warning(self.request, "Post not exist")
             if redirect_url:
                 return redirect(redirect_url)
             return redirect('user:profile')
+        post.delete()
+        messages.warning(self.request, "Post deleted")
+        if redirect_url:
+            return redirect(redirect_url)
+        return redirect('user:profile')
 
 
 class LoadMoreComments(View):
@@ -545,7 +556,7 @@ class LoadMoreComments(View):
                 'Status': False,
                 'Message': 'No more posts!...'
             })
-        new_comments = list(p.get_page((current_status + 4) / 2))
+        new_comments = list(p.get_page((current_status + 2) // 2))
         comments = []
         for item in new_comments:
             if not item.user.profile_image:
@@ -556,8 +567,48 @@ class LoadMoreComments(View):
                 'id': item.id,
                 'post_id': item.post.id,
                 'comment': item.comment,
-                'timestamp': item.timestamp,
-                'user_id': item.user.id,
+                'timestamp': item.timestamp.strftime("%d %b, %Y"),
+                'post_user_id': item.user.id,
+                'user': item.user.username,
+                'post_user': item.user.get_full_name(),
+                'user_email': item.user.email,
+                'user_profile': profile
+            })
+
+        return JsonResponse({
+            'comments': comments
+        })
+
+
+class LoadMoreSkeletonComments(View):
+    def get(self, *args, **kwargs):
+        post_id = self.request.GET.get('post_id')
+        post = SkeletonPost.objects.filter(id=post_id).last()
+        if not post:
+            return JsonResponse({})
+        comment_list = SkeletonPostComment.objects.filter(post=post)
+        p = Paginator(comment_list, 4)
+
+        current_status = int(self.request.GET.get('current_comments'))
+        if p.count <= current_status:
+            return JsonResponse({
+                'Status': False,
+                'Message': 'No more comments!...'
+            })
+        new_comments = list(p.get_page((current_status + 2) / 2))
+        comments = []
+        for item in new_comments:
+            if not item.user.profile_image:
+                profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
+            else:
+                profile = post.user.profile_image.url
+            comments.append({
+                'id': item.id,
+                'post_id': item.post.id,
+                'comment': item.comment,
+                'timestamp': item.timestamp.strftime("%d %b, %Y"),
+                'post_user_id': item.user.id,
+                'post_user': item.user.get_full_name(),
                 'user': item.user.username,
                 'user_email': item.user.email,
                 'user_profile': profile
@@ -585,7 +636,37 @@ class GetComment(View):
                 'post_id': item.post.id,
                 'comment': item.comment,
                 'timestamp': item.timestamp,
-                'user_id': item.user.id,
+                'post_user_id': item.user.id,
+                'user': item.user.username,
+                'post_user': item.user.get_full_name(),
+                'user_email': item.user.email,
+                'user_profile': profile
+            })
+
+        return JsonResponse({
+            'comments': comments
+        })
+
+
+class GetSkeletonComment(View):
+    def get(self, *args, **kwargs):
+        post_id = self.request.GET.get('post_id')
+        post = SkeletonPost.objects.filter(id=post_id).last()
+        comment_list = SkeletonPostComment.objects.filter(post=post).first()
+        comment_list = [comment_list]
+        comments = []
+        for item in comment_list:
+            if not item.user.profile_image:
+                profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
+            else:
+                profile = item.post.user.profile_image.url
+            comments.append({
+                'id': item.id,
+                'post_id': item.post.id,
+                'comment': item.comment,
+                'timestamp': item.timestamp.strftime("%d %b, %Y"),
+                'post_user_id': item.user.id,
+                'post_user': item.user.get_full_name(),
                 'user': item.user.username,
                 'user_email': item.user.email,
                 'user_profile': profile
@@ -595,9 +676,10 @@ class GetComment(View):
             'comments': comments
         })
 
+
 class LoadMoreBookmarkPost(View):
     def get(self, *args, **kwargs):
-        p = Paginator(BookMark.objects.filter(user=self.request.user), 2)
+        p = Paginator(BookMark.objects.filter(user=self.request.user), 10)
 
         current_status = int(self.request.GET['current_posts'])
         if p.count <= current_status:
@@ -637,9 +719,12 @@ class LoadMoreBookmarkPost(View):
             except ValueError:
                 image5 = ""
             posts.append({
-                'user': post.post.user.username, 'profile': profile, 'post_id': post.post.id, 'category': post.post.category,
-                'description': post.post.description, 'language': post.post.language, 'likes': post.post.liked_by.count(),
-                'scope_of_work': post.post.scope_of_work, 'timestamp': post.post.timestamp.strftime("%H:%M:%S %d-%m-%Y"),
+                'user': post.post.user.get_full_name(), 'profile': profile, 'post_id': post.post.id,
+                'category': post.post.category,
+                'description': post.post.description, 'language': post.post.language,
+                'likes': post.post.liked_by.count(),
+                'scope_of_work': post.post.scope_of_work,
+                'timestamp': post.post.user.username,
                 'like_status': True if self.request.user in post.post.liked_by.all() else False, 'image1': image1,
                 'comments': PostComment.objects.filter(post=post.post).count(), 'image2': image2, 'image3': image3,
                 'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.post.code

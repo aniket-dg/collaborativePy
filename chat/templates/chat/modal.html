@@ -86,7 +86,7 @@
 
                             <div class="profile-body">
                                 <div class="avatar avatar-xl">
-                                    <img class="avatar-img" id="receiver_profile_image_url" src="" alt="#">
+                                    <img class="avatar-img" style="object-fit:cover;" id="receiver_profile_image_url" src="" alt="#">
                                 </div>
 
                                 <h4 class="mb-1" id="receiver_username"></h4>
@@ -211,7 +211,7 @@
 
                             <div class="profile-body">
                                 <div class="avatar avatar-xl">
-                                    <img class="avatar-img" id="chatPartner_profile_image" src="{{ request.user.profile_image.url }}" alt="#">
+                                    <img class="avatar-img" style="object-fit:cover;" id="chatPartner_profile_image" src="{{ request.user.profile_image.url }}" alt="#">
 
                                     <a href="#" class="badge badge-lg badge-circle bg-primary text-white border-outline position-absolute bottom-0 end-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -278,23 +278,23 @@
                         <hr class="hr-bold modal-gx-n my-0">
 
                         <!-- List -->
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <div class="row align-items-center gx-6">
-                                    <div class="col">
-                                        <h5>Notifications</h5>
-                                        <p>Enable sound notifications</p>
-                                    </div>
+<!--                        <ul class="list-group list-group-flush">-->
+<!--                            <li class="list-group-item">-->
+<!--                                <div class="row align-items-center gx-6">-->
+<!--                                    <div class="col">-->
+<!--                                        <h5>Notifications</h5>-->
+<!--                                        <p>Enable sound notifications</p>-->
+<!--                                    </div>-->
 
-                                    <div class="col-auto">
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="user-notification-check">
-                                            <label class="form-check-label" for="user-notification-check"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+<!--                                    <div class="col-auto">-->
+<!--                                        <div class="form-check form-switch">-->
+<!--                                            <input class="form-check-input" type="checkbox" id="user-notification-check">-->
+<!--                                            <label class="form-check-label" for="user-notification-check"></label>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                        </ul>-->
                         <!-- List -->
 
                         <!-- <hr class="hr-bold modal-gx-n my-0"> -->
@@ -414,7 +414,7 @@
 
                                 <div class="profile-body">
                                     <div class="avatar avatar-xl">
-                                        <img class="avatar-img" id="receiver_group_image_url" src="" alt="#">
+                                        <img class="avatar-img" style="object-fit:cover;" id="receiver_group_image_url" src="" alt="#">
 
                                         <a href="#" class="badge badge-lg badge-circle bg-primary text-white border-outline position-absolute bottom-0 end-0">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -436,7 +436,7 @@
                         <!-- List -->
                         <ul class="list-group list-group-flush">
 
-                            <li class="list-group-item">
+                            <li class="list-group-item" id="add-member-to-group">
                                 <div class="row align-items-center gx-6">
                                     <div class="col" onclick="['active', 'show'].forEach(element => document.getElementById('add-chat-members-form').classList.toggle(element))">
                                         <h5>Add Member</h5>
@@ -452,7 +452,7 @@
                                     <!-- Members -->
                                     <form action="" method="GET" class="tab-pane fade" id="add-chat-members-form" role="tabpanel">
                                         {% csrf_token %}
-                                        <input type="hidden" name="pk" id="add-chat-member-group-id" value="4">
+                                        <input type="hidden" name="pk" id="add-chat-member-group-id" value="">
                                         <div class="d-flex justify-content-end mt-3">
                                             <button class="btn btn-primary" id="add-chat-members-form-btn" style="padding: 0.4rem 1rem;" disabled type="submit">
                                                 Add Selected &#43;
@@ -471,18 +471,18 @@
                                                     <div class="row align-items-center gx-5">
                                                         <div class="col-auto">
                                                             <div class="avatar ">
-                                                                    <img class="avatar-img" src="{{ user.profile_image.url }}" alt="">
+                                                                    <img class="avatar-img" style="object-fit:cover;" src="{{ user.profile_image.url }}" alt="">
                                                             </div>
                                                         </div>
                                                         <div class="col">
-                                                            <h5>{{ user.username }}</h5>
-                                                            <!-- <p>last seen 3 days ago</p> -->
+                                                            <h5>{{ user.get_full_name }}</h5>
+                                                            <p>{{user.username}}</p>
                                                         </div>
                                                         <div class="col-auto">
                                                             <div class="form-check">
                                                                 <!-- <input class="form-check-input" type="checkbox" value="{{ user.id }}" name="groupMember[]" id="id-add-member-{{ user.id }}"> -->
 
-                                                                <input class="form-check-input" onchange="checkIfUsersSelected(event, this, 'add-chat-members-form')" type="checkbox" value="{{ user.id }}" name="user_id" id="id-add-member-{{ user.id }}">
+                                                                <input class="form-check-input" onchange="checkIfUsersSelected(event, this, 'add-chat-members-form')" type="checkbox" value="{{ user.id }}" name="user_ids[]" id="id-add-member-{{ user.id }}">
                                                                 
                                                                 <label class="form-check-label" for="id-add-member-{{ user.id }}"></label>
                                                             </div>

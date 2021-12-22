@@ -144,9 +144,9 @@
 
     function drawMessage(data) {
         let html = '';
-        console.log('From drawMessage',data)
+        console.log(data)
         const mediaEl= generateMediaEl(data, currentUser === data['user'])
-            if (currentUser === data['user']) {
+        if (currentUser === data['user']) {
                 if(!data['is_delete']) {
                     html = '';
                     let base_url = window.location.origin;
@@ -166,7 +166,7 @@
                                                         ${data['body'] ? 
                                                             `
                                                             <div class="message-text">
-                                                                <p>${data['body']}</p>
+                                                                <p style="overflow-wrap:anywhere;">${data['body']}</p>
                                                             </div>
                                                             ` :
                                                             `
@@ -179,7 +179,6 @@
                                                                 <a class="icon text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
                                                             </a>
-
                                                             <ul class="dropdown-menu">
                                                                 
                                                                 <li>
@@ -190,7 +189,6 @@
                                                                         </div>
                                                                     </a>
                                                                 </li>
-
                                                                 {#<li>#}
                                                                 {#    <a class="dropdown-item d-flex align-items-center text-danger" onclick="deleteSenderMessage(${data['id']}, ${data['recipient_id']})" href="#">#}
                                                                 {#        <span class="me-auto">Delete for Everyone</span>#}
@@ -210,7 +208,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                 `
                     {#html += `<li class="text-info">${data['user']}: ${data['body']}</li><br>`;#}
                 }
@@ -227,7 +224,6 @@
                         <a href="#" data-bs-toggle="modal" data-bs-target="#modal-user-profile" class="avatar avatar-responsive">
                                             <img class="avatar-img" src="${profile_image}" alt="">
                                         </a>
-
                                         <div class="message-inner">
                                             <div class="message-body">
                                                 <div class="message-content">
@@ -238,7 +234,7 @@
                                                     ${data['body'] ? 
                                                         `
                                                         <div class="message-text">
-                                                            <p>${data['body']}</p>
+                                                            <p style="overflow-wrap:anywhere;">${data['body']}</p>
                                                         </div>
                                                         ` :
                                                         `
@@ -251,7 +247,6 @@
                                                             <a class="icon text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
                                                             </a>
-
                                                             <ul class="dropdown-menu">
                                                                 
                                                                 <li>
@@ -262,11 +257,9 @@
                                                                         </div>
                                                                     </a>
                                                                 </li>
-
                                                             </ul>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
                                             ${data['body'] && data['is_media_present'] ? mediaEl: ''}
@@ -275,7 +268,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                 `
                     {#html += `<span class="text-success" style="margin-left: 300px;">${data['user']}: ${data['body']}</span><br>`;#}
                 }
@@ -370,6 +362,10 @@ function setReceiver(username,email, id, user_img_url=null,img_url=null, full_na
         $('#offcanvas-dropdown').hide()
         $('#offcanvas_group_members').hide();
 
+        {# Hiding Call and Chat #}
+        // $('#video_call_form').hide()
+        // $('#audio_call_form').hide()
+
 
         $('#receiver_for_msg_send').val(id);
         $('#chat-group').val("P2p");
@@ -382,6 +378,8 @@ function setReceiver(username,email, id, user_img_url=null,img_url=null, full_na
         {#createConnection(session_id);#}
         {#saveSession(id);#}
         refreshMessage();
+        // For mobiles
+        document.querySelector('main.main').classList.add('is-visible')
     }
 
 function showNotification(receiver){
@@ -389,7 +387,7 @@ function showNotification(receiver){
         if(msgList) {
             last_msg = msgList.slice()[0];
             if (last_msg) {
-                let html = `<div class="line-clamp me-auto">
+                let html = `<div class="line-clamp me-auto" style="-webkit-line-clamp:1;">
                      ${last_msg['body']}
                 </div>
                 <div class="badge badge-circle bg-primary ms-5">
@@ -434,7 +432,7 @@ function getMessageById(data) {
                                                     ${data['body'] ? 
                                                         `
                                                         <div class="message-text">
-                                                            <p>${data['body']}</p>
+                                                            <p style="overflow-wrap:anywhere;">${data['body']}</p>
                                                         </div>
                                                         ` :
                                                         `
@@ -447,7 +445,6 @@ function getMessageById(data) {
                                                             <a class="icon text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
                                                             </a>
-
                                                             <ul class="dropdown-menu">
                                                                 
                                                                 <li>
@@ -477,7 +474,6 @@ function getMessageById(data) {
                                             </div>
                                         </div>
                                     </div>
-
                 `
                 {#html += `<li class="text-info">${data['user']}: ${data['body']}</li><br>`;#}
             }
@@ -490,7 +486,6 @@ function getMessageById(data) {
                         <a href="#" data-bs-toggle="modal" data-bs-target="#modal-user-profile" class="avatar avatar-responsive">
                                             <img class="avatar-img" src="${profile_image}" alt="">
                                         </a>
-
                                         <div class="message-inner">
                                             <div class="message-body">
                                                 <div class="message-content">
@@ -501,7 +496,7 @@ function getMessageById(data) {
                                                     ${data['body'] ? 
                                                         `
                                                         <div class="message-text">
-                                                            <p>${data['body']}</p>
+                                                            <p style="overflow-wrap:anywhere;">${data['body']}</p>
                                                         </div>
                                                         ` :
                                                         `
@@ -514,7 +509,6 @@ function getMessageById(data) {
                                                             <a class="icon text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
                                                             </a>
-
                                                             <ul class="dropdown-menu">
                                                                 
                                                                 <li>
@@ -536,7 +530,6 @@ function getMessageById(data) {
                                             </div>
                                         </div>
                                     </div>
-
                 `
                 {#html += `<span class="text-success" style="margin-left: 300px;">${data['user']}: ${data['body']}</span><br>`;#}
             }
@@ -605,7 +598,7 @@ function getMessageById(data) {
             let value = message.replace(/\n/g, "");
             // console.log(data);
             // bucket_id = data;
-            $('#modalForUploadingData').modal('hide');
+            // $('#modalForUploadingData').modal('hide');
             bucket_id = JSON.parse(data[0]['xhr'].responseText)['bucket_id'];
             console.log(bucket_id)
             let check = $('#chat-group').val();
@@ -655,7 +648,7 @@ function getMessageById(data) {
                 if (drop_zone.getQueuedFiles().length) {
                     drop_zone.processQueue();
                 }
-                $('#modalForUploadingData').modal('show');
+                // $('#modalForUploadingData').modal('show');
             } else {
                 if (value.length > 0) {
                     console.log("Sending messgae");
@@ -761,20 +754,20 @@ function getMessageById(data) {
                 } else if (ext==='file') {
                     const name_cryptic_ext = file.split('/').pop();
                     let filename = name_cryptic_ext; // May or may not have cryptic part.
-                    // filename.replace(/^.+?(?=_.+\.).+$/, '')
-                    const remaining_name_arr = name_cryptic_ext.split('_').slice(0, -1)
-                    const ext = name_cryptic_ext.split('.').pop()
-                    if (remaining_name_arr.length > 0){
-                        filename = remaining_name_arr.join('') +'.'+ ext;
-                    }
-                    html += `<div class="m-1 message-text rounded d-flex flex-column align-items-center justify-content-center" style="width:150px; height: 125px;">
-                                <a href="${file}" target="_blank" download="${filename}" class="avatar avatar-sm">
+                    filename = filename.replace(/^(.+)(_.+)(\..+)$/, '$1$3')
+                    // const remaining_name_arr = name_cryptic_ext.split('_').slice(0, -1)
+                    // const ext = name_cryptic_ext.split('.').pop()
+                    // if (remaining_name_arr.length > 0){
+                    //     filename = remaining_name_arr.join(' ') +'.'+ ext;
+                    // }
+                    html += `<div class="m-1 message-text rounded d-flex align-items-center" style="width:auto; height: 70px;">
+                                <a href="${file}" target="_blank" download="${filename}" style="flex-shrink:0;" class="avatar avatar-sm">
                                     <div class="avatar-text bg-white text-primary">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
                                     </div>
                                 </a>
-                                <h6 class="text-truncate mt-3 text-reset">
-                                    <a href="#" class="text-reset">${filename}</a>
+                                <h6 class="text-truncate text-reset">
+                                    <a href="#" class="m-3 text-reset">${filename}</a>
                                 </h6>
                             </div>`
                 }
@@ -803,6 +796,8 @@ function getMessageById(data) {
             const formDataSerialized = $(this).serialize()
             console.log(`add/member/group/?${formDataSerialized}`)
             $.getJSON(`add/member/group/?${formDataSerialized}`, function (data) {
+                const formData = new FormData(e.target)
+                $(`#group_receiver_${formData.get('pk')}`).click();
                 $('#notif-region').append(setToast(data));
             });
         })
@@ -814,7 +809,9 @@ function getMessageById(data) {
                     console.log(data)
                     setToast(data)
                     if (data['data']){
-                        element.closest('li').remove();
+                        // element.closest(`[data-delete='deleteMember']`).remove();
+                        // element.closest('li').remove();
+                        $(`#group_receiver_${groupId}`).click();
                     }
                 })
             }
@@ -840,11 +837,71 @@ function getMessageById(data) {
                     console.log(data)
                     setToast(data)
                     if (data['data']){
-                        element.closest('li').remove();
+                        // element.closest(`[data-delete='deleteMember']`).remove();
                         location.reload()
                     }
                 })
             }
+        }
+        // Search users
+        function searchUsersAndGroups(event, query, searchWrapperId, searchUserItemId, searchGroupItemId=null){
+            console.log(event, query, searchWrapperId, searchUserItemId, searchGroupItemId)
+            searchWrapperEl = document.getElementById(searchWrapperId);
+            searchUserItemEls = searchWrapperEl.querySelectorAll(`[id^='${searchUserItemId}']`);
+            // console.log(searchUserItemEls)
+            if (query) {
+                searchWrapperEl.querySelectorAll('.user_initials')?.forEach((item)=>item.style.display='none');
+                console.log(searchWrapperEl.querySelectorAll('.user_initials'))
+            } else {
+                searchWrapperEl.querySelectorAll('.user_initials')?.forEach((item)=>item.style.display='block');
+                console.log(searchWrapperEl.querySelectorAll('.user_initials'))
+            }
+            searchUserItemEls?.forEach((item, index) => {
+                if (item.querySelector(`[data-search='username']`).innerText.toLowerCase().includes(query) || 
+                    item.querySelector(`[data-search='full_name']`).innerText.toLowerCase().includes(query) ) {
+                    item.style.display = 'flex'
+                } else {
+                    item.style.display = 'none'
+                }
+            })
+            searchGroupItemEls = searchWrapperEl.querySelectorAll(`[id^='${searchGroupItemId}']`);
+            searchGroupItemEls?.forEach((item, index) => {
+                if (item.querySelector(`[data-search='groupname']`).innerText.toLowerCase().includes(query)) {
+                    item.style.display = 'flex'
+                } else {
+                    item.style.display = 'none'
+                }
+            })
+        }
+        function sendFriendRequest(e, reload=false){
+            e.preventDefault()
+            const formData = new FormData(e.target)
+            fetch("{% url 'user:send-request' %}", {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                setToast(data)
+                if (data['data'] && reload ){
+                    location.reload()
+                }
+            })
+        }
+        function acceptFriendRequest(e, reload=false){
+            e.preventDefault()
+            const formData = new FormData(e.target)
+            fetch("{% url 'user:accept-user' %}", {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                setToast(data)
+                if (data['data'] && reload ){
+                    location.reload()
+                }
+            })
         }
 </script>
 {###########################    End of Script For P2p Chat Socket   ##################}

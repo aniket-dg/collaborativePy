@@ -38,6 +38,9 @@
         $('#offcanvas-dropdown').show();
         $('#offcanvas_group_members').show();
 
+        {# Showing Call and Chat #}
+        // $('#video_call_form').show()
+        // $('#audio_call_form').show()
 
         $('#chat-content-div').empty();
         readGroupUnreadMsg(groupId);
@@ -47,11 +50,15 @@
         current_receiver = '';
         receiver = '';
         current_group = groupId;
+        $('#set_group_id_for_video').val(groupId);
+        $('#set_group_id_for_audio').val(groupId);
         $('#receiver_for_msg_send').val();
         $('#receiver_for_group_send').val(groupName);
         $('#setReceiverModal').attr('data-bs-target', '#modal-group');
         groupInitialize(groupId);
 
+        // For mobiles
+        document.querySelector('main.main').classList.add('is-visible')
     }
 
 {############    Custom Api Calls    #########}
@@ -87,9 +94,11 @@
                 break;
             }
         }
+        // Only show add member option to admins
+        isCurrentUserAdmin ? $('#add-member-to-group').show():$('#add-member-to-group').hide()
         $.each(data['member_list'], function(k,v){
             let userId = k;
-            let groupId = data['groupId'];
+            let groupId = data['group_id'];
             let splitData = v.split(",");
             let createdBy = data['created_by'].split(",")[1];
             let name = splitData[0];
@@ -100,7 +109,7 @@
             const isCreator = current_user_email === createdBy;
             const memIsCurrentUser = current_user_email === email;
             const memIsAdmin = admin === "true";
-            createOffcanvasGroupMembers({memIsAdmin, memIsCurrentUser, userId, name, email, username, isCreator, isCurrentUserAdmin})
+            createOffcanvasGroupMembers({memIsAdmin, memIsCurrentUser, groupId, userId, name, email, username, isCreator, isCurrentUserAdmin})
 
             if(isCreator) {
                 if (memIsAdmin) {
@@ -142,8 +151,8 @@
 
                             ${o.isCurrentUserAdmin ? 
                                 !o.memIsCurrentUser ? `
-                                <li onclick="deleteMember(this, ${o.groupId}, ${o.userId})">
-                                    <a class="dropdown-item d-flex align-items-center text-danger" href="#">
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center text-danger" onclick="deleteMember(this, ${o.groupId}, ${o.userId})" href="#">
                                         Remove Member
                                         <div class="icon ms-auto">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
@@ -162,8 +171,8 @@
                                 `
                             
                             : o.memIsCurrentUser ?`
-                                <li onclick="leaveGroup(this, ${o.groupId}, ${o.userId})">
-                                    <a class="dropdown-item d-flex align-items-center text-danger" href="#">
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center text-danger" onclick="leaveGroup(this, ${o.groupId}, ${o.userId})" href="#">
                                         Leave Group
                                         <div class="icon ms-auto">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
@@ -196,7 +205,7 @@
 
     function deleteSelectedGroupChat()
     {
-        console.log("Ferom group");
+        console.log("From group");
         $("input:checkbox[name=input_group_chat]:checked").each(function(){
             console.log($(this).val());
             let id = $(this).val();
@@ -285,7 +294,7 @@
                     html += `
                                                     <div class="message message-out" id="group_chat_line_${data['id']}">
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#modal-profile" class="avatar avatar-responsive">
-                                            <img class="avatar-img" src="${profile_image}" alt="">
+                                            <img class="avatar-img" style="object-fit:cover;" src="${profile_image}" alt="">
                                         </a>
                                         <div class="message-inner">
                                             <div class="message-body">
@@ -297,7 +306,7 @@
                                                     ${data['body'] ? 
                                                             `
                                                             <div class="message-text">
-                                                                <p>${data['body']}</p>
+                                                                <p style="overflow-wrap:anywhere;">${data['body']}</p>
                                                             </div>
                                                             ` :
                                                             `
@@ -354,7 +363,7 @@
                     html += `
                      <div class="message" id="group_chat_line_${data['id']}">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#modal-user-profile" class="avatar avatar-responsive">
-                                            <img class="avatar-img" src="${profile_image}" alt="">
+                                            <img class="avatar-img" style="object-fit:cover;" src="${profile_image}" alt="">
                                         </a>
 
                                         <div class="message-inner">
@@ -368,7 +377,7 @@
                                                     ${data['body'] ? 
                                                             `
                                                             <div class="message-text">
-                                                                <p>${data['body']}</p>
+                                                                <p style="overflow-wrap:anywhere;">${data['body']}</p>
                                                             </div>
                                                             ` :
                                                             `
@@ -435,7 +444,7 @@
         if(msgList) {
             last_msg = msgList.slice()[0];
             if (last_msg) {
-                let html = `<div class="line-clamp me-auto">
+                let html = `<div class="line-clamp me-auto" style="-webkit-line-clamp:1;">
                      ${last_msg['body']}
                 </div>
                 <div class="badge badge-circle bg-primary ms-5">
@@ -477,7 +486,7 @@
                 html += `
                                                     <div class="message message-out" id="group_chat_line_${data['id']}">
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#modal-profile" class="avatar avatar-responsive">
-                                            <img class="avatar-img" src="${profile_image}" alt="">
+                                            <img class="avatar-img" style="object-fit:cover;" src="${profile_image}" alt="">
                                         </a>
                                         <div class="message-inner">
                                             <div class="message-body">
@@ -489,7 +498,7 @@
                                                     ${data['body'] ? 
                                                             `
                                                             <div class="message-text">
-                                                                <p>${data['body']}</p>
+                                                                <p style="overflow-wrap:anywhere;">${data['body']}</p>
                                                             </div>
                                                             ` :
                                                             `
@@ -542,7 +551,7 @@
                 html += `
                      <div class="message" id="group_chat_line_${data['id']}">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#modal-user-profile" class="avatar avatar-responsive">
-                                            <img class="avatar-img" src="${profile_image}" alt="">
+                                            <img class="avatar-img" style="object-fit:cover;" src="${profile_image}" alt="">
                                         </a>
 
                                         <div class="message-inner">
@@ -556,7 +565,7 @@
                                                     ${data['body'] ? 
                                                         `
                                                         <div class="message-text">
-                                                            <p>${data['body']}</p>
+                                                            <p style="overflow-wrap:anywhere;">${data['body']}</p>
                                                         </div>
                                                         ` :
                                                         `

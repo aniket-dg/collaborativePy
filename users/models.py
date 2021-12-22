@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 
-from django.contrib.staticfiles.views import serve
 from django.core.mail import send_mail
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
@@ -18,7 +17,7 @@ from django.utils import timezone
 
 class User(AbstractBaseUser, PermissionsMixin):
     # Required
-    username = models.CharField(_('User Name'), unique=True, max_length=200, null=True, blank=True)
+    username = models.CharField(_('User Name'), unique=True, max_length=200)
     email = models.EmailField(_('Email'), unique=True, max_length=320, help_text='Provide an email for registration')
 
     # Optional
@@ -122,6 +121,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         users = User.objects.exclude(email=self.email).filter(email__in=emails)
         return users
 
+
     def get_user_requested_users(self):
         users = self.connections.filter(request=True, send_request="Process")
         return users
@@ -145,8 +145,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         else:
             return '/static/social_assets/img/avatars/jenna.png'
 
-
-
 REQUEST_CHOICES = (
     ('Process', 'Process'),
     ('Accepted', 'Accepted'),
@@ -163,17 +161,3 @@ class Connection(models.Model):
         return self.connection_user.username
 
 
-# class FlagInappropriate(models.Model):
-#     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-#     timestamp = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return f"{self.id}"
-#
-#
-# class BookMark(models.Model):
-#     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-#     timestamp = models.DateTimeField(auto_now_add=True)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-#     def __str__(self):
-#         return f"{self.id}"

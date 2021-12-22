@@ -26,4 +26,9 @@ urlpatterns = [
     path('user/list/', views.UserListView.as_view(), name='user-list'),
     path('user/detail/<int:pk>/', views.UserDetailView.as_view(), name='user-detail'),
     path('user/plan/change/',  views.UserPlanUpdateView.as_view(), name='user-plan-update'),
+
+    path('skeleton/post/create/', views.SkeletonPostCreateView.as_view(), name='skeleton-post-create'),
+    path('skeleton/post/list/', views.SkeletonPostListView.as_view(), name='skeleton-post-list'),
+    path('skeleton/post/delete/<int:pk>/', views.SkeletonPostDeleteView.as_view(), name='skeleton-post-delete'),
+    path('skeleton/post/update/<int:pk>/', views.SkeletonPostUpdateView.as_view(), name='skeleton-post-update'),
 ]

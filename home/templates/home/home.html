@@ -4,20 +4,127 @@
 {% block content %}
 
 <style>
-    .full-height {
+/* .full-height {
   height: 100%;
-}
+} */
 #myVideo {
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
+    /* right: 0;
+    bottom: 0; */
+    width: 100%;
+    /* height: 100%; */
+    height: auto;
+    object-fit: contain;
+    object-position: center;
 }
 </style>
 <!-- Content -->
 
 <!-- {#{% if messages %}
    {% for item in messages %}
+<div id="pop-up-questions" style=" width: 100%; margin-top: 10px;
+    position: absolute;z-index:100;display: flex; flex-direction: column;">
+    <form>
+        {% csrf_token %}
+        <div class="container" style="width: 60%; background: #D3D3D3;">
+            <div>
+                <a onclick="closePopup()" style="cursor: pointer;" class="chat-nav-item is-icon close-chat">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-x">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </a>
+            </div>
+            <div class="p-2">
+                <label for="age">AGE?</label>
+                <select id="age" name="age" class="form-select my-2">
+                    <option value="12-18" selected>12-18</option>
+                    <option value="18-24">18-24</option>
+                    <option value="24-30">24-30</option>
+                    <option value="ABOVE 30">ABOVE 30</option>
+                </select>
+            </div>
+
+            <div class="p-2">
+                <label for="knowledge_ml_dl_ai">HAVE ANY PREVIOUS KNOWLEDGE ABOUT ML/DL/AI?</label>
+                <select id="knowledge_ml_dl_ai" name="knowledge_ml_dl_ai" class="form-select my-2">
+                    <option value="Yes" selected>Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <div class="p-2">
+                <label for="worked_in">HAVE WORKED MORE IN?</label>
+                <select id="worked_in" name="worked_in" class="form-select my-2">
+                    <option value="MACHINE LEARNING" selected>MACHINE LEARNING</option>
+                    <option value="DEEP LEARNING">DEEP LEARNING</option>
+                    <option value="JUST PYTHON CODING">JUST PYTHON CODING</option>
+                    <option value="NONE OF THE ABOVE">NONE OF THE ABOVE</option>
+                </select>
+            </div>
+
+            <div class="p-2">
+                <label for="code_difficult">FINDS CODING REALLY DIFFICULT?</label>
+                <select id="code_difficult" name="code_difficult" class="form-select my-2">
+                    <option value="Yes" selected>Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <div class="p-2">
+                <label for="does_ml_dl_ai">DONE ANY ML/ DL /AI COURSES OR STUDIED ARTIFICIAL INTELLIGENCE IN COLLEGE
+                    YET?</label>
+                <select id="does_ml_dl_ai" name="does_ml_dl_ai" class="form-select my-2">
+                    <option value="Yes" selected>Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <div class="p-2">
+                <label for="like_to_work_in">Likes to study/create/work/do projects --</label>
+                <select id="like_to_work_in" name="like_to_work_in" class="form-select my-2">
+                    <option value="Alone" selected>Alone</option>
+                    <option value="In a team">In a team</option>
+                </select>
+            </div>
+
+            <div class="p-2">
+                <label for="functionality_areas">Likes to study/create/work/do projects --</label>
+                <select id="functionality_areas" multiple name="functionality_areas" class="form-select my-2" size="21">
+                    <option value="Finance and accounts">Finance and accounts</option>
+                    <option value="Sales and marketing">Sales and marketing</option>
+                    <option value="Office operation /Hr">Office operation /Hr</option>
+                    <option value="Production/Maintainance /Quality">Production/Maintainance /Quality</option>
+                    <option value="It /Software /Telecom">It /Software /Telecom</option>
+                    <option value="Agriculture/farming/dairy">Agriculture/farming/dairy</option>
+                    <option value="Construction/Real Estate">Construction/Real Estate</option>
+                    <option value="Entertainment and media">Entertainment and media</option>
+                    <option value="Education/Teachers/professor">Education/Teachers/professor</option>
+                    <option value="Bpo/ITES/Telecaller/Customer care">Bpo/ITES/Telecaller/Customer care</option>
+                    <option value="Fashion Designing">Fashion Designing</option>
+                    <option value="Content/Editor/ journalists">Content/Editor/ journalists</option>
+                    <option value="Legal/ law">Legal/ law</option>
+                    <option value="Travelling agencies">Travelling agencies</option>
+                    <option value="Bio tech /R&D /Scientists">Bio tech /R&D /Scientists</option>
+                    <option value="Data scientists/Machine learning engineer/AI">Data scientists/Machine learning
+                        engineer/AI
+                    </option>
+                    <option value="Student">Student</option>
+                    <option value="Medicine/Biology /Pharmaceutical">Medicine/Biology /Pharmaceutical</option>
+                    <option value="Electrical /Electronics/Electronic and telecommunications">Electrical
+                        /Electronics/Electronic
+                        and telecommunications</option>
+                    <option value="Mechanical">Mechanical</option>
+                    <option value="Chemical">Chemical</option>
+                </select>
+            </div>
+
+            <button type="button" onclick="PopUpSubmit()" class="btn btn-primary m-2 mb-5">Submit</button>
+
+        </div>
+    </form>
+</div>
 
        <div class="alert alert-{{ item.tags }}" role="alert">
   {{ item }}
@@ -27,26 +134,25 @@
 <div class="page-content bg-white">
     <!-- Slider Banner -->
 
-
-    <div class="full-height">
-        <video id="myVideo" autoplay muted loop>
+    <div class="dlab-bnr-inr">
+        <video id="myVideo" autoplay muted loop style="margin-top: -1.5em;">
           <source src="{% static 'video/dark.mp4' %}" type="video/mp4">
           <source src="{% static 'video/dark.mp4' %}" type="video/ogg">
         </video>
     </div>
 
 
-<!--     <div class="dlab-bnr-inr" style="background-image:url('{% static 'images/background/bg1.jpg' %}'); background-size: cover; background-position: top center; background-repeat: no-repeat;">-->
-<!--        <div class="container">-->
-<!--            <div class="dlab-bnr-inr-entry text-white">-->
-<!--                <h1>We’re Crep </h1>-->
-<!--                <p>We help companies we believe in get results. Let us show you how</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!-- <div class="dlab-bnr-inr" style="background-image:url('{% static 'images/background/bg1.jpg' %}'); background-size: cover; background-position: top center; background-repeat: no-repeat;">
+        <div class="container">
+            <div class="dlab-bnr-inr-entry text-white">
+                <h1>We’re Crep </h1>
+                <p>We help companies we believe in get results. Let us show you how</p>
+            </div>
+        </div>
+    </div> -->
     <!-- Slider Banner -->
-    <br><br><br><br><br>
-    <div class="content-block" style="margin-top: 5em;">
+    <!-- <br><br><br><br><br> -->
+    <div class="content-block mt-5">
         <!-- featured box -->
         <div class="section-full bg-white text-center">
             <div class="container">
@@ -54,33 +160,36 @@
                     <div class="col-lg-4 col-md-6 col-sm-12 m-b30 wow fadeInUp " data-wow-delay="0.2s">
                         <div class="icon-bx-wraper featured-box style1 shadow radius-md zigzag">
                             <div class="icon-xl m-b20">
-                                <a href="javascript:void(0);" class="icon-cell"><img src="{% static 'images/icon/icon1.png' %}" alt=""></a>
+                                <a href="javascript:void(0);" class="icon-cell"><img
+                                        src="{% static 'images/icon/icon1.png' %}" alt=""></a>
                             </div>
                             <div class="icon-content">
-                                <h2 class="dlab-tilte">User Interface Design</h2>
-                                <p>Let us put your website in front of consumers at the moment in time they are searching for your products & services. </p>
+                                <h2 class="dlab-tilte">Stellar AI</h2>
+                                    <p>A website working on Artificial Intelligence algorithms and down the pike planning to model more Artificial Intelligent algorithms in its skeleton for the users.</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-12 m-b30 wow fadeInUp" data-wow-delay="0.4s">
                         <div class="icon-bx-wraper m-t60 featured-box style1 shadow radius-md">
                             <div class="icon-xl m-b20">
-                                <a href="javascript:void(0);" class="icon-cell"><img src="{% static 'images/icon/icon2.png' %}" alt=""></a>
+                                <a href="javascript:void(0);" class="icon-cell"><img
+                                        src="{% static 'images/icon/icon2.png' %}" alt=""></a>
                             </div>
                             <div class="icon-content">
-                                <h2 class="dlab-tilte">Digital Marketing Agency</h2>
-                                <p>Working together, we will use our knowledge of SEO to bring more leads to your business through your website.</p>
+                                <h2 class="dlab-tilte">Stellar AI</h2>
+                                    <p>An Artificial Intelligence community website </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-12 m-b30 wow fadeInUp" data-wow-delay="0.6s">
                         <div class="icon-bx-wraper featured-box style1 shadow radius-md">
                             <div class="icon-xl m-b20">
-                                <a href="javascript:void(0);" class="icon-cell"><img src="{% static 'images/icon/icon3.png' %}" alt=""></a>
+                                <a href="javascript:void(0);" class="icon-cell"><img
+                                        src="{% static 'images/icon/icon3.png' %}" alt=""></a>
                             </div>
                             <div class="icon-content">
-                                <h2 class="dlab-tilte">Visual design Strategy</h2>
-                                <p>The same way you review and analyze your job reports by cost, ROI, customer satisfaction<br> and much more </p>
+                                <h2 class="dlab-tilte">Stellar AI</h2>
+                                <p>An environment which promotes a camaraderie and a cross cultural  alliance to connect and grow in Coding / Machine Learning / Deep Learning / Artificial Intelligence.</p>
                             </div>
                         </div>
                     </div>
@@ -94,15 +203,15 @@
                 <div class="row align-items-center about-bx1">
                     <div class="col-lg-6 col-md-6 m-b30 wow fadeInLeft" data-wow-delay="0.3s">
                         <div class="dlab-media img-move">
-                            <img src="{% static 'images/about/about-1.png' %}" alt="">
+                            <img src="{% static 'images/illustrator/1.jpg' %}" alt="">
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 m-b30 wow fadeInRight" data-wow-delay="0.6s">
                         <div class="about-content">
-                            <span class="sub-title text-primary">About Brand agency<img src="{% static 'images/background/bg6.png' %}" alt=""/></span>
+                            <span class="sub-title text-primary">About Brand agency<img
+                                    src="{% static 'images/background/bg6.png' %}" alt="" /></span>
                             <h2 class="title">Grow your brand</h2>
-                            <p>Building your online presence helps attract more potential clients. Our integrated marketing team will work directly with you to understand what makes your business unique, and provide more qualified leads to achieve
-                                success in your industry</p>
+                            <p>An environment which provides free and affordable features like an AI Forums , AI Chatrooms ,  AI Competitions, AI Skeleton Codes, etc.</p>
                             <a href="about-1.html" class="btn btn-gradient btn-md radius-xl">Learn more</a>
                         </div>
                     </div>
@@ -111,72 +220,70 @@
         </div>
         <!-- about us end -->
         <!-- customer box -->
-
-
-<!--        <div class="section-full bg-white customer-area-one" style="background-image:url({% static 'images/background/bg7.png' %}); background-repeat:no-repeat; background-position:center left; background-size:50%;">-->
-<!--            <div class="container">-->
-<!--                <div class="section-head text-center">-->
-<!--                    <h2 class="title">Build a brand customers love</h2>-->
-<!--                    <p>We are an Creative agency, based in New York. Vision Every company is performing best online. Mission Helping businesses to find the perfect and most succesful strategy, to be online.</p>-->
-<!--                </div>-->
-
-
-<!--                <div class="row align-items-center">-->
-<!--                    <div class="col-lg-6 col-md-6">-->
-<!--                        <div class="row sp0 counter-area1">-->
-<!--                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.2s">-->
-<!--                                <div class="counter-box counter-box1 img-move">-->
-<!--                                    <div class="counter-info">-->
-<!--                                        <h4 class="title">Projects</h4>-->
-<!--                                        <span class="counter">30</span>-->
-<!--                                        <span>K</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.4s">-->
-<!--                                <div class="counter-box counter-box2 img-move">-->
-<!--                                    <div class="counter-info">-->
-<!--                                        <h4 class="title">Cups of Coffee</h4>-->
-<!--                                        <span class="counter">451</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.6s">-->
-<!--                                <div class="counter-box counter-box3 img-move2">-->
-<!--                                    <div class="counter-info">-->
-<!--                                        <h4 class="title">Customers</h4>-->
-<!--                                        <span class="counter">120</span>-->
-<!--                                        <span>K</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.8s">-->
-<!--                                <div class="counter-box counter-box4 img-move2">-->
-<!--                                    <div class="counter-info">-->
-<!--                                        <h4 class="title">Clients</h4>-->
-<!--                                        <span class="counter">130</span>-->
-<!--                                        <span>K</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-6 col-md-6 wow fadeInRight" data-wow-delay="0.8s">-->
-<!--                        <div class="customer-box1">-->
-<!--                            <div class="dlab-media img-move2">-->
-<!--                                <img src="{% static 'images/about/about-2.png' %}" alt="">-->
-<!--                            </div>-->
-<!--                            <p class="font-20">We start by analyzing your design and sorting it out. We’ll extract all the necessary images, logos, and icons.</p>-->
-<!--                            <h5>Increase customer lifetime value</h5>-->
-<!--                            <p class="m-b0">Let our AI power your entire customer journey, from awareness through purchase, to increase sales, average order value, and loyalty, and get a centralized picture of cost, ROI, and impact.</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--            </div>-->
-<!--        </div>-->
-
-
+        <!-- <div class="section-full bg-white customer-area-one"
+            style="background-image:url({% static 'images/background/bg7.png' %}); background-repeat:no-repeat; background-position:center left; background-size:50%;">
+            <div class="container">
+                <div class="section-head text-center">
+                    <h2 class="title">Build a brand customers love</h2>
+                    <p>We are an Creative agency, based in New York. Vision Every company is performing best online.
+                        Mission Helping businesses to find the perfect and most succesful strategy, to be online.</p>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="row sp0 counter-area1">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.2s">
+                                <div class="counter-box counter-box1 img-move">
+                                    <div class="counter-info">
+                                        <h4 class="title">Projects</h4>
+                                        <span class="counter">30</span>
+                                        <span>K</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.4s">
+                                <div class="counter-box counter-box2 img-move">
+                                    <div class="counter-info">
+                                        <h4 class="title">Cups of Coffee</h4>
+                                        <span class="counter">451</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.6s">
+                                <div class="counter-box counter-box3 img-move2">
+                                    <div class="counter-info">
+                                        <h4 class="title">Customers</h4>
+                                        <span class="counter">120</span>
+                                        <span>K</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 wow zoomIn" data-wow-delay="0.8s">
+                                <div class="counter-box counter-box4 img-move2">
+                                    <div class="counter-info">
+                                        <h4 class="title">Clients</h4>
+                                        <span class="counter">130</span>
+                                        <span>K</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 wow fadeInRight" data-wow-delay="0.8s">
+                        <div class="customer-box1">
+                            <div class="dlab-media img-move2">
+                                <img src="{% static 'images/about/about-2.png' %}" alt="">
+                            </div>
+                            <p class="font-20">We start by analyzing your design and sorting it out. We’ll extract all
+                                the necessary images, logos, and icons.</p>
+                            <h5>Increase customer lifetime value</h5>
+                            <p class="m-b0">Let our AI power your entire customer journey, from awareness through
+                                purchase, to increase sales, average order value, and loyalty, and get a centralized
+                                picture of cost, ROI, and impact.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
         <!-- customer box end -->
         <!-- overview box -->
         <div class="section-full bg-white content-inner-1">
@@ -185,9 +292,9 @@
                     <div class="col-lg-12">
                         <div class="overview-box style1">
                             <div class="overview-info wow fadeInLeft" data-wow-delay="0.3s">
-                                <span class="sub-title text-primary">Web Design</span>
-                                <h2 class="title"><a href="#">Tailored Strategies & Targeted Results Web design</a></h2>
-                                <p>Let our AI power your entire customer journey, from awareness through purchase, to increase sales, average order value, and loyalty, and get a centralized picture of cost, ROI, and impact.</p>
+                                <span class="sub-title text-primary">Stellar AI</span>
+                                <h2 class="title"><a href="#">An Artificial Intelligence community website.</a></h2>
+                                <p>An environment which promotes a camaraderie and a cross cultural  alliance to connect and grow in Coding / Machine Learning / Deep Learning / Artificial Intelligence</p>
                                 <a href="#" class="btn btn-gradient btn-md radius-xl">Explor More</a>
                             </div>
                             <div class="overview-media wow fadeInRight img-move" data-wow-delay="0.6s">
@@ -206,12 +313,13 @@
                     <div class="col-lg-12">
                         <div class="overview-box style1">
                             <div class="overview-media wow fadeInLeft img-move2" data-wow-delay="0.3s">
-                                <img src="{% static 'images/overview/pic2.png' %}" alt="">
+                                <img src="{% static 'images/illustrator/2.jpg' %}" alt="">
                             </div>
                             <div class="overview-info wow fadeInRight" data-wow-delay="0.6s">
                                 <span class="sub-title text-primary">Branding</span>
-                                <h2 class="title"><a href="#">Our target customers use platforms for Brand Identity</a></h2>
-                                <p>Let our AI power your entire customer journey, from awareness through purchase, to increase sales, average order value, and loyalty, and get a centralized picture of cost, ROI, and impact.</p>
+                                <h2 class="title"><a href="#">Our target customers use platforms for Brand Identity</a>
+                                </h2>
+                                <p>A website working on Artificial Intelligence algorithms and down the pike planning to model more Artificial Intelligent algorithms in its skeleton for the users.</p>
                                 <a href="#" class="btn btn-gradient btn-md radius-xl">Explor More</a>
                             </div>
                         </div>
@@ -221,222 +329,230 @@
         </div>
         <!-- overview box end -->
         <!-- overview box -->
-        <div class="section-full bg-white content-inner-1">
+<!--        <div class="section-full bg-white content-inner-1">-->
+<!--            <div class="container">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-lg-12">-->
+<!--                        <div class="overview-box style1">-->
+<!--                            <div class="overview-info wow fadeInLeft" data-wow-delay="0.3s">-->
+<!--                                <span class="sub-title text-primary">Mobile & Desktop Design</span>-->
+<!--                                <h2 class="title"><a href="#">Creating your strategy for digital marketing</a></h2>-->
+<!--                                <p>Let our AI power your entire customer journey, from awareness through purchase, to-->
+<!--                                    increase sales, average order value, and loyalty, and get a centralized picture of-->
+<!--                                    cost, ROI, and impact.</p>-->
+<!--                                <a href="#" class="btn btn-gradient btn-md radius-xl">Explor More</a>-->
+<!--                            </div>-->
+<!--                            <div class="overview-media wow fadeInRight img-move2" data-wow-delay="0.6s">-->
+<!--                                <img src="{% static 'images/overview/pic3.png' %}" alt="">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        <!-- overview box end -->
+        <!-- testimonials -->
+        <!-- <div class="section-full bg-white content-inner-1">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="overview-box style1">
-                            <div class="overview-info wow fadeInLeft" data-wow-delay="0.3s">
-                                <span class="sub-title text-primary">Mobile & Desktop Design</span>
-                                <h2 class="title"><a href="#">Creating your strategy for digital marketing</a></h2>
-                                <p>Let our AI power your entire customer journey, from awareness through purchase, to increase sales, average order value, and loyalty, and get a centralized picture of cost, ROI, and impact.</p>
-                                <a href="#" class="btn btn-gradient btn-md radius-xl">Explor More</a>
+                <div class="row align-items-end">
+                    <div class="col-lg-7 col-md-6 m-b30 wow fadeInLeft" data-wow-delay="0.3s">
+                        <div class="testimonial-carousel owl-carousel owl-theme dots-style-1 owl-none">
+                            <div class="item">
+                                <div class="testimonial-1">
+                                    <div class="testimonial-text quote-left">
+                                        <p>Since we began our partnership with Restoration Digital Marketing, our web
+                                            traffic has increased tremendously. This has led to increased phone calls,
+                                            that are legitimate leads, which has equaled increased
+                                            revenue. Jeff has been great to work with and is extremely helpful and
+                                            knowledgeable. </p>
+                                    </div>
+                                    <div class="testimonial-detail clearfix">
+                                        <h5 class="testimonial-name">Mahfuz Riad</h5>
+                                        <span>Ux & Product Designer</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="overview-media wow fadeInRight img-move2" data-wow-delay="0.6s">
-                                <img src="{% static 'images/overview/pic3.png' %}" alt="">
+                            <div class="item">
+                                <div class="testimonial-1">
+                                    <div class="testimonial-text quote-left">
+                                        <p>Since we began our partnership with Restoration Digital Marketing, our web
+                                            traffic has increased tremendously. This has led to increased phone calls,
+                                            that are legitimate leads, which has equaled increased
+                                            revenue. Jeff has been great to work with and is extremely helpful and
+                                            knowledgeable. </p>
+                                    </div>
+                                    <div class="testimonial-detail clearfix">
+                                        <h5 class="testimonial-name m-t0 m-b5">Mahfuz Riad</h5>
+                                        <span>Ux & Product Designer</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="testimonial-1">
+                                    <div class="testimonial-text quote-left">
+                                        <p>Since we began our partnership with Restoration Digital Marketing, our web
+                                            traffic has increased tremendously. This has led to increased phone calls,
+                                            that are legitimate leads, which has equaled increased
+                                            revenue. Jeff has been great to work with and is extremely helpful and
+                                            knowledgeable. </p>
+                                    </div>
+                                    <div class="testimonial-detail clearfix">
+                                        <h5 class="testimonial-name m-t0 m-b5">Mahfuz Riad</h5>
+                                        <span>Ux & Product Designer</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6 wow fadeInRight" data-wow-delay="0.6s">
+                        <img src="{% static 'images/testimonials/pic1.png' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- testimonials end -->
+        <!-- meet our team Team -->
+        <!-- <div class="section-full bg-white content-inner-1">
+            <div class="container">
+                <div class="section-head text-center">
+                    <h2 class="title">Our Expert</h2>
+                </div>
+                <div class="team-carousel owl-carousel owl-theme owl-btn-1 m-b30">
+                    <div class="item">
+                        <div class="team-box style1 text-center wow fadeInUp" data-wow-delay="0.2s">
+                            <div class="dlab-media">
+                                <a href="teachers-details.html">
+                                    <img src="{% static 'images/team/pic1.png' %}" alt="">
+                                </a>
+                            </div>
+                            <div class="team-info">
+                                <h5 class="team-title"><a href="teachers-details.html">Mahfuz Riad</a></h5>
+                                <span class="team-position">SEO Expert</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="team-box style1 green text-center wow fadeInUp" data-wow-delay="0.4s">
+                            <div class="dlab-media">
+                                <a href="teachers-details.html">
+                                    <img src="{% static 'images/team/pic2.png' %}" alt="">
+                                </a>
+                            </div>
+                            <div class="team-info">
+                                <h5 class="team-title"><a href="teachers-details.html">John Copa</a></h5>
+                                <span class="team-position">Creative Ui Expert</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="team-box style1 pink text-center wow fadeInUp" data-wow-delay="0.6s">
+                            <div class="dlab-media">
+                                <a href="teachers-details.html">
+                                    <img src="{% static 'images/team/pic3.png' %}" alt="">
+                                </a>
+                            </div>
+                            <div class="team-info">
+                                <h5 class="team-title"><a href="teachers-details.html">Foqrul islam</a></h5>
+                                <span class="team-position">Content Creation Expert</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="team-box style1 yellow text-center wow fadeInUp" data-wow-delay="0.8s">
+                            <div class="dlab-media">
+                                <a href="teachers-details.html">
+                                    <img src="{% static 'images/team/pic4.png' %}" alt="">
+                                </a>
+                            </div>
+                            <div class="team-info">
+                                <h5 class="team-title"><a href="teachers-details.html">Masum Rana</a></h5>
+                                <span class="team-position">Nav Salimian</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- overview box end -->
-        <!-- testimonials -->
-
-
-<!--        <div class="section-full bg-white content-inner-1">-->
-<!--            <div class="container">-->
-<!--                <div class="row align-items-end">-->
-<!--                    <div class="col-lg-7 col-md-6 m-b30 wow fadeInLeft" data-wow-delay="0.3s">-->
-<!--                        <div class="testimonial-carousel owl-carousel owl-theme dots-style-1 owl-none">-->
-<!--                            <div class="item">-->
-<!--                                <div class="testimonial-1">-->
-<!--                                    <div class="testimonial-text quote-left">-->
-<!--                                        <p>Since we began our partnership with Restoration Digital Marketing, our web traffic has increased tremendously. This has led to increased phone calls, that are legitimate leads, which has equaled increased-->
-<!--                                            revenue. Jeff has been great to work with and is extremely helpful and knowledgeable. </p>-->
-<!--                                    </div>-->
-<!--                                    <div class="testimonial-detail clearfix">-->
-<!--                                        <h5 class="testimonial-name">Mahfuz Riad</h5>-->
-<!--                                        <span>Ux & Product Designer</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="item">-->
-<!--                                <div class="testimonial-1">-->
-<!--                                    <div class="testimonial-text quote-left">-->
-<!--                                        <p>Since we began our partnership with Restoration Digital Marketing, our web traffic has increased tremendously. This has led to increased phone calls, that are legitimate leads, which has equaled increased-->
-<!--                                            revenue. Jeff has been great to work with and is extremely helpful and knowledgeable. </p>-->
-<!--                                    </div>-->
-<!--                                    <div class="testimonial-detail clearfix">-->
-<!--                                        <h5 class="testimonial-name m-t0 m-b5">Mahfuz Riad</h5>-->
-<!--                                        <span>Ux & Product Designer</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="item">-->
-<!--                                <div class="testimonial-1">-->
-<!--                                    <div class="testimonial-text quote-left">-->
-<!--                                        <p>Since we began our partnership with Restoration Digital Marketing, our web traffic has increased tremendously. This has led to increased phone calls, that are legitimate leads, which has equaled increased-->
-<!--                                            revenue. Jeff has been great to work with and is extremely helpful and knowledgeable. </p>-->
-<!--                                    </div>-->
-<!--                                    <div class="testimonial-detail clearfix">-->
-<!--                                        <h5 class="testimonial-name m-t0 m-b5">Mahfuz Riad</h5>-->
-<!--                                        <span>Ux & Product Designer</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-5 col-md-6 wow fadeInRight" data-wow-delay="0.6s">-->
-<!--                        <img src="{% static 'images/testimonials/pic1.png' %}" alt="">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-
-        <!-- testimonials end -->
-        <!-- meet our team Team -->
-
-
-<!--        <div class="section-full bg-white content-inner-1">-->
-<!--            <div class="container">-->
-<!--                <div class="section-head text-center">-->
-<!--                    <h2 class="title">Our Expert</h2>-->
-<!--                </div>-->
-<!--                <div class="team-carousel owl-carousel owl-theme owl-btn-1 m-b30">-->
-<!--                    <div class="item">-->
-<!--                        <div class="team-box style1 text-center wow fadeInUp" data-wow-delay="0.2s">-->
-<!--                            <div class="dlab-media">-->
-<!--                                <a href="teachers-details.html">-->
-<!--                                <img src="{% static 'images/team/pic1.png' %}" alt="">-->
-<!--                            </a>-->
-<!--                            </div>-->
-<!--                            <div class="team-info">-->
-<!--                                <h5 class="team-title"><a href="teachers-details.html">Mahfuz Riad</a></h5>-->
-<!--                                <span class="team-position">SEO Expert</span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="item">-->
-<!--                        <div class="team-box style1 green text-center wow fadeInUp" data-wow-delay="0.4s">-->
-<!--                            <div class="dlab-media">-->
-<!--                                <a href="teachers-details.html">-->
-<!--                                <img src="{% static 'images/team/pic2.png' %}" alt="">-->
-<!--                            </a>-->
-<!--                            </div>-->
-<!--                            <div class="team-info">-->
-<!--                                <h5 class="team-title"><a href="teachers-details.html">John Copa</a></h5>-->
-<!--                                <span class="team-position">Creative Ui Expert</span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="item">-->
-<!--                        <div class="team-box style1 pink text-center wow fadeInUp" data-wow-delay="0.6s">-->
-<!--                            <div class="dlab-media">-->
-<!--                                <a href="teachers-details.html">-->
-<!--                                <img src="{% static 'images/team/pic3.png' %}" alt="">-->
-<!--                            </a>-->
-<!--                            </div>-->
-<!--                            <div class="team-info">-->
-<!--                                <h5 class="team-title"><a href="teachers-details.html">Foqrul islam</a></h5>-->
-<!--                                <span class="team-position">Content Creation Expert</span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="item">-->
-<!--                        <div class="team-box style1 yellow text-center wow fadeInUp" data-wow-delay="0.8s">-->
-<!--                            <div class="dlab-media">-->
-<!--                                <a href="teachers-details.html">-->
-<!--                                <img src="{% static 'images/team/pic4.png' %}" alt="">-->
-<!--                            </a>-->
-<!--                            </div>-->
-<!--                            <div class="team-info">-->
-<!--                                <h5 class="team-title"><a href="teachers-details.html">Masum Rana</a></h5>-->
-<!--                                <span class="team-position">Nav Salimian</span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-
+        </div> -->
         <!-- meet our team end -->
         <!-- pricing table -->
-<!--        <div class="section-full bg-white content-inner-2">-->
-<!--            <div class="container">-->
-<!--                <div class="section-head text-center">-->
-<!--                    <span class="sub-title text-primary">Pricing Plan</span>-->
-<!--                    <h2 class="title text-secondry">Simple pricing that works</h2>-->
-<!--                </div>-->
-<!--                <div class="row">-->
-<!--                    <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.3s">-->
-<!--                        <div class="pricingtable-wrapper">-->
-<!--                            <div class="pricingtable-inner">-->
-<!--                                <div class="pricingtable-price">-->
-<!--                                    <span class="pricingtable-bx text-primary">$19</span>-->
-<!--                                </div>-->
-<!--                                <div class="pricingtable-title">-->
-<!--                                    <h2>Core Business </h2>-->
-<!--                                </div>-->
-<!--                                <ul class="pricingtable-features">-->
-<!--                                    <li>1-2 target pages </li>-->
-<!--                                    <li>30-40 Keywords</li>-->
-<!--                                    <li>Connect Domain</li>-->
-<!--                                    <li>Ideal for smaller professional websites</li>-->
-<!--                                    <li>Business & eCommerce</li>-->
-<!--                                </ul>-->
-<!--                                <div class="pricingtable-footer"> <a href="javascript:void(0);" class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a> </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.6s">-->
-<!--                        <div class="pricingtable-wrapper">-->
-<!--                            <div class="pricingtable-inner">-->
-<!--                                <div class="pricingtable-price">-->
-<!--                                    <span class="pricingtable-bx text-primary">$49</span>-->
-<!--                                </div>-->
-<!--                                <div class="pricingtable-title">-->
-<!--                                    <h2>Core Business </h2>-->
-<!--                                </div>-->
-<!--                                <ul class="pricingtable-features">-->
-<!--                                    <li>1-2 target pages </li>-->
-<!--                                    <li>30-40 Keywords</li>-->
-<!--                                    <li>Connect Domain</li>-->
-<!--                                    <li>Ideal for smaller professional websites</li>-->
-<!--                                    <li>Business & eCommerce</li>-->
-<!--                                </ul>-->
-<!--                                <div class="pricingtable-footer"> <a href="javascript:void(0);" class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a> </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.9s">-->
-<!--                        <div class="pricingtable-wrapper">-->
-<!--                            <div class="pricingtable-inner">-->
-<!--                                <div class="pricingtable-price">-->
-<!--                                    <span class="pricingtable-bx text-primary">$99</span>-->
-<!--                                </div>-->
-<!--                                <div class="pricingtable-title">-->
-<!--                                    <h2>Core Business </h2>-->
-<!--                                </div>-->
-<!--                                <ul class="pricingtable-features">-->
-<!--                                    <li>1-2 target pages </li>-->
-<!--                                    <li>30-40 Keywords</li>-->
-<!--                                    <li>Connect Domain</li>-->
-<!--                                    <li>Ideal for smaller professional websites</li>-->
-<!--                                    <li>Business & eCommerce</li>-->
-<!--                                </ul>-->
-<!--                                <div class="pricingtable-footer"> <a href="javascript:void(0);" class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a> </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!-- <div class="section-full bg-white content-inner-2">
+            <div class="container">
+                <div class="section-head text-center">
+                    <span class="sub-title text-primary">Pricing Plan</span>
+                    <h2 class="title text-secondry">Simple pricing that works</h2>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="pricingtable-wrapper">
+                            <div class="pricingtable-inner">
+                                <div class="pricingtable-price">
+                                    <span class="pricingtable-bx text-primary">$19</span>
+                                </div>
+                                <div class="pricingtable-title">
+                                    <h2>Core Business </h2>
+                                </div>
+                                <ul class="pricingtable-features">
+                                    <li>1-2 target pages </li>
+                                    <li>30-40 Keywords</li>
+                                    <li>Connect Domain</li>
+                                    <li>Ideal for smaller professional websites</li>
+                                    <li>Business & eCommerce</li>
+                                </ul>
+                                <div class="pricingtable-footer"> <a href="javascript:void(0);"
+                                        class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="pricingtable-wrapper">
+                            <div class="pricingtable-inner">
+                                <div class="pricingtable-price">
+                                    <span class="pricingtable-bx text-primary">$49</span>
+                                </div>
+                                <div class="pricingtable-title">
+                                    <h2>Core Business </h2>
+                                </div>
+                                <ul class="pricingtable-features">
+                                    <li>1-2 target pages </li>
+                                    <li>30-40 Keywords</li>
+                                    <li>Connect Domain</li>
+                                    <li>Ideal for smaller professional websites</li>
+                                    <li>Business & eCommerce</li>
+                                </ul>
+                                <div class="pricingtable-footer"> <a href="javascript:void(0);" class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.9s">
+                        <div class="pricingtable-wrapper">
+                            <div class="pricingtable-inner">
+                                <div class="pricingtable-price">
+                                    <span class="pricingtable-bx text-primary">$99</span>
+                                </div>
+                                <div class="pricingtable-title">
+                                    <h2>Core Business </h2>
+                                </div>
+                                <ul class="pricingtable-features">
+                                    <li>1-2 target pages </li>
+                                    <li>30-40 Keywords</li>
+                                    <li>Connect Domain</li>
+                                    <li>Ideal for smaller professional websites</li>
+                                    <li>Business & eCommerce</li>
+                                </ul>
+                                <div class="pricingtable-footer"> <a href="javascript:void(0);"
+                                        class="btn outline outline-1 radius-xl btn-aware">Choose Plan<span></span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
         <!-- pricing table end -->
         <!-- contact form -->
-        <div class="section-full bg-white content-inner" style="background-image: url({% static 'images/background/bg1.jpg' %}); background-size: cover;">
+        <div class="section-full bg-white content-inner"
+            style="background-image: url({% static 'images/background/bg1.jpg' %}); background-size: cover;">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-5 col-md-5 m-b30 wow fadeInLeft" data-wow-delay="0.3s">
@@ -455,12 +571,14 @@
                                 <div class="row">
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <input name="email" type="email" required class="form-control" placeholder="Enter your Email Address">
+                                            <input name="email" type="email" required class="form-control"
+                                                placeholder="Enter your Email Address">
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-md-12 col-sm-12">
-                                        <button name="submit" type="submit" value="Submit" class="btn radius-xl red btn-md btn-aware">SEND<span></span></button>
+                                        <button name="submit" type="submit" value="Submit"
+                                            class="btn radius-xl red btn-md btn-aware">SEND<span></span></button>
                                     </div>
                                 </div>
                             </form>
@@ -477,6 +595,7 @@
 <style>
     #popup-question-wrap{
         background-color: rgb(240, 240, 240);
+        overflow-x: hidden;
         overflow-y: scroll;
         position: fixed;
         inset: 0px;
@@ -518,24 +637,11 @@
         z-index: 999998;
     }
 </style>
-<script>
-    // window.addEventListener('load', function (e) {
-    //     setTimeout(() => {
-    //         console.log(document.getElementById('popup-question-wrap').style.display)
-    //         document.getElementById('popup-question-wrap').style.display='block !important';
-    //     }, 2000);
-    // })
-    function rmModalAndOverlay(e) {
-        const delEl = e.closest('#popup-question-wrap');
-        delEl.previousElementSibling.remove();
-        delEl.remove();
-    }
-</script>
-<div id="custom-overlay"></div>
-<div id="popup-question-wrap" class="m-auto shadow radius-md" style="z-index: 999999;">
+<div id="custom-overlay" style="display: none"></div>
+<div id="popup-question-wrap" class="m-auto shadow radius-md" style="display: none; z-index: 999999;">
     <button class="delete d-flex align-items-center justify-content-center" 
-    onclick="rmModalAndOverlay(this)">✖</button>
-    <form action="" method="POST" class="popup-question-form container px-md-5 py-4">
+    onclick="rmModalAndOverlay()">✖</button>
+    <form action="" method="POST" class="popup-question-form container px-1 px-md-5 py-4">
         {% csrf_token %}
         <div class="row">
             <div class="col-12">
@@ -593,19 +699,19 @@
                     <label class="mb-1">3. Have worked more in?</label>
                     <div class="ml-2">
                         <div class="row mt-2">
-                            <div class="form-check col-6 mb-2">
+                            <div class="form-check col-12 col-md-6 mb-2">
                                 <input class="form-check-input" type="radio" name="worked_in" id="id_worked_in1" value="MACHINE_LEARNING" required>
                                 <label class="form-check-label" for="id_worked_in1">Machine learning</label>
                             </div>
-                            <div class="form-check col-6 mb-2">
+                            <div class="form-check col-12 col-md-6 mb-2">
                                 <input class="form-check-input" type="radio" name="worked_in" id="id_worked_in2" value="DEEP_LEARNING" required>
                                 <label class="form-check-label" for="id_worked_in2">Deep learning</label>
                             </div>
-                            <div class="form-check col-6 mb-2">
+                            <div class="form-check col-12 col-md-6 mb-2">
                                 <input class="form-check-input" type="radio" name="worked_in" id="id_worked_in3" value="JUST_PYTHON_CODING" required>
                                 <label class="form-check-label" for="id_worked_in3">Just python coding</label>
                             </div>
-                            <div class="form-check col-6 mb-2">
+                            <div class="form-check col-12 col-md-6 mb-2">
                                 <input class="form-check-input" type="radio" name="worked_in" id="id_worked_in4" value="NONE_OF_THE_ABOVE" required>
                                 <label class="form-check-label" for="id_worked_in4">None of the above</label>
                             </div>
@@ -787,4 +893,59 @@
 
 <!-- Content END-->
 
+<script>
+    function closePopup() {
+        $("#pop-up-questions").css("display", 'none');
+    }
+
+    function PopUpSubmit() {
+        let age = $("select[name='age']").val();
+        let knowledge_ml_dl_ai = $("select[name='knowledge_ml_dl_ai']").val();
+        let worked_in = $("select[name='worked_in']").val();
+        let code_difficult = $("select[name='code_difficult']").val();
+        let does_ml_dl_ai = $("select[name='does_ml_dl_ai']").val();
+        let like_to_work_in = $("select[name='like_to_work_in']").val();
+        let functionality_areas = $("select[name='functionality_areas']").val();
+        var csrfmiddlewaretoken = $('[name="csrfmiddlewaretoken"]').val();
+        $.ajax({
+            type: "POST",
+            url: "{% url 'home:pop-up' %}",
+            data: {
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+                'age': age,
+                'knowledge_ml_dl_ai': knowledge_ml_dl_ai,
+                'worked_in': worked_in,
+                'code_difficult': code_difficult,
+                'does_ml_dl_ai': does_ml_dl_ai,
+                'like_to_work_in': like_to_work_in,
+                'functionality_areas': functionality_areas
+            },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        });
+
+    }
+
+    // Popup Show/Hide
+    const customOverlay = document.getElementById('custom-overlay')
+    const popupQuestionWrap = document.getElementById('popup-question-wrap')
+    window.addEventListener('load', function (e) {
+        setTimeout(() => {
+            if (localStorage.getItem('pop-shown') !== 'true'){
+                customOverlay.style.display = 'block'
+                popupQuestionWrap.style.display ='block';
+                console.log('Popup Shown')
+            }
+        }, 1000);
+    })
+    function rmModalAndOverlay() {
+        customOverlay.style.display = 'none';
+        popupQuestionWrap.style.display='none';
+        localStorage.setItem('pop-shown', 'true');
+    }
+</script>
 {% endblock content %}

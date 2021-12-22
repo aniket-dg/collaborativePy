@@ -9,7 +9,8 @@ from django.views import View
 from django.views.generic import CreateView, UpdateView, DetailView, ListView, DeleteView
 
 from chat.forms import PostCreateForm
-from post.models import Post, FlagInappropriate
+from post.forms import SkeletonPostCreateForm
+from post.models import Post, FlagInappropriate, SkeletonPost
 from home.models import Contact
 from order.models import Plan
 from users.models import User
@@ -228,7 +229,7 @@ class UserDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
 class UserPlanUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
 
-    def get(self,*args, **kwargs):
+    def get(self, *args, **kwargs):
         return render(self.request, 'analytics/plan_update.html')
 
     def post(self, *args, **kwargs):
@@ -279,3 +280,60 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
+
+
+class SkeletonPostCreateView(LoginRequiredMixin, CreateView):
+    model = SkeletonPost
+    form_class = SkeletonPostCreateForm
+    template_name = 'analytics/skeleton_post_create.html'
+
+    def form_valid(self, form):
+        post = form.instance
+        post.user = self.request.user
+        post.save()
+        messages.success(self.request, "Skeleton Post created successfully!")
+        return redirect('analytics:post-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class SkeletonPostUpdateView(LoginRequiredMixin, UpdateView):
+    model = SkeletonPost
+    form_class = SkeletonPostCreateForm
+    template_name = 'analytics/skeleton_post_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SkeletonPostUpdateView, self).get_context_data(**kwargs)
+        context['post'] = self.get_object()
+        return context
+
+    def form_valid(self, form):
+        post = form.instance
+        post.user = self.request.user
+
+        post.save()
+        messages.success(self.request, "Skeleton Post updated successfully!")
+        return redirect('analytics:skeleton-post-list')
+
+
+class SkeletonPostDeleteView(LoginRequiredMixin, DeleteView):
+    model = SkeletonPost
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        redirect_url = self.request.META.get('HTTP_REFERER')
+        post = self.get_object()
+        post.delete()
+        messages.success(self.request, "Skeleton post deleted!")
+        if redirect_url:
+            return redirect(redirect_url)
+        return redirect('analytics:skeleton-post-list')
+
+
+class SkeletonPostListView(LoginRequiredMixin, ListView):
+    model = SkeletonPost
+    paginate_by = 20
+    template_name = 'analytics/skeleton_post_list.html'

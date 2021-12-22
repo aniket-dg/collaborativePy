@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+{#######  variable Initialization #######}
+<script>
+    let webSocket;
+    let mapPeers = {};
+    let username = 'user_{{ request.user.id }}';
+</script>
+
+<script>
+    function webSocketOnMessage(event){
+        let parsedData = JSON.parse(event.data);
+        let peerUserName = parsedData['peer'];
+        let action = parsedData['action'];
+
+        if(username === peerUserName){
+            return;
+        }
+
+        let receiver_channel_name = parsedData['message']['receiver_channel_name'];
+
+        if(action === 'new-peer'){
+            createOfferer(peerUserName, receiver_channel_name);
+
+            return;
+        }
+
+        if(action === 'new-offer'){
+            let offer = parsedData['message']['sdp'];
+            createAnswerer(offer, peerUserName, receiver_channel_name);
+            return;
+        }
+
+        if(action === 'new-answer'){
+            let answer = parsedData['message']['sdp'];
+            let peer  = mapPeers[peerUserName][0];
+
+            peer.setRemoteDescription(answer);
+            return;
+        }
+    }
+</script>
+
+
+<script>
+
+$(document).ready(function(){
+
+    let loc = window.location;
+    let wsStart = 'ws://';
+
+    if(loc.protocol === 'https:'){
+        wsStart = 'wss://';
+    }
+
+    let endPoint = wsStart + loc.host + '/ws/video/meet/'+ '{{ group_name }}/';
+
+    webSocket = new WebSocket(endPoint);
+    console.log(webSocket);
+    webSocket.addEventListener('open', (e)=>{
+        console.log("Connection open");
+        sendSignal('new-peer', {'receiver_channel_name': '{{ group_name }}'});
+
+    });
+    webSocket.addEventListener('message', webSocketOnMessage);
+    webSocket.addEventListener('close', (e)=>{
+        console.log("Connection closed");
+        console.log(e);
+    });
+    webSocket.addEventListener('error', (e)=>{
+        console.log("Error occurred");
+    });
+
+    {% if is_group_creator %}
+        sendNotificationOnMessage();
+    {% endif %}
+});
+
+
+let localStream = new MediaStream();
+
+    const constraints = {
+        'video': true,
+        'audio': true
+    }
+
+    const localVideo = document.querySelector('#local-video');
+
+    const btnToggleAudio = document.querySelector('#btn-toggle-audio');
+    const btnToggleVideo = document.querySelector('#btn-toggle-video');
+
+
+
+    let userMedia = navigator.mediaDevices.getUserMedia(constraints)
+        .then(stream => {
+
+            localStream = stream;
+            localVideo.srcObject = localStream;
+            localVideo.muted = true;
+
+
+            let audioTracks = stream.getAudioTracks();
+            let videoTracks = stream.getVideoTracks();
+
+            audioTracks[0].enabled = true;
+            videoTracks[0].enabled = true;
+
+            btnToggleAudio.addEventListener('click', ()=>{
+                audioTracks[0].enabled = !audioTracks[0].enabled;
+
+                if(audioTracks[0].enabled){
+                    btnToggleAudio.classList.replace('mic-off', 'mic-on')
+                    return;
+                }
+                btnToggleAudio.classList.replace('mic-on','mic-off');
+            });
+
+            btnToggleVideo.addEventListener('click', ()=>{
+                videoTracks[0].enabled = !videoTracks[0].enabled;
+
+                if(videoTracks[0].enabled){
+                    btnToggleVideo.classList.replace('camera-off','camera-on');
+                    return;
+                }
+                btnToggleVideo.classList.replace('camera-on','camera-off');
+            });
+        })
+        .catch(error =>{
+            console.log('Error accessing media devices', error);
+        });
+
+</script>
+
+
+<script>
+
+    function sendSignal(action, message){
+        let jsonStr = JSON.stringify({
+        'peer': username,
+        'action': action,
+        'message': message
+        });
+        webSocket.send(jsonStr);
+    }
+
+    function createOfferer(peerUserName, receiver_channel_name){
+        let peer = new RTCPeerConnection(null);
+
+        addLocalTracks(peer);
+
+        let dc = peer.createDataChannel('channel');
+        dc.addEventListener('open', ()=>{
+            console.log("dc connection opened");
+        });
+        dc.addEventListener('message', dcOnMessage);
+
+        let remoteVideo = createVideo(peerUserName);
+
+        setOnTrack(peer, remoteVideo);
+
+        mapPeers[peerUserName] = [peer, dc];
+
+        peer.addEventListener('iceconnectionstatechange', ()=>{
+           let iceconnectionState = peer.iceConnectionState;
+
+           if(iceconnectionState === 'failed' || iceconnectionState === 'disconnected' || iceconnectionState === 'closed'){
+               delete mapPeers[peerUserName];
+
+               if(iceconnectionState !== 'closed'){
+                   peer.close();
+               }
+
+               removeVideo(remoteVideo);
+           }
+        });
+
+        peer.addEventListener('icecandidate', (event)=>{
+           if(event.candidate){
+               console.log('new ice candidate', JSON.stringify(peer.localDescription));
+
+               return;
+           }
+           sendSignal('new-offer', {
+               'sdp':peer.localDescription,
+               'receiver_channel_name': receiver_channel_name
+           });
+
+        });
+
+        peer.createOffer()
+            .then(o => peer.setLocalDescription(o))
+            .then(() => {
+                console.log("local description set successfully");
+            });
+
+
+    }
+
+
+
+    function createAnswerer(offer, peerUserName, receiver_channel_name){
+        let peer = new RTCPeerConnection(null);
+
+        addLocalTracks(peer);
+        let remoteVideo = createVideo(peerUserName);
+
+        setOnTrack(peer, remoteVideo);
+        peer.addEventListener('datachannel', e=>{
+           peer.dc = e.channel;
+            peer.dc.addEventListener('open', ()=>{
+                console.log("dc connection opened");
+            });
+            peer.dc.addEventListener('message', dcOnMessage);
+            mapPeers[peerUserName] = [peer, peer.dc];
+
+        });
+
+        peer.addEventListener('iceconnectionstatechange', ()=>{
+           let iceconnectionState = peer.iceConnectionState;
+
+           if(iceconnectionState === 'failed' || iceconnectionState === 'disconnected' || iceconnectionState === 'closed'){
+               delete mapPeers[peerUserName];
+
+               if(iceconnectionState !== 'closed'){
+                   peer.close();
+               }
+
+               removeVideo(remoteVideo);
+           }
+        });
+
+        peer.addEventListener('icecandidate', (event)=>{
+           if(event.candidate){
+               console.log('new ice candidate', JSON.stringify(peer.localDescription));
+
+               return;
+           }
+           sendSignal('new-answer', {
+               'sdp':peer.localDescription,
+               'receiver_channel_name': receiver_channel_name
+           });
+
+        });
+
+        peer.setRemoteDescription(offer)
+        .then(() => {
+            console.log('Remote description set successfully for %s', peerUserName);
+
+            return peer.createAnswer();
+        })
+        .then(a => {
+            console.log('Answer created');
+
+            peer.setLocalDescription(a);
+        })
+    }
+
+    function addLocalTracks(peer){
+        localStream.getTracks().forEach(track => {
+            peer.addTrack(track, localStream);
+        });
+        return;
+    }
+
+    let messageList = document.querySelector('#message-list');
+    function dcOnMessage(event){
+        let message = event.data;
+
+        let li = document.createElement('li');
+        li.appendChild(document.createTextNode(message));
+        messageList.appendChild(li);
+    }
+
+    function  createVideo(peerUserName){
+        userId = peerUserName.split('_')[1]
+
+        // Video element Creation
+        let remoteVideo = document.createElement('video');
+        remoteVideo.id = peerUserName + '-video';
+        remoteVideo.autoplay = true;
+        remoteVideo.playsInline = true;
+        remoteVideo.classList.add('w-100', 'h-100', 'cover-player');
+        remoteVideo.setAttribute('data-id', userId);
+        addVideoToDOM(remoteVideo, userId)
+
+        return remoteVideo;
+    }
+
+    function addVideoToDOM(video, userId){
+        let videoContainer = document.querySelector('#video-container');
+        $.getJSON(`/chat/call/participant/${userId}`, function(data){
+            // Styling Elements
+            let nameTag = document.createElement('span');
+            nameTag.classList.add('name-tag');
+            nameTag.innerText = data.username;
+            let participantActionsEl =  document.createElement('div');
+            participantActionsEl.classList.add('participant-actions');
+            let videoParticipantEl = document.createElement('div');
+            videoParticipantEl.classList.add('video-participant');
+            videoParticipantEl.appendChild(participantActionsEl);
+            videoParticipantEl.appendChild(nameTag);
+            videoParticipantEl.appendChild(video);
+            videoParticipantEl.setAttribute('data-delete', 'true') // For removing element
+            videoParticipantEl.setAttribute('data-id', userId) // For showing feature
+            videoContainer.appendChild(videoParticipantEl);
+            addMemberToList(data)
+        })
+    }
+
+    function addMemberToList(data) {
+        // Adding to list
+        let member = `
+            <div class="member-info py-2 d-flex align-items-center" data-id="${data['id']}">
+                <div class="participant profile-picture">
+                    <img src="${data['profile_image_url']}" alt="Profile Picture">
+                </div>
+                <div class="member-details">
+                    <h6 class="mb-0">${data['name']}</h6>
+                    <span class="text-muted" style="font-size: 0.9rem;">${data['username']}</span>
+                </div>
+                <button onclick="showUser(event, this, ${data['id']})" title="Show ${data['name']}" class="ml-auto btn-show"></button>
+            </div>
+        `
+        document.getElementById('video-member-list').insertAdjacentHTML('beforeend', member)
+    }
+
+    function removeMemberFromList(userId){
+        document.getElementById('video-member-list').querySelector(`[data-id="${userId}"]`).remove()
+    }
+
+    function  showUser(e, element, userId) {
+        let videoContainer = document.querySelector('#video-container');
+        const myVideoEl = document.querySelector(`.video-participant[data-self='true']`);
+        const chosenEl = videoContainer.querySelector(`.video-participant[data-id='${userId}']`);
+        myVideoEl.parentNode.insertBefore(chosenEl, myVideoEl.nextSibling);
+    }
+    
+    function setOnTrack(peer, remoteVideo){
+        let remoteStream = new MediaStream();
+
+        remoteVideo.srcObject = remoteStream;
+        peer.addEventListener('track', async (event)=>{
+           remoteStream.addTrack(event.track, remoteStream);
+        });
+    }
+
+    function removeVideo(video){
+        removeMemberFromList(video.dataset.id)
+        video.closest(`[data-delete='true']`).remove()
+    }
+
+</script>
+
+
+
+{######### script to talk with group consumer #######}
+<script>
+    let group_chatSocket_chat;
+    let receiver_group = "{{group.id }}";
+    {% if is_group_creator %}
+    function sendNotificationOnMessage()
+    {
+
+
+        group_chatSocket_chat = new ReconnectingWebSocket(
+            'ws://' + window.location.host +
+            '/ws/chat/group/' + "{{ group.name }}" + '/'+ "{{ request.user.id }}" +'/');
+
+        group_chatSocket_chat.onopen = function(e){
+            console.log("Connection open");
+            let url = "/chat/video/{{ join_url }}";
+            group_chatSocket_chat.send(JSON.stringify({
+                            'message': `New Video call is started! Join Now Link: ${url}`,
+                            'receiver_id': receiver_group,
+                            'command': 'new_message',
+                            'bucket_id': 0,
+                        }));
+        }
+
+    }
+
+    {% endif %}
+
+</script>
+
+</body>

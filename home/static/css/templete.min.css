@@ -1845,7 +1845,7 @@ footer .widget_services ul li:hover {
     width: 0;
     height: 0;
     border-radius: 50%;
-    background-color: #8d72f9;
+    background-color: #5596e6;
     transition: width .5s ease-in-out, height .5s ease-in-out;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);

@@ -18,6 +18,7 @@ urlpatterns = [
 
     # Update User profile
     path('update/<int:pk>/', views.UserUpdateView.as_view(), name='update'),
+    path('update/profile-image/<int:pk>', views.UserProfileImageUpdateView.as_view(), name='update-profile-image'),
 
     # Password
     path('change-password/', auth_views.PasswordChangeView.as_view(template_name='users/password_change.html'),
@@ -51,6 +52,11 @@ urlpatterns = [
 
     path('send/user/request/<int:user_id>/', views.SendRequest.as_view(), name='send-user-request'),
     path('accept/user/request/<int:id>/', views.AcceptRequest.as_view(), name='accept-user-request'),
+    path('unfriend/user/<int:pk>/', views.UnfriendUser.as_view(), name='unfriend-user'),
+
+    path('load/more/friends/', views.LoadMoreFriends.as_view(), name='load-more-friends'),
+
+    path('search/', views.UsersAndPostsSearchView.as_view(), name='search-user-post'),
 
 ]
 
