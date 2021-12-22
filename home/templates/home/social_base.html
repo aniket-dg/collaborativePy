@@ -4,7 +4,6 @@
 <html lang="en">
 
 
-<!-- Mirrored from friendkit.cssninja.io/navbar-v1-pages-main.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 21 Oct 2021 14:39:58 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
     <!-- Required meta tags -->
@@ -411,7 +410,7 @@
                             <span class="indicator"></span>
                         </div>
 
-                        {% if user.is_autenticated %}
+                        {% if request.user.is_authenticated %}
                         <div class="nav-drop is-account-dropdown">
                             <div class="inner">
 <!--                                <div class="nav-drop-header">-->
@@ -441,9 +440,9 @@
                                                 <h3>{{request.user.get_full_name}}</h3>
                                                 <small>{{request.user.username}}</small>
                                             </div>
-                                            <div class="media-right">
-                                                <i data-feather="check"></i>
-                                            </div>
+<!--                                            <div class="media-right">-->
+<!--                                                <i data-feather="check"></i>-->
+<!--                                            </div>-->
                                         </div>
                                     </a>
 
