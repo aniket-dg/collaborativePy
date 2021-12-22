@@ -3414,7 +3414,7 @@ blockquote:before {
     position: absolute;
     width: 0;
     height: 1px;
-    background: #8d72f9;
+    background: #5596e6 ;
     left: 20px;
     top: 20px;
     transition: all .5s;

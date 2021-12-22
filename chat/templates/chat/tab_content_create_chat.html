@@ -2,15 +2,15 @@
 
 <!-- Create -->
 
-                    <div class="tab-pane fade h-100" id="tab-content-create-chat" role="tabpanel">
+                <div class="tab-pane fade h-100" id="tab-content-create-chat" role="tabpanel">
 
-{########################  Group Chat Form   ##################################}
-                        <form method="post" action="{% url 'chat:group-create' %}" enctype="multipart/form-data">
-                        {% csrf_token %}
-                            <div class="d-flex flex-column h-100">
-                            <div class="hide-scrollbar">
+                    <div class="d-flex flex-column h-100">
+                        <div class="hide-scrollbar">
+                            <div class="container py-8">
+                                {########################  Group Chat Form   ##################################}
+                                <form method="post" action="{% url 'chat:group-create' %}" enctype="multipart/form-data">
+                                    {% csrf_token %}
 
-                                <div class="container py-8">
 
                                     <!-- Title -->
                                     <div class="mb-8">
@@ -27,10 +27,20 @@
                                                         </div>
                                                     </div>
 
-                                                    <input type="text" class="form-control form-control-lg ps-0" placeholder="Search messages or users" aria-label="Search for messages or users...">
+                                                    <input type="text" 
+                                                            oninput="startSearchQuery(event, this.value, 'create-chat-members', 'create_receiver_', null)" 
+                                                            class="form-control form-control-lg ps-0" placeholder="Search users" aria-label="Search users">
                                                 </div>
-
                                         </div>
+                                        <script>
+                                            let createQueryTimer;
+                                            function startSearchQuery(event, query, searchWrapperId, serachUserItemId, serachGroupItemId=null) {
+                                                clearTimeout(createQueryTimer);
+                                                createQueryTimer = setTimeout(() => {
+                                                    searchUsersAndGroups(event, query.toLowerCase(), searchWrapperId, serachUserItemId, serachGroupItemId);
+                                                }, 1000);
+                                            }
+                                        </script>
 
                                         <ul class="nav nav-pills nav-justified" role="tablist">
                                             <li class="nav-item">
@@ -39,7 +49,7 @@
                                                 </a>
                                             </li>
 
-                                            <li class="nav-item" onclick="if ($.trim($(`[name='group_name']`))) $(`[name='group_name']`).focus()">
+                                            <li class="nav-item" id="choose-members-tab" onclick="if ($.trim($(`[name='group_name']`))) $(`[name='group_name']`).focus()">
                                                 <a class="nav-link" disabled data-bs-toggle="pill" href="#create-chat-members" role="tab" aria-controls="create-chat-members" aria-selected="true">
                                                     People
                                                 </a>
@@ -49,10 +59,13 @@
                                                 function checkGroupNameNotEmpty(element) {
                                                     const bool = Boolean(element.value.trim())
                                                     const tab = document.querySelector(`a[href='#create-chat-members']`)
+                                                    const chooseMembersBtn = document.getElementById('choose-members-btn')
                                                     if (!bool){
                                                         tab.setAttribute('disabled', true)
+                                                        chooseMembersBtn.setAttribute('disabled', true)
                                                     } else {
                                                         tab.removeAttribute('disabled')
+                                                        chooseMembersBtn.removeAttribute('disabled')
                                                     }
                                                 }
                                             </script>
@@ -71,7 +84,7 @@
 
                                                     <div class="profile-body">
                                                         <div class="avatar avatar-xl">
-                                                            <img class="avatar-img" style="display: none;" id="preview_chat_image" alt="Chat image">
+                                                            <img class="avatar-img" style="display: none; object-fit:cover;" id="preview_chat_image" alt="Chat image">
                         
                                                             <a href="#" class="badge badge-lg badge-circle bg-primary text-white border-outline position-absolute bottom-0 end-0">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -103,7 +116,7 @@
                                                         <div class="row gy-6">
                                                             <div class="col-12">
                                                                 <div class="form-floating">
-                                                                    <input type="text" class="form-control" required name="group_name" onchange="checkGroupNameNotEmpty(this)" id="floatingInput" placeholder="Enter a chat name">
+                                                                    <input type="text" class="form-control" required name="group_name" oninput="checkGroupNameNotEmpty(this)" id="floatingInput" placeholder="Enter a chat name">
                                                                     <label for="floatingInput">Enter group name <span style="color:#2787F5">*</span></label>
                                                                 </div>
                                                             </div>
@@ -121,6 +134,17 @@
                                                 <small class="text-muted me-auto">Enter chat name and add an optional photo.</small>
                                             </div>
 
+                                            <!-- Button Choose Members -->
+                                            <div class="mt-5 position-relative">
+                                                <button type="button" id="choose-members-btn" onclick="$(`a[href='#create-chat-members']`)[0].click()" class="btn btn-lg btn-primary w-100 d-flex align-items-center" disabled>
+                                                    Choose Members 
+                                                    <span class="icon ms-auto">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <!-- Button -->
+
                                         </div>
 
                                         <!-- Members -->
@@ -128,12 +152,12 @@
                                             <nav>
                                         {% for initial, account in accounts.items %}
 
-                                                <div class="my-5">
+                                                <div class="my-5 user_initials">
                                                     <small class="text-uppercase text-muted">{{ initial }}</small>
                                                 </div>
                                                 {% for user in account %}
                                                 <!-- Card -->
-                                                <div class="card border-0 mt-5">
+                                                <div class="card border-0 mt-5" id="create_receiver_{{user.id}}">
                                                     <div class="card-body">
                                                         <div class="row align-items-center gx-5">
                                                             <div class="col-auto">
@@ -142,8 +166,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col">
-                                                                <h5>{{ user.username }}</h5>
-                                                                <p>last seen 3 days ago</p>
+                                                                <h5 data-search='full_name'>{{ user.get_full_name }}</h5>
+                                                                <p data-search="username">{{user.username}}</p>
                                                             </div>
                                                             <div class="col-auto">
                                                                 <div class="form-check">
@@ -159,34 +183,33 @@
                                                 {% endfor %}
                                         {% endfor %}
                                             </nav>
+                                            <!-- Button Start Chat -->
+                                            <div class="mt-5 position-relative">
+                                                <button id="create-chat-members-btn" class="btn btn-lg btn-primary w-100 d-flex align-items-center" disabled type="submit">
+                                                    Start chat
+                                                    <span class="icon ms-auto">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <!-- Button -->
                                         </div>
                                     </div>
                                     <!-- Tabs content -->
-                                </div>
-
+                                    <!-- Button Start Chat was here -->
+                                </form>
+                                {######################## End Group Chat Form   ##################################}
                             </div>
-
-                            <!-- Button -->
-                            <div class="container mt-n4 mb-8 position-relative">
-                                <button id="create-chat-members-btn" class="btn btn-lg btn-primary w-100 d-flex align-items-center" disabled type="submit">
-                                    Start chat
-                                    <span class="icon ms-auto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                                    </span>
-                                </button>
-                            </div>
-                            <!-- Button -->
                         </div>
-                        </form>
-                        <script>
-                            function checkIfUsersSelected(e, element, id){
-                                const checked = document.getElementById(`${id}`).querySelectorAll('input:checked')
-                                if (checked.length === 0) {
-                                    document.getElementById(`${id}-btn`).setAttribute('disabled', 'true')
-                                } else {
-                                    document.getElementById(`${id}-btn`).removeAttribute('disabled')
-                                }
-                            }
-                        </script>
-{######################## End Group Chat Form   ##################################}
                     </div>
+                    <script>
+                        function checkIfUsersSelected(e, element, id){
+                            const checked = document.getElementById(`${id}`).querySelectorAll('input:checked')
+                            if (checked.length === 0) {
+                                document.getElementById(`${id}-btn`).setAttribute('disabled', 'true')
+                            } else {
+                                document.getElementById(`${id}-btn`).removeAttribute('disabled')
+                            }
+                        }
+                    </script>
+                </div>

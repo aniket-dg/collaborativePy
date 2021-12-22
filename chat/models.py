@@ -1,8 +1,6 @@
 from django.db import models
 
 
-
-
 class Message(models.Model):
     author = models.ForeignKey('users.User', related_name='author_messages', on_delete=models.CASCADE)
     content = models.TextField()
@@ -39,6 +37,14 @@ class P2pChatModel(models.Model):
         ordering = ['-timestamp']
 
 
+class GroupCallHistory(models.Model):
+    started_by = models.ForeignKey('users.User', on_delete=models.SET_NULL, blank=True, null=True)
+    is_end = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"call_{self.id}"
+
+
 class GroupChatModel(models.Model):
     group_name = models.CharField(max_length=300)
     name = models.CharField(max_length=300, null=True, blank=True)
@@ -48,6 +54,9 @@ class GroupChatModel(models.Model):
     admin = models.ManyToManyField('users.User', blank=True, related_name='group_admin')
     created_by = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='group_created_by_user')
     created_at = models.DateTimeField(auto_now_add=True)
+
+    history = models.ManyToManyField(GroupCallHistory, blank=True)
+
     def __str__(self):
         return str(self.id)
 
@@ -94,7 +103,8 @@ class UploadedMedia(models.Model):
 class UserMedia(models.Model):
     files = models.ManyToManyField(UploadedMedia, blank=True)
     access_by = models.ManyToManyField('users.User', blank=True)
-    owner = models.ForeignKey('users.User', on_delete=models.SET_NULL, null=True, blank=True, related_name='Owner_of_media')
+    owner = models.ForeignKey('users.User', on_delete=models.SET_NULL, null=True, blank=True,
+                              related_name='Owner_of_media')
 
     def __str__(self):
         return str(self.id)

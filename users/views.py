@@ -5,7 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse
+from django.core.paginator import Paginator
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import ListView, DetailView
@@ -109,14 +110,20 @@ class LogoutView(View):
 #
 #         return render(self.request, 'users/profile.html', context)
 
+class CheckProfile:
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.id == self.kwargs.get('pk'):
+            return redirect('user:profile')
+        return super().dispatch(request, *args, **kwargs)
 
-class UserFriendProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class UserFriendProfileView(LoginRequiredMixin, CheckProfile,UserPassesTestMixin, DetailView):
     model = User
     template_name = 'users/profile.html'
 
     def get_context_data(self, **kwargs):
         context = super(UserFriendProfileView, self).get_context_data(**kwargs)
         user = self.get_object()
+
         context['user_friend'] = True
         context['post_list'] = Post.objects.filter(user=user)
         context['profile_user'] = user
@@ -128,6 +135,25 @@ class UserFriendProfileView(LoginRequiredMixin, UserPassesTestMixin, DetailView)
     def test_func(self):
         return True
 
+class UserProfileImageUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = User
+    fields = ['profile_image']
+    success_message = 'Profile image successfully updated'
+
+    def form_valid(self, form):
+        user = form.instance
+        user.save()
+        redirect_url = self.request.META.get('HTTP_REFERER')
+        if redirect_url:
+            return redirect(redirect_url)
+        return redirect('user:profile')
+
+    def form_invalid(self, form):
+        return HttpResponse(form.errors.as_json())
+
+    def test_func(self):
+        model = self.get_object()
+        return self.request.user == model
 
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = User
@@ -165,8 +191,8 @@ class UserProfileView(LoginRequiredMixin, View):
         user = self.request.user
         context = {}
 
-        context['bookmark_list'] = BookMark.objects.filter(user=user)
-        context['post_list'] = Post.objects.filter(user=user)
+        context['bookmark_list'] = []
+        context['post_list'] = []
         flags_objs = FlagInappropriate.objects.filter(user=user)
         flags = []
         for flag in flags_objs:
@@ -178,6 +204,7 @@ class UserProfileView(LoginRequiredMixin, View):
         context['flag_list'] = flags
         context['profile_user'] = user
         connected_users = user.get_user_connected_users()
+
         requested_users = user.get_user_requested_users()
         received_users = user.get_user_received_users()
         remaining_users = user.get_remaining_users()
@@ -240,6 +267,12 @@ class UserConnection(LoginRequiredMixin, View):
         user = self.request.user
         send_request_user = User.objects.filter(id=int(id)).last()
         if send_request_user:
+            user_present = send_request_user.pending_connections.filter(connection_user=user).last()
+            if user_present:
+                messages.warning(self.request, "Request already sent to user")
+                if redirect_url:
+                    return redirect(redirect_url)
+                return redirect('user:profile')
             connection = Connection()
             connection.connection_user = send_request_user
             connection.request = True
@@ -301,6 +334,7 @@ class SendRequest(View):
             return redirect(redirect_url)
         return redirect('user:profile')
 
+
 class AcceptRequest(View):
     def get(self, *args, **kwargs):
         redirect_url = self.request.META.get('HTTP_REFERER')
@@ -322,6 +356,7 @@ class AcceptRequest(View):
         if redirect_url:
             return redirect(redirect_url)
         return redirect('user:profile')
+
 
 class AcceptUserRequest(LoginRequiredMixin, View):
     def post(self, *args, **kwargs):
@@ -346,4 +381,125 @@ class AcceptUserRequest(LoginRequiredMixin, View):
             return redirect(redirect_url)
         return redirect('user:profile')
 
-# class PasswordChangeDoneView(LoginRequiredMixin, )
+
+# class UnfriendUser(View):
+#     def get(self, *args, **kwargs):
+#         redirect_url = self.request.META.get('HTTP_REFERER')
+#         user_friend_id = self.kwargs.get('pk')
+#         user_friend = User.objects.filter(id=user_friend_id).last()
+#         user = self.request.user
+#         if not user_friend:
+#             messages.warning(self.request, "User not found")
+#             if redirect_url:
+#                 return redirect(redirect_url)
+#             return redirect('user:profile')
+#         if user_friend not in user.connections.all():
+#             messages.warning(self.request, "User not found")
+#             if redirect_url:
+#                 return redirect(redirect_url)
+#             return redirect('user:profile')
+#         user.connections.remove(user_friend)
+#         user.save()
+#         if user in user_friend.connections.all():
+#             user_friend.connections.remove(user)
+#             user_friend.save()
+#         messages.success(self.request, "User removed from your friend list")
+#         if redirect_url:
+#             return redirect(redirect_url)
+#         return redirect('user:profile')
+
+
+class UnfriendUser(View):
+    def get(self, *args, **kwargs):
+        redirect_url = self.request.META.get('HTTP_REFERER')
+        user_friend_id = self.kwargs.get('pk')
+        user_friend = User.objects.filter(id=user_friend_id).last()
+        user = self.request.user
+        if not user_friend:
+            messages.warning(self.request, "User not found")
+            if redirect_url:
+                return redirect(redirect_url)
+            return redirect('user:profile')
+        if user_friend not in user.get_user_connected_users():
+            messages.warning(self.request, "User not found")
+            if redirect_url:
+                return redirect(redirect_url)
+            return redirect('user:profile')
+        if user_friend in user.get_user_connected_users() or user in user_friend.get_user_connected_users():
+            user.connections.remove(*user.connections.filter(connection_user=user_friend))
+            user.pending_connections.remove(*user.pending_connections.filter(connection_user=user_friend))
+            user_friend.connections.remove(*user_friend.connections.filter(connection_user=user))
+            user_friend.pending_connections.remove(*user_friend.pending_connections.filter(connection_user=user))
+
+            user.save()
+            user_friend.save()
+        messages.success(self.request, "User removed from your friend list")
+        if redirect_url:
+            return redirect(redirect_url)
+        return redirect('user:profile')
+
+
+class LoadMoreFriends(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        connected_users = user.get_user_connected_users()
+        p = Paginator(connected_users, 2)
+        current_status = int(self.request.GET['current_friends'])
+        if p.count <= current_status:
+            return JsonResponse({
+                'Status': False,
+                'Message': 'No more friends!...'
+            })
+        new_friends = list(p.get_page((current_status + 2) / 2))
+        friends = []
+        for item in new_friends:
+            if not item.profile_image:
+                profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
+            else:
+                profile = item.profile_image.url
+            friends.append({
+                'username': item.username,
+                'name': item.first_name + " " + item.last_name,
+                'profile': profile,
+                'user_id': item.id,
+            })
+        return JsonResponse({'friends': friends})
+
+
+class UsersAndPostsSearchView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        query = self.request.GET.get('query')
+        current_user = self.request.user
+        user_list = []
+        post_list = []
+        users = User.objects.filter(username__icontains=query)
+        # posts = Post.objects.filter(description__icontains=query)
+        print(users)
+
+        for user in users:
+            # 0 -> Not Friend, 1 -> Already sent request, 2 -> Already Friend
+            is_friend = 0
+            if user.pending_connections.filter(connection_user=current_user).exists():
+                is_friend = 1
+            elif current_user.get_user_connected_users().filter(id=user.id).exists() or user == current_user:
+                is_friend = 2
+            user_list.append({
+                'id': user.id,
+                'name': user.get_full_name(),
+                'username': user.username,
+                'profile_image_url': user.profile_image.url,
+                'is_friend': is_friend
+            })
+        # for post in posts:
+        #     post_list.append({
+        #         'id': post.id,
+        #         'description': post.description,
+        #         'author': post.user.username,
+        #         'author_image': post.user.profile_image.url,
+        #         'image': post.image1.url,
+        #         'language': post.language,
+        #     })
+        return JsonResponse({
+            'user_list': user_list,
+            'post_list': post_list
+        })

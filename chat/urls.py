@@ -59,4 +59,16 @@ urlpatterns = [
                                                                                                       '-group'),
     path('delete/group/', views.DeleteGroupView.as_view(), name='delete-group'),
     path('add/member/group/', views.AddMemberToGroupView.as_view(), name='add-member-group'),
+
+
+    path('video/call/', views.VideoCallView.as_view(), name='video-call1'),
+
+    path('call/video/', views.StartVideoCall.as_view(), name='video-call'),
+    path('video/<str:encrypt_group_name>/', views.VideoCallReceiver.as_view(), name='video-receiver'),
+
+    path('call/audio/', views.StartAudioCall.as_view(), name='audio-call'),
+    path('audio/<str:encrypt_group_name>/', views.AudioCallReceiver.as_view(), name='audio-receiver'),
+    path('audio/end/<str:encrypt_group_name>/', views.EndCall.as_view(), name='audio-end'),
+    path('call/participant/<int:pk>/', views.CallParticpantInfo.as_view(), name='call-participant'),
+
 ]

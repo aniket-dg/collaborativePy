@@ -11,83 +11,7 @@ from django.shortcuts import get_object_or_404
 from users.models import User
 from .models import Message, P2pChatModel, GroupChatModel, GroupChat, GroupChatUnreadMessage, UserMedia
 from channels.layers import get_channel_layer
-
-
-class ChatConsumer(WebsocketConsumer):
-
-    def fetch_messages(self, data):
-        a = Message()
-        messages = Message.last_10_messages(a)
-        content = {
-            'command': 'messages',
-            'messages': self.messages_to_json(messages)
-        }
-        self.send_message(content)
-
-    def new_message(self, data):
-        author = data['from']
-        author_user = User.objects.filter(username=author)[0]
-        message = Message.objects.create(
-            author=author_user,
-            content=data['message'])
-        content = {
-            'command': 'new_message',
-            'message': self.message_to_json(message)
-        }
-        return self.send_chat_message(content)
-
-    def messages_to_json(self, messages):
-        result = []
-        for message in messages:
-            result.append(self.message_to_json(message))
-        return result
-
-    def message_to_json(self, message):
-        return {
-            'author': message.author.username,
-            'content': message.content,
-            'timestamp': str(message.timestamp)
-        }
-
-    commands = {
-        'fetch_messages': fetch_messages,
-        'new_message': new_message,
-    }
-
-    def connect(self):
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = 'chat_%s' % self.room_name
-        async_to_sync(self.channel_layer.group_add)(
-            self.room_group_name,
-            self.channel_name
-        )
-        self.accept()
-
-    def disconnect(self, close_code):
-        async_to_sync(self.channel_layer.group_discard)(
-            self.room_group_name,
-            self.channel_name
-        )
-
-    def receive(self, text_data):
-        data = json.loads(text_data)
-        self.commands[data['command']](self, data)
-
-    def send_chat_message(self, message):
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': message
-            }
-        )
-
-    def send_message(self, message):
-        self.send(text_data=json.dumps(message))
-
-    def chat_message(self, event):
-        message = event['message']
-        self.send(text_data=json.dumps(message))
+from channels.generic.websocket import AsyncWebsocketConsumer
 
 
 class P2pConsumer(WebsocketConsumer):
@@ -184,16 +108,16 @@ class P2pConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         data = json.loads(text_data)
-        print(data,"Anu")
+        print(data, "Anu")
         msg_id, receiver_id = self.save_single_message(data)
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': {'id': msg_id, 'sender_id': self.sender.id, 'receiver_id':receiver_id, 'type':'new_message'}
+                'message': {'id': msg_id, 'sender_id': self.sender.id, 'receiver_id': receiver_id,
+                            'type': 'new_message'}
             }
         )
-
 
     def send_chat_message(self, message):
         async_to_sync(self.channel_layer.group_send)(
@@ -293,7 +217,7 @@ class GroupConsumer(WebsocketConsumer):
     def receive(self, text_data):
         data = json.loads(text_data)
 
-        msg_id,group_id = self.save_single_message(data)
+        msg_id, group_id = self.save_single_message(data)
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
@@ -301,7 +225,7 @@ class GroupConsumer(WebsocketConsumer):
                 'message': {'id': msg_id, 'group_id': group_id}
             }
         )
-        print(data,"Send from grp save")
+        print(data, "Send from grp save")
         # self.commands[data['command']](self, data)
 
     def send_chat_message(self, message):
@@ -320,3 +244,61 @@ class GroupConsumer(WebsocketConsumer):
     def chat_message(self, event):
         message = event['message']
         self.send(text_data=json.dumps(message))
+
+
+class VideoCallConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        grp_name = self.scope['url_route']['kwargs']['group_name']
+
+        self.room_group_name = grp_name
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+
+        await self.accept()
+
+    async def disconnect(self, code):
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
+        print("Disconnected")
+
+    async def receive(self, text_data=None, bytes_data=None):
+        try:
+            receive_dict = json.loads(text_data)
+            print(receive_dict)
+            message = receive_dict['message']
+            action = receive_dict['action']
+            print(message['receiver_channel_name'], action)
+            if action == 'new-offer' or action == 'new-answer':
+                receive_channel_name = receive_dict['message']['receiver_channel_name']
+                receive_dict['message']['receiver_channel_name'] = self.channel_name
+                await self.channel_layer.send(
+                    receive_channel_name,
+                    {
+                        'type': 'send.sdp',
+                        'receive_dict': receive_dict
+                    }
+                )
+                return
+
+            receive_dict['message']['receiver_channel_name'] = self.channel_name
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'send.sdp',
+                    'receive_dict': receive_dict
+                }
+            )
+        except Exception as e:
+            print(e)
+
+    async def send_sdp(self, event):
+        try:
+            receive_dict = event['receive_dict']
+            print(receive_dict)
+            await self.send(text_data=json.dumps(receive_dict))
+        except Exception as e:
+            print("In send_sdp",e)

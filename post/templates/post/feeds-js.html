@@ -345,7 +345,7 @@
         <!-- Header -->
         <div class="comments-heading">
             <h4>Comments
-                <small id="comment-header` + post.post_id + `">${post.comments}</small>
+<!--                <small id="comment-header` + post.post_id + `">${post.comments}</small>-->
             </h4>
             <a onclick="closeComment('`+ post.post_id +`')" id="close-comment`+ post.post_id +`" class="close-comments">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -360,6 +360,12 @@
 
         <!-- Comments body -->
         <div id="comment-body` + post.post_id + `" class="comments-body has-slimscroll"></div>
+        <div id="load-more-comments-btn_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered">
+                        <a onclick="moreComments(${post.post_id})" id="load-more" style="font-size: 14px;">Load More</a>
+                    </div>
+                    <div id="no-comment-tag_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered" style="display: none;">
+                        <p>No more posts!...</p>
+                    </div>
         <!-- /Comments body -->
 
         <!-- Comments footer -->
@@ -662,7 +668,7 @@
         <!-- Header -->
         <div class="comments-heading">
             <h4>Comments
-                <small id="comment-header` + post.post_id + `">${post.comments}</small>
+<!--                <small id="comment-header` + post.post_id + `">${post.comments}</small>-->
             </h4>
             <a onclick="closeComment('`+ post.post_id +`')" id="close-comment`+ post.post_id +`" class="close-comments">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -677,6 +683,12 @@
 
         <!-- Comments body -->
         <div id="comment-body` + post.post_id + `" class="comments-body has-slimscroll"></div>
+        <div id="load-more-comments-btn_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered">
+                        <a onclick="moreComments(${post.post_id})" id="load-more" style="font-size: 14px;">Load More</a>
+                    </div>
+                    <div id="no-comment-tag_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered" style="display: none;">
+                        <p>No more posts!...</p>
+                    </div>
         <!-- /Comments body -->
 
         <!-- Comments footer -->
@@ -988,7 +1000,7 @@
         <!-- Header -->
         <div class="comments-heading">
             <h4>Comments
-                <small id="comment-header` + post.post_id + `">${post.comments}</small>
+<!--                <small id="comment-header` + post.post_id + `">${post.comments}</small>-->
             </h4>
             <a onclick="closeComment('`+ post.post_id +`')" id="close-comment`+ post.post_id +`" class="close-comments">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -1002,9 +1014,13 @@
         <!-- /Header -->
 
         <!-- Comments body -->
-        <div id="comment-body` + post.post_id + `" class="comments-body has-slimscroll">
-        </div>
-
+        <div id="comment-body` + post.post_id + `" class="comments-body has-slimscroll"></div>
+        <div id="load-more-comments-btn_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered">
+                        <a onclick="moreComments(${post.post_id})" id="load-more" style="font-size: 14px;">Load More</a>
+                    </div>
+                    <div id="no-comment-tag_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered" style="display: none;">
+                        <p>No more posts!...</p>
+                    </div>
         <!-- /Comments body -->
 
         <!-- Comments footer -->
@@ -1308,7 +1324,7 @@
         <!-- Header -->
         <div class="comments-heading">
             <h4>Comments
-                <small id="comment-header` + post.post_id + `">${post.comments}</small>
+<!--                <small id="comment-header` + post.post_id + `">${post.comments}</small>-->
             </h4>
             <a onclick="closeComment('`+ post.post_id +`')" id="close-comment`+ post.post_id +`" class="close-comments">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -1324,7 +1340,7 @@
         <!-- Comments body -->
         <div id="comment-body` + post.post_id + `" class="comments-body has-slimscroll"></div>
         <div id="load-more-comments-btn_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered">
-                        <a onclick="moreComments(${post.post_id})" id="load-more" class="load-more-button">Load More</a>
+                        <a onclick="moreComments(${post.post_id})" id="load-more" style="font-size: 14px;">Load More</a>
                     </div>
                     <div id="no-comment-tag_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered" style="display: none;">
                         <p>No more posts!...</p>

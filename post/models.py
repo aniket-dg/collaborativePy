@@ -55,7 +55,7 @@ class FirstLevelCategory(models.Model):
     name = models.CharField(max_length=300)
 
     def __str__(self):
-        return f"FirstLevel_{self.id}_{self.name}"
+        return self.name
 
 
 class SecondLevelCategory(models.Model):
@@ -63,26 +63,26 @@ class SecondLevelCategory(models.Model):
     first_category = models.ForeignKey(FirstLevelCategory, on_delete=models.CASCADE, related_name='firstCat')
 
     def __str__(self):
-        return f"SecondLevel{self.id}_{self.name}"
+        return self.name
 
 
 class ThirdLevelCategory(models.Model):
     name = models.CharField(max_length=300)
-    first_category = models.ForeignKey(FirstLevelCategory, on_delete=models.CASCADE, related_name='firstCatThird')
-    second_category = models.ForeignKey(SecondLevelCategory, on_delete=models.CASCADE)
+    first_category = models.ForeignKey(FirstLevelCategory, on_delete=models.CASCADE)
+    second_category = models.ForeignKey(SecondLevelCategory, on_delete=models.CASCADE, related_name='firstCatThird')
 
     def __str__(self):
-        return f"ThirdLevel{self.id}_{self.name}"
+        return self.name
 
 
 class FourthLevelCategory(models.Model):
     name = models.CharField(max_length=300)
-    first_category = models.ForeignKey(FirstLevelCategory, on_delete=models.CASCADE, related_name='firstCatFourth')
+    first_category = models.ForeignKey(FirstLevelCategory, on_delete=models.CASCADE)
     second_category = models.ForeignKey(SecondLevelCategory, on_delete=models.CASCADE)
-    third_category = models.ForeignKey(ThirdLevelCategory, on_delete=models.CASCADE)
+    third_category = models.ForeignKey(ThirdLevelCategory, on_delete=models.CASCADE, related_name='firstCatFourth')
 
     def __str__(self):
-        return f"FourthLevel{self.id}_{self.name}"
+        return self.name
 
 
 class SkeletonPost(models.Model):

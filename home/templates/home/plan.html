@@ -21,7 +21,7 @@
     <div class="container">
         <div class="section-head text-center">
             <!-- <span class="sub-title text-primary">Pricing Plan</span> -->
-            <h2 class="title text-secondry">Simple pricing that works</h2>
+<!--            <h2 class="title text-secondry">Simple pricing that works</h2>-->
         </div>
         <div class="row">
             {% for object in object_list %}
@@ -41,7 +41,7 @@
                             <li>Ideal for smaller professional websites</li>
                             <li>Business &amp; eCommerce</li> -->
                         </ul>
-                        <div class="pricingtable-footer"> <a href="{% url 'order:payment-request' object.id %}" class="btn outline outline-1 radius-xl btn-aware">Buy Now<span></span></a> </div>
+                        <div class="pricingtable-footer"> <a href="{% if user.is_authenticated %}{% url 'order:payment-request' object.id %}{% else %}{% url 'user:login' %}{% endif %}" class="btn outline outline-1 radius-xl btn-aware">Buy Now<span></span></a> </div>
                     </div>
                 </div>
             </div>

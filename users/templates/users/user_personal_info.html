@@ -6,7 +6,7 @@
                                 <div class="settings-panel mx-4">
 
                                     <div class="title-wrap mb-3">
-                                        <h2 style="font-size: 1.6em; color:#999">General Settings</h2>
+                                        <h3 style="font-size: 1.3em; color:#999">Personal Info</h3>
                                     </div>
                                     <hr class="mt-2 mb-5">
                                     <form method="POST" {% if not user_friend %}action="{% url 'user:update' user.pk %}" {% endif %}>
@@ -27,6 +27,7 @@
                                                         </div>
                                                     </div>
                                                     <!--Field-->
+                                                     {% if not user_friend %}
                                                     <div class="field field-group">
                                                         <label>{{form.email.label}}</label>
                                                         <div class="control has-icon">
@@ -36,6 +37,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    {% endif %}
                                                 </div>
 
                                                 <div class="column is-6">
@@ -50,6 +52,7 @@
                                                         </div>
                                                     </div>
                                                     <!--Field-->
+                                                    {% if not user_friend %}
                                                     <div class="field field-group">
                                                         <label>{{form.phone_number.label}}</label>
                                                         <div class="control has-icon">
@@ -59,6 +62,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    {% endif %}
                                                 </div>
 
                                                 <div class="column is-12">
@@ -96,7 +100,7 @@
                                                 <div class="column is-12">
                                                     <div class="buttons">
                                                         <button class="button is-solid accent-button form-button">Save Changes</button>
-                                                        <button class="button is-light form-button">Advanced</button>
+<!--                                                        <button class="button is-light form-button">Advanced</button>-->
                                                     </div>
                                                 </div>
                                                 {% endif %}

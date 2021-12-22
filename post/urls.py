@@ -34,12 +34,15 @@ urlpatterns = [
     path('skeleton/comment/', views.SkeletonPostCommentView.as_view(), name='skeleton-post-comment'),
 
     path('loadMore/comments/', views.LoadMoreComments.as_view(), name='load-more-comments'),
+    path('loadMore/skeleton/comments/', views.LoadMoreSkeletonComments.as_view(), name='load-more-skeleton-comments'),
     path('get/comment/', views.GetComment.as_view(), name='get-single-comment'),
+    path('get/skeleton/comment/', views.GetSkeletonComment.as_view(), name='get-single-skeleton-comment'),
     path(r'api/', include(router.urls)),
 
     path('apiV1/comment/list/', postcomment_list, name='api-comment-list'),
     path('apiV1/skeleton/post/comment/list/', skeleton_postcomment_list, name='api-skeleton-post-comment-list'),
     # API
     # path('api/comment/', api.PostCommentModelViewSet, name='api-post-comment'),
+    path('delete/post/<int:pk>/', views.DeletePost.as_view(), name='delete-post'),
 
 ]

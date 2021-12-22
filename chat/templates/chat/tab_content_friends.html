@@ -11,7 +11,7 @@
 
                                     <!-- Search -->
                                     <div class="mb-6">
-                                        <form action="#">
+                                        <form action="" onsubmit="event.preventDefault()">
                                             <div class="input-group">
                                                 <div class="input-group-text">
                                                     <div class="icon icon-lg">
@@ -19,7 +19,9 @@
                                                     </div>
                                                 </div>
 
-                                                <input type="text" class="form-control form-control-lg ps-0" placeholder="Search users" aria-label="Search for messages or users...">
+                                                <input id="search-input-friends" 
+                                                oninput="startSearchQuery(event, this.value, 'user-list-left-panel', 'remaining_', null)" 
+                                                type="text" class="form-control form-control-lg ps-0" placeholder="Search users" aria-label="Search users">
                                             </div>
                                         </form>
 
@@ -61,13 +63,13 @@
                                                     <div class="row align-items-center gx-5">
                                                         <div class="col-auto">
                                                             <a href="#" class="avatar ">
-                                                                <img class="avatar-img" src="{{ connection.connection_user.profile_image.url }}" alt="">
+                                                                <img class="avatar-img" style="object-fit: cover;" src="{{ connection.connection_user.profile_image.url }}" alt="">
                                                             </a>
                                                         </div>
 
                                                         <div class="col">
-                                                            <h5><a href="#">{{ connection.connection_user.username }}</a></h5>
-                                                            <p>{{ connection.connection_user.get_full_name }}</p>
+                                                            <h5><a href="#">{{ connection.connection_user.get_full_name }}</a></h5>
+                                                            <p>{{ connection.connection_user.username }}</p>
                                                         </div>
 
                                                         <div class="col-auto">
@@ -80,7 +82,7 @@
                                                                 <ul class="dropdown-menu">
                                                                     <li onclick="this.querySelector(`button[type='submit']`).click()">
                                                                         <a class="dropdown-item" href="#">Accept Request</a>
-                                                                        <form method="post" action="{% url 'user:accept-user' %}">
+                                                                        <form method="post" onsubmit="acceptFriendRequest(event, reload=true);" action="">
                                                                             <input type="hidden" name="id" value="{{ connection.connection_user.id }}">
                                                                             {% csrf_token %}
                                                                             <button class="d-none" type="submit"></button>
@@ -105,69 +107,69 @@
                                         {% endfor %}
                                         </div>
                                        
-                                        <h4 class="mt-3 mb-2">Find Users</h4>
-                                        {% for initial, account in remaining_dict.items %}
-                                        <div class="my-5">
-                                            <small class="text-uppercase text-muted">{{ initial }}</small>
-                                        </div>
-                                        {% for user in account %}
-                                        <!-- Card -->
-                                        <div class="card border-0">
-                                            <div class="card-body">
+                                        <h4 class="mt-5 mb-4">Find Users</h4>
+                                        <div id="user-list-left-panel">
+                                            {% for initial, account in remaining_dict.items %}
+                                            <div class="my-5 user_initials">
+                                                <small class="text-uppercase text-muted">{{ initial }}</small>
+                                            </div>
+                                            {% for user in account %}
+                                            <!-- Card -->
+                                            <div class="card border-0" id="remaining_{{user.id}}">
+                                                <div class="card-body">
 
-                                                <div class="row align-items-center gx-5">
-                                                    <div class="col-auto">
-                                                        <a href="#" class="avatar ">
+                                                    <div class="row align-items-center gx-5">
+                                                        <div class="col-auto">
+                                                            <a href="#" class="avatar ">
 
-                                                            <img class="avatar-img" src="{{ user.profile_image.url }}" alt="">
+                                                                <img src="{{ user.profile_image.url }}" alt=""  style="object-fit: cover;" class="avatar-img">
 
 
-                                                        </a>
-                                                    </div>
-
-                                                    <div class="col">
-                                                        <h5><a href="#">{{ user.username }}</a></h5>
-                                                        <p>{{ user.get_full_name }}</p>
-                                                    </div>
-
-                                                    <div class="col-auto">
-                                                        <!-- Dropdown -->
-                                                        <div class="dropdown">
-                                                            <a class="icon text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
                                                             </a>
-
-                                                            <ul class="dropdown-menu">
-                                                                <li onclick="this.querySelector(`button[type='submit']`).click()">
-                                                                    <a class="dropdown-item" href="#">Send Request</a>
-                                                                    <form method="post" action="{% url 'user:send-request' %}">
-                                                                        <input type="hidden" name="id" value="{{ user.id }}">
-                                                                        {% csrf_token %}
-                                                                        <button class="d-none" type="submit"></button>
-                                                                    </form>
-                                                                </li>
-                                                                {% comment %} <li><a class="dropdown-item" href="#">Edit contact</a> {% endcomment %}
-                                                                </li>
-                                                                <li>
-                                                                    <hr class="dropdown-divider">
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item text-danger" href="#">Block user</a>
-                                                                </li>
-                                                            </ul>
                                                         </div>
+
+                                                        <div class="col">
+                                                            <h5 data-search="full_name">{{ user.get_full_name }}</h5>
+                                                            <p data-search="username">{{ user.username }}</p>
+                                                        </div>
+
+                                                        <div class="col-auto">
+                                                            <!-- Dropdown -->
+                                                            <div class="dropdown">
+                                                                <a class="icon text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                                                                </a>
+
+                                                                <ul class="dropdown-menu">
+                                                                    <li onclick="this.querySelector(`button[type='submit']`).click()">
+                                                                        <a class="dropdown-item" href="#">Send Request</a>
+                                                                        <form method="post" onsubmit="sendFriendRequest(event)" action="">
+                                                                            <input type="hidden" name="id" value="{{ user.id }}">
+                                                                            {% csrf_token %}
+                                                                            <button class="d-none" type="submit"></button>
+                                                                        </form>
+                                                                    </li>
+                                                                    {% comment %} <li><a class="dropdown-item" href="#">Edit contact</a> {% endcomment %}
+                                                                    </li>
+                                                                    <li>
+                                                                        <hr class="dropdown-divider">
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class="dropdown-item text-danger" href="#">Block user</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
 
                                                 </div>
-
                                             </div>
+                                            {% endfor %}
+                                            <!-- Card -->
+                                            {% endfor %}
                                         </div>
-                                        {% endfor %}
-                                        <!-- Card -->
-                                        {% endfor %}
- 
                                     </div>
-
                                 </div>
                             </div>
                         </div>

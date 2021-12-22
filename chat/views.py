@@ -15,8 +15,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
 
 from chat.forms import GroupCreateForm
-from chat.models import GroupChatModel, P2pChatModel, GroupChatUnreadMessage, GroupChat, UserMedia, UploadedMedia
+from chat.models import GroupChatModel, P2pChatModel, GroupChatUnreadMessage, GroupChat, UserMedia, UploadedMedia, \
+    GroupCallHistory
 from users.models import User
+from cryptography.fernet import Fernet
 
 
 @csrf_exempt
@@ -98,6 +100,8 @@ class ChatRoom(LoginRequiredMixin, View):
         context['room_name_json'] = mark_safe(json.dumps('room_name'))
         context['session_key'] = mark_safe(json.dumps(self.request.session.session_key))
         context['user'] = user
+        number_of_user_created_groups = GroupChatModel.objects.filter(created_by=user).count()
+        context['allow_group_creation'] = user.payment.plan.total_group_create_size > number_of_user_created_groups
         return render(self.request, 'chat/chat-direct.html', context)
 
 
@@ -500,14 +504,253 @@ class AddMemberToGroupView(View):
             return JsonResponse({
                 'error': 'Only admin can add member to group',
             })
-        user_id = self.request.GET.get('user_id')
-        user = User.objects.filter(id=user_id).last()
-        if not user:
-            return JsonResponse({
-                'error': 'User not exist!',
-            })
-        user.groups.add(group)
-        user.save()
+        # user_id = self.request.GET.get('user_id')
+        # user = User.objects.filter(id=user_id).last()
+        # if not user:
+        #     return JsonResponse({
+        #         'error': 'User not exist!',
+        #     })
+        user_ids = self.request.GET.getlist('user_ids[]')
+        users = User.objects.filter(id__in=user_ids)
+        plan = self.request.user.payment.plan
+        for user in users:
+            # Creator is not counted in total group members size
+            if plan.group_size > (group.user_set.count() - 1):
+                user.groups.add(group)
+                user.save()
+            else:
+                return JsonResponse({
+                    'data': f'Failed to add few member(s). Group size of {plan.group_size} exceeded!'
+                })
         return JsonResponse({
-            'data': 'Member added to Group.'
+            'data': 'Member(s) added to Group.'
         })
+
+
+class VideoCallView(View):
+    def get(self, *args, **kwargs):
+        context = {}
+        return render(self.request, 'chat/video_call.html', context)
+
+
+fernet_key = b'YDMimaEVL722izWNn7WnnGlEMf53P-r3rAhXh967G00='
+
+
+class StartVideoCall(View):
+    def post(self, *args, **kwargs):
+        group_id = self.request.POST.get('group_id')
+        if not group_id:
+            messages.warning(self.request, "Cannot start Video Call! Invalid Group Code")
+            return redirect('chat:chat')
+        group = GroupChatModel.objects.filter(id=int(group_id)).last()
+        if not group:
+            messages.warning(self.request, "Group not exist!")
+            return redirect('chat:chat')
+        if group not in self.request.user.groups.all():
+            messages.warning(self.request, "Group not exist!")
+            return redirect('chat:chat')
+
+        group_call_history = GroupCallHistory(started_by=self.request.user)
+        group_call_history.save()
+        context = {}
+
+        context['group'] = group
+        context['user'] = self.request.user
+
+        group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"  # use in websocket url
+        context['group_name'] = hash(group_name)  # use in websocket url
+
+        context['is_group_creator'] = True
+
+        fernet = Fernet(fernet_key)
+        join_url = fernet.encrypt(group_name.encode())
+        context['join_url'] = join_url.decode('utf-8')
+        print(join_url, "Aniket join url")
+        return render(self.request, 'chat/video.html', context)
+
+
+class VideoCallReceiver(View):
+    def get(self, *args, **kwargs):
+        encrypted_group = self.kwargs.get('encrypt_group_name')
+        context = {}
+        fernet = Fernet(fernet_key)
+
+        encrypted_group = bytes(encrypted_group, 'utf-8')
+        group_name = fernet.decrypt(encrypted_group).decode()
+        print(group_name, "Aniket")
+        try:
+
+            group_id = group_name.split("_")[1]
+            call_history_id = group_name.split("_")[2]
+            print(call_history_id)
+            if not group_id:
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+            group = GroupChatModel.objects.filter(id=int(group_id)).last()
+            if not group:
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+            if group not in self.request.user.groups.all():
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+
+            if not call_history_id:
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+            group_call_history = GroupCallHistory.objects.filter(id=int(call_history_id)).last()
+            if not group_call_history:
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+            if group_call_history.is_end:
+                messages.info(self.request, "This Call Has Been Ended By Host.")
+                return redirect('chat:chat')
+
+        except Exception as e:
+            print(e)
+            messages.warning(self.request, "Invalid Request")
+            return redirect('chat:chat')
+
+        context['group'] = group
+        context['is_group_creator'] = True
+        context['user'] = self.request.user
+        group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"
+        context['group_name'] = hash(group_name)
+        return render(self.request, 'chat/video.html', context)
+
+
+class CallParticpantInfo(View):
+    def get(self, *args, **kwargs):
+        user_id = self.kwargs.get('pk', None)
+        if user_id:
+            user = User.objects.filter(id=user_id).last()
+            return JsonResponse({
+                'status': 'success',
+                'id': user.id,
+                'name': user.get_full_name(),
+                'username': user.username,
+                'profile_image_url': user.profile_image.url
+            })
+        else:
+            return JsonResponse({
+                'status': 'failure',
+                'error': 'No user found.'
+            })
+
+
+class StartAudioCall(View):
+    def post(self, *args, **kwargs):
+        group_id = self.request.POST.get('group_id')
+        if not group_id:
+            messages.warning(self.request, "Cannot start Video Call! Invalid Group Code")
+            return redirect('chat:chat')
+        group = GroupChatModel.objects.filter(id=int(group_id)).last()
+        if not group:
+            messages.warning(self.request, "Group not exist!")
+            return redirect('chat:chat')
+        if group not in self.request.user.groups.all():
+            messages.warning(self.request, "Group not exist!")
+            return redirect('chat:chat')
+        group_call_history = GroupCallHistory(started_by=self.request.user)
+        group_call_history.save()
+        context = {}
+
+        context['group'] = group
+        context['user'] = self.request.user
+
+        group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"  # use in websocket url
+        context['group_name'] = hash(group_name)  # use in websocket url
+
+        context['is_group_creator'] = True
+
+        fernet = Fernet(fernet_key)
+        join_url = fernet.encrypt(group_name.encode())
+        context['join_url'] = join_url.decode('utf-8')
+
+        return render(self.request, 'chat/audio.html', context)
+
+
+class AudioCallReceiver(View):
+    def get(self, *args, **kwargs):
+        encrypted_group = self.kwargs.get('encrypt_group_name')
+        context = {}
+        context['join_url'] = encrypted_group
+        fernet = Fernet(fernet_key)
+
+        encrypted_group = bytes(encrypted_group, 'utf-8')
+        group_name = fernet.decrypt(encrypted_group).decode()
+        try:
+            group_id = group_name.split("_")[1]
+            call_history_id = group_name.split("_")[2]
+            if not group_id:
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+            group = GroupChatModel.objects.filter(id=int(group_id)).last()
+            if not group:
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+            if group not in self.request.user.groups.all():
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+
+            if not call_history_id:
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+            group_call_history = GroupCallHistory.objects.filter(id=int(call_history_id)).last()
+            if not group_call_history:
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+            if group_call_history.is_end:
+                messages.info(self.request, "This Call Has Been Ended By Host.")
+                return redirect('chat:chat')
+        except Exception as e:
+            print(e)
+            messages.warning(self.request, "Invalid Request")
+            return redirect('chat:chat')
+
+        context['group'] = group
+        context['is_group_creator'] = True
+        context['user'] = self.request.user
+        group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"
+        context['group_name'] = hash(group_name)
+        return render(self.request, 'chat/audio.html', context)
+
+
+class EndCall(View):
+    def get(self, *args, **kwargs):
+        encrypted_group = self.kwargs.get('encrypt_group_name')
+        context = {}
+        fernet = Fernet(fernet_key)
+
+        encrypted_group = bytes(encrypted_group, 'utf-8')
+        group_name = fernet.decrypt(encrypted_group).decode()
+        try:
+            group_id = group_name.split("_")[1]
+            call_history_id = group_name.split("_")[2]
+            if not group_id:
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+            group = GroupChatModel.objects.filter(id=int(group_id)).last()
+            if not group:
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+            if group not in self.request.user.groups.all():
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+
+            if not call_history_id:
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+            group_call_history = GroupCallHistory.objects.filter(id=int(call_history_id)).last()
+            if not group_call_history:
+                messages.warning(self.request, "Invalid Request!")
+                return redirect('chat:chat')
+            if not group_call_history.started_by == self.request.user:
+                messages.warning(self.request, "Only host can end up call. You can leave the call")
+                return redirect('chat:chat')
+            group_call_history.is_end = True
+            group_call_history.save()
+            messages.success(self.request, "Call ended")
+            return redirect('chat:chat')
+        except:
+            pass
+        return redirect('chat:chat')

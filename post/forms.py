@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Post, PostComment, SkeletonPostComment
+from .models import Post, PostComment, SkeletonPostComment, SkeletonPost
 
 
 class PostCreateForm(forms.ModelForm):
@@ -34,3 +34,9 @@ class SkeletonPostCommentForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         super(SkeletonPostCommentForm, self).__init__(*args, **kwargs)
         self.user = user
+
+
+class SkeletonPostCreateForm(forms.ModelForm):
+    class Meta:
+        model = SkeletonPost
+        exclude = ['liked_by','user']

@@ -1,0 +1,188 @@
+{% extends 'analytics/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+<h2 class="has-text-centered">
+    Post Update
+</h2>
+{% endblock title %}
+
+{% block data %}
+
+<style>
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group label {
+        font-size: 0.8em;
+    }
+
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group {
+        padding: 0.8em;
+    }
+</style>
+
+<div style="max-width: 100%;" class="settings-form-wrapper">
+    <div class="settings-form">
+        <form method="post" id="postSubmit" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="columns is-multiline">
+
+                <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+
+                        <div class="control has-icon">
+                            {{ form.first_level_category|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+
+                        <div class="control has-icon">
+                            {{ form.second_level_category|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+
+            <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+
+                        <div class="control has-icon">
+                            {{ form.third_level_category|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+
+            <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+
+                        <div class="control has-icon">
+                            {{ form.fourth_level_category|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+
+            <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+
+                        <div class="control has-icon">
+                            {{ form.description|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+
+            <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+
+                        <div class="control has-icon">
+                            {{ form.image1|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+
+            <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+
+                        <div class="control has-icon">
+                            {{ form.image2|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+            <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+
+                        <div class="control has-icon">
+                            {{ form.image3|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+            <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+
+                        <div class="control has-icon">
+                            {{ form.image4|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+            <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+
+                        <div class="control has-icon">
+                            {{ form.image5|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+
+            <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}" style="background-color: #f5f5f5;border-radius: 0.5em;padding: 0.5em;margin-top: 1em;">
+
+                <pre>{% autoescape off %}<code id="code">{{ post.skeleton_code }}
+                </code>{% endautoescape %}</pre>
+
+            </div>
+
+
+                <div class="column  is-6 ">
+                    <div class="field field-group">
+                        <div class="control has-icon">
+                            <div id="div_id_skeleton_code" class="form-group">
+                                <label for="id_skeleton_code" class="">
+                                    Skeleton code
+                                </label>
+                                <div class="">
+                                    <textarea name="skeleton_code" cols="40" rows="10" class="textarea form-control" id="id_skeleton_code">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+
+                        <div class="control has-icon">
+                            {{ form.language|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+
+            <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+
+                        <div class="control has-icon">
+                            {{ form.scope_of_work|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column is-12">
+                    <div class="buttons">
+                        <button type="submit" class="button is-solid accent-button form-button">Submit</button>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+    let extracted_code;
+    let process_description;
+    let original_code;
+    function formatCode()
+    {
+        original_code = $('#id_skeleton_code').val();
+        extracted_code = hljs.highlightAuto(original_code).value;
+        $('#id_skeleton_code').val(extracted_code);
+
+    }
+    $('#postSubmit').on('submit', function(){
+        formatCode();
+        $('#postSubmit').submit();
+
+    });
+
+</script>
+{% endblock data %}

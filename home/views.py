@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib import messages
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 
 from order.models import Plan
-from .forms import NewsLetterForm
+from .forms import NewsLetterForm, PopUpQuestionsForm
 from .models import Contact, TPP
 
 
@@ -24,9 +24,9 @@ def handler500(request, *args, **kwargs):
 
 class Home(View):
     def get(self, *args, **kwargs):
-        context = {}
         if self.request.user.is_authenticated:
             return redirect('post:post')
+        context = {}
         # context['parent_category_list'] = ParentCategory.objects.all()
         return render(self.request, 'home/home.html', context)
 
@@ -68,17 +68,26 @@ class Terms(View):
             tpp = tpp.terms_and_condition
         elif page_name == 'privacy-policy':
             tpp = tpp.privacy_policy
-        elif page_name == 'shiping-policy':
-            tpp = tpp.shipping_policy
-        elif page_name == 'refund-policy':
-            tpp = tpp.refund_policy
-        elif page_name == 'return-policy':
-            tpp = tpp.return_policy
-        elif page_name == 'cancellation-policy':
-            tpp = tpp.cancellation_policy
         return render(self.request, 'home/terms_and_condition.html', {'tpp': tpp, 'page': page_name})
 
 
 class PlanListView(ListView):
     model = Plan
     template_name = 'home/plan.html'
+
+
+class PopUp(View):
+    def post(self, *args, **kwargs):
+        print(self.request.POST)
+        form = PopUpQuestionsForm(self.request.POST)
+        if not form.is_valid():
+            return JsonResponse({
+                "Status": False,
+                'Message': "Required fields are empty!..."
+            })
+        popup = form.save(commit = False)
+        popup.save()
+        return JsonResponse({
+            "Status": True,
+            'Message': "Success..."
+        })
