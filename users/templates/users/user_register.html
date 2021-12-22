@@ -36,9 +36,9 @@
     <div class="infraloader is-active"></div>
     <div class="signup-wrapper">
 
-        <div class="fake-nav" style="height: 70px;">
+        <div class="fake-nav" style="height: 60px;">
             <a href="/" class="logo">
-                <img src="{% static 'images/logo/stellar-1.jpeg' %}"  style="max-width: 70px;" alt="">
+                <img src="{% static 'images/logo/color-logo.png' %}" style="width: 70px;" alt="">
             </a>
         </div>
 
@@ -143,11 +143,11 @@
     </div>
     {% endif %}
 
-    
+
 
         <div class="outer-panel">
             <div class="outer-panel-inner">
-                <div class="process-title mt-4">
+                <div class="process-title mt-3">
                     <h2 id="step-title-1" class="step-title is-active">Tell us more about you.</h2>
                     <h2 id="step-title-3" class="step-title">Upload a profile picture.</h2>
                     <h2 id="step-title-5" class="step-title">Secure your account.</h2>
@@ -158,32 +158,32 @@
                         <div class="field">
                             <label>First Name</label>
                             <div class="control">
-                                <input type="text" class="input" name="first_name" placeholder="Enter your first name">
+                                <input type="text" class="input" name="first_name" onblur="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your first name">
                             </div>
                         </div>
                         <div class="field">
                             <label>Last Name</label>
                             <div class="control">
-                                <input type="text" class="input" name="last_name" placeholder="Enter your last name">
+                                <input type="text" class="input" name="last_name" onblur="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your last name">
                             </div>
                         </div>
                         <div class="field">
                             <label>Username</label>
                             <div class="control">
-                                <input type="text" class="input" name="username" placeholder="Enter your username">
+                                <input type="text" class="input" name="username" required onblur="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your username">
                             </div>
                         </div>
                         <div class="field">
                             <label for="email">Email*</label>
                             <div class="control">
-                                <input type="email" id="email" class="input" name="email" placeholder="Enter your email address">
+                                <input type="email" id="email" class="input" name="email" required onblur="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your email address">
                             </div>
                         </div>
                     </div>
 
                     <div class="buttons">
                         <a class="button process-button" style="margin-right: auto;" href="{% url 'home:home' %}">&#8592; Home</a>
-                        <a class="button process-button is-next" data-step="step-dot-2">Next</a>
+                        <a class="button disabled process-button is-next" id="stepbtn0" data-step="step-dot-2" disabled>Next</a>
                     </div>
                 </div>
 
@@ -195,7 +195,7 @@
                                 <label for="profile_image" class="upload-button">
                                     <i data-feather="plus"></i>
                                 </label>
-                                <input name="profile_image" id="profile_image" type="file" accept="image/*" alt="" style="display: none;">
+                                <input name="profile_image" id="profile_image" onblur="unlockNextBtn(event, this, 1, 'stepbtn1')"  type="file" accept="image/*" alt="" style="display: none;">
                             </div>
                             <div class="limitation">
                                 <small>Only images with a size lower than 3MB are allowed.</small>
@@ -205,7 +205,7 @@
 
                     <div class="buttons">
                         <a class="button process-button" data-step="step-dot-1">Back</a>
-                        <a class="button process-button is-next" data-step="step-dot-3">Next</a>
+                        <a class="button process-button is-next" id="stepbtn1" data-step="step-dot-3">Next</a>
                     </div>
                 </div>
 
@@ -214,26 +214,26 @@
                         <div class="field">
                             <label>Password</label>
                             <div class="control">
-                                <input type="password" name="password1" class="input" placeholder="Choose a password" required>
+                                <input type="password" name="password1" onblur="unlockNextBtn(event, this, 2, 'stepbtn2')" minlength="8"  class="input" placeholder="Choose a password" required>
                             </div>
                         </div>
                         <div class="field">
                             <label>Repeat Password</label>
                             <div class="control">
-                                <input type="password" name="password2" class="input" placeholder="Repeat your password" required>
+                                <input type="password" name="password2" onblur="unlockNextBtn(event, this, 2, 'stepbtn2')" minlength="8"  class="input" placeholder="Repeat your password" required>
                             </div>
                         </div>
                         <div class="field">
                             <label>Phone Number</label>
                             <div class="control">
-                                <input type="number" class="input" name="phone_number" placeholder="Enter your phone number">
+                                <input type="number" onblur="unlockNextBtn(event, this, 2, 'stepbtn2')"  class="input" name="phone_number" placeholder="Enter your phone number">
                             </div>
                         </div>
                     </div>
 
                     <div class="buttons">
                         <a class="button process-button" data-step="step-dot-2">Back</a>
-                        <button type="submit" class="button" style="background-color: #5596e6; color: white;">Sign Up</button>
+                        <button type="submit" class="button" id="stepbtn2" style="background-color: #5596e6; color: white;" disabled>Sign Up</button>
                     </div>
                 </div>
 
@@ -344,10 +344,64 @@
                 previewEl.src = oldImage;
                 previewEl.style.display = 'inline-block';
             }
-            
+
         });
+
+        $('#registerForm').on('submit', function (e) {
+            const formData = new FormData(document.getElementById('registerForm'));
+            if (formData.get('phone_number').length != 10){
+                alert('Phone number should be 10 digits long.')
+                return false;
+            }
+            if ([0,1,2,3,4,5].includes(parseInt(formData.get('phone_number').charAt(0)))){
+                alert('Invalid phone number.')
+                return false;
+            }
+            if (formData.get('password1') != formData.get('password2')){
+                alert('Passwords do not match! Please verify them.')
+                return false;
+            }
+            if (formData.get('password1').length < 8){
+                alert('Password should be minimum 8 characters long.')
+                return false;
+            }
+            return true;
+        })
+
+        // Holds the fields from different pages
+        const page_arr = [
+            [
+                "input[name='first_name']",
+                "input[name='last_name']",
+                "input[name='username']",
+                "input[name='email']"
+            ],
+            [
+                "input[name='profile_image']"
+            ],
+            [
+                "input[name='password1']",
+                "input[name='password2']",
+                "input[name='phone_number']",
+            ]
+        ]
+        // Fires on blur event to unlock next btn
+        function unlockNextBtn(e, element, pageNo ,nextBtnId){
+            for (const field of page_arr[pageNo]){
+                if(!document.querySelector(field).checkValidity()){
+                    document.getElementById(nextBtnId).setAttribute('disabled', true);
+                    return
+                }
+            }
+            document.getElementById(nextBtnId).removeAttribute('disabled');
+        }
     }
     </script>
+    <style>
+        .process-button.is-next[disabled]{
+            pointer-events: none;
+        }
+    </style>
 </body>
 
 

@@ -44,7 +44,7 @@ class SignUpView(View):
         return render(self.request, 'users/user_register.html', context)
 
     def post(self, *args, **kwargs):
-        register_form = RegistrationForm(self.request.POST)
+        register_form = RegistrationForm(self.request.POST, self.request.FILES)
         if register_form.is_valid():
             register_form.save()
             messages.success(self.request, 'Account successfully created')
