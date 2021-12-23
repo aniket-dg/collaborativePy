@@ -857,6 +857,11 @@
     <!-- Google places Lib -->
     <script src="https://maps.google.com/maps/api/js?key=AIzaSyAGLO_M5VT7BsVdjMjciKoH1fFJWWdhDPU&amp;libraries=places">
     </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+{% include 'post/feeds-js.html' %}
+
+
 </div>
 
 
@@ -872,7 +877,9 @@
 
 <script>
 
-
+    let extracted_code;
+    let process_description;
+    let original_code;
 
 
     function closeComment(id) {
@@ -941,10 +948,7 @@
         });
     }
 
-    $(document).ready(function () {
 
-        morePostOnReady();
-    });
 
     function valSet(btn, des, val) {
         document.getElementById(des).value = val;
@@ -966,14 +970,13 @@
         }
     }
 
-    let extracted_code;
-    let process_description;
-    let original_code;
+
     function formatCode()
     {
         let description = $('#publish').val();
 
         if(description.indexOf('#')>=0) {
+            description = $('#publish').val();
             original_code = description.substring(
                 description.indexOf("#") + 2,
                 description.lastIndexOf("#") - 1);
@@ -984,7 +987,7 @@
             extracted_code = hljs.highlightAuto(original_code).value;
         }
         else{
-            process_description = description;
+            process_description = $('#publish').val();
             extracted_code = '';
         }
     }
@@ -1303,7 +1306,9 @@
         });
     }
 
+
+
 </script>
-    {% include 'post/feeds-js.html' %}
+
 
 {% endblock %}

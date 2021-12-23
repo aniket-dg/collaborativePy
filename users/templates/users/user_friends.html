@@ -208,3 +208,92 @@
                                     </div>
                                 </div>
                             </div>
+
+<script>
+    function createFriend(friends)
+    {
+        friends.forEach(user => {
+        let url = window.location.host + '/user/friend/profile/' + user.id;
+        let chat = window.location.host + '/chat/';
+           let html = `<div class="column is-6" id='friend'>
+                                                <div class="friend-small-card">
+                                                    <img src="${user.profile}" data-demo-src="${user.profile}" data-user-popover="9" alt="">
+                                                    <div class="meta">
+                                                        <span>${user.username}</span>
+                                                        <span>${user.name}</span>
+                                                    {#  Span contains friends count of that user  #}
+                                                    </div>
+                                                    <!-- Dropdown -->
+                                                    <div class="dropdown is-spaced is-accent is-right dropdown-trigger">
+                                                        <div>
+                                                            <div class="button">
+                                                                <i data-feather="more-vertical"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="dropdown-menu" role="menu">
+                                                            <div class="dropdown-content">
+                                                                <a href="${url}" class="dropdown-item">
+                                                                    <div class="media">
+                                                                        <i data-feather="user"></i>
+                                                                        <div class="media-content">
+                                                                            <h3>View Profile</h3>
+                                                                            <small>Open this user profile.</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                                <a class="dropdown-item" href="${chat}">
+                                                                    <div class="media">
+                                                                        <i data-feather="message-square"></i>
+                                                                        <div class="media-content">
+                                                                            <h3>Message</h3>
+                                                                            <small>Send a message to this user.</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                                <hr class="dropdown-divider">
+                                                                <a href="#" class="dropdown-item">
+                                                                    <div class="media">
+                                                                        <i data-feather="delete"></i>
+                                                                        <div class="media-content">
+                                                                            <h3>Unfriend</h3>
+                                                                            <small>Remove from friend list.</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+
+           $('#connected-users').append(html);
+        });
+    }
+
+    function moreFriends()
+    {
+        console.log("More function called");
+        currentPosts = $('#connected-users #friend').length;
+        $.ajax({
+            async: true,
+            method: "GET",
+            url: "{% url 'user:load-more-friends' %}",
+            data: {
+                'current_friends': currentPosts,
+            },
+            success: function (response) {
+                    if (response.Status == false) {
+                        $('#load-more-btn-friend').css('display', 'none');
+                        $('#no-friend-tag').css('display', 'block');
+                    } else
+                    {
+                        $('.page-placeholder').hide();
+                        createFriend(response.friends);
+                    }
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        });
+    }
+</script>

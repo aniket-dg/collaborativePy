@@ -5,6 +5,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.http import JsonResponse, Http404
 from django.shortcuts import redirect, render
 
+from users.models import User
 from .forms import PostCreateForm, PostCommentForm, SkeletonPostCommentForm
 from .models import Post, PostComment, SkeletonPostComment, POST_CATEGORY_CHOICES, LANGUAGES_CHOICES, SCOPE_CHOICES
 from django.contrib.auth.mixins import LoginRequiredMixin
