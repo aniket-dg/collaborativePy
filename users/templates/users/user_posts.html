@@ -30,6 +30,7 @@
     }
 </style>
 
+
 <div id="overview-content" class="content-section is-active">
     <div class="columns">
 
@@ -90,19 +91,26 @@
                         <p>No more posts!...</p>
 
                     </div>
+<!-- Friends about card -->
+
+
                         <div class="page-placeholder-post" id="blank-post-tag">
+                            <div class="about-card">
                                                     <div class="placeholder-content">
-                                                        <img class="light-image" src="{% static 'social_assets/img/illustrations/placeholders/2.svg' %}" alt="" />
-                                                        <img class="dark-image" src="{% static 'social_assets/img/illustrations/placeholders/2-dark.svg' %}" alt="" />
-                                                        <h3>You don't have any post yet.</h3>
+                                                        <center><img class="light-image" src="{% static 'social_assets/img/illustrations/placeholders/2.svg' %}" alt="" width="500px" />
+                                                        <img class="dark-image" src="{% static 'social_assets/img/illustrations/placeholders/2-dark.svg' %}" alt="" width="200px"/>
+                                                        <h3>You don't have any post yet.</h3></center> <br>
 
                                                     </div>
                         </div>
+</div>
                     <!-- /Load more posts -->
         </div>
         <!-- End of posts -->
     </div>
 </div>
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <script>

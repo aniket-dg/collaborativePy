@@ -26,7 +26,7 @@
             filter += `[${k} = "${v}"]`;
 
         });
-
+        console.log(filter);
         if(filter.length > 2)
         {
             div_posts = $(`div${filter}`);
@@ -40,19 +40,9 @@
                v.style.display = "none";
             });
 
-        if(div_posts.length > 0){
-
-
-            $.each(div_posts, function(key, div){
-           div.style.display = "block";
+        $.each(div_posts, function(key, div) {
+            div.style.display = "block";
         });
-        }
-        else{
-            $.each($('.is-post'), function(k,v){
-               v.style.display = "block";
-            });
-        }
-
 
     }
 
@@ -1648,6 +1638,9 @@
             },
         });
     }
+    $(document).ready(function () {
+        morePostOnReady();
+    });
 </script>
 
 </body>

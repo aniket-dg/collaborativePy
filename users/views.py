@@ -208,7 +208,7 @@ class UserProfileView(LoginRequiredMixin, View):
         requested_users = user.get_user_requested_users()
         received_users = user.get_user_received_users()
         remaining_users = user.get_remaining_users()
-        context['connected_users'] = connected_users
+
         context['requested_users'] = requested_users
         context['received_users'] = received_users
         context['remaining_users'] = remaining_users
@@ -348,6 +348,9 @@ class AcceptRequest(View):
             request_user_connection.save()
             user_pending_connection.send_request = "Accepted"
             user_pending_connection.save()
+            request_user.pending_connections.remove(user_pending_connection)
+            request_user.connections.add(user_pending_connection)
+            request_user.save()
             messages.success(self.request, "Request accepted")
             if redirect_url:
                 return redirect(redirect_url)
