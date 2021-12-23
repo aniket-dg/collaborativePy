@@ -5,7 +5,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-a1&)8f(wb1h-3)5)grmf^kp*3-7^@7$22&pj27cx92bybn_o0-'
 DEBUG = True
-ALLOWED_HOSTS = ['148.72.244.99']
+ALLOWED_HOSTS = ['148.72.244.99', 'stellar-ai.in']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -143,6 +143,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # TODO for production setup redis server
 WSGI_APPLICATION = 'stellar_ai.wsgi.application'
 ASGI_APPLICATION = "stellar_ai.asgi.application"
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -152,20 +153,30 @@ CHANNEL_LAYERS = {
     },
 }
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer'
-    },
-}
+#CACHES = {
+#    "default": {
+#        "BACKEND": "django_redis.cache.RedisCache",
+#        "LOCATION": "redis://127.0.0.1:6379/1",
+#        "OPTIONS": {
+#            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+#        },
+#        "KEY_PREFIX": "example"
+#    }
+#}
+#CHANNEL_LAYERS = {
+#    'default': {
+#        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+#    },
+#}
 
-# CACHES = {
+#CACHES = {
 #     'default': {
 #         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
 #         'LOCATION': '127.0.0.1:11211',
 #     }
 # }
-# USER_AGENTS_CACHE = 'default'
-#
+#USER_AGENTS_CACHE = 'default'
+
 
 
 
@@ -179,6 +190,7 @@ LOGIN_URL = 'user:login'  # Login URL
 LOGOUT_URL = 'user:login'  # Logout URL
 LOGIN_REDIRECT_URL = '/'  # Redirect after login
 LOGOUT_REDIRECT_URL = 'user:login'
+
 # Basic Static and Media Files settings
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
