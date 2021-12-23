@@ -69,7 +69,7 @@ class LoginView(SuccessMessageMixin, FormView):
             user_query = User.objects.get(email=credentials['email'])
         except ObjectDoesNotExist:
             messages.warning(self.request, 'Email or Password is incorrect')
-            return redirect('login')
+            return redirect('user:login')
 
         if user is not None:
             if user.is_active:
@@ -211,6 +211,7 @@ class UserProfileView(LoginRequiredMixin, View):
 
         context['requested_users'] = requested_users
         context['received_users'] = received_users
+        context['connected_users'] = connected_users
         context['remaining_users'] = remaining_users
         context['form'] = UserUpdateForm(instance=user)
         return render(self.request, 'users/profile.html', context)

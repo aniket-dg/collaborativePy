@@ -10,52 +10,6 @@
                                             <h3>Friends</h3>
                                         </div>
                                         <div class="actions">
-<!--                                            <div class="button-wrapper">-->
-<!--                                                <a class="button">Invitations</a>-->
-<!--                                                <div class="indicator">-->
-<!--                                                    <span>8</span>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-                                            <!-- Dropdown -->
-<!--                                            <div class="dropdown is-spaced is-accent is-right dropdown-trigger">-->
-<!--                                                <div>-->
-<!--                                                    <div class="button">-->
-<!--                                                        <i data-feather="more-vertical"></i>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                                <div class="dropdown-menu" role="menu">-->
-<!--                                                    <div class="dropdown-content">-->
-<!--                                                        <a href="#" class="dropdown-item">-->
-<!--                                                            <div class="media">-->
-<!--                                                                <i data-feather="smile"></i>-->
-<!--                                                                <div class="media-content">-->
-<!--                                                                    <h3>Manage</h3>-->
-<!--                                                                    <small>Manage your friend list.</small>-->
-<!--                                                                </div>-->
-<!--                                                            </div>-->
-<!--                                                        </a>-->
-<!--                                                        <a class="dropdown-item">-->
-<!--                                                            <div class="media">-->
-<!--                                                                <i data-feather="search"></i>-->
-<!--                                                                <div class="media-content">-->
-<!--                                                                    <h3>Find friends</h3>-->
-<!--                                                                    <small>Search for new friends.</small>-->
-<!--                                                                </div>-->
-<!--                                                            </div>-->
-<!--                                                        </a>-->
-<!--                                                        <hr class="dropdown-divider">-->
-<!--                                                        <a href="#" class="dropdown-item">-->
-<!--                                                            <div class="media">-->
-<!--                                                                <i data-feather="eye"></i>-->
-<!--                                                                <div class="media-content">-->
-<!--                                                                    <h3>View all</h3>-->
-<!--                                                                    <small>View all friends.</small>-->
-<!--                                                                </div>-->
-<!--                                                            </div>-->
-<!--                                                        </a>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
                                         </div>
                                     </div>
                                     <div class="body">
@@ -146,6 +100,7 @@
                                                                 <i data-feather="more-vertical"></i>
                                                             </div>
                                                         </div>
+                                                        {% if not user_friend %}
                                                         <div class="dropdown-menu" role="menu">
                                                             <div class="dropdown-content">
                                                                 {% if request.user == user %}
@@ -185,6 +140,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </div>
