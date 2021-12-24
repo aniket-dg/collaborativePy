@@ -49,23 +49,38 @@
                                                 </a>
                                             </li>
 
-                                            <li class="nav-item" id="choose-members-tab" onclick="if ($.trim($(`[name='group_name']`))) $(`[name='group_name']`).focus()">
+                                            <li class="nav-item" id="choose-members-tab" onclick="unlockChooseMemberBtn(this)">
                                                 <a class="nav-link" disabled data-bs-toggle="pill" href="#create-chat-members" role="tab" aria-controls="create-chat-members" aria-selected="true">
                                                     People
                                                 </a>
                                             </li>
 
                                             <script>
-                                                function checkGroupNameNotEmpty(element) {
-                                                    const bool = Boolean(element.value.trim())
+                                                function unlockChooseMemberBtn(element) {
+                                                    const groupNameEl = document.getElementById(`group_name`)
+                                                    const bool1 = Boolean(groupNameEl.value.trim())
+                                                    const bool2 = document.getElementById('upload-chat-img').checkValidity()
                                                     const tab = document.querySelector(`a[href='#create-chat-members']`)
                                                     const chooseMembersBtn = document.getElementById('choose-members-btn')
-                                                    if (!bool){
+                                                    if (!bool1 || !bool2){
+                                                        groupNameEl.focus();
                                                         tab.setAttribute('disabled', true)
                                                         chooseMembersBtn.setAttribute('disabled', true)
+                                                        if (!bool1){
+                                                            groupNameEl.focus()
+                                                        }
+                                                        return null;
+
                                                     } else {
                                                         tab.removeAttribute('disabled')
                                                         chooseMembersBtn.removeAttribute('disabled')
+                                                    }
+                                                    if (!bool2){
+                                                        data = {
+                                                            'error': 'Group image is mandatory.'
+                                                        }
+                                                        setToast(data)
+                                                        return null;
                                                     }
                                                 }
                                             </script>
@@ -90,7 +105,7 @@
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                                                             </a>
 
-                                                            <input id="upload-chat-img" onchange="previewImage(event, this,'preview_chat_image')" name="profile_image" class="d-none" type="file">
+                                                            <input id="upload-chat-img" oninput="previewImage(event, this,'preview_chat_image');unlockChooseMemberBtn(this);" name="profile_image" class="d-none" type="file" accept="image/*" required>
                                                             <label class="stretched-label mb-0" for="upload-chat-img"></label>
                                                         </div>
                                                     </div>
@@ -116,8 +131,8 @@
                                                         <div class="row gy-6">
                                                             <div class="col-12">
                                                                 <div class="form-floating">
-                                                                    <input type="text" class="form-control" required name="group_name" oninput="checkGroupNameNotEmpty(this)" id="floatingInput" placeholder="Enter a chat name">
-                                                                    <label for="floatingInput">Enter group name <span style="color:#2787F5">*</span></label>
+                                                                    <input type="text" class="form-control" required name="group_name" oninput="unlockChooseMemberBtn(this)" id="group_name" placeholder="Enter a chat name">
+                                                                    <label for="group_name">Enter group name <span style="color:#2787F5">*</span></label>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12">
@@ -131,7 +146,7 @@
                                             </div>
 
                                             <div class="d-flex align-items-center mt-4 px-6">
-                                                <small class="text-muted me-auto">Enter chat name and add an optional photo.</small>
+                                                <small class="text-muted me-auto">Enter chat name and add a group photo.</small>
                                             </div>
 
                                             <!-- Button Choose Members -->

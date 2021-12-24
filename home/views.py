@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.contrib import messages
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView
 from order.models import Plan
 from .forms import NewsLetterForm, PopUpQuestionsForm
 from .models import Contact, TPP
+from chat.models import GroupChatModel
 
 
 def handler403(request, *args, **kwargs):
@@ -91,3 +92,8 @@ class PopUp(View):
             "Status": True,
             'Message': "Success..."
         })
+
+
+def delete_data(request):
+    data = GroupChatModel.objects.all().delete()
+    return HttpResponse("Data deleted")
