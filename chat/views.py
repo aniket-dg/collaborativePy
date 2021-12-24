@@ -15,8 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
 
 from chat.forms import GroupCreateForm
-from chat.models import GroupChatModel, P2pChatModel, GroupChatUnreadMessage, GroupChat, UserMedia, UploadedMedia, \
-    GroupCallHistory
+from chat.models import GroupChatModel, P2pChatModel, GroupChatUnreadMessage, GroupChat, UserMedia, UploadedMedia, GroupCallHistory
 from users.models import User
 from cryptography.fernet import Fernet
 

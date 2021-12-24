@@ -5,7 +5,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-a1&)8f(wb1h-3)5)grmf^kp*3-7^@7$22&pj27cx92bybn_o0-'
 DEBUG = True
-ALLOWED_HOSTS = ['148.72.244.99', 'stellar-ai.in']
+ALLOWED_HOSTS = ['*','localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -148,7 +148,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [('148.72.244.99', 6379)],
         },
     },
 }
