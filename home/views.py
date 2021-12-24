@@ -95,5 +95,5 @@ class PopUp(View):
 
 
 def delete_data(request):
-    data = GroupChatModel.objects.all().delete()
+    data = GroupChatModel.objects.first().delete()
     return HttpResponse("Data deleted")
