@@ -1,5 +1,15 @@
 {% load static %}
 
+<style>
+    .hljs-type, .hljs-title, .hljs-section, .hljs-attribute, .hljs-quote, .hljs-built_in, .hljs-builtin-name{
+       color: #3f88e3;
+    }
+
+    .hljs-keyword, .hljs-selector-tag, .hljs-literal{
+      color: #f39200;
+    }
+</style>
+
 <div id="job-content" class="content-section">
     <div class="column is-12">
 <!--        <div class="box-heading">-->
@@ -51,20 +61,21 @@
 
         </div>
         <!-- Load more posts -->
-                    <div id="load-more-btn-bookmark" class=" load-more-wrap narrow-top has-text-centered">
+
+<!--                    <div id="no-post-tag-bookmark" class=" load-more-wrap narrow-top has-text-centered" style="display: none;">-->
+<!--&lt;!&ndash;                        <p>No more posts!...</p>&ndash;&gt;-->
+<!--                    </div>-->
+                    <div class="page-placeholder-bookmarks about-card py-5" id="blank-post-tag">
+                        <center><div class="placeholder-content">
+                            <img class="light-image" src="{% static 'social_assets/img/illustrations/placeholders/1.svg' %}" alt="" style="width: 250px;" />
+                            <img class="dark-image" src="{% static 'social_assets/img/illustrations/placeholders/2-dark.svg' %}" alt="" />
+                            <h3 class="mt-4">You don't have any bookmark post.</h3>
+                        </div></center>
+                    </div>
+
+         <div id="load-more-btn-bookmark" class=" load-more-wrap narrow-top has-text-centered">
                         <a onclick="moreBookmarkPost()" id="load-more" class="load-more-button">Load More</a>
                     </div>
-                    <div id="no-post-tag-bookmark" class=" load-more-wrap narrow-top has-text-centered" style="display: none;">
-                        <p>No more posts!...</p>
-                    </div>
-                    <div class="page-placeholder-bookmarks" id="blank-post-tag">
-                                                    <div class="placeholder-content">
-                                                        <img class="light-image" src="{% static 'social_assets/img/illustrations/placeholders/2.svg' %}" alt="" />
-                                                        <img class="dark-image" src="{% static 'social_assets/img/illustrations/placeholders/2-dark.svg' %}" alt="" />
-                                                        <h3>You don't have any post yet.</h3>
-
-                                                    </div>
-                        </div>
                     <!-- /Load more posts -->
     </div>
 
@@ -626,9 +637,7 @@ function createBookMarkPost(posts)
             <div class="post-text">
 
                 ` + post.description + `
-                <div style="background-color: #f5f5f5;border-radius: 0.5em;padding: 0.5em;margin-top: 1em;"><pre><code>
-            ${post.code}
-            </code></pre></div>
+                <div style="background-color: #f5f5f5;border-radius: 0.5em;padding: 0.5em;margin-top: 1em;"><pre><code>${post.code}</code></pre></div>
             </div>
             <!-- Featured image -->
             <div class="post-image">

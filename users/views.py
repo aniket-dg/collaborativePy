@@ -116,7 +116,8 @@ class CheckProfile:
             return redirect('user:profile')
         return super().dispatch(request, *args, **kwargs)
 
-class UserFriendProfileView(LoginRequiredMixin, CheckProfile,UserPassesTestMixin, DetailView):
+
+class UserFriendProfileView(LoginRequiredMixin, CheckProfile, UserPassesTestMixin, DetailView):
     model = User
     template_name = 'users/profile.html'
 
@@ -127,9 +128,9 @@ class UserFriendProfileView(LoginRequiredMixin, CheckProfile,UserPassesTestMixin
         context['user_friend'] = True
         context['post_list'] = Post.objects.filter(user=user)
         context['profile_user'] = user
+        context['connected_users'] = user.get_user_connected_users()
         context['form'] = UserUpdateForm(instance=user)
-        connected_users = user.get_user_connected_users()
-        context['connected_users'] = connected_users
+
         return context
 
     def test_func(self):
@@ -223,7 +224,19 @@ class SendUserRequest(LoginRequiredMixin, View):
         id = self.request.POST.get('id')
         user = self.request.user
         send_request_user = User.objects.filter(id=int(id)).last()
+        already_friend = user.connections.filter(connection_user=send_request_user).last()
+        if already_friend:
+            return JsonResponse({
+                    'status': 'failure',
+                    'error': 'User is already your friend.'
+                })
         if send_request_user:
+            user_present = send_request_user.pending_connections.filter(connection_user=user).last()
+            if user_present:
+                return JsonResponse({
+                    'status': 'failure',
+                    'error': 'Request already sent to user.'
+                })
             connection = Connection()
             connection.connection_user = send_request_user
             connection.request = True
@@ -236,14 +249,15 @@ class SendUserRequest(LoginRequiredMixin, View):
             send_request_user.pending_connections.add(receive_connection)
             send_request_user.save()
             user.save()
-            messages.success(self.request, "Request sent")
-            if redirect_url:
-                return redirect(redirect_url)
-            return redirect('user:profile')
+            return JsonResponse({
+                'status': 'success',
+                'data': 'Friend Request Sent!'
+            })
         messages.warning(self.request, "User not found")
-        if redirect_url:
-            return redirect(redirect_url)
-        return redirect('user:profile')
+        return JsonResponse({
+            'status': 'failure',
+            'error': 'User not found.'
+        })
 
 
 class UserConnection(LoginRequiredMixin, View):
@@ -267,6 +281,12 @@ class UserConnection(LoginRequiredMixin, View):
         id = self.request.POST.get('id')
         user = self.request.user
         send_request_user = User.objects.filter(id=int(id)).last()
+        already_friend = user.connections.filter(connection_user=send_request_user).last()
+        if already_friend:
+            messages.warning(self.request, "User is already your friend")
+            if redirect_url:
+                return redirect(redirect_url)
+            return redirect('user:profile')
         if send_request_user:
             user_present = send_request_user.pending_connections.filter(connection_user=user).last()
             if user_present:
@@ -307,6 +327,12 @@ class SendRequest(View):
             return redirect('user:profile')
         user = self.request.user
         send_request_user = User.objects.filter(id=int(user_id)).last()
+        already_friend = user.connections.filter(connection_user=send_request_user).last()
+        if already_friend:
+            messages.warning(self.request, "User is already your friend")
+            if redirect_url:
+                return redirect(redirect_url)
+            return redirect('user:profile')
         if not send_request_user:
             messages.warning(self.request, "User not found")
             if redirect_url:
@@ -318,6 +344,7 @@ class SendRequest(View):
             if redirect_url:
                 return redirect(redirect_url)
             return redirect('user:profile')
+
         connection = Connection()
         connection.connection_user = send_request_user
         connection.request = True
@@ -363,8 +390,8 @@ class AcceptRequest(View):
 
 
 class AcceptUserRequest(LoginRequiredMixin, View):
+    # This is for AJAX accepting request
     def post(self, *args, **kwargs):
-        redirect_url = self.request.META.get('HTTP_REFERER')
         id = self.request.POST.get('id')
         user = self.request.user
         request_user = User.objects.filter(id=int(id)).last()
@@ -376,14 +403,14 @@ class AcceptUserRequest(LoginRequiredMixin, View):
             request_user_connection.save()
             user_pending_connection.send_request = "Accepted"
             user_pending_connection.save()
-            messages.success(self.request, "Request accepted")
-            if redirect_url:
-                return redirect(redirect_url)
-            return redirect('user:profile')
-        messages.warning(self.request, "User not found")
-        if redirect_url:
-            return redirect(redirect_url)
-        return redirect('user:profile')
+            return JsonResponse({
+                'status': 'success',
+                'data': 'Request accepted!'
+            })
+        return JsonResponse({
+            'status': 'failure',
+            'error': 'You did not receive a request from this user.'
+        })
 
 
 # class UnfriendUser(View):
@@ -445,7 +472,12 @@ class UnfriendUser(View):
 
 class LoadMoreFriends(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
-        user = self.request.user
+        profile_user = self.request.GET.get('profile_user_id')
+        print(profile_user,"Aniket profile_user")
+        if profile_user:
+            user = User.objects.filter(id=int(profile_user)).last()
+        else:
+            user = self.request.user
         connected_users = user.get_user_connected_users()
         p = Paginator(connected_users, 2)
         current_status = int(self.request.GET['current_friends'])

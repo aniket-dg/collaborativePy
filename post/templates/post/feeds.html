@@ -39,6 +39,16 @@
       }
     }
 
+
+    filter-option:active {
+  background-color: #5596e6;
+}
+
+    filter-option:hover {
+  color: #5596e6;
+}
+
+
 </style>
 
 <div class="view-wrapper">
@@ -54,22 +64,22 @@
                 <div class="column is-3">
 
                     <!-- Placeload element -->
-                    <div class="placeload weather-widget-placeload">
-                        <div class="header">
-                            <div class="inner-wrap">
-                                <div class="img loads"></div>
-                                <div class="content-shape loads"></div>
-                                <div class="content-shape loads"></div>
-                            </div>
-                        </div>
-                        <div class="body">
-                            <div class="inner-wrap">
-                                <div class="rect loads"></div>
-                                <div class="content-shape loads"></div>
-                                <div class="content-shape loads"></div>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="placeload weather-widget-placeload">-->
+<!--                        <div class="header">-->
+<!--                            <div class="inner-wrap">-->
+<!--                                <div class="img loads"></div>-->
+<!--                                <div class="content-shape loads"></div>-->
+<!--                                <div class="content-shape loads"></div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="body">-->
+<!--                            <div class="inner-wrap">-->
+<!--                                <div class="rect loads"></div>-->
+<!--                                <div class="content-shape loads"></div>-->
+<!--                                <div class="content-shape loads"></div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <!-- Placeload element -->
                     <div class="placeload list-placeload">
                         <div class="header">
@@ -313,52 +323,52 @@
                                         <i data-feather="more-vertical"></i>
                                     </div>
                                 </div>
-                                <div class="dropdown-menu" role="menu">
-                                    <div class="dropdown-content">
-                                        <a href="#" class="dropdown-item">
-                                            <div class="media">
-                                                <i data-feather="map-pin"></i>
-                                                <div class="media-content">
-                                                    <h3>Change City</h3>
-                                                    <small>Change the displayed city.</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="dropdown-item">
-                                            <div class="media">
-                                                <i data-feather="rotate-ccw"></i>
-                                                <div class="media-content">
-                                                    <h3>Synchronize</h3>
-                                                    <small>Synchronize with a weather source.</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item">
-                                            <div class="media">
-                                                <i data-feather="settings"></i>
-                                                <div class="media-content">
-                                                    <h3>Settings</h3>
-                                                    <small>Access widget settings.</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <hr class="dropdown-divider">
-                                        <a href="#" class="dropdown-item">
-                                            <div class="media">
-                                                <i data-feather="trash-2"></i>
-                                                <div class="media-content">
-                                                    <h3>Remove</h3>
-                                                    <small>Removes this widget from your feed.</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
+<!--                                <div class="dropdown-menu" role="menu">-->
+<!--                                    <div class="dropdown-content">-->
+<!--                                        <a href="#" class="dropdown-item">-->
+<!--                                            <div class="media">-->
+<!--                                                <i data-feather="map-pin"></i>-->
+<!--                                                <div class="media-content">-->
+<!--                                                    <h3>Change City</h3>-->
+<!--                                                    <small>Change the displayed city.</small>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </a>-->
+<!--                                        <a href="#" class="dropdown-item">-->
+<!--                                            <div class="media">-->
+<!--                                                <i data-feather="rotate-ccw"></i>-->
+<!--                                                <div class="media-content">-->
+<!--                                                    <h3>Synchronize</h3>-->
+<!--                                                    <small>Synchronize with a weather source.</small>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </a>-->
+<!--                                        <a class="dropdown-item">-->
+<!--                                            <div class="media">-->
+<!--                                                <i data-feather="settings"></i>-->
+<!--                                                <div class="media-content">-->
+<!--                                                    <h3>Settings</h3>-->
+<!--                                                    <small>Access widget settings.</small>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </a>-->
+<!--                                        <hr class="dropdown-divider">-->
+<!--                                        <a href="#" class="dropdown-item">-->
+<!--                                            <div class="media">-->
+<!--                                                <i data-feather="trash-2"></i>-->
+<!--                                                <div class="media-content">-->
+<!--                                                    <h3>Remove</h3>-->
+<!--                                                    <small>Removes this widget from your feed.</small>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="temperature">
-                                <span>Ads Here </span>
+                            <div class="temperature" style="padding: 8em 1em;">
+                                <span style="font-size: 16px;">Ads Here </span>
                             </div>
 <!--                            <div class="weather-icon">-->
 <!--                                <div>-->
@@ -723,11 +733,11 @@
                                         </a>
                                         <ul class="submenu" style="display: block;">
                                             <li class="is-subactive">
-                                                <a id="filter-all" onclick="clearAllFilters()">Sort By All</a>
+                                                <a id="filter-all" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'" onclick="clearAllFilters()">Sort By All</a>
                                             </li>
                                             {% for item in category %}
                                             <li class="is-subactive">
-                                                <a id="filter-all" onclick="setCategory('{{ item }}')">{{ item }}</a>
+                                                <a id="filter-all" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'" onclick="setCategory('{{ item }}')">{{ item }}</a>
                                             </li>
                                             {% endfor %}
 
@@ -756,7 +766,7 @@
                                         <ul class="submenu">
                                             {% for item in languages %}
                                             <li>
-                                                <a id="filter-python" onclick="setLanguage('{{ item }}')">{{ item }}</a>
+                                                <a id="filter-python" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'" onclick="setLanguage('{{ item }}')">{{ item }}</a>
                                             </li>
                                             {% endfor %}
 
@@ -778,7 +788,7 @@
                                         <ul class="submenu">
                                             {% for item in scopes %}
                                             <li>
-                                                <a id="filter-scope1" onclick="setScope('{{ item }}')">{{ item }}</a>
+                                                <a id="filter-scope1" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'" onclick="setScope('{{ item }}')">{{ item }}</a>
                                             </li>
                                             {% endfor %}
                                         </ul>

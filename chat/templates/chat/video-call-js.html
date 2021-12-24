@@ -369,7 +369,7 @@ let localStream = new MediaStream();
 
         group_chatSocket_chat.onopen = function(e){
             console.log("Connection open");
-            let url = "/chat/video/{{ join_url }}";
+            let url = `${location.protocol + '//' + location.host}/chat/video/{{ join_url }}`;
             group_chatSocket_chat.send(JSON.stringify({
                             'message': `New Video call is started! Join Now Link: ${url}`,
                             'receiver_id': receiver_group,

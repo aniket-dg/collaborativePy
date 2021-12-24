@@ -444,7 +444,7 @@
         if(msgList) {
             last_msg = msgList.slice()[0];
             if (last_msg) {
-                let html = `<div class="line-clamp me-auto" style="-webkit-line-clamp:1;">
+                let html = `<div class="line-clamp me-auto" style="-webkit-line-clamp:1; overflow-wrap:anywhere;">
                      ${last_msg['body']}
                 </div>
                 <div class="badge badge-circle bg-primary ms-5">

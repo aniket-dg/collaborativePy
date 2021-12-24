@@ -26,22 +26,22 @@
                 <div class="column is-3">
 
                     <!-- Placeload element -->
-                    <div class="placeload weather-widget-placeload">
-                        <div class="header">
-                            <div class="inner-wrap">
-                                <div class="img loads"></div>
-                                <div class="content-shape loads"></div>
-                                <div class="content-shape loads"></div>
-                            </div>
-                        </div>
-                        <div class="body">
-                            <div class="inner-wrap">
-                                <div class="rect loads"></div>
-                                <div class="content-shape loads"></div>
-                                <div class="content-shape loads"></div>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="placeload weather-widget-placeload">-->
+<!--                        <div class="header">-->
+<!--                            <div class="inner-wrap">-->
+<!--                                <div class="img loads"></div>-->
+<!--                                <div class="content-shape loads"></div>-->
+<!--                                <div class="content-shape loads"></div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="body">-->
+<!--                            <div class="inner-wrap">-->
+<!--                                <div class="rect loads"></div>-->
+<!--                                <div class="content-shape loads"></div>-->
+<!--                                <div class="content-shape loads"></div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <!-- Placeload element -->
                     <div class="placeload list-placeload">
                         <div class="header">
@@ -329,8 +329,8 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="temperature">
-                                <span>Ads Here </span>
+                            <div class="temperature" style="padding: 8em 1em;">
+                                <span style="font-size: 16px;">Ads Here </span>
                             </div>
 <!--                            <div class="weather-icon">-->
 <!--                                <div>-->
@@ -461,7 +461,7 @@
                                 <ul style="padding-right: 0;" class="main-menu">
 
                                     {% for item in first_level_category %}
-                                    <li class="is-activee">
+                                    <li class="">
                                         <a onclick="setFirstLevelFilter('{{ item.id }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

@@ -10,6 +10,52 @@
                                             <h3>Friends</h3>
                                         </div>
                                         <div class="actions">
+<!--                                            <div class="button-wrapper">-->
+<!--                                                <a class="button">Invitations</a>-->
+<!--                                                <div class="indicator">-->
+<!--                                                    <span>8</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+                                            <!-- Dropdown -->
+<!--                                            <div class="dropdown is-spaced is-accent is-right dropdown-trigger">-->
+<!--                                                <div>-->
+<!--                                                    <div class="button">-->
+<!--                                                        <i data-feather="more-vertical"></i>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="dropdown-menu" role="menu">-->
+<!--                                                    <div class="dropdown-content">-->
+<!--                                                        <a href="#" class="dropdown-item">-->
+<!--                                                            <div class="media">-->
+<!--                                                                <i data-feather="smile"></i>-->
+<!--                                                                <div class="media-content">-->
+<!--                                                                    <h3>Manage</h3>-->
+<!--                                                                    <small>Manage your friend list.</small>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+<!--                                                        </a>-->
+<!--                                                        <a class="dropdown-item">-->
+<!--                                                            <div class="media">-->
+<!--                                                                <i data-feather="search"></i>-->
+<!--                                                                <div class="media-content">-->
+<!--                                                                    <h3>Find friends</h3>-->
+<!--                                                                    <small>Search for new friends.</small>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+<!--                                                        </a>-->
+<!--                                                        <hr class="dropdown-divider">-->
+<!--                                                        <a href="#" class="dropdown-item">-->
+<!--                                                            <div class="media">-->
+<!--                                                                <i data-feather="eye"></i>-->
+<!--                                                                <div class="media-content">-->
+<!--                                                                    <h3>View all</h3>-->
+<!--                                                                    <small>View all friends.</small>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+<!--                                                        </a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
                                         </div>
                                     </div>
                                     <div class="body">
@@ -21,22 +67,17 @@
                                                 <div class="friend-small-card">
                                                     <img src="{{ user.connection_user.profile_image.url }}" data-demo-src="{{ user.connection_user.profile_image.url }}" data-user-popover="9" alt="">
                                                     <div class="meta">
-                                                        <span>{{ user.connection_user.username }}</span>
                                                         <span>{{ user.connection_user.get_full_name }}</span>
+                                                        <span>{{ user.connection_user.username }}</span>
                                                     {#  Span contains friends count of that user  #}
                                                     </div>
                                                     <!-- Dropdown -->
-                                                    <div class="btn" onclick="this.querySelector(`button[type='submit']`).click()" style="display:inline-flex; margin-left: auto; border:none; cursor: pointer;" title="Accept request">
+                                                    <a href="{% url 'user:accept-user-request' user.connection_user.id %}" class="btn" onclick="this.querySelector(`button[type='submit']`).click()" style="display:inline-flex; margin-left: auto; border:none; cursor: pointer;" title="Accept request">
                                                         <div style="display:flex; align-items: center; justify-content: center;color: #5596E6;">
                                                             <i data-feather="check-circle" style="color:inherit"></i>
                                                             <span class="ml-2">Accept</span>
                                                         </div>
-                                                        <form method="post" onsubmit="acceptFriendRequest(event, reload=true)">
-                                                            <input type="hidden" name="id" value="{{ user.connection_user.id }}">
-                                                            {% csrf_token %}
-                                                            <button style="display: none;" type="submit">Accept Request</button>
-                                                        </form>
-                                                    </div>
+                                                    </a>
                                                     <!-- <div class="dropdown is-spaced is-accent is-right dropdown-trigger">
                                                         <div>
                                                             <div class="button">
@@ -58,7 +99,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
                                                                 {% if request.user == connection_user.user %}
                                                                 <a href="{% url 'user:profile' %}" class="dropdown-item">
                                                                 {% else %}
@@ -83,114 +123,121 @@
                                         </div>{% if received_users %}<hr>{% endif %}
                                         <div class="columns friends-columns is-multiline" id="connected-users">
 
-                                            {% for user in connected_users %}
-                                            <!-- Friend -->
-                                            <div class="column is-6">
-                                                <div class="friend-small-card">
-                                                    <img src="{{ user.profile_image.url }}" data-demo-src="{{ user.profile_image.url }}" data-user-popover="9" alt="">
-                                                    <div class="meta">
-                                                        <span>{{ user.username }}</span>
-                                                        <span>{{ user.get_full_name }}</span>
-                                                    {#  Span contains friends count of that user  #}
-                                                    </div>
-                                                    <!-- Dropdown -->
-                                                    <div class="dropdown is-spaced is-accent is-right dropdown-trigger">
-                                                        <div>
-                                                            <div class="button">
-                                                                <i data-feather="more-vertical"></i>
-                                                            </div>
-                                                        </div>
-                                                        {% if not user_friend %}
-                                                        <div class="dropdown-menu" role="menu">
-                                                            <div class="dropdown-content">
-                                                                {% if request.user == user %}
-                                                                <a href="{% url 'user:profile' %}" class="dropdown-item">
-                                                                {% else %}
-                                                                <a href="{% url 'user:friend-profile' user.id %}" class="dropdown-item">
-                                                                {% endif %}
-                                                                    <div class="media">
-                                                                        <i data-feather="user"></i>
-                                                                        <div class="media-content">
-                                                                            <h3>View Profile</h3>
-                                                                            <small>Open this user profile.</small>
-                                                                        </div>
-                                                                    </div>
-                                                                </a>
-                                                                <a class="dropdown-item" href="{% url 'chat:chat' %}">
-                                                                    <div class="media">
-                                                                        <i data-feather="message-square"></i>
-                                                                        <div class="media-content">
-                                                                            <h3>Message</h3>
-                                                                            <small>Send a message to this user.</small>
-                                                                        </div>
-                                                                    </div>
-                                                                </a>
-                                                                <hr class="dropdown-divider">
-                                                                <div onclick="this.querySelector(`button[type='submit']`).click()" class="dropdown-item w-100" style="cursor: pointer !important;">
-                                                                    <div class="media">
-                                                                        <i data-feather="delete"></i>
-                                                                        <div class="media-content">
-                                                                            <form method="GET" action="{% url 'user:unfriend-user' user.id %}">
-                                                                                {% csrf_token %}
-                                                                                <h3><button style="cursor: pointer; border: none; background-color: transparent; outline: none; box-sizing: none; font-weight: 500; color: inherit; padding:0px" type="submit">Unfriend</button></h3>
-                                                                                <small>Remove from friend list.</small>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Friend -->
+<!--                                            {% for user in connected_users %}-->
+<!--                                            &lt;!&ndash; Friend &ndash;&gt;-->
+<!--                                            <div class="column is-6">-->
+<!--                                                <div class="friend-small-card">-->
+<!--                                                    <img src="{{ user.profile_image.url }}" data-demo-src="{{ user.profile_image.url }}" data-user-popover="9" alt="">-->
+<!--                                                    <div class="meta">-->
+<!--                                                        <span>{{ user.username }}</span>-->
+<!--                                                        <span>{{ user.get_full_name }}</span>-->
+<!--                                                    {#  Span contains friends count of that user  #}-->
+<!--                                                    </div>-->
+<!--                                                    &lt;!&ndash; Dropdown &ndash;&gt;-->
+<!--                                                    <div class="dropdown is-spaced is-accent is-right dropdown-trigger">-->
+<!--                                                        <div>-->
+<!--                                                            <div class="button">-->
+<!--                                                                <i data-feather="more-vertical"></i>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                        <div class="dropdown-menu" role="menu">-->
+<!--                                                            <div class="dropdown-content">-->
+<!--                                                                {% if request.user == user %}-->
+<!--                                                                <a href="{% url 'user:profile' %}" class="dropdown-item">-->
+<!--                                                                {% else %}-->
+<!--                                                                <a href="{% url 'user:friend-profile' user.id %}" class="dropdown-item">-->
+<!--                                                                {% endif %}-->
+<!--                                                                    <div class="media">-->
+<!--                                                                        <i data-feather="user"></i>-->
+<!--                                                                        <div class="media-content">-->
+<!--                                                                            <h3>View Profile</h3>-->
+<!--                                                                            <small>Open this user profile.</small>-->
+<!--                                                                        </div>-->
+<!--                                                                    </div>-->
+<!--                                                                </a>-->
+<!--                                                                <a class="dropdown-item" href="{% url 'chat:chat' %}">-->
+<!--                                                                    <div class="media">-->
+<!--                                                                        <i data-feather="message-square"></i>-->
+<!--                                                                        <div class="media-content">-->
+<!--                                                                            <h3>Message</h3>-->
+<!--                                                                            <small>Send a message to this user.</small>-->
+<!--                                                                        </div>-->
+<!--                                                                    </div>-->
+<!--                                                                </a>-->
+<!--                                                                <hr class="dropdown-divider">-->
+<!--                                                                <div onclick="this.querySelector(`button[type='submit']`).click()" class="dropdown-item w-100" style="cursor: pointer !important;">-->
+<!--                                                                    <div class="media">-->
+<!--                                                                        <i data-feather="delete"></i>-->
+<!--                                                                        <div class="media-content">-->
+<!--                                                                            <form method="GET" action="{% url 'user:unfriend-user' user.id %}">-->
+<!--                                                                                {% csrf_token %}-->
+<!--                                                                                <h3><button style="cursor: pointer; border: none; background-color: transparent; outline: none; box-sizing: none; font-weight: 500; color: inherit; padding:0px" type="submit">Unfriend</button></h3>-->
+<!--                                                                                <small>Remove from friend list.</small>-->
+<!--                                                                            </form>-->
+<!--                                                                        </div>-->
+<!--                                                                    </div>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            &lt;!&ndash; Friend &ndash;&gt;-->
 
-                                            {% empty %}
+<!--                                            {% empty %}-->
 
-                                                <div class="page-placeholder">
-                                                    <div class="placeholder-content">
-                                                        <img class="light-image" src="{% static 'social_assets/img/illustrations/placeholders/2.svg' %}" alt="" />
-                                                        <img class="dark-image" src="{% static 'social_assets/img/illustrations/placeholders/2-dark.svg' %}" alt="" />
-                                                        <h3>You don't have any friends yet.</h3>
-                                    <!--                    <p class="is-large">Too bad. Looks like you didn't make friends yet. But don't fret that-->
-                                    <!--                        should start anytime soon.</p>-->
-                                                    </div>
-                                                </div>
 
-                                            {% endfor %}
+
+<!--                                            {% endfor %}-->
 
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="page-placeholder-friends py-5" id="blank-friend-tag">
+                                        <div class="placeholder-content">
+                                            <center><img class="light-image" src="{% static 'social_assets/img/illustrations/placeholders/2.svg' %}" alt="" width="300px" />
+                                                <img class="dark-image" src="{% static 'social_assets/img/illustrations/placeholders/2-dark.svg' %}" alt="" width="200px"/>
+                                                <h3>You don't have any friends yet.</h3></center> <br>
+                                        </div>
+                                    </div>
                             </div>
 
 <script>
     function createFriend(friends)
     {
         friends.forEach(user => {
-        let url = window.location.host + '/user/friend/profile/' + user.id;
+        let url = window.location.host + '/user/friend/profile/' + user.user_id;
         let chat = window.location.host + '/chat/';
+        let user_id = "{{ profile_user.id }}";
+        let current_user = "{{ request.user.id }}";
            let html = `<div class="column is-6" id='friend'>
                                                 <div class="friend-small-card">
                                                     <img src="${user.profile}" data-demo-src="${user.profile}" data-user-popover="9" alt="">
                                                     <div class="meta">
+                                                        <a href="/user/profile/${user.user_id}"><span>${user.name}</span></a>
                                                         <span>${user.username}</span>
-                                                        <span>${user.name}</span>
                                                     {#  Span contains friends count of that user  #}
                                                     </div>
                                                     <!-- Dropdown -->
-                                                    <div class="dropdown is-spaced is-accent is-right dropdown-trigger">
-                                                        <div>
+                                                    <div id="options-friend-${user.user_id}" onclick="postFriendOptions(${user.user_id})"
+                                                        class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+
+                                                    </div>
+                                                </div>
+                                            </div>`;
+
+           $('#connected-users').append(html);
+           if(user_id === current_user)
+           {
+               html = `<div>
                                                             <div class="button">
-                                                                <i data-feather="more-vertical"></i>
+                                                                <i class="mdi mdi-dots-vertical" style="font-size: 20px;"></i>
                                                             </div>
                                                         </div>
                                                         <div class="dropdown-menu" role="menu">
                                                             <div class="dropdown-content">
                                                                 <a href="${url}" class="dropdown-item">
                                                                     <div class="media">
-                                                                        <i data-feather="user"></i>
+                                                                        <i class="mdi mdi-account-outline" style="font-size: 20px;width: 35px;"></i>
                                                                         <div class="media-content">
                                                                             <h3>View Profile</h3>
                                                                             <small>Open this user profile.</small>
@@ -199,7 +246,7 @@
                                                                 </a>
                                                                 <a class="dropdown-item" href="${chat}">
                                                                     <div class="media">
-                                                                        <i data-feather="message-square"></i>
+                                                                        <i class="mdi mdi-message-text-outline" style="font-size: 20px;width: 35px;"></i>
                                                                         <div class="media-content">
                                                                             <h3>Message</h3>
                                                                             <small>Send a message to this user.</small>
@@ -207,9 +254,9 @@
                                                                     </div>
                                                                 </a>
                                                                 <hr class="dropdown-divider">
-                                                                <a href="#" class="dropdown-item">
+                                                                <a href="/user/unfriend/user/${user.user_id}/" class="dropdown-item">
                                                                     <div class="media">
-                                                                        <i data-feather="delete"></i>
+                                                                        <i class="mdi mdi-trash-can" style="font-size: 20px;width: 35px;"></i>
                                                                         <div class="media-content">
                                                                             <h3>Unfriend</h3>
                                                                             <small>Remove from friend list.</small>
@@ -217,13 +264,16 @@
                                                                     </div>
                                                                 </a>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>`;
+                                                        </div>`;
 
-           $('#connected-users').append(html);
+               $(`#options-friend-${user.user_id}`).append(html);
+           }
+
         });
+    }
+
+    function postFriendOptions(id) {
+        $("#options-friend-" + id).addClass('is-active');
     }
 
     function moreFriends()
@@ -235,15 +285,24 @@
             method: "GET",
             url: "{% url 'user:load-more-friends' %}",
             data: {
+                'profile_user_id': "{{ profile_user.id }}",
                 'current_friends': currentPosts,
             },
             success: function (response) {
                     if (response.Status == false) {
+                        if(currentPosts === 0)
+                        {
+                           $('#load-more-btn').css('display', 'none');
+                            $(".page-placeholder-friends").show();
+                        }
+                        else{
                         $('#load-more-btn-friend').css('display', 'none');
                         $('#no-friend-tag').css('display', 'block');
+                        $(".page-placeholder-friends").hide();
+                        }
                     } else
                     {
-                        $('.page-placeholder').hide();
+                        $('.page-placeholder-friends').hide();
                         createFriend(response.friends);
                     }
             },
