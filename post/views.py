@@ -413,7 +413,7 @@ class LoadMoreSkeletonPost(View):
             posts.append({
                 'user': post.user.username, 'profile': profile, 'post_id': post.id,
                 'description': post.description, 'language': post.language, 'likes': post.liked_by.count(),
-                'scope_of_work': post.scope_of_work, 'timestamp': post.timestamp.strftime("%H:%M:%S %d-%m-%Y"),
+                'scope_of_work': post.scope_of_work, 'timestamp': post.user.username,
                 'like_status': True if self.request.user in post.liked_by.all() else False, 'image1': image1,
                 'comments': SkeletonPostComment.objects.filter(post=post).count(), 'image2': image2, 'image3': image3,
                 'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.skeleton_code,

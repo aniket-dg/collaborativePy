@@ -100,7 +100,8 @@ class ChatRoom(LoginRequiredMixin, View):
         context['session_key'] = mark_safe(json.dumps(self.request.session.session_key))
         context['user'] = user
         number_of_user_created_groups = GroupChatModel.objects.filter(created_by=user).count()
-        context['allow_group_creation'] = user.payment.plan.total_group_create_size > number_of_user_created_groups
+        if user.payment:
+            context['allow_group_creation'] = user.payment.plan.total_group_create_size > number_of_user_created_groups
         return render(self.request, 'chat/chat-direct.html', context)
 
 

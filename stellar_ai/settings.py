@@ -88,6 +88,10 @@ TEMPLATES = [
                 'home.context_processors.get_email',  # Email Support
                 'home.context_processors.get_website_url',  # Website url (sitemap)
 
+                # Context Processors for Social Base
+                'home.context_processors.get_new_messages',  # New messages received
+                'home.context_processors.get_friend_requests',  # New friend requests
+
                 # Third Party
                 'social_django.context_processors.backends',  # Social Django
                 'social_django.context_processors.login_redirect',  # Social Django
