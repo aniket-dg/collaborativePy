@@ -56,6 +56,7 @@ class P2pConsumer(WebsocketConsumer):
     }
 
     def connect(self):
+        print("in connection")
         try:
             sender = self.scope['url_route']['kwargs']['sender']
             receiver = self.scope['url_route']['kwargs']['receiver']
@@ -72,7 +73,7 @@ class P2pConsumer(WebsocketConsumer):
             )
             self.accept()
         except Exception as e:
-            pass
+            print(e,"error in connection in p2p")
 
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(
@@ -107,6 +108,7 @@ class P2pConsumer(WebsocketConsumer):
             print(e)
 
     def receive(self, text_data):
+        print(text_data, "data in receive method of p2p")
         data = json.loads(text_data)
         print(data, "Anu")
         msg_id, receiver_id = self.save_single_message(data)
