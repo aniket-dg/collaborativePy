@@ -438,12 +438,13 @@
                         {% csrf_token %}
                         <div id="compose-card" class="card is-new-content">
                             <!-- Top tabs -->
-                            <input type="text" name="category" id="category" hidden value="">
+
                             <div class="tabs-wrapper">
                                 <div class="tabs is-boxed is-fullwidth">
                                     <ul>
                                        {% for item in category %}
                                            {% if forloop.counter0 %}
+                                               <input type="text" name="category" id="category" hidden value="{{ item.id }}">
                                         <li id="cat-panel-{{ item.id }}" class="is-active">
                                            {% else %}
                                         <li id="cat-panel-{{ item.id }}" class="">
@@ -746,10 +747,14 @@
                                             {% for item in category %}
                                             <li class="is-subactive">
 <<<<<<< HEAD
+<<<<<<< HEAD
                                                 <a id="filter-all" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'" onclick="setCategory('{{ item }}')">{{ item }}</a>
 =======
                                                 <a id="cat-id-{{ item.id }}" onclick="setCategory('{{ item }}', 'cat-id-{{ item.id }}')">{{ item }}</a>
 >>>>>>> f4e418d3419e2f9f60344a6d77a009508778999a
+=======
+                                                <a id="cat-id-{{ item.id }}" onclick="setCategory('{{ item }}', 'cat-id-{{ item.id }}')">{{ item }}</a>
+>>>>>>> 56bfe91de03c7b27afbc0b5c5a6409ba12b01de3
                                             </li>
                                             {% endfor %}
 
@@ -779,10 +784,14 @@
                                             {% for item in languages %}
                                             <li>
 <<<<<<< HEAD
+<<<<<<< HEAD
                                                 <a id="filter-python" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'" onclick="setLanguage('{{ item }}')">{{ item }}</a>
 =======
                                                 <a id="lang-id-{{ item.id }}"  onclick="setLanguage('{{ item }}','lang-id-{{ item.id }}')">{{ item }}</a>
 >>>>>>> f4e418d3419e2f9f60344a6d77a009508778999a
+=======
+                                                <a id="lang-id-{{ item.id }}"  onclick="setLanguage('{{ item }}','lang-id-{{ item.id }}')">{{ item }}</a>
+>>>>>>> 56bfe91de03c7b27afbc0b5c5a6409ba12b01de3
                                             </li>
                                             {% endfor %}
 
@@ -805,10 +814,14 @@
                                             {% for item in scopes %}
                                             <li>
 <<<<<<< HEAD
+<<<<<<< HEAD
                                                 <a id="filter-scope1" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'" onclick="setScope('{{ item }}')">{{ item }}</a>
 =======
                                                 <a id="scope-id-{{ item.id }}"  onclick="setScope('{{ item }}', 'scope-id-{{ item.id }}')">{{ item }}</a>
 >>>>>>> f4e418d3419e2f9f60344a6d77a009508778999a
+=======
+                                                <a id="scope-id-{{ item.id }}"  onclick="setScope('{{ item }}', 'scope-id-{{ item.id }}')">{{ item }}</a>
+>>>>>>> 56bfe91de03c7b27afbc0b5c5a6409ba12b01de3
                                             </li>
                                             {% endfor %}
                                         </ul>

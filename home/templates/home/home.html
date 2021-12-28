@@ -641,7 +641,7 @@
 <div id="popup-question-wrap" class="m-auto shadow radius-md" style="display: none; z-index: 999999;">
     <button class="delete d-flex align-items-center justify-content-center" 
     onclick="rmModalAndOverlay()">✖</button>
-    <form action="" method="POST" class="popup-question-form container px-1 px-md-5 py-4">
+    <form action="" method="POST" onsubmit="submitPopup(event, this)" id="popup-form" class="popup-question-form container px-1 px-md-5 py-4">
         {% csrf_token %}
         <div class="row">
             <div class="col-12">
@@ -655,27 +655,16 @@
                     {% endif %}
                 </div>
             </div>
-
             <div class="col-12">
                 <div class="question-block radius-md m-2">
                     <label class="mb-1 font-weight-normal">1. What is your age?</label>
                     <div class="d-block mt-2">
+                        {% for val, itm in form.age.field.choices %}
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="age" id="id_age1" value="12-18" required>
-                            <label class="form-check-label" for="id_age1">12-18</label>
+                            <input class="form-check-input" type="radio" name="{{form.age.name}}" id="id_{{form.age.name}}_{{val}}" value="{{val}}" required>
+                            <label class="form-check-label" for="id_{{form.age.name}}_{{val}}">{{itm}}</label>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="age" id="id_age2" value="18-24" required>
-                            <label class="form-check-label" for="id_age2">18-24</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="age" id="id_age3" value="24-30" required>
-                            <label class="form-check-label" for="id_age3">24-30</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="age" id="id_age4" value="Above 30" required>
-                            <label class="form-check-label" for="id_age4">Above 30</label>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -683,14 +672,12 @@
                 <div class="question-block radius-md m-2">
                     <label class="mb-1 font-weight-normal">2. Have any previous knowledge about ML/DL/AI?</label>
                     <div class="d-block mt-2">
+                        {% for val, itm in form.knowledge_ml_dl_ai.field.choices %}
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="previous_knowledge" id="id_previous_knowledge1" value="Yes" required>
-                            <label class="form-check-label" for="id_previous_knowledge1">Yes</label>
+                            <input class="form-check-input" type="radio" name="{{form.knowledge_ml_dl_ai.name}}" id="id_{{form.knowledge_ml_dl_ai.name}}_{{val}}" value="{{val}}" required>
+                            <label class="form-check-label" for="id_{{form.knowledge_ml_dl_ai.name}}_{{val}}">{{itm}}</label>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="previous_knowledge" id="id_previous_knowledge2" value="No" required>
-                            <label class="form-check-label" for="id_previous_knowledge2">No</label>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -699,22 +686,12 @@
                     <label class="mb-1">3. Have worked more in?</label>
                     <div class="ml-2">
                         <div class="row mt-2">
+                            {% for val, itm in form.worked_in.field.choices %}
                             <div class="form-check col-12 col-md-6 mb-2">
-                                <input class="form-check-input" type="radio" name="worked_in" id="id_worked_in1" value="MACHINE_LEARNING" required>
-                                <label class="form-check-label" for="id_worked_in1">Machine learning</label>
+                                <input class="form-check-input" type="radio" name="{{form.worked_in.name}}" id="id_{{form.worked_in.name}}_{{val}}" value="{{val}}" required>
+                                <label class="form-check-label" for="id_{{form.worked_in.name}}_{{val}}">{{itm}}</label>
                             </div>
-                            <div class="form-check col-12 col-md-6 mb-2">
-                                <input class="form-check-input" type="radio" name="worked_in" id="id_worked_in2" value="DEEP_LEARNING" required>
-                                <label class="form-check-label" for="id_worked_in2">Deep learning</label>
-                            </div>
-                            <div class="form-check col-12 col-md-6 mb-2">
-                                <input class="form-check-input" type="radio" name="worked_in" id="id_worked_in3" value="JUST_PYTHON_CODING" required>
-                                <label class="form-check-label" for="id_worked_in3">Just python coding</label>
-                            </div>
-                            <div class="form-check col-12 col-md-6 mb-2">
-                                <input class="form-check-input" type="radio" name="worked_in" id="id_worked_in4" value="NONE_OF_THE_ABOVE" required>
-                                <label class="form-check-label" for="id_worked_in4">None of the above</label>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -724,14 +701,12 @@
                 <div class="question-block radius-md m-2">
                     <label class="mb-1 font-weight-normal">4. Finds coding really difficult?</label>
                     <div class="d-block mt-2">
+                        {% for val, itm in form.code_difficult.field.choices %}
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="coding_difficult" id="id_coding_difficul1" value="Yes" required>
-                            <label class="form-check-label" for="id_coding_difficul1">Yes</label>
+                            <input class="form-check-input" type="radio" name="{{form.code_difficult.name}}" id="id_{{form.code_difficult.name}}_{{val}}" value="{{val}}" required>
+                            <label class="form-check-label" for="id_{{form.code_difficult.name}}_{{val}}">{{itm}}</label>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="coding_difficult" id="id_coding_difficul2" value="No" required>
-                            <label class="form-check-label" for="id_coding_difficul2">No</label>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -740,14 +715,12 @@
                 <div class="question-block radius-md m-2">
                     <label class="mb-1 font-weight-normal">5. Does any ML/DL/AI courses or studied Artificial Intelligence in college yet?</label>
                     <div class="d-block mt-2">
+                        {% for val, itm in form.does_ml_dl_ai.field.choices %}
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="study" id="id_study1" value="Yes" required>
-                            <label class="form-check-label" for="id_study1">Yes</label>
+                            <input class="form-check-input" type="radio" name="{{form.does_ml_dl_ai.name}}" id="id_{{form.does_ml_dl_ai.name}}_{{val}}" value="{{val}}" required>
+                            <label class="form-check-label" for="id_{{form.does_ml_dl_ai.name}}_{{val}}">{{itm}}</label>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="study" id="id_study2" value="No" required>
-                            <label class="form-check-label" for="id_study2">No</label>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -756,14 +729,12 @@
                 <div class="question-block radius-md m-2">
                     <label class="mb-1 font-weight-normal">6. Likes to study/create/work/do projects?</label>
                     <div class="d-block mt-2">
+                        {% for val, itm in form.like_to_work_in.field.choices %}
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="team_preference" id="id_team_preference1" value="Alone" required>
-                            <label class="form-check-label" for="id_team_preference1">Alone</label>
+                            <input class="form-check-input" type="radio" name="{{form.like_to_work_in.name}}" id="id_{{form.like_to_work_in.name}}_{{val}}" value="{{val}}" required>
+                            <label class="form-check-label" for="id_{{form.like_to_work_in.name}}_{{val}}">{{itm}}</label>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="team_preference" id="id_team_preference2" value="In a team" required>
-                            <label class="form-check-label" for="id_team_preference2">In a team</label>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -773,91 +744,12 @@
                     <label class="mb-1">7. Specify your functionality area?</label>
                     <div class="ml-2">
                         <div class="row mt-2">
+                            {% for val, itm in form.functionality_areas.field.choices %}
                             <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Finance and accounts</label>" type="checkbox" id="id_functionality_area1" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area1">Finance and accounts</label>
+                                <input class="form-control" type="checkbox" name="{{form.functionality_areas.name}}" id="id_{{form.functionality_areas.name}}_{{val}}" value="{{val}}">
+                                <label class="form-check-label" for="id_{{form.functionality_areas.name}}_{{val}}">{{itm}}</label>
                             </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Sales and marketing" type="checkbox" id="id_functionality_area2" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area2">Sales and marketing</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Office operation / Hr" type="checkbox" id="id_functionality_area3" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area3">Office operation / Hr</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Production / Maintainance / Quality" type="checkbox" id="id_functionality_area4" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area4">Production / Maintainance / Quality</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="IT / Software / Telecom" type="checkbox" id="id_functionality_area5" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area5">IT / Software / Telecom</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Agriculture / farming / dairy" type="checkbox" id="id_functionality_area6" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area6">Agriculture / farming / dairy</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Construction/Real Estate" type="checkbox" id="id_functionality_area7" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area7">Construction/Real Estate</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Entertainment and media" type="checkbox" id="id_functionality_area8" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area8">Entertainment and media</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Education / Teachers / professor" type="checkbox" id="id_functionality_area9" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area9">Education / Teachers / professor</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Bpo / ITES / Telecaller / Customer care" type="checkbox" id="id_functionality_area10" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area10">Bpo / ITES / Telecaller / Customer care</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Fashion Designing" type="checkbox" id="id_functionality_area11" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area11">Fashion Designing</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Content / Editor / journalists" type="checkbox" id="id_functionality_area12" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area12">Content / Editor / journalists</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Legal / law" type="checkbox" id="id_functionality_area13" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area13">Legal / law</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Travelling agencies" type="checkbox" id="id_functionality_area14" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area14">Travelling agencies</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Bio tech / R&D / Scientists" type="checkbox" id="id_functionality_area15" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area15">Bio tech / R&D / Scientists</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Data scientists / Machine learning engineer / AI" type="checkbox" id="id_functionality_area16" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area16">Data scientists / Machine learning engineer / AI</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Student" type="checkbox" id="id_functionality_area17" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area17">Student</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Medicine / Biology / Pharmaceutical" type="checkbox" id="id_functionality_area18" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area18">Medicine / Biology / Pharmaceutical</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Electrical / Electronics / Electronic and telecommunications" type="checkbox" id="id_functionality_area19" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area19">Electrical / Electronics / Electronic and telecommunications</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Mechanical" type="checkbox" id="id_functionality_area20" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area20">Mechanical</label>
-                            </div>
-                            <div class="form-check col-12 mb-2">
-                                <input name="functionality_area" value="Chemical" type="checkbox" id="id_functionality_area21" class="form-control">
-                                <label class="form-check-label" for="id_functionality_area21">Chemical</label>
-                            </div>
-
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -894,40 +786,57 @@
 <!-- Content END-->
 
 <script>
-    function closePopup() {
-        $("#pop-up-questions").css("display", 'none');
-    }
+    // function closePopup() {
+    //     $("#pop-up-questions").css("display", 'none');
+    // }
 
-    function PopUpSubmit() {
-        let age = $("select[name='age']").val();
-        let knowledge_ml_dl_ai = $("select[name='knowledge_ml_dl_ai']").val();
-        let worked_in = $("select[name='worked_in']").val();
-        let code_difficult = $("select[name='code_difficult']").val();
-        let does_ml_dl_ai = $("select[name='does_ml_dl_ai']").val();
-        let like_to_work_in = $("select[name='like_to_work_in']").val();
-        let functionality_areas = $("select[name='functionality_areas']").val();
-        var csrfmiddlewaretoken = $('[name="csrfmiddlewaretoken"]').val();
-        $.ajax({
-            type: "POST",
-            url: "{% url 'home:pop-up' %}",
-            data: {
-                'csrfmiddlewaretoken': csrfmiddlewaretoken,
-                'age': age,
-                'knowledge_ml_dl_ai': knowledge_ml_dl_ai,
-                'worked_in': worked_in,
-                'code_difficult': code_difficult,
-                'does_ml_dl_ai': does_ml_dl_ai,
-                'like_to_work_in': like_to_work_in,
-                'functionality_areas': functionality_areas
-            },
-            success: function (response) {
-                console.log(response);
-            },
-            error: function (response) {
-                console.log(response);
-            },
-        });
+    // function PopUpSubmit() {
+    //     let age = $("select[name='age']").val();
+    //     let knowledge_ml_dl_ai = $("select[name='knowledge_ml_dl_ai']").val();
+    //     let worked_in = $("select[name='worked_in']").val();
+    //     let code_difficult = $("select[name='code_difficult']").val();
+    //     let does_ml_dl_ai = $("select[name='does_ml_dl_ai']").val();
+    //     let like_to_work_in = $("select[name='like_to_work_in']").val();
+    //     let functionality_areas = $("select[name='functionality_areas']").val();
+    //     var csrfmiddlewaretoken = $('[name="csrfmiddlewaretoken"]').val();
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "{% url 'home:pop-up' %}",
+    //         data: {
+    //             'csrfmiddlewaretoken': csrfmiddlewaretoken,
+    //             'age': age,
+    //             'knowledge_ml_dl_ai': knowledge_ml_dl_ai,
+    //             'worked_in': worked_in,
+    //             'code_difficult': code_difficult,
+    //             'does_ml_dl_ai': does_ml_dl_ai,
+    //             'like_to_work_in': like_to_work_in,
+    //             'functionality_areas': functionality_areas
+    //         },
+    //         success: function (response) {
+    //             console.log(response);
+    //         },
+    //         error: function (response) {
+    //             console.log(response);
+    //         },
+    //     });
 
+    // }
+
+    // Popup submission
+    function submitPopup(e, element){
+        e.preventDefault();
+        const formData = new FormData(element);
+        fetch('{% url 'home:pop-up' %}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            if (data['Status']){
+                rmModalAndOverlay()
+            }
+        })
     }
 
     // Popup Show/Hide

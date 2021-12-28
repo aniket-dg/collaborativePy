@@ -4,6 +4,7 @@
 <html lang="en">
 
 
+<!-- Mirrored from friendkit.cssninja.io/navbar-v1-pages-main.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 21 Oct 2021 14:39:58 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
     <!-- Required meta tags -->
@@ -38,45 +39,42 @@
                     <!-- <img class="logo dark-image" src="{% static 'social_assets/img/logo/friendkit-white.svg' %}" width="112" height="28" alt=""> -->
                 </a>
             </div>
+            <style>
+                .custom-indicator{
+                    position: absolute;
+                    top: -5px;
+                    right: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #5596E6;
+                    color: white;
+                    min-width: 17px;
+                    min-height: 17px;
+                    font-size: 12px;
+                    height: 15px;
+                    border-radius: 50%;
+                }
+                .custom-indicator.red{
+                    background-color: #E6122F;
+                }
+            </style>
             <div class="navbar-menu">
                 <div class="navbar-start">
                     <!-- Navbar Search -->
-
-                    <div class="navbar-item is-icon drop-trigger" onclick='$(`.menu-item[data-content="personal-content"]`).click()'>
-                        {% if all_friend_requests|length > 0 %}
-                        <a class="icon-link is-friends is-active" href="javascript:void(0);">
-                        {% else %}
-                        <a class="icon-link is-friends" href="javascript:void(0);">
-                        {% endif %}
+                    {% url 'user:profile' as profile_path %}
+                    {% if all_friend_requests|length > 0 %}
+                    <div class="navbar-item is-icon drop-trigger" {% if request.path == profile_path %} onclick='$(`.menu-item[data-content="personal-content"]`).click()' {% endif %}>
+                        <a class="icon-link is-friends {% if all_friend_requests|length > 0 %} is-active {% endif %}">
                             <i data-feather="users"></i>
                             {% if all_friend_requests|length > 0 %}
-                                <div class="custom-indicator">
-                                        {{all_friend_requests|length}}
-                                </div>
+                            <div class="custom-indicator" data-requests-counter="true">
+                                    {{all_friend_requests|length}}
+                            </div>
                             {% endif %}
                         </a>
-                        <style>
-                            .custom-indicator{
-                                position: absolute;
-                                top: -5px;
-                                right: 0;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                background-color: #5596E6;
-                                color: white;
-                                min-width: 17px;
-                                min-height: 17px;
-                                font-size: 12px;
-                                height: 15px;
-                                border-radius: 50%;
-                            }
-                            .custom-indicator.red{
-                                background-color: #E6122F;
-                            }
-                        </style>
-
-                        <!-- <div class="nav-drop">
+                        {% if request.path != profile_path %}
+                        <div class="nav-drop">
                             <div class="inner">
                                 <div class="nav-drop-header">
                                     <span>Friend requests</span>
@@ -84,35 +82,45 @@
                                         <i data-feather="users"></i>
                                     </a>
                                 </div>
+                                {% for friend_request in all_friend_requests %}
+                                {{friend_request.get_profile_img}}
                                 <div class="nav-drop-body is-friend-requests">
                                     <div class="media">
                                         <figure class="media-left">
                                             <p class="image">
-                                                <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="{% static 'social_assets/img/avatars/bobby.jpg' %}" alt="">
+                                                <img src="{{friend_request.connection_user.get_profile_img}}" data-demo-src="{{friend_request.connection_user.get_profile_img}}" alt="">
                                             </p>
                                         </figure>
                                         <div class="media-content">
-                                            <a href="#">Bobby Brown</a>
-                                            <span>Najeel verwick is a common friend</span>
+                                            <a href="#">{{friend_request.connection_user.get_full_name}}</a>
+                                            <span>{{friend_request.connection_user.username}}</span>
                                         </div>
                                         <div class="media-right">
-                                            <button class="button icon-button is-solid grey-button raised">
-                                                <i data-feather="user-plus"></i>
-                                            </button>
-                                            <button class="button icon-button is-solid grey-button raised">
-                                                <i data-feather="user-minus"></i>
-                                            </button>
+                                            <!-- <button class="button icon-button grey-button raised">
+                                                <i data-feather="x"></i>
+                                            </button> -->
+                                            <form method="post" 
+                                                onsubmit="acceptFriendRequest(event, reload=false, alert=false);this.closest('.nav-drop-body').remove();">
+                                                <input type="hidden" name="id" value="{{ friend_request.connection_user.id }}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="button icon-button grey-button raised">
+                                                    <i data-feather="check"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
+                                {% endfor %}
                                 <div class="nav-drop-footer">
-                                    <a href="#" onclick="navDropClose(event, this,'personal-content-list')">
+                                    <a href="{% url 'user:profile' %}" onclick="navDropClose(event, this,'personal-content-list')">
                                         View All
                                     </a>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
+                        {% endif %}
                     </div>
+                    {% endif %}
                     <!-- <div class="navbar-item is-icon drop-trigger">
                         <a class="icon-link" href="javascript:void(0);">
                             <i data-feather="bell"></i>
@@ -151,7 +159,11 @@
                             </div>
                         </div>
                     </div> -->
+                    {% if total_message_count > 0 %}
                     <div class="navbar-item is-icon drop-trigger">
+                    {% else %}
+                    <div class="navbar-item is-icon" onclick="location.href = `{% url 'chat:chat' %}`">
+                    {% endif %}
                         {% if p2p_unread_messages|length > 0 or group_unread_messages|length > 0 %}
                         <a class="icon-link is-active" href="javascript:void(0);">
                         {% else %}
@@ -171,18 +183,18 @@
                                     <span>Messages</span>
                                     <a href="{% url 'chat:chat' %}">Inbox</a>
                                 </div>
-                                <div class="nav-drop-body is-friend-requests">
+                                <div class="nav-drop-body is-friend-requests" style="overflow-x: hidden;">
                                     <!-- Message -->
                                     {% for p2pchat in p2p_unread_messages %}
-                                    <div class="media">
+                                    <div class="media" onclick="location={% url 'chat:chat' %}" style="cursor: pointer;">
                                         <figure class="media-left">
                                             <p class="image">
-                                                <img src="{{p2pchat.user.profile_image.url}}" alt="">
+                                                <img src="{{p2pchat.user.get_profile_img}}" alt="">
                                             </p>
                                         </figure>
-                                        <div class="media-content">
-                                            <a href="#">{{p2pchat.user.get_full_name}}</a>
-                                            <span style="overflow-wrap:anywhere;">{{p2pchat.body|default:'Received &#10064 media files.'}}</span>
+                                        <div class="media-content" style="width: 60%;">
+                                            <a>{{p2pchat.user.get_full_name}}</a>
+                                            <span style="white-space:nowrap; text-overflow: ellipsis; overflow-x: hidden;">{{p2pchat.body|default:'Received &#10064 media files.'}}</span>
                                             <span class="time">{{p2pchat.timestamp|date:'F j, Y: f A'}}</span>
                                         </div>
                                         <div class="media-right is-centered">
@@ -194,15 +206,15 @@
                                     {% endfor %}
                                     <!-- Message -->
                                     {% for groupchat in group_unread_messages %}
-                                    <div class="media">
+                                    <div class="media" onclick="location={% url 'chat:chat' %}" style="cursor: pointer;">
                                         <figure class="media-left">
                                             <p class="image">
                                                 <img src="{{groupchat.group.profile_image.url}}" alt="">
                                             </p>
                                         </figure>
-                                        <div class="media-content">
-                                            <a href="#">{{groupchat.group.group_name}}</a>
-                                            <span style="overflow-wrap:anywhere;">{{groupchat.body|default:'Received &#10064 media files.'}}</span>
+                                        <div class="media-content" style="width: 60%;">
+                                            <a>{{groupchat.group.group_name}}</a>
+                                            <span style="white-space:nowrap; text-overflow: ellipsis; overflow-x: hidden;">{{groupchat.body|default:'Received &#10064 media files.'}}</span>
                                             <span class="time">{{groupchat.timestamp|date:'F j, Y: f A'}}</span>
                                         </div>
                                         <div class="media-right is-centered">
@@ -233,6 +245,14 @@
                         </a>
                     </div>
 
+                    <div class="navbar-item is-icon">
+                        <a class="icon-link is-primary" href="{% url 'home:plan-list' %}">
+                            <i class="mdi mdi-format-list-numbered"></i>
+                            <span class="indicator"></span>
+                        </a>
+                    </div>
+
+                    
                     <!-- <div id="explorer-trigger" class="navbar-item is-icon">
                         <a class="icon-link is-primary">
                             <i class="mdi mdi-apps"></i>
@@ -403,31 +423,29 @@
                     <div id="account-dropdown" class="navbar-item is-account drop-trigger has-caret">
                         <div class="user-image">
                             {% if request.user.is_authenticated %}
-                                <img src="{{ request.user.profile_image.url }}" data-demo-src="{{ request.user.profile_image.url }}" alt="Your Profile Photo">
+                                <img src="{{ request.user.get_profile_img }}" data-demo-src="{{ request.user.get_profile_img }}" alt="Your Profile Photo">
                             {% else %}
-                            <img src="{% static 'images/icon/user.png' %}" data-demo-src="{% static 'images/icon/user.png' %}">
+                            <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" alt="Your Profile Photo">
                             {% endif %}
                             <span class="indicator"></span>
                         </div>
 
-                        {% if request.user.is_authenticated %}
                         <div class="nav-drop is-account-dropdown">
                             <div class="inner">
-<!--                                <div class="nav-drop-header">-->
-<!--                                    <span class="username">{{request.user.username}}</span>-->
-<!--                                    <label class="theme-toggle">-->
-<!--                                        <input type="checkbox">-->
-<!--                                        <span class="toggler">-->
-<!--                                                <span class="dark">-->
-<!--                                                    <i data-feather="moon"></i>-->
-<!--                                                </span>-->
-<!--                                        <span class="light">-->
-<!--                                                    <i data-feather="sun"></i>-->
-<!--                                                </span>-->
-<!--                                        </span>-->
-<!--                                    </label>-->
-<!--                                </div>-->
-
+                                <!-- <div class="nav-drop-header">
+                                    <span class="username">{{request.user.username}}</span>
+                                    <label class="theme-toggle">
+                                        <input type="checkbox">
+                                        <span class="toggler">
+                                                <span class="dark">
+                                                    <i data-feather="moon"></i>
+                                                </span>
+                                        <span class="light">
+                                                    <i data-feather="sun"></i>
+                                                </span>
+                                        </span>
+                                    </label>
+                                </div> -->
                                 <div class="nav-drop-body account-items">
                                     <a id="profile-link" href="{% url 'user:profile' %}" class="account-item">
                                         <div class="media">
@@ -440,13 +458,12 @@
                                                 <h3>{{request.user.get_full_name}}</h3>
                                                 <small>{{request.user.username}}</small>
                                             </div>
-<!--                                            <div class="media-right">-->
-<!--                                                <i data-feather="check"></i>-->
-<!--                                            </div>-->
+                                            <div class="media-right">
+                                                <i data-feather="check"></i>
+                                            </div>
                                         </div>
                                     </a>
-
-<!--                                    <hr class="account-divider">-->
+                                    <hr class="account-divider">
                                     <!-- <a href="" class="account-item">
                                         <div class="media">
                                             <div class="media-left">
@@ -495,8 +512,8 @@
                                             </div>
                                         </div>
                                     </a> -->
-                                    <hr class="account-divider">
-                                    <!-- <a href="" class="account-item">
+                                    <!-- <hr class="account-divider">
+                                    <a href="" class="account-item">
                                         <div class="media">
                                             <div class="icon-wrap">
                                                 <i data-feather="settings"></i>
@@ -506,18 +523,18 @@
                                                 <small>Access widget settings.</small>
                                             </div>
                                         </div>
-                                    </a>
-                                    <a class="account-item">
+                                    </a> -->
+                                    <a href="{% url 'home:contact' %}" class="account-item">
                                         <div class="media">
                                             <div class="icon-wrap">
-                                                <i data-feather="life-buoy"></i>
+                                                <i data-feather="help-circle"></i>
                                             </div>
                                             <div class="media-content">
-                                                <h3>Help</h3>
-                                                <small>Contact our support.</small>
+                                                <h3>Support</h3>
+                                                <small>Contact our team.</small>
                                             </div>
                                         </div>
-                                    </a> -->
+                                    </a>
                                     <a class="account-item" href="{% url 'user:logout' %}">
                                         <div class="media">
                                             <div class="icon-wrap">
@@ -532,7 +549,6 @@
                                 </div>
                             </div>
                         </div>
-                         {% endif %}
                     </div>
                 </div>
 
@@ -548,55 +564,64 @@
                 <!-- <img class="dark-image" src="{% static 'social_assets/img/logo/friendkit-white.svg' %}" alt=""> -->
             </a>
             <div style="display: flex; overflow-x: auto;">
-                <div class="navbar-item is-icon drop-trigger" onclick='$(`.menu-item[data-content="personal-content"]`).click()'>
-                    {% if all_friend_requests|length > 0 %}
-                    <a class="icon-link is-friends is-active" href="javascript:void(0);">
-                    {% else %}
-                    <a class="icon-link is-friends" href="javascript:void(0);">
-                    {% endif %}
+                {% if all_friend_requests|length > 0 %}
+                <div class="navbar-item is-icon drop-trigger" {% if request.path == profile_path %} onclick='$(`.menu-item[data-content="personal-content"]`).click()' {% endif %}>
+                    <a class="icon-link is-friends {% if all_friend_requests|length > 0 %} is-active {% endif %}">
                         <i data-feather="users"></i>
                         {% if all_friend_requests|length > 0 %}
-                            <div class="custom-indicator">
-                                    {{all_friend_requests|length}}
-                            </div>
+                        <div class="custom-indicator" data-requests-counter="true">
+                                {{all_friend_requests|length}}
+                        </div>
                         {% endif %}
                     </a>
-
-                    <!-- <div class="nav-drop">
+                    {% if request.path != profile_path %}
+                    <div class="nav-drop">
                         <div class="inner">
                             <div class="nav-drop-header">
                                 <span>Friend requests</span>
                                 <a href="#">
-                                    <i data-feather="search"></i>
+                                    <i data-feather="users"></i>
                                 </a>
                             </div>
+                            {% for friend_request in all_friend_requests %}
+                            {{friend_request.get_profile_img}}
                             <div class="nav-drop-body is-friend-requests">
                                 <div class="media">
                                     <figure class="media-left">
                                         <p class="image">
-                                            <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="{% static 'social_assets/img/avatars/bobby.jpg' %}" alt="">
+                                            <img src="{{friend_request.connection_user.get_profile_img}}" data-demo-src="{{friend_request.connection_user.get_profile_img}}" alt="">
                                         </p>
                                     </figure>
                                     <div class="media-content">
-                                        <a href="#">Bobby Brown</a>
-                                        <span>Najeel verwick is a common friend</span>
+                                        <a href="#">{{friend_request.connection_user.get_full_name}}</a>
+                                        <span>{{friend_request.connection_user.username}}</span>
                                     </div>
                                     <div class="media-right">
-                                        <button class="button icon-button is-solid grey-button raised">
-                                            <i data-feather="user-plus"></i>
-                                        </button>
-                                        <button class="button icon-button is-solid grey-button raised">
-                                            <i data-feather="user-minus"></i>
-                                        </button>
+                                        <!-- <button class="button icon-button grey-button raised">
+                                            <i data-feather="x"></i>
+                                        </button> -->
+                                        <form method="post" 
+                                            onsubmit="acceptFriendRequest(event, reload=false, alert=false);this.closest('.nav-drop-body').remove();">
+                                            <input type="hidden" name="id" value="{{ friend_request.connection_user.id }}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="button icon-button grey-button raised">
+                                                <i data-feather="check"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
+                            {% endfor %}
                             <div class="nav-drop-footer">
-                                <a href="#">View All</a>
+                                <a href="{% url 'user:profile' %}" onclick="navDropClose(event, this,'personal-content-list')">
+                                    View All
+                                </a>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
+                    {% endif %}
                 </div>
+                {% endif %}
                 <!-- <div class="navbar-item is-icon drop-trigger">
                     <a class="icon-link" href="javascript:void(0);">
                         <i data-feather="bell"></i>
@@ -635,7 +660,11 @@
                         </div>
                     </div>
                 </div> -->
+                {% if total_message_count > 0 %}
                 <div class="navbar-item is-icon drop-trigger">
+                {% else %}
+                <div class="navbar-item is-icon" onclick="location.href = `{% url 'chat:chat' %}`">
+                {% endif %}
                     {% if p2p_unread_messages|length > 0 or group_unread_messages|length > 0 %}
                     <a class="icon-link is-active" href="javascript:void(0);">
                     {% else %}
@@ -653,20 +682,20 @@
                         <div class="inner">
                             <div class="nav-drop-header">
                                 <span>Messages</span>
-                                <!-- <a href="">Inbox</a> -->
+                                <a href="{% url 'chat:chat' %}">Inbox</a>
                             </div>
-                            <div class="nav-drop-body is-friend-requests">
+                            <div class="nav-drop-body is-friend-requests" style="overflow-x: hidden;">
                                 <!-- Message -->
                                 {% for p2pchat in p2p_unread_messages %}
-                                <div class="media">
+                                <div class="media" onclick="location={% url 'chat:chat' %}" style="cursor: pointer;">
                                     <figure class="media-left">
                                         <p class="image">
-                                            <img src="{{p2pchat.user.profile_image.url}}" alt="">
+                                            <img src="{{p2pchat.user.get_profile_img}}" alt="">
                                         </p>
                                     </figure>
-                                    <div class="media-content">
-                                        <a href="#">{{p2pchat.user.get_full_name}}</a>
-                                        <span>{{p2pchat.body|default:'Received &#10064 media files.'}}</span>
+                                    <div class="media-content" style="width: 60%;">
+                                        <a>{{p2pchat.user.get_full_name}}</a>
+                                        <span style="white-space:nowrap; text-overflow: ellipsis; overflow-x: hidden;">{{p2pchat.body|default:'Received &#10064 media files.'}}</span>
                                         <span class="time">{{p2pchat.timestamp|date:'F j, Y: f A'}}</span>
                                     </div>
                                     <div class="media-right is-centered">
@@ -678,15 +707,15 @@
                                 {% endfor %}
                                 <!-- Message -->
                                 {% for groupchat in group_unread_messages %}
-                                <div class="media">
+                                <div class="media" onclick="location={% url 'chat:chat' %}" style="cursor: pointer;">
                                     <figure class="media-left">
                                         <p class="image">
                                             <img src="{{groupchat.group.profile_image.url}}" alt="">
                                         </p>
                                     </figure>
-                                    <div class="media-content">
-                                        <a href="#">{{groupchat.group.group_name}}</a>
-                                        <span>{{groupchat.body|default:'Received &#10064 media files.'}}</span>
+                                    <div class="media-content" style="width: 60%;">
+                                        <a>{{groupchat.group.group_name}}</a>
+                                        <span style="white-space:nowrap; text-overflow: ellipsis; overflow-x: hidden;">{{groupchat.body|default:'Received &#10064 media files.'}}</span>
                                         <span class="time">{{groupchat.timestamp|date:'F j, Y: f A'}}</span>
                                     </div>
                                     <div class="media-right is-centered">
@@ -698,7 +727,7 @@
                                 {% endfor %}
                             </div>
                             <div class="nav-drop-footer">
-                                <a href="{% url 'chat:chat' %}">Go to chat</a>
+                                <a href="{% url 'chat:chat' %}" onclick="navDropClose(event, this, null)">Go to chat</a>
                             </div>
                         </div>
                     </div>
@@ -744,7 +773,7 @@
             <div class="navbar-item has-dropdown is-active">
                 <a href="#" class="navbar-link">
                     {% if request.user.is_authenticated %}
-                    <img src="{{ request.user.profile_image.url }}" data-demo-src="{{ request.user.profile_image.url }}" alt="Your Profile Photo">
+                    <img src="{{ request.user.get_profile_img }}" data-demo-src="{{ request.user.get_profile_img }}" alt="Your Profile Photo">
                     {% else %}
                     <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" alt="Your Profile Photo">
                     {% endif %}
@@ -775,9 +804,11 @@
                     <a href="#" class="navbar-item is-flex is-mobile-icon">
                         <span><i data-feather="bookmark"></i>Bookmarks</span>
                     </a> -->
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="help-circle"></i>Support</span>
+                    </a>
                     <a href="{% url 'user:logout' %}" class="navbar-item is-flex is-mobile-icon">
-                        <i data-feather="power"></i>
-                        <h3 class="ml-2">Log out</h3>
+                        <span><i data-feather="power"></i>Log out</span>
                     </a>
                 </div>
             </div>
@@ -911,7 +942,7 @@
             }, 200);
             $(`.menu-item[data-content='${listName}']`).click()
         }
-        function sendFriendRequest(e, reload=false, alert=false){
+        function sendFriendRequest(e, reload=false, giveAlert=false){
             e.preventDefault()
             const formData = new FormData(e.target)
             fetch("{% url 'user:send-request' %}", {
@@ -920,7 +951,7 @@
             }).then(response => {
                 return response.json()
             }).then(data => {
-                if (alert){
+                if (giveAlert){
                     setToast(data)
                 }
                 if (data['data'] && reload){
@@ -928,8 +959,8 @@
                 }
             })
         }
-        function acceptFriendRequest(e, reload=false, alert=false){
-            e.preventDefault()
+        function acceptFriendRequest(e, reload=false, giveAlert=false, returnVal=false){
+            e.preventDefault();
             const formData = new FormData(e.target)
             fetch("{% url 'user:accept-user' %}", {
                 method: 'POST',
@@ -937,11 +968,57 @@
             }).then(response => {
                 return response.json()
             }).then(data => {
-                if (alert){
+                if (giveAlert){
                     setToast(data)
                 }
                 if (data['data'] && reload){
                     location.reload();
+                }
+                if(data['data']){
+                    updateRequestsCounter(-1);
+                    updateTotalFriendsCounter(1);
+                }
+                if (returnVal){
+                    return data['data'] ? true : false;
+                }
+            })
+        }
+        // Navbar updates for friends notif counter
+        function updateRequestsCounter(val) {
+            const counters = document.querySelectorAll('[data-requests-counter="true"]')
+            counters?.forEach((counter) => {
+                const newVal = parseInt(counter.innerText) + val;
+                counter.innerText = newVal;
+                if (newVal <  1){
+                    counter.innerText = '';
+                    if (counter.closest('.is-active')){
+                        counter.closest('.is-active').classList.remove('is-active');
+                    }
+                    counter.closest('.custom-indicator').remove();
+                }
+            })
+        }
+        function unfriendUser(e, reload=false, giveAlert=false, returnVal=false) {
+            e.preventDefault();
+            const formData = new FormData(e.target)
+            fetch("{% url 'user:unfriend-ajax' %}", {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                if (giveAlert){
+                    setToast(data)
+                }
+                if (data['data'] && reload){
+                    location.reload();
+                }
+                if(data['data']){
+                    updateTotalFriendsCounter(-1);
+                }
+                if (returnVal){
+                    console.log(data['data'] ? true : false)
+                    return data['data'] ? true : false;
                 }
             })
         }

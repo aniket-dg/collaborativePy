@@ -31,7 +31,7 @@
         $('#offcanvas_profile_fullname').text(groupName);
         $('#offcanvas_profile_username').text(groupInfo);
         $('#update_group_id').val(groupId);
-        $('#offcanvas-tab-profile-people').text('People');
+        // $('#offcanvas-tab-profile-people').text('People');
 
         $('#offcanvas_profile_designation').closest('.list-group-item').hide();
         $('#offcanvas_profile_bio').closest('.list-group-item').hide();
@@ -306,7 +306,7 @@
                                                     ${data['body'] ? 
                                                             `
                                                             <div class="message-text">
-                                                                <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                                <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                             </div>
                                                             ` :
                                                             `
@@ -377,7 +377,7 @@
                                                     ${data['body'] ? 
                                                             `
                                                             <div class="message-text">
-                                                                <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                                <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                             </div>
                                                             ` :
                                                             `
@@ -498,7 +498,7 @@
                                                     ${data['body'] ? 
                                                             `
                                                             <div class="message-text">
-                                                                <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                                <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                             </div>
                                                             ` :
                                                             `
@@ -565,7 +565,7 @@
                                                     ${data['body'] ? 
                                                         `
                                                         <div class="message-text">
-                                                            <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                            <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                         </div>
                                                         ` :
                                                         `

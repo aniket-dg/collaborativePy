@@ -36,7 +36,8 @@ def get_new_messages(request):
     total_count = 0
     if not request.user.is_anonymous:
         current_user = request.user
-        p2p_unread_messages_temp = P2pChatModel.objects.filter(recipient=current_user, read=False).select_related('user')
+        connected_users = current_user.get_user_connected_users()
+        p2p_unread_messages_temp = P2pChatModel.objects.filter(user__in=connected_users, recipient=current_user, read=False).select_related('user')
         
         # showing only the newest msg from a particular user
         id_list = []

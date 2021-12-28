@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, PostComment,SkeletonPost, FirstLevelCategory, SecondLevelCategory, ThirdLevelCategory, FourthLevelCategory, FlagInappropriate
+from .models import Post, PostComment,SkeletonPost, FirstLevelCategory, SecondLevelCategory, ThirdLevelCategory, FourthLevelCategory, FlagInappropriate, Category, Scope, Language
 from .models import SkeletonPostComment, BookMark
 # Register your models here.
 class ModelPost(admin.ModelAdmin):
@@ -13,4 +13,6 @@ admin.site.register(SecondLevelCategory)
 admin.site.register(ThirdLevelCategory)
 admin.site.register(FourthLevelCategory)
 admin.site.register(SkeletonPostComment)
-admin.site.register(FlagInappropriate)
+admin.site.register(Category)
+admin.site.register(Language)
+admin.site.register(Scope)

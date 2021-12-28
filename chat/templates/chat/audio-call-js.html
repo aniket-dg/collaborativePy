@@ -21,9 +21,18 @@
         let receiver_channel_name = parsedData['message']['receiver_channel_name'];
 
         if(action === 'new-peer'){
-            createOfferer(peerUserName, receiver_channel_name);
-
-            return;
+            if (!(peerUserName in mapPeers)){
+                createOfferer(peerUserName, receiver_channel_name);
+                return;
+            }
+            else {
+                setTimeout(() => {
+                    if (!(peerUserName in mapPeers)){
+                        createOfferer(peerUserName, receiver_channel_name);
+                        return
+                    }
+                }, 7000);
+            }
         }
 
         if(action === 'new-offer'){
@@ -37,6 +46,15 @@
             let peer  = mapPeers[peerUserName][0];
 
             peer.setRemoteDescription(answer);
+            return;
+        }
+
+        if(action === 'call-end'){
+            window.location.href = "{% url 'chat:chat' %}";
+            return;
+        }
+
+        if(action === 'leave-call'){
             return;
         }
     }
@@ -377,19 +395,27 @@ let localStream = new MediaStream();
 </script>
 
 <script>
-let url;
     $('#end_call').on('click', function(){
         {% if is_group_creator %}
-
+        const endCallText = 'You are about the end the video call for everyone. Proceed?'
+        if (confirm(endCallText) == true){
             sendSignal('call-end', {});
             localStream.getTracks().forEach(function(track) {
-            track.stop();
+                track.stop();
             });
             console.log("{{ join_url }}");
-            url = "{% url 'chat:audio-end' join_url %}";
-
-
+            let url = "{% url 'chat:audio-end' join_url %}";
+            window.location.href = url;
+        }
         {% endif %}
+    });
+    $('#leave_call').on('click', function(){
+        sendSignal('leave-call', {});
+        localStream.getTracks().forEach(function(track) {
+            track.stop();
+        });
+        let url = "{% url 'chat:chat' %}";
+        window.location.href = url;
     });
 </script>
 
