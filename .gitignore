@@ -151,3 +151,9 @@ cython_debug/
 /Stellar-Ai.zip
 /.idea/Stellar-Ai.iml
 /.idea/inspectionProfiles/Project_Default.xml
+
+/chat/migrations
+/home/migrations
+/order/migrations
+/post/migrations
+/users/migrations

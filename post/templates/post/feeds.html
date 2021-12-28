@@ -39,6 +39,16 @@
       }
     }
 
+
+    filter-option:active {
+  background-color: #5596e6;
+}
+
+    filter-option:hover {
+  color: #5596e6;
+}
+
+
 </style>
 
 <div class="view-wrapper">
@@ -54,22 +64,22 @@
                 <div class="column is-3">
 
                     <!-- Placeload element -->
-                    <div class="placeload weather-widget-placeload">
-                        <div class="header">
-                            <div class="inner-wrap">
-                                <div class="img loads"></div>
-                                <div class="content-shape loads"></div>
-                                <div class="content-shape loads"></div>
-                            </div>
-                        </div>
-                        <div class="body">
-                            <div class="inner-wrap">
-                                <div class="rect loads"></div>
-                                <div class="content-shape loads"></div>
-                                <div class="content-shape loads"></div>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="placeload weather-widget-placeload">-->
+<!--                        <div class="header">-->
+<!--                            <div class="inner-wrap">-->
+<!--                                <div class="img loads"></div>-->
+<!--                                <div class="content-shape loads"></div>-->
+<!--                                <div class="content-shape loads"></div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="body">-->
+<!--                            <div class="inner-wrap">-->
+<!--                                <div class="rect loads"></div>-->
+<!--                                <div class="content-shape loads"></div>-->
+<!--                                <div class="content-shape loads"></div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <!-- Placeload element -->
                     <div class="placeload list-placeload">
                         <div class="header">
@@ -313,52 +323,52 @@
                                         <i data-feather="more-vertical"></i>
                                     </div>
                                 </div>
-                                <div class="dropdown-menu" role="menu">
-                                    <div class="dropdown-content">
-                                        <a href="#" class="dropdown-item">
-                                            <div class="media">
-                                                <i data-feather="map-pin"></i>
-                                                <div class="media-content">
-                                                    <h3>Change City</h3>
-                                                    <small>Change the displayed city.</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="dropdown-item">
-                                            <div class="media">
-                                                <i data-feather="rotate-ccw"></i>
-                                                <div class="media-content">
-                                                    <h3>Synchronize</h3>
-                                                    <small>Synchronize with a weather source.</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item">
-                                            <div class="media">
-                                                <i data-feather="settings"></i>
-                                                <div class="media-content">
-                                                    <h3>Settings</h3>
-                                                    <small>Access widget settings.</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <hr class="dropdown-divider">
-                                        <a href="#" class="dropdown-item">
-                                            <div class="media">
-                                                <i data-feather="trash-2"></i>
-                                                <div class="media-content">
-                                                    <h3>Remove</h3>
-                                                    <small>Removes this widget from your feed.</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
+<!--                                <div class="dropdown-menu" role="menu">-->
+<!--                                    <div class="dropdown-content">-->
+<!--                                        <a href="#" class="dropdown-item">-->
+<!--                                            <div class="media">-->
+<!--                                                <i data-feather="map-pin"></i>-->
+<!--                                                <div class="media-content">-->
+<!--                                                    <h3>Change City</h3>-->
+<!--                                                    <small>Change the displayed city.</small>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </a>-->
+<!--                                        <a href="#" class="dropdown-item">-->
+<!--                                            <div class="media">-->
+<!--                                                <i data-feather="rotate-ccw"></i>-->
+<!--                                                <div class="media-content">-->
+<!--                                                    <h3>Synchronize</h3>-->
+<!--                                                    <small>Synchronize with a weather source.</small>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </a>-->
+<!--                                        <a class="dropdown-item">-->
+<!--                                            <div class="media">-->
+<!--                                                <i data-feather="settings"></i>-->
+<!--                                                <div class="media-content">-->
+<!--                                                    <h3>Settings</h3>-->
+<!--                                                    <small>Access widget settings.</small>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </a>-->
+<!--                                        <hr class="dropdown-divider">-->
+<!--                                        <a href="#" class="dropdown-item">-->
+<!--                                            <div class="media">-->
+<!--                                                <i data-feather="trash-2"></i>-->
+<!--                                                <div class="media-content">-->
+<!--                                                    <h3>Remove</h3>-->
+<!--                                                    <small>Removes this widget from your feed.</small>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="temperature">
-                                <span>Ads Here </span>
+                            <div class="temperature" style="padding: 8em 1em;">
+                                <span style="font-size: 16px;">Ads Here </span>
                             </div>
 <!--                            <div class="weather-icon">-->
 <!--                                <div>-->
@@ -428,23 +438,29 @@
                         {% csrf_token %}
                         <div id="compose-card" class="card is-new-content">
                             <!-- Top tabs -->
-                            <input type="text" name="category" id="category" hidden value="Question/Errors">
+                            <input type="text" name="category" id="category" hidden value="">
                             <div class="tabs-wrapper">
                                 <div class="tabs is-boxed is-fullwidth">
                                     <ul>
-                                        <li id="question-error" class="is-active">
-                                            <a onclick="valSet('question-error', 'category', 'Question/Errors')">
+                                       {% for item in category %}
+                                           {% if forloop.counter0 %}
+                                        <li id="cat-panel-{{ item.id }}" class="is-active">
+                                           {% else %}
+                                        <li id="cat-panel-{{ item.id }}" class="">
+                                           {% endif %}
+                                            <a onclick="valSet('cat-panel-{{ item.id }}', 'category', '{{ item.id }}')">
                                                 <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="pt-3" data-feather="edit-3"></i></span></p>
-                                                <span style="padding-right: 2em;">Question/Errors</span>
+                                                <span style="padding-right: 2em;">{{ item }}</span>
                                             </a>
                                         </li>
-                                        <li id="discussion-informative">
-                                            <a
-                                                onclick="valSet('discussion-informative', 'category', 'Discussion and Informative')">
-                                                <span class="icon is-small"><i data-feather="folder"></i></span>
-                                                <span>Discussion and Informative</span>
-                                            </a>
-                                        </li>
+                                        {% endfor %}
+{#                                        <li id="discussion-informative">#}
+{#                                            <a#}
+{#                                                onclick="valSet('discussion-informative', 'category', 'Discussion and Informative')">#}
+{#                                                <span class="icon is-small"><i data-feather="folder"></i></span>#}
+{#                                                <span>Discussion and Informative</span>#}
+{#                                            </a>#}
+{#                                        </li>#}
                                         <!-- Close X button -->
                                         <li class="close-wrap">
                                             <span class="close-publish">
@@ -559,7 +575,8 @@
                                                                 <button style="min-width: 200px;" class="button"
                                                                     aria-haspopup="true">
                                                                     <!-- <i class="main-icon" data-feather="smile"></i> -->
-                                                                    <span id="btn_lang">Options</span>
+                                                                    <span id="btn_lang_title">Options</span>
+                                                                    <input type="hidden" id="btn_lang">
                                                                     <i class="caret" data-feather="chevron-down"></i>
                                                                 </button>
                                                             </div>
@@ -567,7 +584,7 @@
                                                                 <div class="dropdown-content">
                                                                     {% for item in languages %}
                                                                     <button
-                                                                        onclick="valSet('btn_lang', 'language', '{{ item }}')"
+                                                                        onclick="valSet('btn_lang', 'language', '{{ item.id }}', '{{ item.name }}')"
                                                                         class="dropdown-item"
                                                                         style="border: none; background: none; cursor: pointer;">
                                                                         <div class="media">
@@ -599,7 +616,8 @@
                                                                 <button style="min-width: 200px;" class="button"
                                                                     aria-haspopup="true">
                                                                     <!-- <i class="main-icon" data-feather="smile"></i> -->
-                                                                    <span id="btn_sow">Choose</span>
+                                                                    <span id="btn_sow_title">Choose</span>
+                                                                    <input type="hidden" id="btn_sow">
                                                                     <i class="caret" data-feather="chevron-down"></i>
                                                                 </button>
                                                             </div>
@@ -608,7 +626,7 @@
                                                                 <div class="dropdown-content">
                                                                     {% for item in scopes %}
                                                                     <button
-                                                                        onclick="valSet('btn_sow', 'scope-of-work', '{{ item }}')"
+                                                                        onclick="valSet('btn_sow', 'scope-of-work', '{{ item.id }}', '{{ item.name }}')"
                                                                         class="dropdown-item"
                                                                         style="border: none; background: none; cursor: pointer;">
                                                                         <div class="media">
@@ -723,11 +741,11 @@
                                         </a>
                                         <ul class="submenu" style="display: block;">
                                             <li class="is-subactive">
-                                                <a id="filter-all" onclick="clearAllFilters()">Sort By All</a>
+                                                <a id="filter-all" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'" onclick="clearAllFilters()">Sort By All</a>
                                             </li>
                                             {% for item in category %}
                                             <li class="is-subactive">
-                                                <a id="filter-all" onclick="setCategory('{{ item }}')">{{ item }}</a>
+                                                <a id="cat-id-{{ item.id }}" onclick="setCategory('{{ item }}', 'cat-id-{{ item.id }}')">{{ item }}</a>
                                             </li>
                                             {% endfor %}
 
@@ -756,7 +774,7 @@
                                         <ul class="submenu">
                                             {% for item in languages %}
                                             <li>
-                                                <a id="filter-python" onclick="setLanguage('{{ item }}')">{{ item }}</a>
+                                                <a id="lang-id-{{ item.id }}"  onclick="setLanguage('{{ item }}','lang-id-{{ item.id }}')">{{ item }}</a>
                                             </li>
                                             {% endfor %}
 
@@ -778,7 +796,7 @@
                                         <ul class="submenu">
                                             {% for item in scopes %}
                                             <li>
-                                                <a id="filter-scope1" onclick="setScope('{{ item }}')">{{ item }}</a>
+                                                <a id="scope-id-{{ item.id }}"  onclick="setScope('{{ item }}', 'scope-id-{{ item.id }}')">{{ item }}</a>
                                             </li>
                                             {% endfor %}
                                         </ul>
@@ -950,17 +968,27 @@
 
 
 
-    function valSet(btn, des, val) {
+    function valSet(btn, des, val, title="none") {
         document.getElementById(des).value = val;
-        if (des == 'category') {
-            if (btn === 'question-error') {
-                $('#question-error').addClass('is-active');
-                $('#discussion-informative').removeClass('is-active');
-            } else {
-                $('#question-error').removeClass('is-active');
-                $('#discussion-informative').addClass('is-active');
-            }
-        } else {
+
+        if (des === 'category') {
+            let current_cat;
+            {% for item in category %}
+                current_cat = "cat-panel-{{ item.id }}";
+                console.log(current_cat, btn);
+                if(current_cat === btn)
+                {
+                $('#cat-panel-{{ item.id }}').addClass('is-active');
+                }
+                else {
+                    $('#cat-panel-{{ item.id }}').removeClass('is-active');
+                }
+            {% endfor %}
+        $('#category').val(val);
+        }
+        else {
+
+            document.getElementById(btn+"_title").innerHTML = title;
             document.getElementById(btn).innerHTML = val;
             if ($("#dropdown-language").hasClass('is-active')) {
                 $('#dropdown-language').removeClass('is-active');

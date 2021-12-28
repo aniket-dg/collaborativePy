@@ -5,10 +5,10 @@
 
 
 <script>
-    let first_level_category = undefined;
-    let second_level_category = undefined;
-    let third_level_category = undefined;
-    let fourth_level_category = undefined;
+    let first_level_category_mul = [];
+    let second_level_category_mul = [];
+    let third_level_category_mul = [];
+    let fourth_level_category_mul = [];
 
     let currentPosts = $('.is-post').length;
     let csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
@@ -44,9 +44,11 @@
                             post.post_id + `" data-username="` + post.user + `" data-description="` + post.description +
                             `" data-counter="` + currentPosts + `" data-scope="` + post.scope_of_work + `"
     data-profile="` + post.profile + `"
-    category="${post.category}"
-    language="${post.language}"
-    scope_of_work="${post.scope_of_work}"
+    first_level_category="${post.first_level_category}"
+    second_level_category="${post.second_level_category}"
+    third_level_category="${post.third_level_category}"
+    fourth_level_category="${post.fourth_level_category}"
+
     >
     <!-- Main wrap -->
     <div id="content-wrap`+ post.post_id +`" class="content-wrap">
@@ -216,6 +218,18 @@
             <!-- Post statistics -->
             <div class="social-count" style="margin-top: 1em;">
 
+                <div class="comments-count">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-message-circle">
+                        <path
+                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                        </path>
+                    </svg>
+                    <span id="comment-counter` + post.post_id + `">`+ post.comments +`</span>
+                </div>
+
+
                 <div class="likes-count">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -227,26 +241,8 @@
                     <span class="likes-display` + post.post_id + `">` + post.likes + `</span>
                 </div>
 
-<!--                <div class="shares-count">-->
-<!--                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"-->
-<!--                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"-->
-<!--                        class="feather feather-link-2">-->
-<!--                        <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>-->
-<!--                        <line x1="8" y1="12" x2="16" y2="12"></line>-->
-<!--                    </svg>-->
-<!--                    <span>9</span>-->
-<!--                </div>-->
 
-                <div class="comments-count">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="feather feather-message-circle">
-                        <path
-                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
-                        </path>
-                    </svg>
-                    <span id="comment-counter` + post.post_id + `">`+ post.comments +`</span>
-                </div>
+
 
             </div>
         </div>
@@ -363,9 +359,10 @@
                             post.post_id + `" data-username="` + post.user + `" data-description="` + post.description +
                             `" data-counter="` + currentPosts + `" data-scope="` + post.scope_of_work + `"
     data-profile="` + post.profile + `"
-    category="${post.category}"
-    language="${post.language}"
-    scope_of_work="${post.scope_of_work}"
+     first_level_category="${post.first_level_category}"
+    second_level_category="${post.second_level_category}"
+    third_level_category="${post.third_level_category}"
+    fourth_level_category="${post.fourth_level_category}"
     >
     <!-- Main wrap -->
     <div id="content-wrap`+ post.post_id +`" class="content-wrap">
@@ -538,6 +535,17 @@
             <!-- Post statistics -->
             <div class="social-count" style="margin-top: 1em;">
 
+                <div class="comments-count">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-message-circle">
+                        <path
+                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                        </path>
+                    </svg>
+                    <span id="comment-counter` + post.post_id + `">`+ post.comments +`</span>
+                </div>
+
                 <div class="likes-count">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -549,26 +557,7 @@
                     <span class="likes-display` + post.post_id + `">` + post.likes + `</span>
                 </div>
 
-<!--                <div class="shares-count">-->
-<!--                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"-->
-<!--                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"-->
-<!--                        class="feather feather-link-2">-->
-<!--                        <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path>-->
-<!--                        <line x1="8" y1="12" x2="16" y2="12"></line>-->
-<!--                    </svg>-->
-<!--                    <span>9</span>-->
-<!--                </div>-->
 
-                <div class="comments-count">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="feather feather-message-circle">
-                        <path
-                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
-                        </path>
-                    </svg>
-                    <span id="comment-counter` + post.post_id + `">`+ post.comments +`</span>
-                </div>
 
             </div>
         </div>
@@ -668,6 +657,91 @@
         });
     }
 
+
+
+let dict;
+    function filterPostMultiple()
+    {
+        let filter;
+        let div_posts;
+         dict = {
+            "first_level_category": first_level_category_mul,
+            "second_level_category": second_level_category_mul,
+            "third_level_category": third_level_category_mul,
+            "fourth_level_category": fourth_level_category_mul,
+        }
+        filter = '';
+         $.each($('.is-post'), function(k,v){
+               v.style.display = "none";
+            });
+
+         let first_category = [];
+         let second_category = [];
+         let third_category = [];
+         let fourth_category = [];
+
+         if(dict["first_level_category"].length <= 0)
+         {
+              $.each($('.is-post'), function(k,v){
+               first_category.push(v);
+            });
+         }
+         else {
+             $.each(dict["first_level_category"], function (k, v) {
+                 post = $(`div[first_level_category="${v}"]`);
+                 $.each(post, function (k, v) {
+                     first_category.push(v);
+                 });
+             });
+         }
+
+         if(dict["second_level_category"].length <= 0){
+             second_category = first_category;
+         }
+         else {
+             $.each(dict["second_level_category"], function (k, v) {
+                 $.each(first_category, function (k, post) {
+                     if ($(post).attr("second_level_category") === v) {
+                         second_category.push(post);
+                     }
+                 });
+             });
+         }
+         if(dict["third_level_category"].length <= 0){
+             third_category = second_category;
+         }
+         else {
+             $.each(dict["third_level_category"], function (k, v) {
+                 $.each(second_category, function (k, post) {
+                     if ($(post).attr("third_level_category") === v) {
+                         third_category.push(post);
+                     }
+                 });
+             });
+         }
+         if(dict["fourth_level_category"].length <= 0){
+             fourth_category = third_category;
+         }
+         else {
+             $.each(dict["fourth_level_category"], function (k, v) {
+                 $.each(third_category, function (k, post) {
+                     if ($(post).attr("fourth_level_category") === v) {
+                         fourth_category.push(post);
+                     }
+                 });
+             });
+         }
+
+         $.each($('.is-post'), function(k,v){
+               v.style.display = "none";
+            });
+
+        $.each(fourth_category, function(key, div) {
+            div.style.display = "block";
+        });
+
+    }
+
     function filterPost()
     {
         let div_posts;
@@ -693,7 +767,6 @@
 
             div_posts = '';
         }
-        console.log(div_posts);
         $.each($('.is-post'), function(k,v){
                v.style.display = "none";
             });
@@ -703,6 +776,7 @@
         });
         }
     }
+
     function clearAllFilters()
     {
         $.each($('.is-post'), function(k,v){
@@ -710,31 +784,72 @@
         });
     }
 
-    function setFirstLevelFilter(id)
+    function setFirstLevelFilter(id, element_id)
     {
-        first_level_category = parseInt(id);
-        filterPost();
+        let index = first_level_category_mul.indexOf(id);
+        if(index === -1)
+        {
+            first_level_category_mul.push(id);
+            $(`#${element_id}`).css("color", "red");
+        }
+        else{
+            first_level_category_mul.splice(index, 1);
+            $(`#${element_id}`).css("color", "black");
+        }
+
+        filterPostMultiple();
     }
-    function setSecondLevelFilter(id, first_id)
+    function setSecondLevelFilter(id,  element_id,first_id=null)
     {
-        second_level_category = parseInt(id);
-        first_level_category = parseInt(first_id);
-        filterPost();
+
+        let index = second_level_category_mul.indexOf(id);
+        if(index === -1)
+        {
+            second_level_category_mul.push(id);
+            $(`#${element_id}`).css("color", "red");
+
+        }
+        else{
+          $(`#${element_id}`).css("color", "black");
+
+            second_level_category_mul.splice(index, 1);
+        }
+
+        filterPostMultiple();
     }
-    function setThirdLevelFilter(id, first_id, second_id)
+    function setThirdLevelFilter(id, element_id,first_id=null, second_id=null)
     {
-        third_level_category = parseInt(id);
-        first_level_category = parseInt(first_id);
-        second_level_category = parseInt(second_id);
-        filterPost();
+        let index = third_level_category_mul.indexOf(id);
+        if(index === -1)
+        {
+            third_level_category_mul.push(id);
+                        $(`#${element_id}`).css("color", "red");
+
+        }
+        else{
+            third_level_category_mul.splice(index, 1);
+                        $(`#${element_id}`).css("color", "black");
+
+        }
+
+        filterPostMultiple();
     }
-    function setFourthLevelFilter(id, first_id, second_id, third_id)
+    function setFourthLevelFilter(id, element_id,first_id=null, second_id=null, third_id=null)
     {
-        fourth_level_category = parseInt(id);
-        third_level_category = parseInt(third_id);
-        first_level_category = parseInt(first_id);
-        second_level_category = parseInt(second_id);
-        filterPost();
+        let index = fourth_level_category_mul.indexOf(id);
+        if(index === -1)
+        {
+            fourth_level_category_mul.push(id);
+                        $(`#${element_id}`).css("color", "red");
+
+        }
+        else{
+            fourth_level_category_mul.splice(index, 1);
+                        $(`#${element_id}`).css("color", "black");
+
+        }
+
+        filterPostMultiple();
     }
 
     function loadMorePost()
@@ -759,7 +874,6 @@
 
             },
             error: function (response) {
-                console.log(response);
             },
        });
 
@@ -786,7 +900,6 @@
 
             },
             error: function (response) {
-                console.log(response);
             },
        });
        clearAllFilters();
