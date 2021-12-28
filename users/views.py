@@ -69,7 +69,7 @@ class LoginView(SuccessMessageMixin, FormView):
             user_query = User.objects.get(email=credentials['email'])
         except ObjectDoesNotExist:
             messages.warning(self.request, 'Email or Password is incorrect')
-            return redirect('login')
+            return redirect('user:login')
 
         if user is not None:
             if user.is_active:

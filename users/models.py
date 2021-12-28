@@ -143,7 +143,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         if self.profile_image:
             return self.profile_image.url
         else:
-            return '/static/social_assets/img/avatars/jenna.png'
+            return '/static/images/icon/user.png'
 
 REQUEST_CHOICES = (
     ('Process', 'Process'),
