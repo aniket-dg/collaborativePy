@@ -438,23 +438,29 @@
                         {% csrf_token %}
                         <div id="compose-card" class="card is-new-content">
                             <!-- Top tabs -->
-                            <input type="text" name="category" id="category" hidden value="Question/Errors">
+                            <input type="text" name="category" id="category" hidden value="">
                             <div class="tabs-wrapper">
                                 <div class="tabs is-boxed is-fullwidth">
                                     <ul>
-                                        <li id="question-error" class="is-active">
-                                            <a onclick="valSet('question-error', 'category', 'Question/Errors')">
+                                       {% for item in category %}
+                                           {% if forloop.counter0 %}
+                                        <li id="cat-panel-{{ item.id }}" class="is-active">
+                                           {% else %}
+                                        <li id="cat-panel-{{ item.id }}" class="">
+                                           {% endif %}
+                                            <a onclick="valSet('cat-panel-{{ item.id }}', 'category', '{{ item.id }}')">
                                                 <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="pt-3" data-feather="edit-3"></i></span></p>
-                                                <span style="padding-right: 2em;">Question/Errors</span>
+                                                <span style="padding-right: 2em;">{{ item }}</span>
                                             </a>
                                         </li>
-                                        <li id="discussion-informative">
-                                            <a
-                                                onclick="valSet('discussion-informative', 'category', 'Discussion and Informative')">
-                                                <span class="icon is-small"><i data-feather="folder"></i></span>
-                                                <span>Discussion and Informative</span>
-                                            </a>
-                                        </li>
+                                        {% endfor %}
+{#                                        <li id="discussion-informative">#}
+{#                                            <a#}
+{#                                                onclick="valSet('discussion-informative', 'category', 'Discussion and Informative')">#}
+{#                                                <span class="icon is-small"><i data-feather="folder"></i></span>#}
+{#                                                <span>Discussion and Informative</span>#}
+{#                                            </a>#}
+{#                                        </li>#}
                                         <!-- Close X button -->
                                         <li class="close-wrap">
                                             <span class="close-publish">
@@ -569,7 +575,8 @@
                                                                 <button style="min-width: 200px;" class="button"
                                                                     aria-haspopup="true">
                                                                     <!-- <i class="main-icon" data-feather="smile"></i> -->
-                                                                    <span id="btn_lang">Options</span>
+                                                                    <span id="btn_lang_title">Options</span>
+                                                                    <input type="hidden" id="btn_lang">
                                                                     <i class="caret" data-feather="chevron-down"></i>
                                                                 </button>
                                                             </div>
@@ -577,7 +584,7 @@
                                                                 <div class="dropdown-content">
                                                                     {% for item in languages %}
                                                                     <button
-                                                                        onclick="valSet('btn_lang', 'language', '{{ item }}')"
+                                                                        onclick="valSet('btn_lang', 'language', '{{ item.id }}', '{{ item.name }}')"
                                                                         class="dropdown-item"
                                                                         style="border: none; background: none; cursor: pointer;">
                                                                         <div class="media">
@@ -609,7 +616,8 @@
                                                                 <button style="min-width: 200px;" class="button"
                                                                     aria-haspopup="true">
                                                                     <!-- <i class="main-icon" data-feather="smile"></i> -->
-                                                                    <span id="btn_sow">Choose</span>
+                                                                    <span id="btn_sow_title">Choose</span>
+                                                                    <input type="hidden" id="btn_sow">
                                                                     <i class="caret" data-feather="chevron-down"></i>
                                                                 </button>
                                                             </div>
@@ -618,7 +626,7 @@
                                                                 <div class="dropdown-content">
                                                                     {% for item in scopes %}
                                                                     <button
-                                                                        onclick="valSet('btn_sow', 'scope-of-work', '{{ item }}')"
+                                                                        onclick="valSet('btn_sow', 'scope-of-work', '{{ item.id }}', '{{ item.name }}')"
                                                                         class="dropdown-item"
                                                                         style="border: none; background: none; cursor: pointer;">
                                                                         <div class="media">
@@ -737,7 +745,11 @@
                                             </li>
                                             {% for item in category %}
                                             <li class="is-subactive">
+<<<<<<< HEAD
                                                 <a id="filter-all" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'" onclick="setCategory('{{ item }}')">{{ item }}</a>
+=======
+                                                <a id="cat-id-{{ item.id }}" onclick="setCategory('{{ item }}', 'cat-id-{{ item.id }}')">{{ item }}</a>
+>>>>>>> f4e418d3419e2f9f60344a6d77a009508778999a
                                             </li>
                                             {% endfor %}
 
@@ -766,7 +778,11 @@
                                         <ul class="submenu">
                                             {% for item in languages %}
                                             <li>
+<<<<<<< HEAD
                                                 <a id="filter-python" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'" onclick="setLanguage('{{ item }}')">{{ item }}</a>
+=======
+                                                <a id="lang-id-{{ item.id }}"  onclick="setLanguage('{{ item }}','lang-id-{{ item.id }}')">{{ item }}</a>
+>>>>>>> f4e418d3419e2f9f60344a6d77a009508778999a
                                             </li>
                                             {% endfor %}
 
@@ -788,7 +804,11 @@
                                         <ul class="submenu">
                                             {% for item in scopes %}
                                             <li>
+<<<<<<< HEAD
                                                 <a id="filter-scope1" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'" onclick="setScope('{{ item }}')">{{ item }}</a>
+=======
+                                                <a id="scope-id-{{ item.id }}"  onclick="setScope('{{ item }}', 'scope-id-{{ item.id }}')">{{ item }}</a>
+>>>>>>> f4e418d3419e2f9f60344a6d77a009508778999a
                                             </li>
                                             {% endfor %}
                                         </ul>
@@ -960,17 +980,27 @@
 
 
 
-    function valSet(btn, des, val) {
+    function valSet(btn, des, val, title="none") {
         document.getElementById(des).value = val;
-        if (des == 'category') {
-            if (btn === 'question-error') {
-                $('#question-error').addClass('is-active');
-                $('#discussion-informative').removeClass('is-active');
-            } else {
-                $('#question-error').removeClass('is-active');
-                $('#discussion-informative').addClass('is-active');
-            }
-        } else {
+
+        if (des === 'category') {
+            let current_cat;
+            {% for item in category %}
+                current_cat = "cat-panel-{{ item.id }}";
+                console.log(current_cat, btn);
+                if(current_cat === btn)
+                {
+                $('#cat-panel-{{ item.id }}').addClass('is-active');
+                }
+                else {
+                    $('#cat-panel-{{ item.id }}').removeClass('is-active');
+                }
+            {% endfor %}
+        $('#category').val(val);
+        }
+        else {
+
+            document.getElementById(btn+"_title").innerHTML = title;
             document.getElementById(btn).innerHTML = val;
             if ($("#dropdown-language").hasClass('is-active')) {
                 $('#dropdown-language').removeClass('is-active');
