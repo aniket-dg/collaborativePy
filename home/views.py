@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib import messages
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
@@ -8,7 +8,6 @@ from django.views.generic.edit import CreateView
 from order.models import Plan
 from .forms import NewsLetterForm, PopUpQuestionsForm
 from .models import Contact, TPP
-from chat.models import GroupChatModel
 
 
 def handler403(request, *args, **kwargs):
@@ -25,9 +24,12 @@ def handler500(request, *args, **kwargs):
 
 class Home(View):
     def get(self, *args, **kwargs):
+        form = PopUpQuestionsForm()
         if self.request.user.is_authenticated:
             return redirect('post:post')
-        context = {}
+        context = {
+            'form':form
+        }
         # context['parent_category_list'] = ParentCategory.objects.all()
         return render(self.request, 'home/home.html', context)
 
@@ -92,8 +94,3 @@ class PopUp(View):
             "Status": True,
             'Message': "Success..."
         })
-
-
-def delete_data(request):
-    data = GroupChatModel.objects.first().delete()
-    return HttpResponse("Data deleted")

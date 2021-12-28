@@ -31,4 +31,26 @@ urlpatterns = [
     path('skeleton/post/list/', views.SkeletonPostListView.as_view(), name='skeleton-post-list'),
     path('skeleton/post/delete/<int:pk>/', views.SkeletonPostDeleteView.as_view(), name='skeleton-post-delete'),
     path('skeleton/post/update/<int:pk>/', views.SkeletonPostUpdateView.as_view(), name='skeleton-post-update'),
+
+    path('category/first/level/create/', views.FirstLevelCategoryCreateView.as_view(), name='first-level-category-create'),
+    path('category/second/level/create/', views.SecondLevelCategoryCreateView.as_view(), name='second-level-category-create'),
+    path('category/third/level/create/', views.ThirdLevelCategoryCreateView.as_view(), name='third-level-category-create'),
+    path('category/fourth/level/create/', views.FourthLevelCategoryCreateView.as_view(), name='fourth-level-category-create'),
+
+    path('category/first/level/update/<int:pk>/', views.FirstLevelUpdateView.as_view(), name='first-level-category-update'),
+    path('category/second/level/update/<int:pk>/', views.SecondLevelUpdateView.as_view(), name='second-level-category-update'),
+    path('category/third/level/update/<int:pk>/', views.ThirdLevelUpdateView.as_view(), name='third-level-category-update'),
+    path('category/fourth/level/update/<int:pk>/', views.FourthLevelUpdateView.as_view(), name='fourth-level-category-update'),
+
+    path('category/first/level/list/', views.FirstLevelCategoryListView.as_view(), name='first-level-category-list'),
+    path('category/second/level/list/', views.SecondLevelCategoryListView.as_view(), name='second-level-category-list'),
+    path('category/third/level/list/', views.ThirdLevelCategoryListView.as_view(), name='third-level-category-list'),
+    path('category/fourth/level/list/', views.FourthLevelCategoryListView.as_view(), name='fourth-level-category-list'),
+
+    path('category/first/level/delete/<int:pk>/', views.FirstLevelCategoryDeleteView.as_view(), name='first-level-category-delete'),
+    path('category/second/level/delete/<int:pk>/', views.SecondLevelCategoryDeleteView.as_view(), name='second-level-category-delete'),
+    path('category/third/level/delete/<int:pk>/', views.ThirdLevelCategoryDeleteView.as_view(), name='third-level-category-delete'),
+    path('category/fourth/level/delete/<int:pk>/', views.FourthLevelCategoryDeleteView.as_view(), name='fourth-level-category-delete'),
+
+    path('terms/<int:pk>/', views.TPPUpdateView.as_view(), name="terms-update"),
 ]

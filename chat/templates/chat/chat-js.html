@@ -166,7 +166,7 @@
                                                         ${data['body'] ? 
                                                             `
                                                             <div class="message-text">
-                                                                <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                                <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                             </div>
                                                             ` :
                                                             `
@@ -234,7 +234,7 @@
                                                     ${data['body'] ? 
                                                         `
                                                         <div class="message-text">
-                                                            <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                            <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                         </div>
                                                         ` :
                                                         `
@@ -338,7 +338,7 @@ function setReceiver(username,email, id, user_img_url=null,img_url=null, full_na
 
         $('#receiver_img_preview_id').prop("src",img_url);
         $('#sender_img_preview_id').prop("src",user_img_url);
-        $('#chatPanel-username').text(username);
+        $('#chatPanel-username').text(full_name);
 
 
 
@@ -355,10 +355,14 @@ function setReceiver(username,email, id, user_img_url=null,img_url=null, full_na
         $('#offcanvas_profile_img_url').prop("src", user_img_url);
         $('#offcanvas_profile_fullname').text(full_name);
         $('#offcanvas_profile_username').text(username);
-        $('#offcanvas-tab-profile-people').text('Profile') 
+        // $('#offcanvas-tab-profile-people').text('Profile')
         
         $('#offcanvas_profile_designation').text(designation).closest('.list-group-item').show();
         $('#offcanvas_profile_bio').text(bio).closest('.list-group-item').show();
+        if (!designation)
+            $('#offcanvas_profile_designation').closest('.list-group-item').hide()
+        if (!bio)
+            $('#offcanvas_profile_bio').closest('.list-group-item').hide();
         $('#offcanvas-dropdown').hide()
         $('#offcanvas_group_members').hide();
 
@@ -432,7 +436,7 @@ function getMessageById(data) {
                                                     ${data['body'] ? 
                                                         `
                                                         <div class="message-text">
-                                                            <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                            <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                         </div>
                                                         ` :
                                                         `
@@ -496,7 +500,7 @@ function getMessageById(data) {
                                                     ${data['body'] ? 
                                                         `
                                                         <div class="message-text">
-                                                            <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                            <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                         </div>
                                                         ` :
                                                         `
@@ -902,6 +906,14 @@ function getMessageById(data) {
                     location.reload()
                 }
             })
+        }
+        // process body for links
+        function urlify(msg){
+            const regex = RegExp(/(https?:\/\/[^\s]+)/)
+            const processedMsg = msg.replace(regex, function(url) {
+                return `<a href="${url}" target="_blank" style="color: inherit; text-decoration:underline; overflow-wrap: anywhere;">${url}</a>`;
+            })
+            return processedMsg;
         }
 </script>
 {###########################    End of Script For P2p Chat Socket   ##################}

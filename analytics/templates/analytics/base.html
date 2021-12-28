@@ -46,7 +46,7 @@
                                 </a>
                             </li>
 
-                            <li data-section="security" {% if 'skeleton/post/list/' in request.path %} class="is-active" {% endif %}>
+                            <li data-section="security" {% if 'skeleton/post/list/' == request.path %} class="is-active" {% endif %}>
                                 <a href="{% url 'analytics:skeleton-post-list' %}">
                                     <i data-feather="book"></i>
                                     <span>Skeleton Posts</span>
@@ -63,6 +63,28 @@
                         </ul>
                     </div>
                     <div class="separator"></div>
+                    <div class="menu-block">
+                        <ul>
+
+<!--                             <li data-section="personal" {% if 'flag/inappropriate/list/' in request.path %} class="is-active" {% endif %}>-->
+<!--                                <a href="{% url 'analytics:flag_inappropriate-list' %}">-->
+<!--                                    <i data-feather="flag"></i>-->
+<!--                                    <span>Post Category</span>-->
+<!--                                </a>-->
+<!--                            </li>-->
+
+                            <li data-section="personal" {% if 'category/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:first-level-category-list' %}">
+
+                                    <i data-feather="info"></i>
+                                    <span>Skeleton Category</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="separator"></div>
+
                     <div class="menu-block">
                         <ul>
                             
@@ -83,6 +105,13 @@
                                 <a href="{% url 'analytics:contact-list' %}">
                                     <i data-feather="mail"></i>
                                     <span>Contacts</span>
+                                </a>
+                            </li>
+
+                            <li data-section="personal" {% if 'terms/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:terms-update' 1 %}">
+                                    <i data-feather="info"></i>
+                                    <span>Terms</span>
                                 </a>
                             </li>
                         </ul>

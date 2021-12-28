@@ -1,34 +1,4 @@
 {% load static %}
-<!-- <!DOCTYPE html>
-<html lang="en">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-<div>
-    <h3>{{ request.user.first_name }} {{ request.user.last_name }}</h3>
-</div>
-<div class="main-grid-container">
-    <div id="video-container">
-        <div><video id="local-video" style="float: left; background-color: lightskyblue;" autoplay playsinline></video></div>
-        <button id="btn-toggle-audio">Audio Mute</button>
-        {% if is_group_creator %}
-        <button id="end_call">End Call</button>
-        {% else %}
-        <button id="leave_call">Leave Call</button>
-        {% endif %}
-    </div>
-
-</div>
-</body>
-<script src="{% static 'chat/js/reconnecting-websocket.js' %}"></script>
-{% include 'chat/audio-call-js.html' %}
-</html> -->
-
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -520,6 +490,17 @@
             background-position: center left 12px;
         }
 
+        .video-action-button.leavecall {
+            color: #ff1932;
+            width: auto;
+            font-size: 14px;
+            padding-left: 42px;
+            padding-right: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ff1932' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-phone-off'%3E%3Cpath d='M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91'%3E%3C/path%3E%3Cline x1='23' y1='1' x2='1' y2='23'%3E%3C/line%3E%3C/svg%3E");
+            background-size: 20px;
+            background-position: center left 12px;
+        }
+
         .video-action-button.magnifier {
             padding: 0 12px;
             display: flex;
@@ -695,7 +676,7 @@
                 margin: 0 4px;
             }
 
-            .video-action-button.endcall {
+            .video-action-button.endcall, .video-action-button.leavecall {
                 background-size: 14px;
                 font-size: 12px;
                 padding-left: 36px;
@@ -815,16 +796,15 @@
             <div class="video-call-wrapper" id="video-container">
                 <div class="video-participant" data-self="true">
                     <span class="name-tag">{{request.user.username}}</span>
-                    <video id="local-video" autoplay playsinline class="custom-video" style="background-image: url('{{request.user.profile_image.url}}')"></video>
+                    <video id="local-video" autoplay playsinline class="custom-video" style="background-image: url('{{request.user.get_profile_img}}')"></video>
                 </div>
             </div>
             <div class="video-call-actions">
                 <button id="btn-toggle-audio" class="video-action-button mic-on"></button>
                 {% if is_group_creator %}
-                <button id="end_call" class="btn d-flex align-items-center video-action-button endcall">End Call</button>
-                {% else %}
-                <button id="leave_call" class="btn d-flex align-items-center video-action-button endcall">Leave Call</button>
+                <a id="end_call" class="btn d-flex align-items-center video-action-button endcall">End Call</a>
                 {% endif %}
+                <a id="leave_call" class="btn d-flex align-items-center video-action-button leavecall">Leave Call</a>
                 <!-- <button class="video-action-button maximize"></button>
                 <button class="video-action-button magnifier">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
@@ -861,7 +841,7 @@
                 <div class="px-3 py-2" id="video-member-list" style="overflow-y: auto;">
                     <div class="member-info py-2 d-flex align-items-center" data-self="true">
                         <div class="participant profile-picture">
-                            <img src="{{request.user.profile_image.url}}" alt="Your Profile Picture">
+                            <img src="{{request.user.get_profile_img}}" alt="Your Profile Picture">
                         </div>
                         <div class="member-details">
                             <h6 class="mb-0">{{request.user.get_full_name}} <span class="text-muted">(You)</span></h6>

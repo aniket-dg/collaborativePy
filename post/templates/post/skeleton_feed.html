@@ -483,15 +483,15 @@
                                         <ul class="submenu" style="display: block;">
                                         {% for second_category in item.firstCat.all %}
                                             <li class="">
-                                                <a class="filter-option" id="filter-all-{{item.name}}" onclick="setSecondLevelFilter('{{ second_category.id }}','{{ second_category.first_category.id }}')" style="font-weight: 500;color: #039be5;">{{ second_category.name }}</a>
+                                                <a class="filter-option" id="filter-all-{{item.name}}" onclick="setSecondLevelFilter('{{ second_category.id }}')" style="font-weight: 500;color: #039be5;">{{ second_category.name }}</a>
                                                 <ul class="" style="display: block;padding-left: 20px;">
                                                     {% for third_category in second_category.firstCatThird.all %}
                                                     <li class="">
-                                                        <a class="filter-option" onclick="setThirdLevelFilter('{{ third_category.id }}','{{ third_category.first_category.id }}','{{ third_category.second_category.id }}')" style="font-weight: 500;" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'">{{ third_category.name }}</a>
+                                                        <a class="filter-option" onclick="setThirdLevelFilter('{{ third_category.id }}')" style="font-weight: 500;" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'">{{ third_category.name }}</a>
                                                         <ul class="" style="display: block;padding-left: 20px;">
                                                             {% for fourth_category in third_category.firstCatFourth.all %}
                                                             <li class="">
-                                                                <a class="filter-option" onclick="setFourthLevelFilter('{{ fourth_category.id }}','{{ fourth_category.first_category.id }}','{{ fourth_category.second_category.id }}', '{{ fourth_category.third_category.id }}')" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'">{{ fourth_category.name }}</a>
+                                                                <a class="filter-option" onclick="setFourthLevelFilter('{{ fourth_category.id }}')" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'">{{ fourth_category.name }}</a>
                                                             </li>
                                                             {% endfor %}
                                                         </ul>

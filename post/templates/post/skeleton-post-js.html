@@ -5,10 +5,10 @@
 
 
 <script>
-    let first_level_category = undefined;
-    let second_level_category = undefined;
-    let third_level_category = undefined;
-    let fourth_level_category = undefined;
+    let first_level_category_mul = [];
+    let second_level_category_mul = [];
+    let third_level_category_mul = [];
+    let fourth_level_category_mul = [];
 
     let currentPosts = $('.is-post').length;
     let csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
@@ -44,9 +44,11 @@
                             post.post_id + `" data-username="` + post.user + `" data-description="` + post.description +
                             `" data-counter="` + currentPosts + `" data-scope="` + post.scope_of_work + `"
     data-profile="` + post.profile + `"
-    category="${post.category}"
-    language="${post.language}"
-    scope_of_work="${post.scope_of_work}"
+    first_level_category="${post.first_level_category}"
+    second_level_category="${post.second_level_category}"
+    third_level_category="${post.third_level_category}"
+    fourth_level_category="${post.fourth_level_category}"
+
     >
     <!-- Main wrap -->
     <div id="content-wrap`+ post.post_id +`" class="content-wrap">
@@ -363,9 +365,10 @@
                             post.post_id + `" data-username="` + post.user + `" data-description="` + post.description +
                             `" data-counter="` + currentPosts + `" data-scope="` + post.scope_of_work + `"
     data-profile="` + post.profile + `"
-    category="${post.category}"
-    language="${post.language}"
-    scope_of_work="${post.scope_of_work}"
+     first_level_category="${post.first_level_category}"
+    second_level_category="${post.second_level_category}"
+    third_level_category="${post.third_level_category}"
+    fourth_level_category="${post.fourth_level_category}"
     >
     <!-- Main wrap -->
     <div id="content-wrap`+ post.post_id +`" class="content-wrap">
@@ -668,6 +671,91 @@
         });
     }
 
+
+
+let dict;
+    function filterPostMultiple()
+    {
+        let filter;
+        let div_posts;
+         dict = {
+            "first_level_category": first_level_category_mul,
+            "second_level_category": second_level_category_mul,
+            "third_level_category": third_level_category_mul,
+            "fourth_level_category": fourth_level_category_mul,
+        }
+        filter = '';
+         $.each($('.is-post'), function(k,v){
+               v.style.display = "none";
+            });
+
+         let first_category = [];
+         let second_category = [];
+         let third_category = [];
+         let fourth_category = [];
+
+         if(dict["first_level_category"].length <= 0)
+         {
+              $.each($('.is-post'), function(k,v){
+               first_category.push(v);
+            });
+         }
+         else {
+             $.each(dict["first_level_category"], function (k, v) {
+                 post = $(`div[first_level_category="${v}"]`);
+                 $.each(post, function (k, v) {
+                     first_category.push(v);
+                 });
+             });
+         }
+
+         if(dict["second_level_category"].length <= 0){
+             second_category = first_category;
+         }
+         else {
+             $.each(dict["second_level_category"], function (k, v) {
+                 $.each(first_category, function (k, post) {
+                     if ($(post).attr("second_level_category") === v) {
+                         second_category.push(post);
+                     }
+                 });
+             });
+         }
+         if(dict["third_level_category"].length <= 0){
+             third_category = second_category;
+         }
+         else {
+             $.each(dict["third_level_category"], function (k, v) {
+                 $.each(second_category, function (k, post) {
+                     if ($(post).attr("third_level_category") === v) {
+                         third_category.push(post);
+                     }
+                 });
+             });
+         }
+         if(dict["fourth_level_category"].length <= 0){
+             fourth_category = third_category;
+         }
+         else {
+             $.each(dict["fourth_level_category"], function (k, v) {
+                 $.each(third_category, function (k, post) {
+                     if ($(post).attr("fourth_level_category") === v) {
+                         fourth_category.push(post);
+                     }
+                 });
+             });
+         }
+
+         $.each($('.is-post'), function(k,v){
+               v.style.display = "none";
+            });
+
+        $.each(fourth_category, function(key, div) {
+            div.style.display = "block";
+        });
+
+    }
+
     function filterPost()
     {
         let div_posts;
@@ -693,7 +781,6 @@
 
             div_posts = '';
         }
-        console.log(div_posts);
         $.each($('.is-post'), function(k,v){
                v.style.display = "none";
             });
@@ -703,6 +790,7 @@
         });
         }
     }
+
     function clearAllFilters()
     {
         $.each($('.is-post'), function(k,v){
@@ -712,29 +800,56 @@
 
     function setFirstLevelFilter(id)
     {
-        first_level_category = parseInt(id);
-        filterPost();
+        let index = first_level_category_mul.indexOf(id);
+        if(index === -1)
+        {
+            first_level_category_mul.push(id);
+        }
+        else{
+            first_level_category_mul.splice(index, 1);
+        }
+
+        filterPostMultiple();
     }
-    function setSecondLevelFilter(id, first_id)
+    function setSecondLevelFilter(id, first_id=null)
     {
-        second_level_category = parseInt(id);
-        first_level_category = parseInt(first_id);
-        filterPost();
+
+        let index = second_level_category_mul.indexOf(id);
+        if(index === -1)
+        {
+            second_level_category_mul.push(id);
+        }
+        else{
+            second_level_category_mul.splice(index, 1);
+        }
+
+        filterPostMultiple();
     }
-    function setThirdLevelFilter(id, first_id, second_id)
+    function setThirdLevelFilter(id, first_id=null, second_id=null)
     {
-        third_level_category = parseInt(id);
-        first_level_category = parseInt(first_id);
-        second_level_category = parseInt(second_id);
-        filterPost();
+        let index = third_level_category_mul.indexOf(id);
+        if(index === -1)
+        {
+            third_level_category_mul.push(id);
+        }
+        else{
+            third_level_category_mul.splice(index, 1);
+        }
+
+        filterPostMultiple();
     }
-    function setFourthLevelFilter(id, first_id, second_id, third_id)
+    function setFourthLevelFilter(id, first_id=null, second_id=null, third_id=null)
     {
-        fourth_level_category = parseInt(id);
-        third_level_category = parseInt(third_id);
-        first_level_category = parseInt(first_id);
-        second_level_category = parseInt(second_id);
-        filterPost();
+        let index = fourth_level_category_mul.indexOf(id);
+        if(index === -1)
+        {
+            fourth_level_category_mul.push(id);
+        }
+        else{
+            fourth_level_category_mul.splice(index, 1);
+        }
+
+        filterPostMultiple();
     }
 
     function loadMorePost()
@@ -759,7 +874,6 @@
 
             },
             error: function (response) {
-                console.log(response);
             },
        });
 
@@ -786,7 +900,6 @@
 
             },
             error: function (response) {
-                console.log(response);
             },
        });
        clearAllFilters();

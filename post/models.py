@@ -21,18 +21,39 @@ SCOPE_CHOICES = (
 )
 
 
+class Scope(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Language(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class Post(models.Model):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE)
-    category = models.CharField(max_length=200, choices=POST_CATEGORY_CHOICES)
-    description = models.TextField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    description = models.TextField(null=True, blank=True)
     image1 = models.ImageField(upload_to='post_image/', null=True, blank=True)
     image2 = models.ImageField(upload_to='post_image/', null=True, blank=True)
     image3 = models.ImageField(upload_to='post_image/', null=True, blank=True)
     image4 = models.ImageField(upload_to='post_image/', null=True, blank=True)
     image5 = models.ImageField(upload_to='post_image/', null=True, blank=True)
     skeleton_code = RichTextField(null=True, blank=True)
-    language = models.CharField(max_length=100, choices=LANGUAGES_CHOICES)
-    scope_of_work = models.CharField(max_length=100, choices=SCOPE_CHOICES)
+    language = models.ForeignKey(Language, on_delete=models.CASCADE)
+    scope_of_work = models.ForeignKey(Scope, on_delete=models.CASCADE)
     liked_by = models.ManyToManyField('users.User', blank=True, related_name='liked_by')
     timestamp = models.DateTimeField(auto_now_add=True)
 

@@ -7,7 +7,8 @@ from django.shortcuts import redirect, render
 
 from users.models import User
 from .forms import PostCreateForm, PostCommentForm, SkeletonPostCommentForm
-from .models import Post, PostComment, SkeletonPostComment, POST_CATEGORY_CHOICES, LANGUAGES_CHOICES, SCOPE_CHOICES
+from .models import Post, PostComment, SkeletonPostComment, POST_CATEGORY_CHOICES, LANGUAGES_CHOICES, SCOPE_CHOICES, \
+    Category, Scope, Language
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.views.generic import ListView
@@ -56,22 +57,9 @@ class PostIndex(View):
 
     def get(self, *args, **kwargs):
         context = {}
-        category = []
-        languages = []
-        scopes = []
-
-        post_category = POST_CATEGORY_CHOICES
-        languages_choices = LANGUAGES_CHOICES
-        scopes_choices = SCOPE_CHOICES
-        for item in post_category:
-            category.append(item[0])
-        for item in languages_choices:
-            languages.append(item[0])
-        for item in scopes_choices:
-            scopes.append(item[0])
-        context['category'] = category
-        context['languages'] = languages
-        context['scopes'] = scopes
+        context['category'] = Category.objects.all()
+        context['languages'] = Language.objects.all()
+        context['scopes'] = Scope.objects.all()
         context['post'] = []
         return render(self.request, 'post/feeds.html', context)
 
@@ -81,8 +69,21 @@ class PostIndex(View):
                 "Status": False,
                 'Message': "Authenticated user can post only!..."
             })
+        code = self.request.POST.get('code')
+        description = self.request.POST.get('description')
+        if len(code) <=0 and len(description)<=0:
+            return JsonResponse({
+                "Status": False,
+                'Message': "Required fields are empty!..."
+            })
+        if not description and len(code) <=1:
+            return JsonResponse({
+                "Status": False,
+                'Message': "Required fields are empty!..."
+            })
         form = PostCreateForm(self.request.user, self.request.POST, self.request.FILES)
         if not form.is_valid():
+            print(form.errors.as_json())
             return JsonResponse({
                 "Status": False,
                 'Message': "Required fields are empty!..."
@@ -411,7 +412,7 @@ class LoadMoreSkeletonPost(View):
             except ValueError:
                 image5 = ""
             posts.append({
-                'user': post.user.username, 'profile': profile, 'post_id': post.id,
+                'user': post.user.get_full_name,'user_id': post.user.id, 'profile': profile, 'post_id': post.id,
                 'description': post.description, 'language': post.language, 'likes': post.liked_by.count(),
                 'scope_of_work': post.scope_of_work, 'timestamp': post.user.username,
                 'like_status': True if self.request.user in post.liked_by.all() else False, 'image1': image1,
@@ -514,9 +515,9 @@ class LoadMorePost(View):
             except ValueError:
                 image5 = ""
             posts.append({
-                'user': post.user.get_full_name(),'user_id':post.user.id, 'profile': profile, 'post_id': post.id, 'category': post.category,
-                'description': post.description, 'language': post.language, 'likes': post.liked_by.count(),
-                'scope_of_work': post.scope_of_work, 'timestamp': post.user.username,
+                'user': post.user.get_full_name(),'user_id':post.user.id, 'profile': profile, 'post_id': post.id, 'category': post.category.name,
+                'description': post.description, 'language': post.language.name, 'likes': post.liked_by.count(),
+                'scope_of_work': post.scope_of_work.name, 'timestamp': post.user.username,
                 'like_status': True if self.request.user in post.liked_by.all() else False, 'image1': image1,
                 'comments': PostComment.objects.filter(post=post).count(), 'image2': image2, 'image3': image3,
                 'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.code

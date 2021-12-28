@@ -7,7 +7,8 @@ from post.models import Post
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
-        exclude = ['likes', 'timestamp',]
+        exclude = ['likes', 'timestamp','image2', 'image3', 'image4',
+                  'image5', "skeleton_code", "liked_by"]
 
 
 class GroupCreateForm(forms.ModelForm):

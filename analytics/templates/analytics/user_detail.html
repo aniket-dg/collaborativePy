@@ -4,7 +4,7 @@
 
 {% block title %}
 <h2 class="has-text-centered">
-    @ {{object.username}}
+    {{object.username}}
 </h2>
 {% endblock title %}
 
@@ -23,19 +23,19 @@
             </div>
             <div class="user-info">
                 <h4>{{object.first_name}} {{object.last_name}}</h4>
-                <p>{{object.designation}} | {{object.account_type}} Account</p>
+                <p>{{object.designation}} | {{object.bio}}</p>
 
                 <!-- <a class="button is-follow"></a> -->
             </div>
             <div class="main-stats">
-                <div class="stat-block">
-                    <h4>Questions</h4>
-                    <p>1337</p>
-                </div>
-                <div style="border-right: 0;" class="stat-block is-centered">
-                    <h4>Posts</h4>
-                    <p>618</p>
-                </div>
+<!--                <div class="stat-block">-->
+<!--                    <h4>Questions</h4>-->
+<!--                    <p>1337</p>-->
+<!--                </div>-->
+<!--                <div style="border-right: 0;" class="stat-block is-centered">-->
+<!--                    <h4>Posts</h4>-->
+<!--                    <p>618</p>-->
+<!--                </div>-->
                 
                 
             </div>
@@ -76,61 +76,62 @@
                             
                         </div>
                     </div>
-                    <div class="activity-item is-best column">
-                        
+<!--                    <div class="activity-item is-best column">-->
+<!--                        -->
+<!--                        <div class="meta">-->
+<!--                            <span>Account Type</span>-->
+<!--                            <span>{{object.account_type}}</span>-->
+<!--                            -->
+<!--                        </div>-->
+<!--                    </div>-->
+                <div class="activity-item is-best column">
+
                         <div class="meta">
-                            <span>Account Type</span>
-                            <span>{{object.account_type}}</span>
-                            
+                            <span>Current Plan</span>
+                            <span>{% if object.payment.plan %}{{ object.payment.plan }} {% else %} User have not subscribed to any plan {% endif %}</span>
+
                         </div>
                     </div>
                 </div>
                 
 
-                <div style="padding-left:0 ;" class="activity-item is-best">
-                    
-                    <div class="meta">
-                        <span>Current Plan</span>
-                        <span>{% if object.payment.plan %}{{ object.payment.plan }} {% else %} User have not subscribed to any plan {% endif %}</span>
-                        
-                    </div>
-                </div>
 
-                {% if object.payment.plan %}
-                <div style="padding-left:0 ; border-bottom: 0;" class="activity-item is-best">
-                    
-                    <div class="meta">
-                        <span>Change Plan</span>
-                        {% if plan_exist %}
-                        <form method="post" action="{% url 'analytics:user-plan-update' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="user_id" value="{{ object.id }}">
-                            <div class="select my-3">
-                                <select class="select" name="plan_id">
-                                    {% for item in plans %}
-                                    <option {% if object.payment.plan == item %} selected {% endif %} value="{{ item.id }}">{{ item }}</option>
-                                    {% endfor %}
-                                </select>
-                                
-                                <br>
-                                <button type="submit" class="button is-solid accent-button form-button">Save Plan</button>
-                               
-                            </div>
-                        </form>
-                        {% endif %}
-                        
-                    </div>
-                </div>
-                {% endif %}
+
+<!--                {% if object.payment.plan %}-->
+<!--                <div style="padding-left:0 ; border-bottom: 0;" class="activity-item is-best">-->
+<!--                    -->
+<!--                    <div class="meta">-->
+<!--                        <span>Change Plan</span>-->
+<!--                        {% if plan_exist %}-->
+<!--                        <form method="post" action="{% url 'analytics:user-plan-update' %}">-->
+<!--                            {% csrf_token %}-->
+<!--                            <input type="hidden" name="user_id" value="{{ object.id }}">-->
+<!--                            <div class="select my-3">-->
+<!--                                <select class="select" name="plan_id">-->
+<!--                                    {% for item in plans %}-->
+<!--                                    <option {% if object.payment.plan == item %} selected {% endif %} value="{{ item.id }}">{{ item }}</option>-->
+<!--                                    {% endfor %}-->
+<!--                                </select>-->
+<!--                                -->
+<!--                                <br>-->
+<!--                                <button type="submit" class="button is-solid accent-button form-button">Save Plan</button>-->
+<!--                               -->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                        {% endif %}-->
+<!--                        -->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                {% endif %}-->
 
                 
                 
             </div>
-            {% if plan_exist %}<br><hr>{% endif %}
+            {% if plan_exist %}<br>{% endif %}
 
             <!-- Load more -->
             <div class=" load-more-wrap has-text-centered">
-                <a href="#" class="load-more-button">See all Posts</a>
+                <a href="{% url 'user:friend-profile' object.id  %}" class="load-more-button">See Profile</a>
             </div>
         </div>
     </div>

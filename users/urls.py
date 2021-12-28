@@ -41,23 +41,25 @@ urlpatterns = [
     path('bookmark/list/', views.BookMarkListView.as_view(), name='bookmark-list'),
     path('profile/', views.UserProfileView.as_view(), name='profile'),
     path('connections/', views.UserConnection.as_view(), name='connections'),
+
+    # AJAX    
     path('accept/request/', views.AcceptUserRequest.as_view(), name='accept-user'),
     path('send/request/', views.SendUserRequest.as_view(), name='send-request'),
+    path('unfriend/', views.UnfriendUserAJAX.as_view(), name='unfriend-ajax'),
+
 
     path('profile/<int:pk>/', views.UserFriendProfileView.as_view(), name='friend-profile'),
 
 
     # Userdate urls
     path('userdata/', views.UserData.as_view(), name='userdata'),
-
-    path('send/user/request/<int:user_id>/', views.SendRequest.as_view(), name='send-user-request'),
-    path('accept/user/request/<int:id>/', views.AcceptRequest.as_view(), name='accept-user-request'),
-    path('unfriend/user/<int:pk>/', views.UnfriendUser.as_view(), name='unfriend-user'),
-
-    path('load/more/friends/', views.LoadMoreFriends.as_view(), name='load-more-friends'),
-
     path('search/', views.UsersAndPostsSearchView.as_view(), name='search-user-post'),
 
+     #path('send/user/request/<int:user_id>/', views.SendRequest.as_view(), name='send-user-request'),
+     #path('accept/user/request/<int:id>/', views.AcceptRequest.as_view(), name='accept-user-request'),
+     path('unfriend/user/<int:pk>/', views.UnfriendUser.as_view(), name='unfriend-user'),
+
+    path('load/more/friends/', views.LoadMoreFriends.as_view(), name='load-more-friends'),
 ]
 
 if settings.DEBUG:
