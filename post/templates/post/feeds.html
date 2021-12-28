@@ -438,12 +438,13 @@
                         {% csrf_token %}
                         <div id="compose-card" class="card is-new-content">
                             <!-- Top tabs -->
-                            <input type="text" name="category" id="category" hidden value="">
+
                             <div class="tabs-wrapper">
                                 <div class="tabs is-boxed is-fullwidth">
                                     <ul>
                                        {% for item in category %}
                                            {% if forloop.counter0 %}
+                                               <input type="text" name="category" id="category" hidden value="{{ item.id }}">
                                         <li id="cat-panel-{{ item.id }}" class="is-active">
                                            {% else %}
                                         <li id="cat-panel-{{ item.id }}" class="">

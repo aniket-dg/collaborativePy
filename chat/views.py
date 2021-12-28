@@ -101,7 +101,9 @@ class ChatRoom(LoginRequiredMixin, View):
         context['session_key'] = mark_safe(json.dumps(self.request.session.session_key))
         context['user'] = user
         number_of_user_created_groups = GroupChatModel.objects.filter(created_by=user).count()
-        if user.payment:
+        if not user.payment:
+            context['allow_group_creation'] = False
+        else:
             context['allow_group_creation'] = user.payment.plan.total_group_create_size > number_of_user_created_groups
         return render(self.request, 'chat/chat-direct.html', context)
 
@@ -163,8 +165,7 @@ class GroupUpdateView(LoginRequiredMixin, IsGroupPermission, View):
         group_id = self.request.POST['group_id']
         group = GroupChatModel.objects.filter(id=group_id).last()
         updater_belongs_to_group = group.user_set.filter(id=user.id).exists()
-        print(updater_belongs_to_group)
-        if updater_belongs_to_group:
+        if updater_belongs_to_group and self.request.FILES.get('profile_image'):
             group.profile_image = self.request.FILES.get('profile_image')
             group.save()
         return redirect('chat:chat')
@@ -561,7 +562,7 @@ class StartVideoCall(View):
         group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"  # use in websocket url
         context['group_name'] = hash(group_name)  # use in websocket url
 
-        context['is_group_creator'] = True
+        context['is_group_creator'] = group.created_by == self.request.user
 
         fernet = Fernet(fernet_key)
         join_url = fernet.encrypt(group_name.encode())
@@ -612,7 +613,7 @@ class VideoCallReceiver(View):
             return redirect('chat:chat')
 
         context['group'] = group
-        context['is_group_creator'] = True
+        context['is_group_creator'] = group.created_by == self.request.user
         context['user'] = self.request.user
         group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"
         context['group_name'] = hash(group_name)
@@ -629,7 +630,7 @@ class CallParticpantInfo(View):
                 'id': user.id,
                 'name': user.get_full_name(),
                 'username': user.username,
-                'profile_image_url': user.profile_image.url
+                'profile_image_url': user.get_profile_img()
             })
         else:
             return JsonResponse({
@@ -661,7 +662,7 @@ class StartAudioCall(View):
         group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"  # use in websocket url
         context['group_name'] = hash(group_name)  # use in websocket url
 
-        context['is_group_creator'] = True
+        context['is_group_creator'] = group.created_by == self.request.user
 
         fernet = Fernet(fernet_key)
         join_url = fernet.encrypt(group_name.encode())
@@ -709,7 +710,7 @@ class AudioCallReceiver(View):
             return redirect('chat:chat')
 
         context['group'] = group
-        context['is_group_creator'] = True
+        context['is_group_creator'] = group.created_by == self.request.user
         context['user'] = self.request.user
         group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"
         context['group_name'] = hash(group_name)

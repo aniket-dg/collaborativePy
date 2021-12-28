@@ -28,6 +28,15 @@
         width: 50%;
       }
     }
+
+    .hljs-type, .hljs-title, .hljs-section, .hljs-attribute, .hljs-quote, .hljs-built_in, .hljs-builtin-name{
+       color: #3f88e3;
+    }
+
+    .hljs-keyword, .hljs-selector-tag, .hljs-literal{
+      color: #f39200;
+    }
+
 </style>
 
 
@@ -83,6 +92,14 @@
 
             </div>
 
+             <div class="page-placeholder-bookmarks about-card py-5" id="blank-post-tag">
+                        <center><div class="placeholder-content">
+                            <img class="light-image" src="{% static 'social_assets/img/illustrations/placeholders/1.svg' %}" alt="" style="width: 250px;" />
+                            <img class="dark-image" src="{% static 'social_assets/img/illustrations/placeholders/2-dark.svg' %}" alt="" />
+                            <h3 class="mt-4">You don't have any post yet.</h3>
+                        </div></center>
+                    </div>
+
              <!-- Load more posts -->
                     <div id="load-more-btn" class=" load-more-wrap narrow-top has-text-centered">
                         <a onclick="morePost()" id="load-more" class="load-more-button">Load More</a>
@@ -94,16 +111,7 @@
 <!-- Friends about card -->
 
 
-                        <div class="page-placeholder-post" id="blank-post-tag">
-                            <div class="about-card">
-                                                    <div class="placeholder-content">
-                                                        <center><img class="light-image" src="{% static 'social_assets/img/illustrations/placeholders/2.svg' %}" alt="" width="500px" />
-                                                        <img class="dark-image" src="{% static 'social_assets/img/illustrations/placeholders/2-dark.svg' %}" alt="" width="200px"/>
-                                                        <h3>You don't have any post yet.</h3></center> <br>
 
-                                                    </div>
-                        </div>
-</div>
                     <!-- /Load more posts -->
         </div>
         <!-- End of posts -->
@@ -709,9 +717,7 @@
             <div class="post-text">
 
                 ` + post.description + `
-                <div style="background-color: #f5f5f5;border-radius: 0.5em;padding: 0.5em;margin-top: 1em;"><pre><code>
-            ${post.code}
-            </code></pre></div>
+                <div style="background-color: #f5f5f5;border-radius: 0.5em;padding: 0.5em;margin-top: 1em;"><pre><code>${post.code}</code></pre></div>
             </div>
             <!-- Featured image -->
             <div class="post-image">

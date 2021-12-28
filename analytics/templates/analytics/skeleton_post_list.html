@@ -4,7 +4,7 @@
 
 {% block title %}
 <h2 class="has-text-centered">
-    Post List
+    Skeleton Posts
 </h2>
 
 <a href="{% url 'analytics:skeleton-post-create' %}" class="button is-solid accent-button" style="margin-left: auto;">Add Post</a>
@@ -44,6 +44,7 @@
               <table class="table is-fullwidth">
                 <thead>
                 <tr>
+                  <th>User</th>
                   <th>Category</th>
                   <th>Language</th>
                   <th>Scope of work</th>
@@ -64,6 +65,7 @@
                       <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" class="is-rounded">
                     </div>
                   </td> -->
+                  <td data-label="category">{{object.user.username}}</td>
                   <td data-label="category">{{object.first_level_category.name}}</td>
                   <td data-label="language">{{object.language}}</td>
                   <td data-label="scope_of_work">{{object.scope_of_work}}</td>

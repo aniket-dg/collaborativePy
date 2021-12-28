@@ -412,7 +412,7 @@ class LoadMoreSkeletonPost(View):
             except ValueError:
                 image5 = ""
             posts.append({
-                'user': post.user.username, 'profile': profile, 'post_id': post.id,
+                'user': post.user.get_full_name,'user_id': post.user.id, 'profile': profile, 'post_id': post.id,
                 'description': post.description, 'language': post.language, 'likes': post.liked_by.count(),
                 'scope_of_work': post.scope_of_work, 'timestamp': post.user.username,
                 'like_status': True if self.request.user in post.liked_by.all() else False, 'image1': image1,

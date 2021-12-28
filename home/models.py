@@ -90,12 +90,12 @@ FUNCTIONALITY_AREAS = (
 
 
 class PopUpQuestions(models.Model):
-    age = models.CharField(max_length=100, choices=AGE_CHOICES)
-    knowledge_ml_dl_ai = models.CharField(max_length=100, choices=YES_NO)
-    worked_in = models.CharField(max_length=100, choices=WORKED_MORE_IN)
-    code_difficult = models.CharField(max_length=100, choices=YES_NO)
-    does_ml_dl_ai = models.CharField(max_length=100, choices=YES_NO)
-    like_to_work_in = models.CharField(max_length=100, choices=LIKES_TO_WORK_IN)
+    age = models.CharField(max_length=100, choices=AGE_CHOICES, default=None)
+    knowledge_ml_dl_ai = models.CharField(max_length=100, choices=YES_NO, default=None)
+    worked_in = models.CharField(max_length=100, choices=WORKED_MORE_IN, default=None)
+    code_difficult = models.CharField(max_length=100, choices=YES_NO, default=None)
+    does_ml_dl_ai = models.CharField(max_length=100, choices=YES_NO, default=None)
+    like_to_work_in = models.CharField(max_length=100, choices=LIKES_TO_WORK_IN, default=None)
     functionality_areas = MultiSelectField(choices=FUNCTIONALITY_AREAS, max_length=500)
 
     def __str__(self):

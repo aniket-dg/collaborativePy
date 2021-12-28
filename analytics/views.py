@@ -10,10 +10,11 @@ from django.views.generic import CreateView, UpdateView, DetailView, ListView, D
 
 from chat.forms import PostCreateForm
 from post.forms import SkeletonPostCreateForm
-from post.models import Post, FlagInappropriate, SkeletonPost
+from post.models import Post, FlagInappropriate, SkeletonPost, FirstLevelCategory, SecondLevelCategory, ThirdLevelCategory, FourthLevelCategory
 from home.models import Contact
 from order.models import Plan
 from users.models import User
+from home.models import TPP
 
 
 class PlanCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -337,3 +338,198 @@ class SkeletonPostListView(LoginRequiredMixin, ListView):
     model = SkeletonPost
     paginate_by = 20
     template_name = 'analytics/skeleton_post_list.html'
+
+
+class FirstLevelCategoryCreateView(LoginRequiredMixin, CreateView):
+    model = FirstLevelCategory
+    fields = '__all__'
+    template_name = 'analytics/category_create.html'
+
+    def form_valid(self, form):
+        category = form.instance
+        category.save()
+        messages.success(self.request, "First Level Category created!")
+        return redirect('analytics:first-level-category-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class SecondLevelCategoryCreateView(LoginRequiredMixin, CreateView):
+    model =SecondLevelCategory
+    fields = '__all__'
+    template_name = 'analytics/category_create.html'
+
+    def form_valid(self, form):
+        category = form.instance
+        category.save()
+        messages.success(self.request, "Second Level Category created!")
+        return redirect('analytics:second-level-category-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class ThirdLevelCategoryCreateView(LoginRequiredMixin, CreateView):
+    model = ThirdLevelCategory
+    fields = '__all__'
+    template_name = 'analytics/category_create.html'
+
+    def form_valid(self, form):
+        category = form.instance
+        category.save()
+        messages.success(self.request, "Third Level Category created!")
+        return redirect('analytics:third-level-category-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class FourthLevelCategoryCreateView(LoginRequiredMixin, CreateView):
+    model = FourthLevelCategory
+    fields = '__all__'
+    template_name = 'analytics/category_create.html'
+
+    def form_valid(self, form):
+        category = form.instance
+        category.save()
+        messages.success(self.request, "Fourth Level Category created!")
+        return redirect('analytics:fourth-level-category-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+class FirstLevelUpdateView(LoginRequiredMixin, UpdateView):
+    model = FirstLevelCategory
+    fields = '__all__'
+    template_name = 'analytics/category_create.html'
+
+    def form_valid(self, form):
+        category = form.instance
+        category.save()
+        messages.success(self.request, "First Level Category updated!")
+        return redirect('analytics:first-level-category-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class SecondLevelUpdateView(LoginRequiredMixin, UpdateView):
+    model = SecondLevelCategory
+    fields = '__all__'
+    template_name = 'analytics/category_create.html'
+
+    def form_valid(self, form):
+        category = form.instance
+        category.save()
+        messages.success(self.request, "Second Level Category updated!")
+        return redirect('analytics:second-level-category-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class ThirdLevelUpdateView(LoginRequiredMixin, UpdateView):
+    model = ThirdLevelCategory
+    fields = '__all__'
+    template_name = 'analytics/category_create.html'
+
+    def form_valid(self, form):
+        category = form.instance
+        category.save()
+        messages.success(self.request, "Third Level Category updated!")
+        return redirect('analytics:third-level-category-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class FourthLevelUpdateView(LoginRequiredMixin, UpdateView):
+    model = FourthLevelCategory
+    fields = '__all__'
+    template_name = 'analytics/category_create.html'
+
+    def form_valid(self, form):
+        category = form.instance
+        category.save()
+        messages.success(self.request, "Fourth Level Category updated!")
+        return redirect('analytics:fourth-level-category-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class FirstLevelCategoryDeleteView(LoginRequiredMixin, DeleteView):
+    model = FirstLevelCategory
+
+    def delete(self, request, *args, **kwargs):
+        category = self.get_object()
+        category.delete()
+        messages.info(self.request, "Category deleted")
+        return redirect('analytics:first-level-category-list')
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
+class SecondLevelCategoryDeleteView(LoginRequiredMixin, DeleteView):
+    model = SecondLevelCategory
+
+    def delete(self, request, *args, **kwargs):
+        category = self.get_object()
+        category.delete()
+        messages.info(self.request, "Category deleted")
+        return redirect('analytics:second-level-category-list')
+
+    def get(self, *args, **kwargs):
+        self.post(*args, **kwargs)
+
+
+class ThirdLevelCategoryDeleteView(LoginRequiredMixin, DeleteView):
+    model = ThirdLevelCategory
+
+    def delete(self, request, *args, **kwargs):
+        category = self.get_object()
+        category.delete()
+        messages.info(self.request, "Category deleted")
+        return redirect('analytics:third-level-category-list')
+
+    def get(self, *args, **kwargs):
+        self.post(*args, **kwargs)
+
+
+class FourthLevelCategoryDeleteView(LoginRequiredMixin, DeleteView):
+    model = FourthLevelCategory
+
+    def delete(self, request, *args, **kwargs):
+        category = self.get_object()
+        category.delete()
+        messages.info(self.request, "Category deleted")
+        return redirect('analytics:fourth-level-category-list')
+
+    def get(self, *args, **kwargs):
+        self.post(*args, **kwargs)
+
+class FirstLevelCategoryListView(LoginRequiredMixin, ListView):
+    model = FirstLevelCategory
+    template_name = 'analytics/category_list.html'
+
+class SecondLevelCategoryListView(LoginRequiredMixin, ListView):
+    model = SecondLevelCategory
+    template_name = 'analytics/secound_category_list.html'
+
+class ThirdLevelCategoryListView(LoginRequiredMixin, ListView):
+    model = ThirdLevelCategory
+    template_name = 'analytics/third_category_list.html'
+
+class FourthLevelCategoryListView(LoginRequiredMixin, ListView):
+    model = FourthLevelCategory
+    template_name = 'analytics/fourth_category_list.html'
+
+
+class TPPUpdateView(LoginRequiredMixin, UpdateView):
+    model = TPP
+    fields = "__all__"
+    template_name = "analytics/terms.html"
+    success_message = "Policy were updated successfully"
+    success_url = '/analytics/terms/1/'

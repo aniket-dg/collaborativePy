@@ -42,7 +42,8 @@
               <table class="table is-fullwidth">
                 <thead>
                 <tr>
-                  <th>Post</th>
+                  <th>Post of</th>
+                  <th>Reason</th>
                   <th class="has-text-centered">Details</th>
                   <th class="has-text-centered">Delete</th>
                   <th></th>
@@ -57,7 +58,8 @@
                       <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" class="is-rounded">
                     </div>
                   </td> -->
-                  <td data-label="post">{{object.post}}</td>
+                  <td data-label="post">{{object.post.user.username}}</td>
+                  <td data-label="post">{{object.reason}}</td>
                   <td class="has-text-centered" data-label="Mobile">
                     <a href="{% url 'analytics:post-detail' object.pk %}" class="button is-primary jb-modal" data-target="sample-modal" type="button">
                         <span class="icon"><i class="mdi mdi-information"></i></span>

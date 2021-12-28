@@ -28,7 +28,6 @@ urlpatterns = [
 
     path('popUp_questions/', views.PopUp.as_view(), name='pop-up'),
 
-
     path('plan/', views.PlanListView.as_view(), name='plan-list'),
 ]
 if settings.DEBUG:

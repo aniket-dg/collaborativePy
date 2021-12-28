@@ -5,9 +5,9 @@
 {% block title %}
 <h2 class="has-text-centered">
     {% if 'create' in request.path %}
-        Post Create
+        Category Create
     {% else %}
-        Post Update
+        Category Update
     {% endif %}
 </h2>
 {% endblock title %}
@@ -24,7 +24,9 @@
     }
 
     .form-control{
-        padding: 2em;
+        padding: 0.5em;
+        width: 100%;
+        border: 1px solid #e7e7e7;
     }
 
     .select {

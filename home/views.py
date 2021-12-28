@@ -24,9 +24,12 @@ def handler500(request, *args, **kwargs):
 
 class Home(View):
     def get(self, *args, **kwargs):
+        form = PopUpQuestionsForm()
         if self.request.user.is_authenticated:
             return redirect('post:post')
-        context = {}
+        context = {
+            'form':form
+        }
         # context['parent_category_list'] = ParentCategory.objects.all()
         return render(self.request, 'home/home.html', context)
 
