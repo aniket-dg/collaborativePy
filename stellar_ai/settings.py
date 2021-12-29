@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'order',
     'analytics',
     'post',
+    'competition',
 
     # Third Party Modules
     'crispy_forms',  # crispy forms

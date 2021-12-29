@@ -10,7 +10,7 @@ from django.views.generic import CreateView, UpdateView, DetailView, ListView, D
 
 from chat.forms import PostCreateForm
 from post.forms import SkeletonPostCreateForm
-from post.models import Post, FlagInappropriate, SkeletonPost, FirstLevelCategory, SecondLevelCategory, ThirdLevelCategory, FourthLevelCategory
+from post.models import Post, FlagInappropriate, SkeletonPost, FirstLevelCategory, SecondLevelCategory, ThirdLevelCategory, FourthLevelCategory, Language, Scope
 from home.models import Contact
 from order.models import Plan
 from users.models import User
@@ -482,7 +482,7 @@ class SecondLevelCategoryDeleteView(LoginRequiredMixin, DeleteView):
         return redirect('analytics:second-level-category-list')
 
     def get(self, *args, **kwargs):
-        self.post(*args, **kwargs)
+        return self.post(*args, **kwargs)
 
 
 class ThirdLevelCategoryDeleteView(LoginRequiredMixin, DeleteView):
@@ -495,7 +495,7 @@ class ThirdLevelCategoryDeleteView(LoginRequiredMixin, DeleteView):
         return redirect('analytics:third-level-category-list')
 
     def get(self, *args, **kwargs):
-        self.post(*args, **kwargs)
+        return self.post(*args, **kwargs)
 
 
 class FourthLevelCategoryDeleteView(LoginRequiredMixin, DeleteView):
@@ -508,7 +508,7 @@ class FourthLevelCategoryDeleteView(LoginRequiredMixin, DeleteView):
         return redirect('analytics:fourth-level-category-list')
 
     def get(self, *args, **kwargs):
-        self.post(*args, **kwargs)
+        return self.post(*args, **kwargs)
 
 class FirstLevelCategoryListView(LoginRequiredMixin, ListView):
     model = FirstLevelCategory
@@ -533,3 +533,100 @@ class TPPUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "analytics/terms.html"
     success_message = "Policy were updated successfully"
     success_url = '/analytics/terms/1/'
+
+
+class LanguageListView(LoginRequiredMixin, ListView):
+    model = Language
+    template_name = 'analytics/language.html'
+
+
+class ScopeListView(LoginRequiredMixin, ListView):
+    model = Scope
+    template_name = 'analytics/scope.html'
+
+
+class LanguageCreateView(LoginRequiredMixin, CreateView):
+    model = Language
+    fields = '__all__'
+    template_name = 'analytics/post_category_create.html'
+
+    def form_valid(self, form):
+        category = form.instance
+        category.save()
+        messages.success(self.request, "Language created!")
+        return redirect('analytics:language-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class ScopeCreateView(LoginRequiredMixin, CreateView):
+    model = Scope
+    fields = '__all__'
+    template_name = 'analytics/post_category_create.html'
+
+    def form_valid(self, form):
+        category = form.instance
+        category.save()
+        messages.success(self.request, "Scope created!")
+        return redirect('analytics:scope-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+
+class LanguageUpdateView(LoginRequiredMixin, UpdateView):
+    model = Language
+    fields = '__all__'
+    template_name = 'analytics/post_category_create.html'
+
+    def form_valid(self, form):
+        category = form.instance
+        category.save()
+        messages.success(self.request, "First Level Category updated!")
+        return redirect('analytics:language-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class ScopeUpdateView(LoginRequiredMixin, UpdateView):
+    model = Scope
+    fields = '__all__'
+    template_name = 'analytics/post_category_create.html'
+
+    def form_valid(self, form):
+        category = form.instance
+        category.save()
+        messages.success(self.request, "First Level Category updated!")
+        return redirect('analytics:scope-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class LanguageDeleteView(LoginRequiredMixin, DeleteView):
+    model = Language
+
+    def delete(self, request, *args, **kwargs):
+        category = self.get_object()
+        category.delete()
+        messages.info(self.request, "Language deleted")
+        return redirect('analytics:language-list')
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
+class ScopeDeleteView(LoginRequiredMixin, DeleteView):
+    model = Scope
+
+    def delete(self, request, *args, **kwargs):
+        category = self.get_object()
+        category.delete()
+        messages.info(self.request, "Scope deleted")
+        return redirect('analytics:scope-list')
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)

@@ -53,4 +53,16 @@ urlpatterns = [
     path('category/fourth/level/delete/<int:pk>/', views.FourthLevelCategoryDeleteView.as_view(), name='fourth-level-category-delete'),
 
     path('terms/<int:pk>/', views.TPPUpdateView.as_view(), name="terms-update"),
+
+    path('scope/create/', views.ScopeCreateView.as_view(), name='scope-create'),
+    path('language/create/', views.LanguageCreateView.as_view(), name='language-create'),
+
+    path('scope/list/', views.ScopeListView.as_view(), name='scope-list'),
+    path('language/list/', views.LanguageListView.as_view(), name='language-list'),
+
+    path('scope/update/<int:pk>/', views.ScopeUpdateView.as_view(), name='scope-update'),
+    path('language/update/<int:pk>/', views.LanguageUpdateView.as_view(), name='language-update'),
+
+    path('language/delete/<int:pk>/', views.LanguageDeleteView.as_view(), name='language-delete'),
+    path('scope/delete/<int:pk>/', views.ScopeDeleteView.as_view(), name='scope-delete'),
 ]

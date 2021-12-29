@@ -13,6 +13,7 @@ urlpatterns = [
     path('chat/', include('chat.urls')),
     path('order/', include('order.urls')),
     path('post/', include('post.urls')),
+    path('competition/', include('competition.urls')),
     path('analytics/', include('analytics.urls')),
     path('', include('home.urls')),
 
