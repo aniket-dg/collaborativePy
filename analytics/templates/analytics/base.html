@@ -65,13 +65,13 @@
                     <div class="separator"></div>
                     <div class="menu-block">
                         <ul>
+                            <li data-section="personal" {% if 'language/' in request.path or 'scope/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:language-list' %}">
 
-<!--                             <li data-section="personal" {% if 'flag/inappropriate/list/' in request.path %} class="is-active" {% endif %}>-->
-<!--                                <a href="{% url 'analytics:flag_inappropriate-list' %}">-->
-<!--                                    <i data-feather="flag"></i>-->
-<!--                                    <span>Post Category</span>-->
-<!--                                </a>-->
-<!--                            </li>-->
+                                    <i data-feather="info"></i>
+                                    <span>Language And Scope</span>
+                                </a>
+                            </li>
 
                             <li data-section="personal" {% if 'category/' in request.path %} class="is-active" {% endif %}>
                                 <a href="{% url 'analytics:first-level-category-list' %}">
