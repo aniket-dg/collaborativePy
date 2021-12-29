@@ -618,8 +618,8 @@
 
         let group_chatSocket_chat_{{ group.id }};
         let receiver_group_{{group.id }} = "{{group.id }}";
-        let wsStart = 'ws://';
-
+        wsStart = 'ws://';
+    loc = window.location;
     if(loc.protocol === 'https:'){
         wsStart = 'wss://';
     }

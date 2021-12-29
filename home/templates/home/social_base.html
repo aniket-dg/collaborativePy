@@ -13,7 +13,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <title> Stellar AI</title>
-    <link rel="icon" type="image/png" href="{% static 'images/logo/color-logo.png' %}" />
+    <link rel="icon" type="image/png" href="{% static 'social_assets/img/favicon.png' %}" />
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
@@ -21,6 +21,7 @@
     <!-- Core CSS -->
     <link rel="stylesheet" href="{% static 'social_assets/css/app.css' %}">
     <link rel="stylesheet" href="{% static 'social_assets/css/core.css' %}">
+    <script src="https://kit.fontawesome.com/d59caff470.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -58,69 +59,18 @@
                 .custom-indicator.red{
                     background-color: #E6122F;
                 }
+                .custom-icon{
+                    color: #999;
+                }
+                .custom-icon:hover{
+                    color: #fafafa;
+                }
             </style>
             <div class="navbar-menu">
                 <div class="navbar-start">
                     <!-- Navbar Search -->
                     {% url 'user:profile' as profile_path %}
-                    {% if all_friend_requests|length > 0 %}
-                    <div class="navbar-item is-icon drop-trigger" {% if request.path == profile_path %} onclick='$(`.menu-item[data-content="personal-content"]`).click()' {% endif %}>
-                        <a class="icon-link is-friends {% if all_friend_requests|length > 0 %} is-active {% endif %}">
-                            <i data-feather="users"></i>
-                            {% if all_friend_requests|length > 0 %}
-                            <div class="custom-indicator" data-requests-counter="true">
-                                    {{all_friend_requests|length}}
-                            </div>
-                            {% endif %}
-                        </a>
-                        {% if request.path != profile_path %}
-                        <div class="nav-drop">
-                            <div class="inner">
-                                <div class="nav-drop-header">
-                                    <span>Friend requests</span>
-                                    <a href="#">
-                                        <i data-feather="users"></i>
-                                    </a>
-                                </div>
-                                {% for friend_request in all_friend_requests %}
-                                {{friend_request.get_profile_img}}
-                                <div class="nav-drop-body is-friend-requests">
-                                    <div class="media">
-                                        <figure class="media-left">
-                                            <p class="image">
-                                                <img src="{{friend_request.connection_user.get_profile_img}}" data-demo-src="{{friend_request.connection_user.get_profile_img}}" alt="">
-                                            </p>
-                                        </figure>
-                                        <div class="media-content">
-                                            <a href="#">{{friend_request.connection_user.get_full_name}}</a>
-                                            <span>{{friend_request.connection_user.username}}</span>
-                                        </div>
-                                        <div class="media-right">
-                                            <!-- <button class="button icon-button grey-button raised">
-                                                <i data-feather="x"></i>
-                                            </button> -->
-                                            <form method="post" 
-                                                onsubmit="acceptFriendRequest(event, reload=false, alert=false);this.closest('.nav-drop-body').remove();">
-                                                <input type="hidden" name="id" value="{{ friend_request.connection_user.id }}">
-                                                {% csrf_token %}
-                                                <button type="submit" class="button icon-button grey-button raised">
-                                                    <i data-feather="check"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                                <div class="nav-drop-footer">
-                                    <a href="{% url 'user:profile' %}" onclick="navDropClose(event, this,'personal-content-list')">
-                                        View All
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                    {% endif %}
+                    
                     <!-- <div class="navbar-item is-icon drop-trigger">
                         <a class="icon-link" href="javascript:void(0);">
                             <i data-feather="bell"></i>
@@ -160,9 +110,9 @@
                         </div>
                     </div> -->
                     {% if total_message_count > 0 %}
-                    <div class="navbar-item is-icon drop-trigger">
+                    <div class="navbar-item is-icon drop-trigger" title="Chatroom">
                     {% else %}
-                    <div class="navbar-item is-icon" onclick="location.href = `{% url 'chat:chat' %}`">
+                    <div class="navbar-item is-icon" onclick="location.href = `{% url 'chat:chat' %}`" title="Chatroom">
                     {% endif %}
                         {% if p2p_unread_messages|length > 0 or group_unread_messages|length > 0 %}
                         <a class="icon-link is-active" href="javascript:void(0);">
@@ -237,20 +187,85 @@
                             <span class="indicator"></span>
                         </a>
                     </div> -->
-
-                    <div class="navbar-item is-icon" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
-                        <a class="icon-link is-primary" href="{% url 'post:skeleton-post' %}">
-                            <i class="mdi mdi-code-tags"></i>
+                    <div class="navbar-item is-icon" title="Forums">
+                        <a class="icon-link custom-icon" href="{% url 'post:post' %}">
+                            <i class="fab fa-wpforms"></i>
                             <span class="indicator"></span>
                         </a>
                     </div>
 
-                    <div class="navbar-item is-icon">
-                        <a class="icon-link is-primary" href="{% url 'home:plan-list' %}">
-                            <i class="mdi mdi-format-list-numbered"></i>
+                    <div class="navbar-item is-icon" title="Skeleton code" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
+                        <a class="icon-link custom-icon" href="{% url 'post:skeleton-post' %}">
+                            <i class="fas fa-code"></i>
                             <span class="indicator"></span>
                         </a>
                     </div>
+
+                    <div class="navbar-item is-icon" title="Plans">
+                        <a class="icon-link custom-icon" href="{% url 'home:plan-list' %}">
+                            <i class="fas fa-credit-card"></i>
+                            <span class="indicator"></span>
+                        </a>
+                    </div>
+
+                    {% if all_friend_requests|length > 0 %}
+                    <div class="navbar-item is-icon drop-trigger" {% if request.path == profile_path %} onclick='$(`.menu-item[data-content="personal-content"]`).click()' {% endif %} title="Friends">
+                        <a class="icon-link is-friends {% if all_friend_requests|length > 0 %} is-active {% endif %}">
+                            <i data-feather="users"></i>
+                            {% if all_friend_requests|length > 0 %}
+                            <div class="custom-indicator" data-requests-counter="true">
+                                    {{all_friend_requests|length}}
+                            </div>
+                            {% endif %}
+                        </a>
+                        {% if request.path != profile_path %}
+                        <div class="nav-drop">
+                            <div class="inner">
+                                <div class="nav-drop-header">
+                                    <span>Friend requests</span>
+                                    <a href="#">
+                                        <i data-feather="users"></i>
+                                    </a>
+                                </div>
+                                {% for friend_request in all_friend_requests %}
+                                {{friend_request.get_profile_img}}
+                                <div class="nav-drop-body is-friend-requests">
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="{{friend_request.connection_user.get_profile_img}}" data-demo-src="{{friend_request.connection_user.get_profile_img}}" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <a href="#">{{friend_request.connection_user.get_full_name}}</a>
+                                            <span>{{friend_request.connection_user.username}}</span>
+                                        </div>
+                                        <div class="media-right">
+                                            <!-- <button class="button icon-button grey-button raised">
+                                                <i data-feather="x"></i>
+                                            </button> -->
+                                            <form method="post" 
+                                                onsubmit="acceptFriendRequest(event, reload=false, alert=false);this.closest('.nav-drop-body').remove();">
+                                                <input type="hidden" name="id" value="{{ friend_request.connection_user.id }}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="button icon-button grey-button raised">
+                                                    <i data-feather="check"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <div class="nav-drop-footer">
+                                    <a href="{% url 'user:profile' %}" onclick="navDropClose(event, this,'personal-content-list')">
+                                        View All
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
 
                     
                     <!-- <div id="explorer-trigger" class="navbar-item is-icon">
@@ -524,7 +539,7 @@
                                             </div>
                                         </div>
                                     </a> -->
-                                    <a href="{% url 'home:contact' %}" class="account-item">
+                                    <a class="account-item">
                                         <div class="media">
                                             <div class="icon-wrap">
                                                 <i data-feather="help-circle"></i>
@@ -563,65 +578,8 @@
                 <img class="light-image" src="{% static 'social_assets/img/logo.jpeg' %}" alt="">
                 <!-- <img class="dark-image" src="{% static 'social_assets/img/logo/friendkit-white.svg' %}" alt=""> -->
             </a>
-            <div style="display: flex; overflow-x: auto;">
-                {% if all_friend_requests|length > 0 %}
-                <div class="navbar-item is-icon drop-trigger" {% if request.path == profile_path %} onclick='$(`.menu-item[data-content="personal-content"]`).click()' {% endif %}>
-                    <a class="icon-link is-friends {% if all_friend_requests|length > 0 %} is-active {% endif %}">
-                        <i data-feather="users"></i>
-                        {% if all_friend_requests|length > 0 %}
-                        <div class="custom-indicator" data-requests-counter="true">
-                                {{all_friend_requests|length}}
-                        </div>
-                        {% endif %}
-                    </a>
-                    {% if request.path != profile_path %}
-                    <div class="nav-drop">
-                        <div class="inner">
-                            <div class="nav-drop-header">
-                                <span>Friend requests</span>
-                                <a href="#">
-                                    <i data-feather="users"></i>
-                                </a>
-                            </div>
-                            {% for friend_request in all_friend_requests %}
-                            {{friend_request.get_profile_img}}
-                            <div class="nav-drop-body is-friend-requests">
-                                <div class="media">
-                                    <figure class="media-left">
-                                        <p class="image">
-                                            <img src="{{friend_request.connection_user.get_profile_img}}" data-demo-src="{{friend_request.connection_user.get_profile_img}}" alt="">
-                                        </p>
-                                    </figure>
-                                    <div class="media-content">
-                                        <a href="#">{{friend_request.connection_user.get_full_name}}</a>
-                                        <span>{{friend_request.connection_user.username}}</span>
-                                    </div>
-                                    <div class="media-right">
-                                        <!-- <button class="button icon-button grey-button raised">
-                                            <i data-feather="x"></i>
-                                        </button> -->
-                                        <form method="post" 
-                                            onsubmit="acceptFriendRequest(event, reload=false, alert=false);this.closest('.nav-drop-body').remove();">
-                                            <input type="hidden" name="id" value="{{ friend_request.connection_user.id }}">
-                                            {% csrf_token %}
-                                            <button type="submit" class="button icon-button grey-button raised">
-                                                <i data-feather="check"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                            <div class="nav-drop-footer">
-                                <a href="{% url 'user:profile' %}" onclick="navDropClose(event, this,'personal-content-list')">
-                                    View All
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
-                </div>
-                {% endif %}
+            <div style="display: flex; overflow-x: auto; overflow-y: hidden;">
+                
                 <!-- <div class="navbar-item is-icon drop-trigger">
                     <a class="icon-link" href="javascript:void(0);">
                         <i data-feather="bell"></i>
@@ -661,9 +619,9 @@
                     </div>
                 </div> -->
                 {% if total_message_count > 0 %}
-                <div class="navbar-item is-icon drop-trigger">
+                <div class="navbar-item is-icon drop-trigger" title="Chatroom">
                 {% else %}
-                <div class="navbar-item is-icon" onclick="location.href = `{% url 'chat:chat' %}`">
+                <div class="navbar-item is-icon" onclick="location.href = `{% url 'chat:chat' %}`" title="Chatroom">
                 {% endif %}
                     {% if p2p_unread_messages|length > 0 or group_unread_messages|length > 0 %}
                     <a class="icon-link is-active" href="javascript:void(0);">
@@ -740,18 +698,100 @@
                     </a>
                 </div> -->
 
-                <div class="navbar-item is-icon" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
+                <!-- <div class="navbar-item is-icon" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
                     <a class="icon-link is-primary" href="#">
                         <i data-feather="bookmark"></i>
                         <span class="indicator"></span>
                     </a>
+                </div> -->
+
+                <div class="navbar-item is-icon" title="Forums">
+                    <a class="icon-link custom-icon" href="{% url 'post:post' %}">
+                        <i class="fab fa-wpforms"></i>
+                        <span class="indicator"></span>
+                    </a>
                 </div>
+
+                <div class="navbar-item is-icon" title="Skeleton code" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
+                    <a class="icon-link custom-icon" href="{% url 'post:skeleton-post' %}">
+                        <i class="fas fa-code"></i>
+                        <span class="indicator"></span>
+                    </a>
+                </div>
+
+                <div class="navbar-item is-icon" title="Plans">
+                    <a class="icon-link custom-icon" href="{% url 'home:plan-list' %}">
+                        <i class="fas fa-credit-card"></i>
+                        <span class="indicator"></span>
+                    </a>
+                </div>
+
+                {% if all_friend_requests|length > 0 %}
+                <div class="navbar-item is-icon drop-trigger" {% if request.path == profile_path %} onclick='$(`.menu-item[data-content="personal-content"]`).click()' {% endif %} title="Friends">
+                    <a class="icon-link is-friends {% if all_friend_requests|length > 0 %} is-active {% endif %}">
+                        <i data-feather="users"></i>
+                        {% if all_friend_requests|length > 0 %}
+                        <div class="custom-indicator" data-requests-counter="true">
+                                {{all_friend_requests|length}}
+                        </div>
+                        {% endif %}
+                    </a>
+                    {% if request.path != profile_path %}
+                    <div class="nav-drop">
+                        <div class="inner">
+                            <div class="nav-drop-header">
+                                <span>Friend requests</span>
+                                <a href="#">
+                                    <i data-feather="users"></i>
+                                </a>
+                            </div>
+                            {% for friend_request in all_friend_requests %}
+                            {{friend_request.get_profile_img}}
+                            <div class="nav-drop-body is-friend-requests">
+                                <div class="media">
+                                    <figure class="media-left">
+                                        <p class="image">
+                                            <img src="{{friend_request.connection_user.get_profile_img}}" data-demo-src="{{friend_request.connection_user.get_profile_img}}" alt="">
+                                        </p>
+                                    </figure>
+                                    <div class="media-content">
+                                        <a href="#">{{friend_request.connection_user.get_full_name}}</a>
+                                        <span>{{friend_request.connection_user.username}}</span>
+                                    </div>
+                                    <div class="media-right">
+                                        <!-- <button class="button icon-button grey-button raised">
+                                            <i data-feather="x"></i>
+                                        </button> -->
+                                        <form method="post" 
+                                            onsubmit="acceptFriendRequest(event, reload=false, alert=false);this.closest('.nav-drop-body').remove();">
+                                            <input type="hidden" name="id" value="{{ friend_request.connection_user.id }}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="button icon-button grey-button raised">
+                                                <i data-feather="check"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="nav-drop-footer">
+                                <a href="{% url 'user:profile' %}" onclick="navDropClose(event, this,'personal-content-list')">
+                                    View All
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
 
                 <!-- <div id="mobile-explorer-trigger" class="navbar-item is-icon">
                     <a class="icon-link is-primary">
                         <i class="mdi mdi-apps"></i>
                     </a>
                 </div> -->
+                
 
                 <div id="open-mobile-search" class="navbar-item is-icon">
                     <a class="icon-link is-primary" href="javascript:void(0);">

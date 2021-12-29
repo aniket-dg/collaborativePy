@@ -33,17 +33,25 @@ def image_process(file):
         img = Image.open(file)
         image_format = ['JPEG', 'PNG', 'TIFF', 'EPS', 'RAW']
         if img.format in image_format:
+            img.convert('RGB')
+
             img.thumbnail((640, 480), Image.ANTIALIAS)
             thumbnailString = BytesIO()
             if file.size > 5242880:
-                img.save(thumbnailString, 'JPEG', quality=50)
+                if img.mode in ("RGBA", "P"):
+                    img.save(thumbnailString, 'PNG', quality=50)
+                else:
+                    img.save(thumbnailString, 'JPEG', quality=50)
             else:
-                img.save(thumbnailString, 'JPEG', quality=100)
+                if img.mode in ("RGBA", "P"):
+                    img.save(thumbnailString, 'PNG', quality=100)
+                else:
+                    img.save(thumbnailString, 'JPEG', quality=100)
             newFile = InMemoryUploadedFile(thumbnailString, None, 'temp.jpg', 'image/jpeg', thumbnailString, None)
             return newFile
         else:
             return None
-    except:
+    except Exception as e:
         return None
 
 
