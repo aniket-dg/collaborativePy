@@ -12372,9 +12372,10 @@
             o && e && o.setAttribute("style", `padding-bottom: ${Number(e.offsetHeight)}px`)
         })).observe(e)
     }
+    let url_str = window.location.origin  + "/chat/upload/";
     if (document.querySelector("[data-dropzone-area]")) {
            drop_zone = new s.Dropzone("[data-dropzone-area]", {
-            url: "http://127.0.0.1:8000/chat/upload/",
+            url: url_str,
             clickable: "#dz-btn",
             autoProcessQueue: false,
             uploadMultiple: true,

@@ -11,7 +11,7 @@ from django.views.generic import CreateView, UpdateView, DetailView, ListView, D
 from chat.forms import PostCreateForm
 from post.forms import SkeletonPostCreateForm
 from post.models import Post, FlagInappropriate, SkeletonPost, FirstLevelCategory, SecondLevelCategory, ThirdLevelCategory, FourthLevelCategory, Language, Scope
-from home.models import Contact
+from home.models import Contact, NewsLetter
 from order.models import Plan
 from users.models import User
 from home.models import TPP
@@ -281,6 +281,28 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
+
+
+class NewsLetterList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = NewsLetter
+    template_name = 'analytics/newsletter_list.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class NewsLetterStatusUpdate(LoginRequiredMixin, UserPassesTestMixin, View):
+    def get(self, *args, **kwargs):
+        newsletter = NewsLetter.objects.filter(id=self.kwargs.get('pk')).first()
+        if newsletter:
+            newsletter.seen = True
+            newsletter.save()
+            return redirect('analytics:newsletter-list')
+        else:
+            return redirect('analytics:newsletter-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
 
 
 class SkeletonPostCreateView(LoginRequiredMixin, CreateView):

@@ -320,7 +320,7 @@
                                 <h2 class="title"><a href="#">Our target customers use platforms for Brand Identity</a>
                                 </h2>
                                 <p>A website working on Artificial Intelligence algorithms and down the pike planning to model more Artificial Intelligent algorithms in its skeleton for the users.</p>
-                                <a href="#" class="btn btn-gradient btn-md radius-xl">Explor More</a>
+                                <a href="#" class="btn btn-gradient btn-md radius-xl">Explore More</a>
                             </div>
                         </div>
                     </div>
@@ -565,7 +565,8 @@
                                 <p>Get all latest update in your mailbox directly</p>
                             </div>
                             <div class="dzFormMsg"></div>
-                            <form method="post" class="dzForm" action="{% url 'home:news-letter' %}">
+                            <!-- <form method="POST" class="dzForm" action="{% url 'home:news-letter' %}"> -->
+                            <form method="POST" class="" action="{% url 'home:news-letter' %}">
                                 {% csrf_token %}
                                 <input type="hidden" value="Contact" name="dzToDo">
                                 <div class="row">
@@ -577,8 +578,7 @@
                                     </div>
 
                                     <div class="col-md-12 col-sm-12">
-                                        <button name="submit" type="submit" value="Submit"
-                                            class="btn radius-xl red btn-md btn-aware">SEND<span></span></button>
+                                        <button type="submit" class="btn radius-xl red btn-md btn-aware">SEND<span></span></button>
                                     </div>
                                 </div>
                             </form>

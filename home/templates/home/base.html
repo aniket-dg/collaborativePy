@@ -17,8 +17,7 @@
     <meta name="format-detection" content="telephone=no">
 
     <!-- FAVICONS ICON -->
-    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
+    <link rel="icon" type="image/png" href="{% static 'images/logo/color-logo.png' %}" />
 
     <!-- PAGE TITLE HERE -->
     <title>Steller AI</title>
@@ -70,6 +69,17 @@
     .header-style1 .main-bar {
         background-color: #fff;
     }
+    .bg-custom{
+        background-size: cover;
+        background-position: top center;
+        background-repeat: no-repeat;
+        height: 20rem;
+    }
+    @media only screen and  (min-width: 768px) {
+        .bg-custom{
+            height: 27rem;
+        }
+    }
 </style>
 
 <body id="bg">
@@ -96,10 +106,13 @@
                         <!-- extra nav -->
                         <div class="extra-nav">
                             <div class="extra-cell">
-
-                               <a class="btn-link btn-search mr-4" href="{% url 'user:login' %}"><span><i class="fa fa-user-o"></i> &nbsp;&nbsp;Login</span></a>
+                                {% if not request.user.is_authenticated %}
+                                <a class="btn-link btn-search mr-4" href="{% url 'user:login' %}"><span><i class="fa fa-user-o"></i> &nbsp;&nbsp;Login</span></a>
 
                                 <a href="{% url 'user:register' %}" class="btn outline radius-xl btn-sign btn-aware">Sign up <span></span></a>
+                                {% else %}
+                                <a class="btn-link btn-search mr-4" href="{% url 'user:logout' %}"><span><i class="fas fa-sign-out-alt"></i> &nbsp;&nbsp;Logout</span></a>
+                                {% endif %}
 <!--                                <button id="quik-search-btn" type="button" class="btn-link btn-search text-secondry"><i-->
 <!--                                        class="fa fa-search"></i></button>-->
                             </div>
@@ -119,6 +132,7 @@
                         {% url 'home:about' as path_about %}
                         {% url 'home:contact' as path_contact %}
                         {% url 'home:news-letter' as path_news_letter %}
+                        {% url 'analytics:user-list' as path_analytics %}
                         <div class="header-nav navbar-collapse collapse justify-content-start" id="navbarNavDropdown">
                             <div class="logo-header mostion">
                                 <a href="{% url 'home:home' %}" class="h3 text-dark dez-page">Stellar Ai</a>
@@ -150,6 +164,11 @@
                                 <li><a href="{{path_contact}}"><span
                                             class="{% ifequal request.path path_contact %}text-primary{% endifequal %}">Contact</span></a>
                                 </li>
+                                {% if request.user.is_staff %}
+                                <li><a href="{{path_analytics}}"><span
+                                    class="{% ifequal request.path path_analytics %}text-primary{% endifequal %}">Analytics</span></a>
+                                </li>
+                                {% endif %}
 <!--                                <li><a href="{{path_news_letter}}"><span-->
 <!--                                            class="{% ifequal request.path path_news_letter %}text-primary{% endifequal %}">Newsletter</span></a>-->
 <!--                                </li>-->
@@ -228,7 +247,7 @@
             <div class="footer-top">
                 <div class="container">
                     <div class="row">
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="col-12 col-sm-6 wow fadeInUp" data-wow-delay="0.2s">
                             <div class="widget widget_services border-0">
                                 <h5 class="footer-title">Navigation</h5>
                                 <ul>
@@ -238,34 +257,34 @@
 <!--                                    <li><a href="{% url 'home:news-letter' %}">Newsletter</a></li>-->
                                 </ul>
                             </div>
-                            <div class="mobile-apps">
-<!--                                <p>Mobile Apps :</p>-->
-<!--                                <ul>-->
-<!--                                    <li><a href="javascript:void(0);"><i class="fa fa-apple"></i></a></li>-->
-<!--                                    <li><a href="javascript:void(0);"><i class="fa fa-windows"></i></a></li>-->
-<!--                                    <li><a href="javascript:void(0);"><i class="fa fa-android"></i></a></li>-->
-<!--                                </ul>-->
+                            <!-- <div class="mobile-apps">
+                               <p>Mobile Apps :</p>
+                               <ul>
+                                   <li><a href="javascript:void(0);"><i class="fa fa-apple"></i></a></li>
+                                   <li><a href="javascript:void(0);"><i class="fa fa-windows"></i></a></li>
+                                   <li><a href="javascript:void(0);"><i class="fa fa-android"></i></a></li>
+                               </ul>
+                            </div> -->
+                        </div>
+                        <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.4s">
+                            <div class="widget widget_services border-0">
+                                <h5 class="footer-title">Solution</h5>
+                                <ul>
+                                   <li><a href="javascript:void(0);">UI/UX Web Design</a></li>
+                                   <li><a href="javascript:void(0);">Content Strategy</a></li>
+                                   <li><a href="javascript:void(0);">WordPress Support</a></li>
+                                   <li><a href="javascript:void(0);">Sketch to HTML service</a></li>
+                                   <li><a href="javascript:void(0);">Social media markering</a></li>
+                                    <li><a href="javascript:void(0);">Email marketing</a></li>
+                                </ul>
                             </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.4s">
-<!--                            <div class="widget widget_services border-0">-->
-<!--                                <h5 class="footer-title">Solution</h5>-->
-<!--                                <ul>-->
-<!--                                    <li><a href="javascript:void(0);">UI/UX Web Design</a></li>-->
-<!--                                    <li><a href="javascript:void(0);">Content Strategy</a></li>-->
-<!--                                    <li><a href="javascript:void(0);">WordPress Support</a></li>-->
-<!--                                    <li><a href="javascript:void(0);">Sketch to HTML service</a></li>-->
-<!--                                    <li><a href="javascript:void(0);">Social media markering</a></li>-->
-<!--                                    <li><a href="javascript:void(0);">Email marketing</a></li>-->
-<!--                                </ul>-->
-<!--                            </div>-->
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.6s">
+                        </div> -->
+                        <div class="col-12 col-sm-6 col-md-3 wow fadeInUp" data-wow-delay="0.6s">
                             <div class="widget widget_getintuch">
                                 <h5 class="footer-title">Contact</h5>
                                 <ul>
-                                    <li>+088 01912704287</li>
-                                    <li>ino@stellar-ai.in</li>
+                                    <!-- <li>+088 01912704287</li> -->
+                                    <li>info@stellar-ai.in</li>
                                 </ul>
                             </div>
                             <div class="footer-social">
@@ -277,12 +296,13 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.8s">
-                            <div class="widget widget_ftabout">
-                                <div class="footer-logo">
-                                    <a href="{% url 'home:home' %}" class="h3 text-dark dez-page">Stellar Ai</a>
+                        <div class="col-12 col-md-3 d-flex justify-content-center wow fadeInUp" data-wow-delay="0.8s">
+                            <div class="widget widget_ftabout mb-0 d-flex justify-content-end">
+                                <div class="footer-logo mb-0" style="width: 100px; height: 100px;">
+                                    <a href="{% url 'home:home' %}" class="text-dark">
+                                        <img src="{% static 'images/logo/color-logo.png' %}" alt="Logo">
+                                    </a>
                                 </div>
-                                <p>(India)</p>
                             </div>
                         </div>
                     </div>
@@ -292,8 +312,9 @@
             <div class="footer-bottom">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-6 col-md-12 text-left "> <span>Copyright © 2021 Stellar AI</span> </div>
-                        <div class="col-lg-6 col-md-12 text-right ">
+                        <div class="col-lg-4 col-md-12 text-left "><span>Copyright © 2021 Stellar AI</span></div>
+                        <div class="col-lg-4 col-md-12 text-center "><span>Developed by <a href="http://siteguide.co.in/" target="_blank">SiteGuide</a></span></div>
+                        <div class="col-lg-4 col-md-12 text-right ">
                             <div class="widget-link">
                                 <ul>
                                     <li><a href="{% url 'home:terms' 'privacy-policy' %}">Privacy Policy</a></li>
