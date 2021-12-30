@@ -695,13 +695,17 @@ let dict;
              });
          }
 
-         if(dict["second_level_category"].length <= 0){
+ 	
+	if(dict["second_level_category"].length <= 0){
              second_category = first_category;
          }
          else {
              $.each(dict["second_level_category"], function (k, v) {
                  $.each(first_category, function (k, post) {
                      if ($(post).attr("second_level_category") === v) {
+                         second_category.push(post);
+                     }
+                     else if($(post).attr("second_level_category") === "null"){
                          second_category.push(post);
                      }
                  });
@@ -716,6 +720,9 @@ let dict;
                      if ($(post).attr("third_level_category") === v) {
                          third_category.push(post);
                      }
+                     else if ($(post).attr("third_level_category") === "null") {
+                         third_category.push(post);
+                     }
                  });
              });
          }
@@ -728,10 +735,12 @@ let dict;
                      if ($(post).attr("fourth_level_category") === v) {
                          fourth_category.push(post);
                      }
+                     else if ($(post).attr("fourth_level_category") === "null") {
+                         fourth_category.push(post);
+                     }
                  });
              });
-         }
-
+         } 
          $.each($('.is-post'), function(k,v){
                v.style.display = "none";
             });

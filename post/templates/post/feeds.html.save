@@ -190,6 +190,7 @@
                                 <div class="img loads"></div>
                                 <div class="inner-wrap">
                                     <div class="content-shape loads"></div>
+^1205
                                     <div class="content-shape loads"></div>
                                 </div>
                             </div>
@@ -1201,10 +1202,6 @@
                         alert(response['Message']);
                     }
                     $("textarea[name='comment" + id + "']").val("");
-		    let current = $(`#comment-counter${id}`).text();
-                     current = parseInt(current);
-                     
-                    $(`#comment-counter${id}`).text(current + 1);
                     getSingleComment(id);
                 },
                 error: function (response) {

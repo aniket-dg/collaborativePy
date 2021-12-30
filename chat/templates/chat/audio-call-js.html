@@ -372,10 +372,17 @@ let localStream = new MediaStream();
     function sendNotificationOnMessage()
     {
 
+	loc = window.location;
+        wsStart = 'ws://';
+
+        if(loc.protocol === 'https:'){
+            wsStart = 'wss://';
+        }
 
         group_chatSocket_chat = new ReconnectingWebSocket(
-            'ws://' + window.location.host +
+            wsStart + window.location.host +
             '/ws/chat/group/' + "{{ group.name }}" + '/'+ "{{ request.user.id }}" +'/');
+        
 
         group_chatSocket_chat.onopen = function(e){
             console.log("Connection open");

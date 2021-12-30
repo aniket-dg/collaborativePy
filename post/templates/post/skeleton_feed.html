@@ -807,7 +807,11 @@
                         alert(response['Message']);
                     }
                     $("textarea[name='comment" + id + "']").val("");
-                    getSingleComment(id);
+                    let current = $(`#comment-counter${id}`).text();
+                     current = parseInt(current);
+
+                    $(`#comment-counter${id}`).text(current + 1);
+		    getSingleComment(id);
                 },
                 error: function (response) {
                     alert(response['Message']);
