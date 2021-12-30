@@ -42,7 +42,7 @@ class NewsLetterCreateView(View):
     def post(self, *args, **kwargs):
         if self.request.method == 'POST':
             form = NewsLetterForm(self.request.POST)
-            if form.is_valid:
+            if form.is_valid():
                 form.save()
                 messages.success(self.request, 'Subscribed!')
         return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))

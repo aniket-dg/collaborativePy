@@ -267,7 +267,15 @@
                     </div>
                     {% endif %}
 
-                    
+                    {% if request.user.is_staff %}
+                    <div class="navbar-item is-icon" title="Analytics">
+                        <a class="icon-link custom-icon" href="{% url 'analytics:user-list' %}">
+                            <i class="far fa-chart-bar"></i>
+                            <span class="indicator"></span>
+                        </a>
+                    </div>
+                    {% endif %}
+
                     <!-- <div id="explorer-trigger" class="navbar-item is-icon">
                         <a class="icon-link is-primary">
                             <i class="mdi mdi-apps"></i>
@@ -782,6 +790,15 @@
                         </div>
                     </div>
                     {% endif %}
+                </div>
+                {% endif %}
+
+                {% if request.user.is_staff %}
+                <div class="navbar-item is-icon" title="Analytics">
+                    <a class="icon-link custom-icon" href="{% url 'analytics:user-list' %}">
+                        <i class="far fa-chart-bar"></i>
+                        <span class="indicator"></span>
+                    </a>
                 </div>
                 {% endif %}
 

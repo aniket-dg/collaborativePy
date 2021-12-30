@@ -12,13 +12,13 @@
             <div id="profile-about" class="view-wrap is-headless">
                 <div class="columns is-multiline no-margin">
                     <!-- Left side column -->
-                    <div class="column is-paddingless">
+                    <div class="column" style="background: #fff; margin: 1rem .75rem;">
                         <!-- Timeline Header -->
                         <div class="cover-bg" style="margin-top: 7em;">
 <!--                            <br><br><br><br><br><br>-->
 <!--                             <img class="cover-image" src="https://via.placeholder.com/1600x460" data-demo-src="https://friendkit.cssninja.io/assets/img/demo/bg/4.png" alt="">-->
                             <div class="avatar">
-                                <img id="user-avatar" class="avatar-image" src="{{ profile_user.profile_image.url }}" data-demo-src="{{ profile_user.profile_image.url }}" alt="">
+                                <img id="user-avatar" class="avatar-image" src="{{ profile_user.get_profile_img }}" data-demo-src="{{ profile_user.get_profile_img }}" alt="">
                                 {% if request.user == profile_user %}
                                 <div class="avatar-button">
                                     <i data-feather="plus"></i>
@@ -175,7 +175,7 @@
                     <!-- About sections -->
                     <div class="profile-about side-menu">
                         <div class="left-menu">
-                            <div class="left-menu-inner" style="overflow-x: auto; justify-content: flex-start;">
+                            <div class="left-menu-inner" style="background: #fff; overflow-x: auto; justify-content: flex-start;">
                                 <div class="menu-item is-active" data-content="overview-content">
                                     <div class="menu-icon">
                                         <i class="mdi mdi-progress-check"></i>

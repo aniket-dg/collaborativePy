@@ -108,6 +108,13 @@
                                 </a>
                             </li>
 
+                            <li data-section="personal" {% if 'newsletter/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:newsletter-list' %}">
+                                    <i data-feather="mail"></i>
+                                    <span>Newsletter List</span>
+                                </a>
+                            </li>
+
                             <li data-section="personal" {% if 'terms/' in request.path %} class="is-active" {% endif %}>
                                 <a href="{% url 'analytics:terms-update' 1 %}">
                                     <i data-feather="info"></i>
