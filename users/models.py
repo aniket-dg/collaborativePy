@@ -40,6 +40,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_verified = models.BooleanField(_('verified'), default=False)
     is_staff = models.BooleanField(_('staff'), default=False)
 
+    is_group_share = models.BooleanField(default=False)
+    group_id_share = models.IntegerField(null=True, blank=True)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

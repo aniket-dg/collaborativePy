@@ -21,19 +21,47 @@ from .forms import (
 from .models import User, Connection
 from post.models import Post, FlagInappropriate, BookMark
 from .utils import send_welcome_mail
+from chat.models import GroupChatModel
 
 
 class UserData(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         user = self.request.user
+
+        if user.is_group_share:
+            group_id = user.group_id_share
+            group = GroupChatModel.objects.filter(id=int(group_id)).last()
+            if not group and group not in user.groups.all():
+                return HttpResponse(
+                    json.dumps({
+                        'username': user.username
+                    }),
+                    content_type='application/json'
+                )
+            return HttpResponse(
+                json.dumps({
+                    'username': group.name
+                }),
+                content_type='application/json'
+            )
         return HttpResponse(
             json.dumps({
-                'username': user.username,
-                'img': user.get_profile_img()
+                'username': user.username
             }),
             content_type='application/json'
         )
 
+class SaveSessionForNotebook(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        group_id = self.request.GET.get('group_id')
+        group_share = self.request.GET.get('group_share')
+        session = self.request.session
+        user = self.request.user
+        if group_share and group_id:
+            user.is_group_share = True
+            user.group_id_share = group_id
+            user.save()
+        return redirect("http://20.106.167.37/")
 
 class SignUpView(View):
     def get(self, *args, **kwargs):

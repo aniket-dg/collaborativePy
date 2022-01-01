@@ -1,4 +1,4 @@
-! function(e) {
+ function(e) {
     function o(o) {
         for (var n, t, s = o[0], m = o[1], c = o[2], u = 0, g = []; u < s.length; u++) t = s[u], Object.prototype.hasOwnProperty.call(a, t) && a[t] && g.push(a[t][0]), a[t] = 0;
         for (n in m) Object.prototype.hasOwnProperty.call(m, n) && (e[n] = m[n]);

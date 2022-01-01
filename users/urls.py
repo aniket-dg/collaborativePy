@@ -60,6 +60,7 @@ urlpatterns = [
      path('unfriend/user/<int:pk>/', views.UnfriendUser.as_view(), name='unfriend-user'),
 
     path('load/more/friends/', views.LoadMoreFriends.as_view(), name='load-more-friends'),
+    path('redirect/notebook/', views.SaveSessionForNotebook.as_view(), name='redirect-notebook'),
 ]
 
 if settings.DEBUG:
