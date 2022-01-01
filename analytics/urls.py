@@ -68,4 +68,10 @@ urlpatterns = [
 
     path('language/delete/<int:pk>/', views.LanguageDeleteView.as_view(), name='language-delete'),
     path('scope/delete/<int:pk>/', views.ScopeDeleteView.as_view(), name='scope-delete'),
-]
+
+    path('competition/create/', views.CompetitionCreateView.as_view(), name="competition-create"),
+    path('competition/list/', views.CompetitionListView.as_view(), name="competition-list"),
+    path('competition/update/<int:pk>/', views.CompetitionUpdateView.as_view(), name="competition-update"),
+    path('competition/detail/<int:pk>/', views.CompetitionDetailView.as_view(), name="competition-detail"),
+    path('competition/delete/<int:pk>/', views.CompetitionDeleteView.as_view(), name="competition-delete"),
+] 

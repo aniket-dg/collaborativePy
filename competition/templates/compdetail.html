@@ -6,23 +6,27 @@
 <meta name="viewport" content="width=device-width , initial-scale=1" />
 
 <style>
-    .btn-grad {
-     background-image: linear-gradient(to right, #314755 0%, #26a0da 51%, #314755 100%);
-     width: 120px;
-     height: 50px;
-     padding: 10px;
-     margin-bottom: auto;
-     margin-top: auto;
-     font-weight: 500;
-     cursor: pointer;
-     border: none;
-     text-align: center;
-     transition: 0.5s;
-     background-size: 200% auto;
-     color: white;
-     box-shadow: 0 0 20px #eee;
-     border-radius: 10px;
-     display: block;
+.comp-img{
+    height: 35rem;
+    max-height: 35rem;
+}
+.btn-grad {
+    background-image: linear-gradient(to right, #314755 0%, #26a0da 51%, #314755 100%);
+    width: 120px;
+    height: 50px;
+    padding: 10px;
+    margin-bottom: auto;
+    margin-top: auto;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
 }
  .btn-grad:hover {
      background-position: right center;
@@ -58,7 +62,6 @@
 }
  ul li:hover {
      background-color: #E1E5EA;
-     transform: scale(1.1);
 }
  #icon {
      height: 24px;
@@ -78,6 +81,10 @@
 }
  .t1 {
      margin: auto;
+ }
+ .t1[data-active]{
+    background-color: #E1E5EA;
+    transform: scale(1.1);
  }
  .list {
      cursor: pointer;
@@ -106,10 +113,13 @@
     margin:0 auto 1rem auto;
     border-radius: 15px ;
  }
+ .drag{
+     font-size: 1.5rem;
+ }
  .drag-area {
      text-align: center;
      border: 2px dashed #4facfe;
-     height: 500px;
+     height: 22rem;
      width: 100%;
      border-radius: 5px;
      display: flex;
@@ -121,7 +131,7 @@
      border: 2px solid #4facfe;
 }
  .drag-area .icon {
-     font-size: 100px;
+     font-size: 5rem;
      color: #4facfe;
 }
  .drag-area header {
@@ -136,16 +146,19 @@
      margin: 10px 0 15px 0;
 }
  .drag-button {
-     padding: 1% 3%;
-     font-size: 20px;
-     font-weight: 300;
-     border: none;
-     outline: none;
-     background:#4facfe;
-     color: white;
-     border-radius: 5px;
+     padding: 10px 20px;
+     border: solid 1px #4facfe;
+     background: transparent;
+     border-radius: 3px;
      cursor: pointer;
 }
+ .drag-button#drag-submit{
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background:#4facfe;
+    box-shadow: 0 1px 1px 1px #b8b8b8;
+ }
  .drag-area img {
      height: 100%;
      width: 100%;
@@ -212,15 +225,13 @@
     width:90%;
     max-width: 60rem; 
 }
+
 /* Table Stylings */
  .sub-table-wrapper{
-     position: relative;
      width: 100%;
      margin-bottom: 0.2rem;
-     border-radius: 0.2rem;
+     border-radius: 15px 15px 0 0;
      overflow: auto;
-     background:#ffffffaa;
-     box-shadow: var(--shadow-xs);
 }
  .sub-table{
      width: 100%;
@@ -230,35 +241,77 @@
      padding: 0.5rem;
 }
  .sub-th{
-     position: sticky;
-     top: 0;
-     background-color: var(--color-primary-dark);
-     color: var(--color11);
+     font-weight: normal;
+     background-color: rgb(46, 116, 223);
+     color: #eee;
      padding: 1rem;
      z-index: 2;
 }
  .sub-tr{
-     border-bottom: solid 1px var(--color-grey-dark-2);
+     border-bottom: solid 1px #d1d1d1;
 }
  .sub-td{
      padding: 1rem;
 }
  .sub-td.sub-th{
-     background-color: var(--color-primary-light);
-     color: var(--color-grey-dark-3);
      padding: 0.4rem;
 }
  .sub-th,.sub-td{
      /* max-width: 10rem; */
      width: auto;
-     margin: 0.4rem;
      white-space: nowrap;
      overflow: hidden;
      text-overflow: ellipsis;
+     vertical-align: middle;
+}
+.user-img-leaderboard{
+    width: 2.3rem;
+    height: 2.3rem;
+    margin-right: .8rem;
+}
+.user-img-leaderboard img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+ @media (max-width:767px) {
+    .comp-img{
+        height: 15rem;
+        max-height: 15rem;
+    }
+    .drag-area {
+        height: 18rem;
+    }
+     .label1 {
+         display: none;
+    }
+     .drag{
+         font-size: 1.3rem;
+    }
+     .btn-grad {
+         display: none;
+    }
+     .btn-participate {
+         display: block;
+    }
+     .abc {
+         display: block;
+    }
+    .compdiv{
+        padding: 1.5rem;
+    }
 }
 @media (max-width:480px) {
+    .comp-img{
+        height: fit-content;
+        max-height: 14rem;
+    }
+    .drag-area {
+        height: 18rem;
+    }
      .drag{
-         font-size: 100%;
+         font-size: 1rem;
     }
      .label1 {
          display: none;
@@ -276,26 +329,6 @@
          padding: 28px 5px 18px 5px;
     }
 }
- @media (max-width:767px) {
-     .label1 {
-         display: none;
-    }
-     .drag{
-         font-size: 100%;
-    }
-     .btn-grad {
-         display: none;
-    }
-     .btn-participate {
-         display: block;
-    }
-     .abc {
-         display: block;
-    }
-     .compdiv{
-         padding: 1.5rem;
-     }
-}
 </style>
 
 <div class="container">
@@ -306,8 +339,8 @@
                     <div class="columns" style="margin: unset; justify-content: center; align-items: center;">
                         <!-- Story -->
                         {% if competion.image %}
-                        <div class="limiter" style="display: flex; justify-content: center; margin: 0 auto;">
-                            <img src="{{competion.image.url}}" alt="" data-demo-src="{{competion.image.url}}" style="border-radius: 15px;width: 100%;height: 100%;">
+                        <div class="limiter comp-img" style="display: flex; justify-content: center; margin: 0 auto;">
+                            <img src="{{competion.image.url}}" alt="" data-demo-src="{{competion.image.url}}" style="border-radius: 15px;width: 100%;height: 100%; object-fit: contain;">
                         </div>
                         {% endif %}
                     </div>
@@ -446,7 +479,7 @@
                     </div> -->
 
                     <ul class="ulist limiter">
-                        <div class="t1">
+                        <div class="t1" data-active>
                             <li data-list="tab_1" class="list">
 
                                 <i class="fas fa-th fa-lg" id="icon"></i>
@@ -507,6 +540,17 @@
 
                         </div>
                         <div class="t1">
+
+                            <li data-list="tab_7" class="list">
+
+                                <i class="fas fa-crown fa-lg" id="icon"></i>
+
+                                <p>RANKING</p>
+
+                            </li>
+
+                        </div>
+                        <div style="margin-left: 1rem;">
                             <a href="{% url 'Competion:detail-chapter' competion.pk %}">
                                 <input type="button" value="Participate" class="btn-grad">
                             </a>
@@ -536,79 +580,108 @@
                         <div class="tab_content tab_5">{{competion.prize | safe}}</div>
 
                         <div class="tab_content tab_6" style="font-family: Roboto;">
-                            
+
+                            {% if object.data %}
+                            <div class="mb-2" style="display: flex; align-items: center;">
+                                <div class="mr-3" style="font-weight: bold;">Data for competition:</div>
+                                <a href="{{object.data.url}}" class="button" target="_blank" download="{{object.name}}">Download Data</a>
+                            </div>
+                            {% endif %}
+
+                            <div class="mt-4" style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <div class="mr-3" style="font-weight:700;">Demo file to understand structure of submission:</div>
+                                <button id="user-demo-btn" class="button">Download Demo</button>
+                            </div>
+
                             {% if request.user.is_authenticated %}
+                                {% if not user_submission %}                             
                                 <form method="POST" action="{% url 'Competion:user-submissions' competion.id %}" enctype="multipart/form-data">
                                     {% csrf_token %}
-                                    <div class="drag-area" style="height: 350px;">
-                                        <div class="icon"><i class="fas fa-cloud-upload-alt fa-sm"></i></div>
+                                    <div class="drag-area">
+                                        <div class="icon"><i id="upload-icon" class="fas fa-cloud-upload-alt"></i></div>
                                         <br><br>
-                                        <header  class="drag">Drag & Drop to Upload File</header>
-                                        <span class="drag">OR</span>
-                                        <button type="button" class="drag drag-button" style="font-family: inherit;">Browse File</button>
+                                        <p class="drag m-2">Drag & drop to upload file.</p>
+                                        <button type="button" class="drag-button mt-4" style="font-family: inherit;">Browse File</button>
                                         <input type="file" hidden name="user_file" accept=".csv" required>
                                     </div>
                                     <br>
-                                    <center><button type="submit" class="drag-button" style="font-family: inherit;">Submit</button></center> 
-                                </form>
-                                    {% if latest_sub %}
-                                    <hr>
-                                    <div style="margin-top: 1.5rem;">
-                                        <div class="sub-table-wrapper">
-                                            <table class="sub-table">
-                                                <thead class="sub-thead">
-                                                    <tr class="sub-tr">
-                                                        <th class="sub-th" scope="col" style="text-align: left;">Name</th>
-                                                        <th class="sub-th" scope="col">Latest Score</th>
-                                                        <th class="sub-th" scope="col">Best Score</th>
-                                                        <th class="sub-th" scope="col">Latest Submission Date</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="sub-tbody">
-                                                    <tr class="sub-tr">
-                                                        <td class="sub-td" style="text-align: left;">{{ latest_sub.user.get_full_name }}</td>
-                                                        <td class="sub-td">{{ latest_sub.score }}</td>
-                                                        <td class="sub-td">{{ best_sub.score }}</td>
-                                                        <td class="sub-td">{{ latest_sub.submission_date|date:"d M Y H:i:s" }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <div style="display: none; justify-content: center;">
+                                        <button type="submit" id="drag-submit" class="drag-button" style="font-family: inherit;">Submit</button> 
                                     </div>
-                                    {% endif %}
+                                </form>
+                                {% else %}
+                                <div class="mb-5" style="font-weight: bold;">Your Submission Details.</div>
+                                <div class="drag-area" style="display: none;">
+                                    <button></button>
+                                    <input type="file" hidden>
+                                </div>
+                                <div class="sub-table-wrapper">
+                                    <table class="sub-table">
+                                        <thead class="sub-thead">
+                                            <tr class="sub-tr">
+                                                <th class="sub-th" scope="col" style="text-align: left;">Name</th>
+                                                <th class="sub-th" scope="col">Score</th>
+                                                <th class="sub-th" scope="col">Submission Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="sub-tbody">
+                                            <tr class="sub-tr">
+                                                <td class="sub-td" style="display: flex; align-items: center; justify-content: start;">
+                                                    <div class="user-img-leaderboard">
+                                                        <img src="{{ user_submission.user.get_profile_img }}" data-demo-src="{{ user_submission.user.get_profile_img }}" alt="Your profile image">
+                                                    </div>
+                                                    {{ user_submission.user.get_full_name }}
+                                                </td>
+                                                <td class="sub-td">{{ user_submission.score }}</td>
+                                                <td class="sub-td">{{ user_submission.submission_date|date:"d M Y H:i:s" }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% endif %}
                             {% else %}
                                 <div class="drag-area" style="display: none;">
                                     <button></button>
                                     <input type="file" hidden>
                                 </div>
                                 <p>Please <a href="{% url 'user:login' %}">login</a> to view data or submit answers.</p>
-                            {% endif %}
-                            <!-- {#<div class="submissions">
+                            {% endif %}                            
+                        </div>
+
+                        <div class="tab_content tab_7">
+                            {% if submissions %}
+                            <div class="submissions">
                                 <div class="sub-table-wrapper">
                                     <table class="sub-table">
                                         <thead class="sub-thead">
                                             <tr class="sub-tr">
                                                 <th class="sub-th" scope="col" style="text-align: left;">Name</th>
                                                 <th class="sub-th" scope="col">Rank</th>
-                                                <th class="sub-th" scope="col">Best Score</th>
-                                                <th class="sub-th" scope="col">Latest Submission</th>
+                                                <th class="sub-th" scope="col">Score</th>
+                                                <th class="sub-th" scope="col">Submission Date</th>
                                             </tr>
                                         </thead>
                                         <tbody class="sub-tbody">
                                             {% for submission in submissions %}
                                             <tr class="sub-tr">
-                                                <td class="sub-td" style="text-align: left;">{{ submission.user.get_full_name }}</td>
+                                                <td class="sub-td" style="display: flex; align-items: center; justify-content: start;">
+                                                    <div class="user-img-leaderboard">
+                                                        <img src="{{ submission.user.get_profile_img }}" data-demo-src="{{ submission.user.get_profile_img }}" alt="User's Profile">
+                                                    </div>
+                                                    {{ submission.user.get_full_name }}
+                                                </td>
                                                 <td class="sub-td">{{ forloop.counter }}</td>
                                                 <td class="sub-td">{{ submission.score }}</td>
                                                 <td class="sub-td">{{ submission.submission_date|date:"d M Y H:i:s" }}</td>
                                             </tr>
-                                            {% empty %}
-                                            <div class="no-record">No submissions found.</div>
                                             {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>#} -->
+                            </div>
+                            {% else %}
+                            <div class="no-record">No submissions found.</div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -616,7 +689,7 @@
         </div>
     </div>
 </div>
-
+<a id="user-demo-file" target="_blank" download="User File.csv" href="data:@file/vnd.ms-excel;base64,c29sdXRpb24NCjENCjENCjENCjENCjANCjENCjANCjANCjENCg==" style="display: none;"></a>
 {% endblock %}
 
 
@@ -628,10 +701,12 @@
 
 
 <script>
-const dropArea = document.querySelector(".drag-area"),
-dragText = dropArea.querySelector("header"),
-button = dropArea.querySelector("button"),
-input = dropArea.querySelector("input");
+const dropArea = document.querySelector(".drag-area");
+const uploadIcon = document.getElementById('upload-icon');
+let dragText = dropArea.querySelector(".drag");
+let button = dropArea.querySelector("button");
+let input = dropArea.querySelector("input");
+const dropSubmitBtn = document.getElementById('drag-submit')
 let file; //this is a global variable and we'll use it inside multiple functions
 button.onclick = ()=>{
   input.click(); //if user click on the button then the input also clicked
@@ -639,8 +714,7 @@ button.onclick = ()=>{
 input.addEventListener("change", function(){
   //getting user select file and [0] this means if user select multiple files then we'll select only the first one
   file = this.files[0];
-  dropArea.classList.add("active");
-//   showFile(); //calling function
+  showFile(); //calling function
 });
 //If user Drag File Over DropArea
 dropArea.addEventListener("dragover", (event)=>{
@@ -651,7 +725,7 @@ dropArea.addEventListener("dragover", (event)=>{
 //If user leave dragged File from DropArea
 dropArea.addEventListener("dragleave", ()=>{
   dropArea.classList.remove("active");
-  dragText.textContent = "Drag & Drop to Upload File";
+  dragText.textContent = "Drag & drop to upload file.";
 });
 //If user drop File on DropArea
 dropArea.addEventListener("drop", (event)=>{
@@ -659,142 +733,114 @@ dropArea.addEventListener("drop", (event)=>{
   //getting user select file and [0] this means if user select multiple files then we'll select only the first one
   file = event.dataTransfer.files[0];
   input.files = event.dataTransfer.files;
-  console.log(input, input.files)
   showFile(); //calling function
 });
-// function showFile(){
-//   let fileType = file.type; //getting selected file type
-//   let validExtensions = ["image/jpeg", "image/jpg", "image/png"]; //adding some valid image extensions in array
-//   if(validExtensions.includes(fileType)){ //if user selected file is an image file
-//     let fileReader = new FileReader(); //creating new FileReader object
-//     fileReader.onload = ()=>{
-//       let fileURL = fileReader.result; //passing user file source in fileURL variable
-//         // UNCOMMENT THIS BELOW LINE. I GOT AN ERROR WHILE UPLOADING THIS POST SO I COMMENTED IT
-//        let imgTag = `<img src="${fileURL}" alt="image">`; //creating an img tag and passing user selected file source inside src attribute
-//       dropArea.innerHTML = imgTag; //adding that created img tag inside dropArea container
-//     }
-//     fileReader.readAsDataURL(file);
-//   }else{
-//     alert("This is not an Image File!");
-//     dropArea.classList.remove("active");
-//     dragText.textContent = "Drag & Drop to Upload File";
-//   }
-// }
 function showFile(){
-  let fileType = file.type; //getting selected file type
-  console.log(fileType)
-  let validExtensions = ["application/vnd.ms-excel", "text/csv"]; //adding some valid image extensions in array
-  if(validExtensions.includes(fileType)){ //if user selected file is an image file
-    let fileReader = new FileReader(); //creating new FileReader object
-    dragText.textContent = "You can submit your file now.";
-    fileReader.onload = ()=>{
-    //   let fileURL = fileReader.result; //passing user file source in fileURL variable
-    //    let imgTag = `<img src="${fileURL}" alt="image">`; //creating an img tag and passing user selected file source inside src attribute
-    //   dropArea.innerHTML = imgTag; //adding that created img tag inside dropArea container
+  if (file){
+      let fileType = file.type; //getting selected file type
+    let validExtensions = ["application/vnd.ms-excel", "text/csv"]; //adding some valid image extensions in array
+    if(validExtensions.includes(fileType)){ //if user selected file is an image file
+        // let fileReader = new FileReader(); //creating new FileReader object
+        dragText.textContent = "You can submit your file now.";
+        uploadIcon.classList.replace('fa-cloud-upload-alt', 'fa-check-circle')
+        dropArea.classList.add("active");
+        dropSubmitBtn.click();
+        // fileReader.onload = ()=>{
+        // let fileURL = fileReader.result; //passing user file source in fileURL variable
+        // let imgTag = `<img src="${fileURL}" alt="image">`; //creating an img tag and passing user selected file source inside src attribute
+        //   dropArea.innerHTML = imgTag; //adding that created img tag inside dropArea container
+        // }
+        // fileReader.readAsDataURL(file);
+    }else{
+        alert("This is not a csv file!");
+        uploadIcon.classList.replace('fa-check-circle', 'fa-cloud-upload-alt')
+        dropArea.classList.remove("active");
+        dragText.textContent = "Drag & drop to upload file.";
     }
-    // fileReader.readAsDataURL(file);
-  }else{
-    alert("This is not a csv file!");
+  } else {
+    uploadIcon.classList.replace('fa-check-circle', 'fa-cloud-upload-alt')
     dropArea.classList.remove("active");
-    dragText.textContent = "Drag & Drop to Upload File";
+    dragText.textContent = "Drag & drop to upload file.";
   }
+  
 }
 
-    $(document).ready(function () {
+$(document).ready(function () {
+    $(".tab_content").hide()
+    $('.tab_content:first-child').show()
 
-        $(".tab_content").hide()
+    $("ul li").click(function () {
+        $("ul li").removeClass("activee")
+        $(this).addClass("activee");
 
-        $('.tab_content:first-child').show()
+        var current_tab = $(this).attr("data-list");
+        $(".tab_content").hide();
+        $("." + current_tab).show();
+    });
+});
+// PROGRESS BAR JAVASCRIPT START
+$(document).ready(function () {
 
+    var countDownDate = new Date("{{competion.end.isoformat}} 23:59:59").getTime();
+    var startDate = new Date("{{competion.start.isoformat}} 00:00:00").getTime();
+    // Update the count down every 1 second
+    // Get todays date and time
+    var now = new Date().getTime();
 
+    // Find the distance between now and the count down date
+    var distanceWhole = countDownDate - startDate;
+    var distanceLeft = countDownDate - now;
 
-        $("ul li").click(function () {
+    // Time calculations for minutes and percentage progressed
+    var minutesLeft = Math.floor(distanceLeft / (1000 * 60));
+    var minutesTotal = Math.floor(distanceWhole / (1000 * 60));
+    var progress = Math.floor(((minutesTotal - minutesLeft) / minutesTotal) * 100);
+    if (progress >= 100) {
+        progress = 100;
+    }
+    $('#progressbar').attr('aria-valuenow', progress).css('width', progress + "%");
+    document.getElementById('para').innerHTML = progress * 1 + '%';
 
-            $("ul li").removeClass("activee")
+    let diffInMilliSeconds = Math.floor(countDownDate - now) / 1000;
 
-            $(this).addClass("activee");
+    if (diffInMilliSeconds <= 0) {
+        document.getElementById("days").innerHTML = 0;
+        // document.getElementById("hours").innerHTML = 0;
+        // document.getElementById("min").innerHTML = 0;
 
+    }
+    else {
+        // calculate days
+        const days = Math.floor(diffInMilliSeconds / 86400);
+        diffInMilliSeconds -= days * 86400;
+        document.getElementById("days").innerHTML = days;
+        // // calculate hours
+        // const hours = Math.floor(diffInMilliSeconds / 3600) % 24;
+        // diffInMilliSeconds -= hours * 3600;
+        // document.getElementById("hours").innerHTML = hours;
+        // // calculate minutes
+        // const minutes = Math.floor(diffInMilliSeconds / 60) % 60;
+        // diffInMilliSeconds -= minutes * 60;
+        // document.getElementById("min").innerHTML = minutes;
+    }
+    //PROGRESS BAR JAVASCRIPT END
+});
 
-
-
-
-            var current_tab = $(this).attr("data-list");
-
-            $(".tab_content").hide();
-
-            $("." + current_tab).show();
-
+// Navbar Active
+let navItems = document.querySelectorAll('.ulist .t1')
+navItems?.forEach((item)=>{
+    item.addEventListener('click', (e)=>{
+        navItems?.forEach((i)=>{
+            i.removeAttribute('data-active');
         });
-
-    });
-    // PROGRESS BAR JAVASCRIPT START
-    $(document).ready(function () {
-
-        var countDownDate = new Date("{{competion.end.isoformat}} 23:59:59").getTime();
-        var startDate = new Date("{{competion.start.isoformat}} 00:00:00").getTime();
-        // Update the count down every 1 second
-        // Get todays date and time
-        var now = new Date().getTime();
-
-        // Find the distance between now and the count down date
-        var distanceWhole = countDownDate - startDate;
-        var distanceLeft = countDownDate - now;
-
-        // Time calculations for minutes and percentage progressed
-        var minutesLeft = Math.floor(distanceLeft / (1000 * 60));
-        var minutesTotal = Math.floor(distanceWhole / (1000 * 60));
-        var progress = Math.floor(((minutesTotal - minutesLeft) / minutesTotal) * 100);
-        if (progress >= 100) {
-            progress = 100;
-        }
-        $('#progressbar').attr('aria-valuenow', progress).css('width', progress + "%");
-        document.getElementById('para').innerHTML = progress * 1 + '%';
-
-        let diffInMilliSeconds = Math.floor(countDownDate - now) / 1000;
-
-        if (diffInMilliSeconds <= 0) {
-            document.getElementById("days").innerHTML = 0;
-            // document.getElementById("hours").innerHTML = 0;
-            // document.getElementById("min").innerHTML = 0;
-
-        }
-        else {
-            // calculate days
-
-            const days = Math.floor(diffInMilliSeconds / 86400);
-
-            diffInMilliSeconds -= days * 86400;
-
-
-
-            document.getElementById("days").innerHTML = days;
-
-
-            // // calculate hours
-
-            // const hours = Math.floor(diffInMilliSeconds / 3600) % 24;
-
-            // diffInMilliSeconds -= hours * 3600;
-
-            // document.getElementById("hours").innerHTML = hours;
-
-
-
-            // // calculate minutes
-
-            // const minutes = Math.floor(diffInMilliSeconds / 60) % 60;
-
-            // diffInMilliSeconds -= minutes * 60;
-
-            // document.getElementById("min").innerHTML = minutes;
-        }
-
-        //PROGRESS BAR JAVASCRIPT END
-
-
-
-    });
-
+        item.setAttribute('data-active', '')
+    })
+})
+// Download Demo File
+const userFileDemoBtn = document.getElementById('user-demo-btn')
+userFileDemoBtn.addEventListener('click', function (e) {
+    document.getElementById('user-demo-file').click()
+})
 
 
 </script>

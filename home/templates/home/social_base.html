@@ -13,7 +13,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <title> Stellar AI</title>
-    <link rel="icon" type="image/png" href="{% static 'social_assets/img/favicon.png' %}" />
+    <link rel="icon" type="image/png" href="{% static 'images/logo/color-logo.png' %}" />.
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
@@ -194,9 +194,16 @@
                         </a>
                     </div>
 
-                    <div class="navbar-item is-icon" title="Skeleton code" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
+                    <div class="navbar-item is-icon" title="Skeleton Code" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
                         <a class="icon-link custom-icon" href="{% url 'post:skeleton-post' %}">
                             <i class="fas fa-code"></i>
+                            <span class="indicator"></span>
+                        </a>
+                    </div>
+
+                     <div class="navbar-item is-icon" title="Competition">
+                        <a class="icon-link custom-icon" href="{% url 'Competion:competionlist' %}">
+                            <i class="mdi mdi-trophy-outline"></i>
                             <span class="indicator"></span>
                         </a>
                     </div>
@@ -723,6 +730,13 @@
                 <div class="navbar-item is-icon" title="Skeleton code" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
                     <a class="icon-link custom-icon" href="{% url 'post:skeleton-post' %}">
                         <i class="fas fa-code"></i>
+                        <span class="indicator"></span>
+                    </a>
+                </div>
+
+                 <div class="navbar-item is-icon" title="Competition">
+                    <a class="icon-link custom-icon" href="{% url 'Competion:competionlist' %}">
+                        <i class="mdi mdi-trophy-outline"></i>
                         <span class="indicator"></span>
                     </a>
                 </div>

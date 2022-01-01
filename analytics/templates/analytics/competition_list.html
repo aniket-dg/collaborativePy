@@ -1,0 +1,99 @@
+{% extends 'analytics/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %} 
+
+{% block title %}
+<h2 class="has-text-centered">
+    Competition List
+</h2>
+<a href="{% url 'analytics:competition-create' %}" class="button is-solid accent-button" style="margin-left: auto;">Add Competition</a>
+{% endblock title %}
+
+{% block data %}
+
+<!-- <link rel="stylesheet" href="{% static 'social_assets/css/table_bulma.css' %}"> -->
+
+<style>
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group label {
+        font-size: 0.8em;
+    }
+
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group {
+        padding: 0.8em;
+    }
+
+    .table thead th {
+        font-weight: 500;
+        color: rgb(146, 146, 146);
+        font-size: 0.9em;
+    }
+    .table thead td, .table thead th {
+        border-width: 0 0 0.5px;
+        padding-bottom: 15px;
+    }
+    .table td {
+        padding-top: 15px;
+    }
+    
+</style>
+
+<div style="width: 100% !important;" class="">
+    <div class="table-container">
+      <table class="table is-fullwidth">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Level</th>
+          <th>Status</th>
+          <th>Start</th>
+          <th>End</th>
+          <th class="has-text-centered">Update</th>
+          <th class="has-text-centered">Details</th>
+          <th class="has-text-centered">Delete</th>
+          <th></th>
+        </tr>
+        </thead>
+        
+        <tbody>
+        {% for object in object_list %}
+        <tr>
+          <!-- <td class="is-image-cell">
+            <div class="image">
+              <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" class="is-rounded">
+            </div>
+          </td> -->
+          <td data-label="name">{{object.name}}</td>
+          <td data-label="level">{{object.level}}</td>
+          <td data-label="status">{{object.status}}</td>
+          <td data-label="start date">{{object.start}}</td>
+          <td data-label="end date">{{object.end}}</td>
+          
+          <td class="has-text-centered" data-label="Mobile">
+            <a href="{% url 'analytics:competition-update' object.pk %}" class="button is-warning" type="button">
+                <span class="icon"><i class="mdi mdi-pen"></i></span>
+            </a>
+          </td>
+          <td class="has-text-centered" data-label="Mobile">
+            <a href="{% url 'analytics:competition-detail' object.pk %}" class="button is-primary" type="button">
+                <span class="icon"><i class="mdi mdi-information"></i></span>
+            </a>
+          </td>
+          <td class="has-text-centered" data-label="Mobile">
+              <form method="POST" action="{% url 'analytics:competition-delete' object.pk %}">
+                  {% csrf_token %}
+                <button type="submit" class="button is-danger jb-modal" data-target="sample-modal">
+                    <span class="icon"><i class="mdi mdi-trash-can"></i></span>
+                </button>
+              </form>
+          </td>
+          
+          
+        </tr>
+        {% endfor %}
+
+      </tbody>
+      </table>
+    </div>
+</div>
+
+{% endblock data %}

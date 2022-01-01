@@ -46,7 +46,7 @@
                             
                                 <div class="field">
                                     <div class="control">
-                                        <input name="email" class="input email-input" type="text" placeholder="jennadavis@gmail.com">
+                                        <input name="email" class="input email-input" type="text" placeholder="jennadavis@gmail.com" required>
                                         <div class="input-icon">
                                             <i data-feather="user"></i>
                                         </div>
@@ -54,10 +54,17 @@
                                 </div>
                                 <div class="field">
                                     <div class="control">
-                                        <input name="password" class="input password-input" type="password" placeholder="●●●●●●●">
+                                        <input name="password" class="input password-input" type="password" placeholder="●●●●●●●" required>
                                         <div class="input-icon">
                                             <i data-feather="lock"></i>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="control">
+                                        <a href="{% url 'user:password_reset' %}">
+                                            Forgot password?
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="field">

@@ -8,9 +8,9 @@ from . import views
 app_name = 'Competion'
 
 urlpatterns = [
-    path('list/', views.CompetionList.as_view() , name='competionlist'),
-    path('detail/<int:pk>/', views.CompetionDetail.as_view(), name='detail'),
-    path('submissions/<int:pk>/', views.UserSubmissionView.as_view(), name='user-submissions'),
+    path('list/',views.CompetionList.as_view() , name='competionlist'),
+    path('detail/<int:pk>/',views.CompetionDetail.as_view(), name='detail'),
+    path('submissions/<int:pk>/',views.UserSubmissionView.as_view(), name='user-submissions'),
     path('participants/<int:pk>/', views.ParticipantsVIew.as_view(), name='detail-chapter'),
 ]
 if settings.DEBUG:
