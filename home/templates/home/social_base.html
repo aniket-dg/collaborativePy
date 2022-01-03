@@ -27,8 +27,8 @@
 <body>
 
     <!-- Pageloader -->
-    <div class="pageloader"></div>
-    <div class="infraloader is-active"></div>
+    <div class="pageloader" style="display: none;"></div>
+    <div class="infraloader is-active" style="display: none;"></div>
     <div class="app-overlay"></div>
 
     <div id="main-navbar" class="navbar navbar-v1 is-inline-flex is-transparent no-shadow is-hidden-mobile">
@@ -565,6 +565,7 @@
                                             </div>
                                         </div>
                                     </a>
+                                    {% if request.user.is_authenticated %}
                                     <a class="account-item" href="{% url 'user:logout' %}">
                                         <div class="media">
                                             <div class="icon-wrap">
@@ -576,6 +577,7 @@
                                             </div>
                                         </div>
                                     </a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -878,9 +880,11 @@
                     <a href="#" class="navbar-item is-flex is-mobile-icon">
                         <span><i data-feather="help-circle"></i>Support</span>
                     </a>
+                    {% if request.user.is_authenticated %}
                     <a href="{% url 'user:logout' %}" class="navbar-item is-flex is-mobile-icon">
                         <span><i data-feather="power"></i>Log out</span>
                     </a>
+                    {% endif %}
                 </div>
             </div>
 
