@@ -1,0 +1,101 @@
+{% extends 'analytics/base.html' %}
+{% load crispy_forms_tags %} 
+{% load static %} 
+{% block title %}
+
+{{form.media}}
+{% load widget_tweaks %}
+
+<h2 class="has-text-centered">
+    {% if 'create' in request.path %}
+        Competition Create
+    {% else %}
+        Competition Update
+    {% endif %}
+</h2>
+{% endblock title %}
+
+{% block data %}
+
+<style>
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group label {
+        font-size: 0.8rem;
+    }
+
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group {
+        padding: 0.8rem;
+    }
+
+    .form-control{
+        padding: .5rem;
+    }
+
+    .select {
+        padding: 0em 1rem;
+        border: 1px solid #e7e7e7;
+    }
+
+    .django-ckeditor-widget{
+        width: 100%;
+    }
+
+    .django-ckeditor-widget textarea{
+        width: 100%;
+        max-width: 100%;
+    }
+
+    input[type='date'], input[type='text'], select{
+        width: 100%;
+    }
+
+    small.form-text.text-muted{
+        display: block;
+        margin-top: .4rem;
+        cursor: pointer;
+        color: #5596E6;
+    }
+</style>
+{% with 'ckeditorwidget' as widget_list %}
+<div style="max-width: 100%;" class="settings-form-wrapper">
+    <div class="settings-form">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="columns is-multiline">
+                {% for field in form %}
+                <div class="column {% if field|widget_type in widget_list %} is-12 {% else %} is-6 {% endif %}" style="overflow-x: auto;">
+                    <div class="field field-group">
+                        <div class="control has-icon">
+                            {{ field.errors }}
+                            {{ field|as_crispy_field }}
+                        </div>
+                    </div>                    
+                </div>
+                {% endfor %}
+
+
+                <div class="column is-12">
+                    <div class="buttons">
+                        <button type="submit" class="button is-solid accent-button form-button">
+                            {% if 'create' in request.path %}
+                                Submit
+                            {% else %}
+                                Update
+                            {% endif %}
+                        </button>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <a id="admin-demo-file" target="_blank" download="Admin Demo File.csv" href="data:@file/vnd.ms-excel;base64,YWRtaW4gc29sdXRpb24NCjENCjENCjENCjENCjANCjENCjANCjANCjENCjENCg==" style="display: none;"></a>
+</div>
+{% endwith %}
+<script>
+    const adminFileDemoBtn = document.getElementById('hint_id_admin_file')
+    adminFileDemoBtn.addEventListener('click', function (e) {
+        document.getElementById('admin-demo-file').click()
+    })
+</script>
+{% endblock data %}

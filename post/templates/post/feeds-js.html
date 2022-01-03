@@ -151,10 +151,12 @@
         {
             category_mul.push(cat);
             $(`#${element_id}`).css("color", "red");
+            $(`#${element_id}`).prev().css("color", "red")
         }
         else {
             category_mul.splice(index, 1);
             $(`#${element_id}`).css("color", "black");
+            $(`#${element_id}`).prev().css("color", "black");
         }
         filterPostMultiple();
     }
@@ -164,11 +166,13 @@
         let index = language_mul.indexOf(lang);
         if(index === -1){
             language_mul.push(lang);
-        $(`#${element_id}`).css("color", "red");
+            $(`#${element_id}`).css("color", "red");
+            $(`#${element_id}`).prev().css("color", "red")
         }
         else{
             language_mul.splice(index, 1);
             $(`#${element_id}`).css("color", "black");
+            $(`#${element_id}`).prev().css("color", "black")
         }
         filterPostMultiple();
     }
@@ -179,10 +183,12 @@
         if(index === -1){
             scope_of_work_mul.push(scope);
             $(`#${element_id}`).css("color", "red");
+            $(`#${element_id}`).prev().css("color", "red")
         }
         else{
             scope_of_work_mul.splice(index, 1);
             $(`#${element_id}`).css("color", "black");
+            $(`#${element_id}`).prev().css("color", "black")
         }
         filterPostMultiple();
     }

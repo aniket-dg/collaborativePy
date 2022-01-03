@@ -1,0 +1,421 @@
+{% extends 'analytics/base.html' %}
+{% load crispy_forms_tags %} 
+{% load static %} 
+
+{% block title %}
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+
+<h2 class="has-text-centered">
+    Competition Details
+</h2>
+{% endblock title %}
+
+{% block data %}
+
+<style>
+    .comp-img{
+        height: 35rem;
+        max-height: 35rem;
+    }
+     .abc {
+         display: none;
+    }
+     ul li:hover {
+         background-color: #E1E5EA;
+    }
+     #icon {
+         height: 24px;
+    }
+     .ulist {
+        display: flex;
+        justify-content: safe space-around;
+        align-items: center;
+        padding: 0 1rem;
+        height: 110px;
+        background: white;
+        box-shadow: 0 0 7px 2px #d1d1d1;
+        margin: 0 auto;
+        border-radius: 15px;
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+     .t1 {
+         margin: auto;
+     }
+     .t1[data-active]{
+        background-color: #E1E5EA;
+        transform: scale(1.1);
+     }
+     .list {
+         cursor: pointer;
+         padding: 28px 11px 18px 11px;
+         text-align: center;
+         width: 110px;
+         display: block;
+    }
+     .activees {
+         background-color: #14279B;
+         color: white;
+    }
+     .tabss {
+         margin-top: 0px;
+         padding-top: 0px;
+    }
+     .compdiv{
+        padding: 3rem; 
+        display: block;
+        box-shadow: 0 0 0px 2px #d1d1d1;
+        background: white;
+        margin:0 auto 1rem auto;
+        border-radius: 15px ;
+     }
+     .drag{
+         font-size: 1.5rem;
+     }
+     .drag-area {
+         text-align: center;
+         border: 2px dashed #4facfe;
+         height: 22rem;
+         width: 100%;
+         border-radius: 5px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         flex-direction: column;
+    }
+     .drag-button {
+         padding: 10px 20px;
+         border: solid 1px #4facfe;
+         background: transparent;
+         border-radius: 3px;
+         cursor: pointer;
+    }
+     .drag-button#drag-submit{
+        padding: 10px 20px;
+        font-size: 1rem;
+        color: white;
+        background:#4facfe;
+        box-shadow: 0 1px 1px 1px #b8b8b8;
+     }
+     .drag-area img {
+         height: 100%;
+         width: 100%;
+         object-fit: cover;
+         border-radius: 5px;
+    }
+    
+    .progress {
+        margin: 20px auto;
+        padding: 0;
+        width: 90%;
+        height: 30px;
+        overflow: hidden;
+        background: #e5e5e5;
+        border-radius: 6px;
+    }
+    .bar {
+        position: relative;
+        float: left;
+        min-width: 1%;
+        height: 100%;
+        background-image: -webkit-linear-gradient(#06F, #0CF);
+        background-image: linear-gradient(#06F, #0CF);
+    }
+    .percent {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+        font-family: tahoma, arial, helvetica;
+        font-size: 12px;
+        color: white;
+    }
+    .plist {
+        height: 140px;
+        background: white;
+        box-shadow: 0 0 7px 2px #d1d1d1;
+        display: flex;
+        margin: 0 auto;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+    }
+    .date {
+        padding: 28px 11px 18px 11px;
+        text-align: center;
+        width: 110px;
+        display: block;
+    }
+    #start {
+        height: 20px;
+    }
+     .above {
+         display: block;
+         width: 75%;
+         margin-top: 2%;
+    }
+     .label1 {
+         text-align: center;
+         font-weight: bold;
+         display: block;
+    }
+    .limiter{
+        width:90%;
+        max-width: 60rem; 
+    }
+     @media (max-width:767px) {
+        .comp-img{
+            height: 15rem;
+            max-height: 15rem;
+        }
+        .drag-area {
+            height: 18rem;
+        }
+         .label1 {
+             display: none;
+        }
+         .drag{
+             font-size: 1.3rem;
+        }
+         .abc {
+             display: block;
+        }
+        .compdiv{
+            padding: 1.5rem;
+        }
+    }
+    @media (max-width:480px) {
+        .comp-img{
+            height: fit-content;
+            max-height: 14rem;
+        }
+        .drag-area {
+            height: 18rem;
+        }
+         .drag{
+             font-size: 1rem;
+        }
+         .label1 {
+             display: none;
+        }
+         .abc {
+             display: block;
+        }
+         .list {
+             padding: 28px 5px 18px 5px;
+        }
+    }
+    .status-wrap{
+        display: flex; 
+        justify-content: space-around; 
+        font-size: large;
+    }
+    .status-wrap > * {
+        border-radius: 5px;
+        background-color: rgb(34, 110, 185);
+        color:white;
+        text-transform: uppercase;
+        padding: .5rem 1.2rem;
+    }
+</style>
+
+<div class="column is-12">
+    <!-- user stats -->
+    <div class="stats-wrapper">
+
+        <div class="container">
+            <div class="container is-desktop">
+                <div class="stories-wrapper is-home is-full">
+                    <div class="inner-wrapper">
+                        <h3 class="ml-4" style="font-size: 2.5rem;">{{object.name}}</h3>
+                        <div class="columns" style="justify-content: center; align-items: center;">
+                            {% if object.image %}
+                            <div class="limiter comp-img" style="display: flex; justify-content: center; margin: 0 auto;">
+                                <img src="{{object.image.url}}" alt="" data-demo-src="{{object.image.url}}" style="border-radius: 15px;width: 100%;height: 100%; object-fit: contain;">
+                            </div>
+                            {% endif %}
+                        </div>
+                        <!-- Status & Level -->
+                        <div class="mb-3 status-wrap">
+                           <span>{{object.status}}</span>
+                           <span>{{object.level}}</span>
+                        </div>
+                        <!-- PROGRESS BAR START-->
+                        <div class="plist limiter">
+                            <div class="date">
+                                <i class="fas fa-running fa-2x"></i>
+                                <div style="margin-bottom: 5%;"></div>
+
+                                <p style="font-weight:300px;">{{competion.start | date:"d M Y"}}</p>
+                            </div>
+
+                            <div class="above">
+                                <label for="head" class="label1"><span id="days"></span> Days Remaining </label>
+                                <!-- <label for="head1" class="label2" ><span id="days"></span> Days <span id="hours"></span> Hours <span id="min"></span> Minutes </label>  -->
+                                <div style="padding: 1%;"></div>
+                                <div class="progress" style="margin-top: 0%;">
+
+                                    <div class="bar" id="progressbar" role="progressbar" aria-valuenow="70"
+                                        aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                                        <p class="percent" style="font-weight: bold;" id="para"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="date">
+                                <i class="fas fa-flag-checkered fa-2x" id="icon"></i>
+                                <div style="margin-bottom:5%;"></div>
+                                <p style="font-weight :300px;;">{{competion.end |date:"d M Y"}}</p>
+                            </div>
+
+                        </div><br>
+                        <!-- PROGRESS BAR END -->
+                        <ul class="ulist limiter">
+                            <div class="t1" data-active>
+                                <li data-list="tab_1" class="list">
+                                    <i class="fas fa-th fa-lg" id="icon"></i>
+                                    <p>OVERVIEW</p>
+                                </li>
+                            </div>
+                            <div class="t1">
+                                <li data-list="tab_2" class="list">
+                                    <i class="fas fa-hourglass-half fa-lg" id="icon"></i>
+                                    <p>CHALLENGE</p>
+                                    </li>
+                            </div>
+                            <div class="t1">
+                                <li data-list="tab_3" class="list">
+                                    <i class="far fa-list-alt fa-lg" id="icon"></i>
+                                    <p>RULES</p>
+                                </li>
+                            </div>
+                            <div class="t1">
+                                <li data-list="tab_4" class="list">
+                                    <i class="far fa-copy fa-lg" id="icon"></i>
+                                    <p>EVALUATION</p>
+                                </li>
+                            </div>
+                            <div class="t1">
+                                <li data-list="tab_5" class="list">
+                                    <i class="fas fa-trophy fa-lg" id="icon"></i>
+                                    <p>PRIZE</p>
+                                </li>
+                            </div>
+                            <div class="t1">
+                                <li data-list="tab_6" class="list">
+                                    <i class="fas fa-database fa-lg" id="icon"></i>
+                                    <p>DATA</p>
+                                </li>
+                            </div>
+                        </ul>
+    
+                        <br>
+    
+                        <div class="compdiv limiter">
+                            <div class="tab_content tab_1"> {{object.overview | safe}}</div>
+                            <div class="tab_content tab_2">{{object.challenge | safe}}</div>
+                            <div class="tab_content tab_3">{{object.rules | safe}}</div>
+                            <div class="tab_content tab_4">{{object.evaluation | safe}}</div>
+                            <div class="tab_content tab_5">{{object.prize | safe}}</div>
+                            <div class="tab_content tab_6">
+                                {% if object.data %}
+                                <div class="mb-2" style="display: flex; align-items: center;">
+                                    <div class="mr-3" style="font-weight: bold;">Data for competition:</div>
+                                    <a href="{{object.data.url}}" class="button" target="_blank" download="{{object.name}}">Download Data</a>
+                                </div>
+                                {% endif %}
+
+                                <div class="mt-4" style="display: flex; align-items: center;">
+                                    <div class="mr-3" style="font-weight:700;">Demo file to understand structure of submission:</div>
+                                    <button id="user-demo-btn" class="button">Download Demo</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="user-demo-file" target="_blank" download="User File.csv" href="data:@file/vnd.ms-excel;base64,c29sdXRpb24NCjENCjENCjENCjENCjANCjENCjANCjANCjENCg==" style="display: none;"></a>
+
+<script>
+$(document).ready(function () {
+    $(".tab_content").hide()
+    $('.tab_content:first-child').show()
+
+    $("ul li").click(function () {
+        $("ul li").removeClass("activee")
+        $(this).addClass("activee");
+
+        var current_tab = $(this).attr("data-list");
+        $(".tab_content").hide();
+        $("." + current_tab).show();
+    });
+});
+// PROGRESS BAR JAVASCRIPT START
+$(document).ready(function () {
+
+var countDownDate = new Date("{{competion.end.isoformat}} 23:59:59").getTime();
+var startDate = new Date("{{competion.start.isoformat}} 00:00:00").getTime();
+// Update the count down every 1 second
+// Get todays date and time
+var now = new Date().getTime();
+
+// Find the distance between now and the count down date
+var distanceWhole = countDownDate - startDate;
+var distanceLeft = countDownDate - now;
+
+// Time calculations for minutes and percentage progressed
+var minutesLeft = Math.floor(distanceLeft / (1000 * 60));
+var minutesTotal = Math.floor(distanceWhole / (1000 * 60));
+var progress = Math.floor(((minutesTotal - minutesLeft) / minutesTotal) * 100);
+if (progress >= 100) {
+    progress = 100;
+}
+$('#progressbar').attr('aria-valuenow', progress).css('width', progress + "%");
+document.getElementById('para').innerHTML = progress * 1 + '%';
+
+let diffInMilliSeconds = Math.floor(countDownDate - now) / 1000;
+
+if (diffInMilliSeconds <= 0) {
+    document.getElementById("days").innerHTML = 0;
+    // document.getElementById("hours").innerHTML = 0;
+    // document.getElementById("min").innerHTML = 0;
+
+}
+else {
+    // calculate days
+    const days = Math.floor(diffInMilliSeconds / 86400);
+    diffInMilliSeconds -= days * 86400;
+    document.getElementById("days").innerHTML = days;
+    // // calculate hours
+    // const hours = Math.floor(diffInMilliSeconds / 3600) % 24;
+    // diffInMilliSeconds -= hours * 3600;
+    // document.getElementById("hours").innerHTML = hours;
+    // // calculate minutes
+    // const minutes = Math.floor(diffInMilliSeconds / 60) % 60;
+    // diffInMilliSeconds -= minutes * 60;
+    // document.getElementById("min").innerHTML = minutes;
+}
+//PROGRESS BAR JAVASCRIPT END
+});
+// Navbar Active
+let navItems = document.querySelectorAll('.ulist .t1')
+navItems?.forEach((item)=>{
+    item.addEventListener('click', (e)=>{
+        navItems?.forEach((i)=>{
+            i.removeAttribute('data-active');
+        });
+        item.setAttribute('data-active', '')
+    })
+})
+// Download Demo File
+const userFileDemoBtn = document.getElementById('user-demo-btn')
+userFileDemoBtn.addEventListener('click', function (e) {
+    document.getElementById('user-demo-file').click()
+})
+</script>
+
+{% endblock data %}

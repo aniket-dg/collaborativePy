@@ -3,6 +3,13 @@
 {% block content %}
 
 <style>
+    .image.is-32x32 img{
+        object-fit:cover;
+        object-position:center;
+        width:100%;
+        height:100%;
+    }
+
     .hljs-type, .hljs-title, .hljs-section, .hljs-attribute, .hljs-quote, .hljs-built_in, .hljs-builtin-name{
        color: #3f88e3;
     }
@@ -450,7 +457,7 @@
                                         <li id="cat-panel-{{ item.id }}" class="">
                                            {% endif %}
                                             <a onclick="valSet('cat-panel-{{ item.id }}', 'category', '{{ item.id }}')">
-                                                <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="pt-3" data-feather="edit-3"></i></span></p>
+                                                <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="{{item.icon}}"></i></span></p>
                                                 <span style="padding-right: 2em;">{{ item }}</span>
                                             </a>
                                         </li>
@@ -565,7 +572,7 @@
                                                     <!-- Publication Channel -->
                                                     <div class="channel">
                                                         <div class="channel-icon">
-                                                            <i data-feather="globe"></i>
+                                                            <i class="fas fa-language"></i>
                                                         </div>
                                                         <div class="channel-name">Language</div>
                                                         <!-- Dropdown menu -->
@@ -589,8 +596,8 @@
                                                                         class="dropdown-item"
                                                                         style="border: none; background: none; cursor: pointer;">
                                                                         <div class="media">
-                                                                            <i data-feather="globe"></i>
-                                                                            <div class="media-content">
+                                                                            <i class="{{item.icon}}"></i>
+                                                                            <div class="media-content ml-2">
                                                                                 <h3>{{ item }}</h3>
                                                                                 <small>{{ item }} based Question</small>
                                                                             </div>
@@ -604,7 +611,7 @@
                                                     <!-- Publication Channel -->
                                                     <div class="channel">
                                                         <div class="channel-icon">
-                                                            <i data-feather="briefcase"></i>
+                                                            <i class="fas fa-code-branch"></i>
                                                         </div>
 
                                                         <div class="channel-name">Scope of Work</div>
@@ -631,8 +638,8 @@
                                                                         class="dropdown-item"
                                                                         style="border: none; background: none; cursor: pointer;">
                                                                         <div class="media">
-                                                                            <i data-feather="globe"></i>
-                                                                            <div class="media-content">
+                                                                            <i class="{{item.icon}}"></i>
+                                                                            <div class="media-content ml-2">
                                                                                 <h3>{{ item }}</h3>
                                                                                 <small>Choose to {{ item }}</small>
                                                                             </div>
@@ -745,7 +752,8 @@
                                                 <a id="filter-all" onmouseover="this.style.color='#039be5'" onmouseout="this.style.color='black'" onclick="clearAllFilters()">Sort By All</a>
                                             </li>
                                             {% for item in category %}
-                                            <li class="is-subactive">
+                                            <li class="is-subactive" style="display: flex; align-items:center;">
+                                                <i class="{{item.icon}}"></i>
                                                 <a id="cat-id-{{ item.id }}" onclick="setCategory('{{ item }}', 'cat-id-{{ item.id }}')">{{ item }}</a>
                                             </li>
                                             {% endfor %}
@@ -754,14 +762,7 @@
                                     </li>
                                     <li>
                                         <a>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-help-circle">
-                                                <circle cx="12" cy="12" r="10"></circle>
-                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                                            </svg>
+                                            <i class="fas fa-language" style="color: #4a4a4a;"></i>
                                             <span>LANGUAGES</span>
                                             <span class="close-icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -774,7 +775,8 @@
                                         </a>
                                         <ul class="submenu">
                                             {% for item in languages %}
-                                            <li>
+                                            <li style="display: flex; align-items:center;">
+                                                <i class="{{item.icon}}"></i>
                                                 <a id="lang-id-{{ item.id }}"  onclick="setLanguage('{{ item }}','lang-id-{{ item.id }}')">{{ item }}</a>
                                             </li>
                                             {% endfor %}
@@ -783,7 +785,7 @@
                                     </li>
                                     <li>
                                         <a>
-                                            <img src="https://img.icons8.com/ios/16/000000/info.png" />
+                                            <i class="fas fa-code-branch" style="color: #4a4a4a"></i>
                                             <span>Scope</span>
                                             <span class="close-icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -796,7 +798,8 @@
                                         </a>
                                         <ul class="submenu">
                                             {% for item in scopes %}
-                                            <li>
+                                            <li style="display: flex; align-items:center;">
+                                                <i class="{{item.icon}}"></i>
                                                 <a id="scope-id-{{ item.id }}"  onclick="setScope('{{ item }}', 'scope-id-{{ item.id }}')">{{ item }}</a>
                                             </li>
                                             {% endfor %}
@@ -997,6 +1000,11 @@
                 $("#dropdown-scope").removeClass('is-active');
             }
         }
+        // Close dropdowns
+        setTimeout(() => {
+            $('#dropdown-language').removeClass('is-active');
+            $("#dropdown-scope").removeClass('is-active');
+        }, 1);
     }
 
 

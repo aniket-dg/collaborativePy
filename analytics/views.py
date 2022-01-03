@@ -10,12 +10,13 @@ from django.views.generic import CreateView, UpdateView, DetailView, ListView, D
 
 from chat.forms import PostCreateForm
 from post.forms import SkeletonPostCreateForm
+from competition.forms import CompetitionCreateForm
 from post.models import Post, FlagInappropriate, SkeletonPost, FirstLevelCategory, SecondLevelCategory, ThirdLevelCategory, FourthLevelCategory, Language, Scope
 from home.models import Contact, NewsLetter
 from order.models import Plan
 from users.models import User
 from home.models import TPP
-
+from competition.models import Competion, UserSubmission
 
 class PlanCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Plan
@@ -652,3 +653,63 @@ class ScopeDeleteView(LoginRequiredMixin, DeleteView):
 
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
+
+# Competitions
+
+class CompetitionCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Competion
+    form_class = CompetitionCreateForm
+    template_name = 'analytics/competition_create.html'
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Competition created successfully!")
+        return redirect('analytics:competition-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class CompetitionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Competion
+    form_class = CompetitionCreateForm
+    template_name = 'analytics/competition_create.html'
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Competition updated successfully!")
+        return redirect('analytics:competition-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class CompetitionDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Competion
+    template_name = 'analytics/competition_detail.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class CompetitionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Competion
+
+    def delete(self, request, *args, **kwargs):
+        competition = self.get_object()
+        competition.delete()
+        messages.success(self.request, "Competition deleted!")
+        return redirect('analytics:competition-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class CompetitionListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Competion
+    paginate_by = 20
+    template_name = 'analytics/competition_list.html'
+    ordering = ['-id']
+
+    def test_func(self):
+        return self.request.user.is_staff

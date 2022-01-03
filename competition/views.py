@@ -14,13 +14,12 @@ import numpy as np
 import pandas as pd
 # Create your views here.
 
-
 class CompetionList(ListView):
-    model = Competion
+    model=Competion
     context_object_name = 'list'
     template_name = 'complist.html'
-
-
+       #return render(request,'complist.html',context)
+       
 class CompetionDetail(DetailView):
     model = Competion
     template_name ='compdetail.html'
@@ -31,21 +30,17 @@ class CompetionDetail(DetailView):
         competition = Competion.objects.filter(id=competition_id).last()
         user = self.request.user
         if user.is_authenticated:
-            user_submissions = UserSubmission.objects.filter(user=user, competition=competition)
-            if user_submissions.exists():
-                context['latest_sub'] = user_submissions.latest('submission_date')
-            context['best_sub'] = UserSubmission.objects.filter(user=user, competition=competition).order_by('-score').first()
+            context['user_submission']  = UserSubmission.objects.filter(user=user, competition=competition).last()
         context['submissions'] = UserSubmission.objects.filter(competition=competition).order_by('-score', 'submission_date')
         return context
     
 class ParticipantsVIew(View):
-       def get(self, *args, **kwargs):
+    def get(self, *args, **kwargs):
         context = {}
         competition = self.kwargs.get('pk')
         comp = Competion.objects.filter(id=competition)
-        return render(self.request,'complist.html',context)
         print(comp)
-        return redirect('http://127.0.0.1:8000/competion/competion-list/')
+        return render(self.request,'complist.html',context)
 
 class UserSubmissionView(LoginRequiredMixin, View):
     # def get(self, *args, **kwargs):
@@ -56,11 +51,16 @@ class UserSubmissionView(LoginRequiredMixin, View):
     #     return render(self.request, 'usersubmit.html', context)
 
     def post(self, *args, **kwargs):
+        """Handles user submissions for competitions"""
         competition_id = self.kwargs.get('pk', None)
         today = datetime.date.today()
         competition = Competion.objects.filter(id=competition_id, end__gte=today).last()
         user = self.request.user
         user_file = self.request.FILES.get('user_file', None)
+        has_submitted = UserSubmission.objects.filter(competition=competition, user=user).exists()
+        if has_submitted:
+            messages.error(self.request, 'You have already made a submission!')
+            return redirect('Competion:detail', pk=competition_id)
         if not user_file:
             messages.error(self.request, 'No file uploaded!')
             return redirect('Competion:detail', pk=competition_id)
@@ -83,12 +83,13 @@ class UserSubmissionView(LoginRequiredMixin, View):
             return redirect('Competion:detail', pk=competition_id)
     
     def _get_submission_score(self, user_file, admin_file):
+        """Returns score for submissions"""
         if user_file and admin_file:
             try:
                 user_df=pd.read_csv(user_file, sep=',')
                 admin_df=pd.read_csv(admin_file, sep=',')
-                col1 = 'Admin Title'
-                col2 = 'User Title'
+                col1 = 'admin solution'  # col name for admin_file
+                col2 = 'solution'  # col name for user_file
                 result = pd.concat([admin_df[col1],user_df[col2]], axis=1)
                 comparison_column = np.where(result[col1]==result[col2], 1, 0)
                 df_comparison_column = pd.DataFrame(comparison_column, columns=['Total'])

@@ -23,6 +23,7 @@ SCOPE_CHOICES = (
 
 class Scope(models.Model):
     name = models.CharField(max_length=200)
+    icon = models.CharField(max_length=100, default="fas fa-globe")
 
     def __str__(self):
         return f"{self.name}"
@@ -30,6 +31,7 @@ class Scope(models.Model):
 
 class Language(models.Model):
     name = models.CharField(max_length=200)
+    icon = models.CharField(max_length=100, default="fas fa-globe")
 
     def __str__(self):
         return f"{self.name}"
@@ -37,6 +39,7 @@ class Language(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
+    icon = models.CharField(max_length=100, default="fas fa-pencil-alt")
 
     def __str__(self):
         return f"{self.name}"
@@ -81,7 +84,7 @@ class FirstLevelCategory(models.Model):
 
 class SecondLevelCategory(models.Model):
     name = models.CharField(max_length=300)
-    first_category = models.ForeignKey(FirstLevelCategory, on_delete=models.CASCADE, related_name='firstCat')
+    first_category = models.ForeignKey(FirstLevelCategory, on_delete=models.CASCADE, related_name='firstCat', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -89,8 +92,8 @@ class SecondLevelCategory(models.Model):
 
 class ThirdLevelCategory(models.Model):
     name = models.CharField(max_length=300)
-    first_category = models.ForeignKey(FirstLevelCategory, on_delete=models.CASCADE)
-    second_category = models.ForeignKey(SecondLevelCategory, on_delete=models.CASCADE, related_name='firstCatThird')
+    first_category = models.ForeignKey(FirstLevelCategory, on_delete=models.CASCADE, null=True, blank=True)
+    second_category = models.ForeignKey(SecondLevelCategory, on_delete=models.CASCADE, related_name='firstCatThird', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -98,9 +101,9 @@ class ThirdLevelCategory(models.Model):
 
 class FourthLevelCategory(models.Model):
     name = models.CharField(max_length=300)
-    first_category = models.ForeignKey(FirstLevelCategory, on_delete=models.CASCADE)
-    second_category = models.ForeignKey(SecondLevelCategory, on_delete=models.CASCADE)
-    third_category = models.ForeignKey(ThirdLevelCategory, on_delete=models.CASCADE, related_name='firstCatFourth')
+    first_category = models.ForeignKey(FirstLevelCategory, on_delete=models.CASCADE, null=True, blank=True)
+    second_category = models.ForeignKey(SecondLevelCategory, on_delete=models.CASCADE, null=True, blank=True)
+    third_category = models.ForeignKey(ThirdLevelCategory, on_delete=models.CASCADE, related_name='firstCatFourth', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -108,7 +111,7 @@ class FourthLevelCategory(models.Model):
 
 class SkeletonPost(models.Model):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE)
-    first_level_category = models.ForeignKey(FirstLevelCategory, on_delete=models.CASCADE)
+    first_level_category = models.ForeignKey(FirstLevelCategory, on_delete=models.CASCADE, null=True, blank=True)
     second_level_category = models.ForeignKey(SecondLevelCategory, on_delete=models.CASCADE, null=True, blank=True)
     third_level_category = models.ForeignKey(ThirdLevelCategory, on_delete=models.CASCADE, null=True, blank=True)
     fourth_level_category = models.ForeignKey(FourthLevelCategory, on_delete=models.CASCADE, null=True, blank=True)

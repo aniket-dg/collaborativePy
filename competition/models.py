@@ -46,5 +46,10 @@ class UserSubmission(models.Model):
     submission_date = models.DateTimeField(auto_now_add=True)
     score = models.DecimalField(max_digits=5, decimal_places=2, default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'competition'], name='unique_submission')
+        ]
+
     def __str__(self):
         return f'Submission #{self.id} by {self.user.email}'

@@ -193,8 +193,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Email sending settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtpout.secureserver.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'Email'
-EMAIL_HOST_PASSWORD = 'Email_Pass'
+EMAIL_HOST_USER = 'info@stellar-ai.in'
+EMAIL_HOST_PASSWORD = 'Stellar.AI@101'
+
