@@ -550,22 +550,32 @@
                             </li>
 
                         </div>
+                        {% if request.user not in competion.participants.all %}
                         <div style="margin-left: 1rem;">
-                            <a href="{% url 'Competion:detail-chapter' competion.pk %}">
-                                <input type="button" value="Participate" class="btn-grad">
-                            </a>
+                            <form method="POST" action="{% url 'Competion:participate' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="pk" value="{{competion.pk}}">
+                                <button type="submit" id="participate-btn" class="btn-grad">
+                                    Participate
+                                </button>
+                            </form>
                         </div>
+                        {% endif %}
                     </ul>
 
                     <br>
 
                     <div class="abc">
+                        {% if request.user not in competion.participants.all %}
                         <center>
-                            <a href="{% url 'Competion:detail-chapter' competion.pk %}"
-                                style="margin-top: auto; margin-bottom: auto;">
-                                <input type="button" value="Participate" class="btn-participate"><br>
+                            <a href="#" onclick="$('#participate-btn').click()">
+                                <button class="btn-participate">
+                                    Participate
+                                </button>
                             </a>
                         </center>
+                        {% endif %}
+                        <br>
                     </div>
 
                     <div class="compdiv limiter">

@@ -3,7 +3,32 @@
 {% block content %}
 
 <style>
-    
+    .recommend-section{
+        position:absolute;
+        transform: translateY(-100%);
+        color: white;
+        background-color: #5596E6;
+        text-transform: uppercase;
+    }
+    .discount-section{
+        font-size: .9rem;
+        position: absolute;
+        inset: -3rem 0 auto 0;
+        min-width: 12rem;
+    }
+    .discount-percent{
+        line-height: normal;
+        font-size: .8rem;
+        padding: 5px 10px;
+        border-radius: 10rem;
+        color: white;
+        background-color: #5596E6;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    .original-price{
+        transform: translateY(-10px);
+    }
 </style>
 
 <!-- Content -->
@@ -29,21 +54,37 @@
         </div>
         <div class="row">
             {% for object in object_list %}
-            <div class="col-lg-4 col-md-4 m-b30 wow fadeInUp" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+            <div class="col-lg-4 col-md-4 m-b60 wow fadeInUp" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
                 <div class="pricingtable-wrapper">
-                    <div class="pricingtable-inner">
+                    <div class="pricingtable-inner" style="position: relative;">
+                        {% if object.is_recommended %}
+                        <div class="recommend-section w-100 p-1 d-flex align-items-center justify-content-center">
+                            Recommended
+                        </div>
+                        {% endif %}
                         <div class="pricingtable-price"> 
-                            <span style="font-size: 1.8em;" class="pricingtable-bx text-primary">₹{{ object.cost }}</span>
+                            <div style="font-size: 1.8em; position: relative;" class="pricingtable-bx text-primary">
+                                {% if object.cost %}
+                                    ₹{{ object.get_discounted_price|floatformat:1 }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                                {% if object.discount_percentage > 0 and object.cost %}
+                                <div class="discount-section d-flex align-items-center justify-content-evenly">
+                                    <span class="original-price"><s>₹ {{ object.cost|floatformat }}</s></span>
+                                    <span class="discount-percent ml-2">Save {{object.discount_percentage|floatformat}}%</span>
+                                </div>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="pricingtable-title">
                             <h2>{{ object.title }}</h2>
                         </div>
-                        <ul class="pricingtable-features px-4">
-                            <li>{{object.description}}</li>
-                            <!-- <li>30-40 Keywords</li>
-                            <li>Connect Domain</li>
-                            <li>Ideal for smaller professional websites</li>
-                            <li>Business &amp; eCommerce</li> -->
+                        <div class="mb-4 px-5" style="font-style:italic;">
+                            {{object.description | safe}}
+                        </div>
+                        <ul class="pricingtable-features px-5">
+                            {{object.features | safe}}
                         </ul>
                         <div class="pricingtable-footer"> <a href="{% if user.is_authenticated %}{% url 'order:payment-request' object.id %}{% else %}{% url 'user:login' %}{% endif %}" class="btn outline outline-1 radius-xl btn-aware">Buy Now<span></span></a> </div>
                     </div>

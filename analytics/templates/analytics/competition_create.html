@@ -54,6 +54,10 @@
         cursor: pointer;
         color: #5596E6;
     }
+
+    .errorlist{
+        display: none;
+    }
 </style>
 {% with 'ckeditorwidget' as widget_list %}
 <div style="max-width: 100%;" class="settings-form-wrapper">
@@ -93,9 +97,9 @@
 </div>
 {% endwith %}
 <script>
-    const adminFileDemoBtn = document.getElementById('hint_id_admin_file')
-    adminFileDemoBtn.addEventListener('click', function (e) {
-        document.getElementById('admin-demo-file').click()
-    })
+const adminFileDemoBtn = document.getElementById('hint_id_admin_file')
+adminFileDemoBtn.addEventListener('click', function (e) {
+    document.getElementById('admin-demo-file').click()
+})
 </script>
 {% endblock data %}

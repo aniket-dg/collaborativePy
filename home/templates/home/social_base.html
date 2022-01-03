@@ -70,7 +70,7 @@
                 <div class="navbar-start">
                     <!-- Navbar Search -->
                     {% url 'user:profile' as profile_path %}
-                    
+
                     <!-- <div class="navbar-item is-icon drop-trigger">
                         <a class="icon-link" href="javascript:void(0);">
                             <i data-feather="bell"></i>
@@ -251,7 +251,7 @@
                                             <!-- <button class="button icon-button grey-button raised">
                                                 <i data-feather="x"></i>
                                             </button> -->
-                                            <form method="post" 
+                                            <form method="post"
                                                 onsubmit="acceptFriendRequest(event, reload=false, alert=false);this.closest('.nav-drop-body').remove();">
                                                 <input type="hidden" name="id" value="{{ friend_request.connection_user.id }}">
                                                 {% csrf_token %}
@@ -594,7 +594,7 @@
                 <!-- <img class="dark-image" src="{% static 'social_assets/img/logo/friendkit-white.svg' %}" alt=""> -->
             </a>
             <div style="display: flex; overflow-x: auto; overflow-y: hidden;">
-                
+
                 <!-- <div class="navbar-item is-icon drop-trigger">
                     <a class="icon-link" href="javascript:void(0);">
                         <i data-feather="bell"></i>
@@ -784,7 +784,7 @@
                                         <!-- <button class="button icon-button grey-button raised">
                                             <i data-feather="x"></i>
                                         </button> -->
-                                        <form method="post" 
+                                        <form method="post"
                                             onsubmit="acceptFriendRequest(event, reload=false, alert=false);this.closest('.nav-drop-body').remove();">
                                             <input type="hidden" name="id" value="{{ friend_request.connection_user.id }}">
                                             {% csrf_token %}
@@ -822,7 +822,7 @@
                         <i class="mdi mdi-apps"></i>
                     </a>
                 </div> -->
-                
+
 
                 <div id="open-mobile-search" class="navbar-item is-icon">
                     <a class="icon-link is-primary" href="javascript:void(0);">
