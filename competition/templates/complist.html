@@ -3,9 +3,6 @@
 
 {% block content %}
 <style>
-    *, *::before, *::after {
-        box-sizing:unset;
-    }
     .activeBtn {
         color: white;
         border-radius: 20px;
@@ -14,8 +11,6 @@
         background-image: linear-gradient(to right, #519cf8, #1253a3);
         /* width: 100px; */
         padding-left: 37px;
-      
-
     }
 
     .lateBtn {
@@ -219,7 +214,9 @@
             {%if list.status == "Active" %}
             <div class="blog-post">
                 <div class="blog-post_img">
+                    {% if list.image %}
                     <img src="{{list.image.url}}" alt="">
+                    {% endif %}
                 </div>
                 <div class="blog-post_info">
                     <a href="{% url 'Competion:detail' list.id %}">
@@ -245,7 +242,9 @@
             <div class="conatiner">
                 <div class="blog-post">
                     <div class="blog-post_img">
+                        {% if list.image %}
                         <img src="{{list.image.url}}" alt="">
+                        {% endif %}
                     </div>
                     <div class="blog-post_info">
                         <a href="{% url 'Competion:detail' list.id %}">
@@ -270,7 +269,9 @@
             <div class="conatiner">
                 <div class="blog-post">
                     <div class="blog-post_img">
+                        {% if list.image %}
                         <img src="{{list.image.url}}" alt="">
+                        {% endif %}
                     </div>
                     <div class="blog-post_info">
                         <a href="{% url 'Competion:detail' list.id %}">

@@ -223,12 +223,12 @@
                                 <input type="password" name="password2" onblur="unlockNextBtn(event, this, 2, 'stepbtn2')" minlength="8"  class="input" placeholder="Repeat your password" required>
                             </div>
                         </div>
-                        <div class="field">
+                        <!-- <div class="field">
                             <label>Phone Number</label>
                             <div class="control">
                                 <input type="number" onblur="unlockNextBtn(event, this, 2, 'stepbtn2')"  class="input" name="phone_number" placeholder="Enter your phone number">
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="buttons">
@@ -349,14 +349,14 @@
 
         $('#registerForm').on('submit', function (e) {
             const formData = new FormData(document.getElementById('registerForm'));
-            if (formData.get('phone_number').length != 10){
-                alert('Phone number should be 10 digits long.')
-                return false;
-            }
-            if ([0,1,2,3,4,5].includes(parseInt(formData.get('phone_number').charAt(0)))){
-                alert('Invalid phone number.')
-                return false;
-            }
+            // if (formData.get('phone_number').length != 10){
+            //     alert('Phone number should be 10 digits long.')
+            //     return false;
+            // }
+            // if ([0,1,2,3,4,5].includes(parseInt(formData.get('phone_number').charAt(0)))){
+            //     alert('Invalid phone number.')
+            //     return false;
+            // }
             if (formData.get('password1') != formData.get('password2')){
                 alert('Passwords do not match! Please verify them.')
                 return false;
@@ -382,7 +382,6 @@
             [
                 "input[name='password1']",
                 "input[name='password2']",
-                "input[name='phone_number']",
             ]
         ]
         // Fires on blur event to unlock next btn

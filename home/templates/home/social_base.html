@@ -27,8 +27,8 @@
 <body>
 
     <!-- Pageloader -->
-    <div class="pageloader"></div>
-    <div class="infraloader is-active"></div>
+    <div class="pageloader" style="display: none;"></div>
+    <div class="infraloader is-active" style="display: none;"></div>
     <div class="app-overlay"></div>
 
     <div id="main-navbar" class="navbar navbar-v1 is-inline-flex is-transparent no-shadow is-hidden-mobile">
@@ -70,7 +70,7 @@
                 <div class="navbar-start">
                     <!-- Navbar Search -->
                     {% url 'user:profile' as profile_path %}
-                    
+
                     <!-- <div class="navbar-item is-icon drop-trigger">
                         <a class="icon-link" href="javascript:void(0);">
                             <i data-feather="bell"></i>
@@ -251,7 +251,7 @@
                                             <!-- <button class="button icon-button grey-button raised">
                                                 <i data-feather="x"></i>
                                             </button> -->
-                                            <form method="post" 
+                                            <form method="post"
                                                 onsubmit="acceptFriendRequest(event, reload=false, alert=false);this.closest('.nav-drop-body').remove();">
                                                 <input type="hidden" name="id" value="{{ friend_request.connection_user.id }}">
                                                 {% csrf_token %}
@@ -565,6 +565,7 @@
                                             </div>
                                         </div>
                                     </a>
+                                    {% if request.user.is_authenticated %}
                                     <a class="account-item" href="{% url 'user:logout' %}">
                                         <div class="media">
                                             <div class="icon-wrap">
@@ -576,6 +577,7 @@
                                             </div>
                                         </div>
                                     </a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -594,7 +596,7 @@
                 <!-- <img class="dark-image" src="{% static 'social_assets/img/logo/friendkit-white.svg' %}" alt=""> -->
             </a>
             <div style="display: flex; overflow-x: auto; overflow-y: hidden;">
-                
+
                 <!-- <div class="navbar-item is-icon drop-trigger">
                     <a class="icon-link" href="javascript:void(0);">
                         <i data-feather="bell"></i>
@@ -784,7 +786,7 @@
                                         <!-- <button class="button icon-button grey-button raised">
                                             <i data-feather="x"></i>
                                         </button> -->
-                                        <form method="post" 
+                                        <form method="post"
                                             onsubmit="acceptFriendRequest(event, reload=false, alert=false);this.closest('.nav-drop-body').remove();">
                                             <input type="hidden" name="id" value="{{ friend_request.connection_user.id }}">
                                             {% csrf_token %}
@@ -822,7 +824,7 @@
                         <i class="mdi mdi-apps"></i>
                     </a>
                 </div> -->
-                
+
 
                 <div id="open-mobile-search" class="navbar-item is-icon">
                     <a class="icon-link is-primary" href="javascript:void(0);">
@@ -878,9 +880,11 @@
                     <a href="#" class="navbar-item is-flex is-mobile-icon">
                         <span><i data-feather="help-circle"></i>Support</span>
                     </a>
+                    {% if request.user.is_authenticated %}
                     <a href="{% url 'user:logout' %}" class="navbar-item is-flex is-mobile-icon">
                         <span><i data-feather="power"></i>Log out</span>
                     </a>
+                    {% endif %}
                 </div>
             </div>
 

@@ -60,13 +60,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field">
-                                    <div class="control">
-                                        <a href="{% url 'user:password_reset' %}">
-                                            Forgot password?
-                                        </a>
-                                    </div>
-                                </div>
+<!--                                <div class="field">-->
+<!--                                    <div class="control">-->
+<!--                                        <a href="{% url 'user:password_reset' %}">-->
+<!--                                            Forgot password?-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <div class="field">
                                     <div class="control">
                                         <button type="submit" class="button is-solid primary-button raised is-rounded is-fullwidth">Login</button>
@@ -77,7 +77,7 @@
                         </div>
                         <div class="section forgot-password">
                             <div class="has-text-centered">
-<!--                                <a href="#">Forgot password?</a>-->
+                                <a href="{% url 'user:password_reset' %}">Forgot password?</a>
                             </div>
                         </div>
                     </div>

@@ -30,7 +30,7 @@
                                             <div class="row align-items-center gx-5">
                                                 <div class="col-auto">
                                                     <div class="avatar">
-                                                        <img src="{{ request.user.profile_image.url }}" alt="#" class="avatar-img" style="object-fit:cover;">
+                                                        <img src="{{ request.user.get_profile_img }}" alt="#" class="avatar-img" style="object-fit:cover;">
 
                                                         <div class="badge badge-circle bg-secondary border-outline position-absolute bottom-0 end-0">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
@@ -98,10 +98,12 @@
                                                                     <label for="profile-email">Email</label>
                                                                 </div>
 
-                                                                <div class="form-floating mb-6">
+                                                                {% comment %}
+                                                                <!-- <div class="form-floating mb-6">
                                                                     <input type="text" class="form-control" name="phone_number" id="profile-phone" value="{{ request.user.phone_number }}">
                                                                     <label for="profile-phone">Phone</label>
-                                                                </div>
+                                                                </div> -->
+                                                                {% endcomment %}
 
                                                                 <div class="form-floating mb-6">
                                                                     <input type="text" class="form-control" name="designation" id="profile-designation" value="{{ request.user.designation }}">
@@ -115,8 +117,6 @@
 
                                                                 <button type="submit" class="btn btn-block btn-lg btn-primary w-100">Save</button>
                                                             </form>
-
-
 
                                                         </div>
                                                     </div>
