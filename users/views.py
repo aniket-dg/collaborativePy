@@ -61,7 +61,11 @@ class SaveSessionForNotebook(LoginRequiredMixin, View):
             user.is_group_share = True
             user.group_id_share = group_id
             user.save()
-        return redirect("http://20.106.167.37/")
+        else:
+            user.is_group_share = False
+            user.group_id_share = ''
+            user.save()
+        return redirect("https://stellar-ai.in/jupyter/")
 
 class SignUpView(View):
     def get(self, *args, **kwargs):
