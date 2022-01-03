@@ -26,7 +26,7 @@
     }
 
     .beginBtn {
-        margin-left: 35px;
+        margin-left: 10px;
         color: #636369;
         border-radius: 20px;
         padding: 8px;
@@ -192,13 +192,13 @@
         <div class="nav-inner is-friends">
             <div class="option-tabs d-flex justify-content-start" style="width: 30rem;overflow-x: auto;">
                 <div class="option-tab is-active" data-tab="all-friends">
-                    ACTIVE
+                    Active
                 </div>
                 <div class="option-tab" data-tab="starred-friends" style="white-space: nowrap;">
-                    LATE SUBMISSION
+                    Late Submission
                 </div>
                 <div class="option-tab" data-tab="new-friends">
-                    CLOSED
+                    Closed
                 </div>
                 <div class="option-naver"></div>
             </div>
@@ -220,13 +220,13 @@
                 </div>
                 <div class="blog-post_info">
                     <a href="{% url 'Competion:detail' list.id %}">
-                        <h1 class="blog-post_title">{{ list.name }}</h1>
+                        <h1 class="mb-3" style="font-weight: 500;font-size: 22px;">{{ list.name }}</h1>
                     </a>
-                    <p class="blog-post_text">{{ list.overview | safe |truncatewords:30 }}</p>
+                    <p class="blog-post_text">{{ list.overview | safe |truncatewords:35 }}</p>
 
-                    <h3 class="activeBtn blog-post_cta" style="color: white;"> {{list.status}}</h3>
+                    <h3 class="activeBtn blog-post_cta" align="center" style="color: white;padding: 0.5em 3em;width: 150px;"> {{list.status}}</h3>
 
-                    <h3 class="beginBtn blog-post_cta" style="color:#636369;">{{list.level}}</h3>
+                    <h3 class="beginBtn blog-post_cta" align="center" style="color:#636369;width: 150px;">{{list.level}}</h3>
 
                 </div>
             </div>
@@ -248,13 +248,13 @@
                     </div>
                     <div class="blog-post_info">
                         <a href="{% url 'Competion:detail' list.id %}">
-                            <h1 class="blog-post_title">{{ list.name }}</h1>
-                        </a>
-                        <p class="blog-post_text">{{ list.overview | safe |truncatewords:30 }}</p>
+                        <h1 class="mb-3" style="font-weight: 500;font-size: 22px;">{{ list.name }}</h1>
+                    </a>
+                    <p class="blog-post_text">{{ list.overview | safe |truncatewords:35 }}</p>
 
-                        <h3 class="lateBtn blog-post_cta px-4" style="color: white;"> {{list.status}}</h3>
+                    <h3 class="activeBtn blog-post_cta" align="center" style="color: white;padding: 0.5em 3em;width: 150px;"> {{list.status}}</h3>
 
-                        <h3 class="beginBtn blog-post_cta" style="color:#636369;">{{list.level}}</h3>
+                    <h3 class="beginBtn blog-post_cta" align="center" style="color:#636369;width: 150px;">{{list.level}}</h3>
 
                     </div>
                 </div>
@@ -275,13 +275,15 @@
                     </div>
                     <div class="blog-post_info">
                         <a href="{% url 'Competion:detail' list.id %}">
-                            <h1 class="blog-post_title">{{ list.name }}</h1>
-                        </a>
-                        <p class="blog-post_text">{{ list.overview | safe |truncatewords:30 }}</p>
+                        <h1 class="mb-3" style="font-weight: 500;font-size: 22px;">{{ list.name }}</h1>
+                    </a>
+                    <p class="blog-post_text">{{ list.overview | safe |truncatewords:35 }}</p>
 
-                        <h3 class="activeBtn blog-post_cta" style="color: white;"> {{list.status}}</h3>
+                    <h3 class="activeBtn blog-post_cta" align="center" style="color: white;padding: 0.5em 3em;width: 150px;"> {{list.status}}</h3>
 
-                        <h3 class="beginBtn blog-post_cta" style="color:#636369;">{{list.level}}</h3>
+                    <h3 class="beginBtn blog-post_cta" align="center" style="color:#636369;width: 150px;">{{list.level}}</h3>
+
+
                     </div>
                 </div>
             </div>
