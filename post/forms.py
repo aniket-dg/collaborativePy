@@ -29,8 +29,7 @@ class SkeletonPostCommentForm(forms.ModelForm):
     class Meta:
         model = SkeletonPostComment
         fields = ['comment']
-        exclude = ['post', 'timestamp', 'user', 'image2', 'image3', 'image4',
-                  'image5']
+        exclude = ['post', 'timestamp', 'user', 'image2', 'image3', 'image4', 'image5']
 
     def __init__(self, user, *args, **kwargs):
         super(SkeletonPostCommentForm, self).__init__(*args, **kwargs)
