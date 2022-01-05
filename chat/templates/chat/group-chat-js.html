@@ -42,7 +42,7 @@
         // $('#video_call_form').show()
         // $('#audio_call_form').show()
         selectedIsUser = false;
-        $('#open-notebook').show()
+        $('.open-notebook').show()
 
         $('#chat-content-div').empty();
         readGroupUnreadMsg(groupId);
@@ -618,11 +618,16 @@
     let group_websocket_dict = {};
     {% for group in request.user.groups.all %}
 
-        let group_chatSocket_chat_{{ group.id }};
-        let receiver_group_{{group.id }} = "{{group.id }}";
-        group_chatSocket_chat_{{ group.id }} = new ReconnectingWebSocket(
-            'ws://' + window.location.host +
-            '/ws/chat/group/' + "{{ group.name }}" + '/'+ "{{ request.user.id }}" +'/');
+let group_chatSocket_chat_{{ group.id }};
+let receiver_group_{{group.id }} = "{{group.id }}";
+wsStart = 'ws://';
+loc = window.location;
+if(loc.protocol === 'https:'){
+wsStart = 'wss://';
+}
+group_chatSocket_chat_{{ group.id }} = new ReconnectingWebSocket(
+    wsStart + window.location.host +
+    '/ws/chat/group/' + "{{ group.name }}" + '/'+ "{{ request.user.id }}" +'/');
 
         group_websocket_dict["group_chatSocket_chat_{{ group.name }}"] = group_chatSocket_chat_{{ group.id }};
 
@@ -716,4 +721,3 @@
 
 
 </body>
-</html>

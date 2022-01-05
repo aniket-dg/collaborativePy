@@ -63,7 +63,7 @@
                                                     <div class="row align-items-center gx-5">
                                                         <div class="col-auto">
                                                             <a href="#" class="avatar ">
-                                                                <img class="avatar-img" style="object-fit: cover;" src="{{ connection.connection_user.profile_image.url }}" alt="">
+                                                                <img class="avatar-img" style="object-fit: cover;" src="{{ connection.connection_user.get_profile_img }}" alt="">
                                                             </a>
                                                         </div>
 
@@ -120,18 +120,16 @@
 
                                                     <div class="row align-items-center gx-5">
                                                         <div class="col-auto">
-                                                            <a href="#" class="avatar ">
-
-                                                                <img src="{{ user.profile_image.url }}" alt=""  style="object-fit: cover;" class="avatar-img">
-
+                                                            <a href="{% url 'user:friend-profile' user.id %}" class="avatar ">
+                                                                <img src="{{ user.get_profile_img }}" alt=""  style="object-fit: cover;" class="avatar-img">
 
                                                             </a>
                                                         </div>
 
-                                                        <div class="col">
+                                                        <a href="{% url 'user:friend-profile' user.id %}" style="color: inherit;" class="col">
                                                             <h5 data-search="full_name">{{ user.get_full_name }}</h5>
                                                             <p data-search="username">{{ user.username }}</p>
-                                                        </div>
+                                                        </a>
 
                                                         <div class="col-auto">
                                                             <!-- Dropdown -->
