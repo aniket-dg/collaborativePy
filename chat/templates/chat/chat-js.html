@@ -18,6 +18,7 @@
     let chatSocket;
     let currentUser = '{{ request.user.email }}';
     let session = '';
+    let selectedIsUser = null; // For user profile anchor
 
     {######  Variable used for personal notification and seperation of receiver #######}
 
@@ -166,7 +167,7 @@
                                                         ${data['body'] ? 
                                                             `
                                                             <div class="message-text">
-                                                                <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                                <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                             </div>
                                                             ` :
                                                             `
@@ -234,7 +235,7 @@
                                                     ${data['body'] ? 
                                                         `
                                                         <div class="message-text">
-                                                            <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                            <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                         </div>
                                                         ` :
                                                         `
@@ -338,7 +339,7 @@ function setReceiver(username,email, id, user_img_url=null,img_url=null, full_na
 
         $('#receiver_img_preview_id').prop("src",img_url);
         $('#sender_img_preview_id').prop("src",user_img_url);
-        $('#chatPanel-username').text(username);
+        $('#chatPanel-username').text(full_name);
 
 
 
@@ -355,16 +356,22 @@ function setReceiver(username,email, id, user_img_url=null,img_url=null, full_na
         $('#offcanvas_profile_img_url').prop("src", user_img_url);
         $('#offcanvas_profile_fullname').text(full_name);
         $('#offcanvas_profile_username').text(username);
-        $('#offcanvas-tab-profile-people').text('Profile') 
+        // $('#offcanvas-tab-profile-people').text('Profile')
         
         $('#offcanvas_profile_designation').text(designation).closest('.list-group-item').show();
         $('#offcanvas_profile_bio').text(bio).closest('.list-group-item').show();
+        if (!designation)
+            $('#offcanvas_profile_designation').closest('.list-group-item').hide()
+        if (!bio)
+            $('#offcanvas_profile_bio').closest('.list-group-item').hide();
         $('#offcanvas-dropdown').hide()
         $('#offcanvas_group_members').hide();
 
         {# Hiding Call and Chat #}
         // $('#video_call_form').hide()
         // $('#audio_call_form').hide()
+        selectedIsUser = true;
+        $('#open-notebook').hide()
 
 
         $('#receiver_for_msg_send').val(id);
@@ -432,7 +439,7 @@ function getMessageById(data) {
                                                     ${data['body'] ? 
                                                         `
                                                         <div class="message-text">
-                                                            <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                            <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                         </div>
                                                         ` :
                                                         `
@@ -496,7 +503,7 @@ function getMessageById(data) {
                                                     ${data['body'] ? 
                                                         `
                                                         <div class="message-text">
-                                                            <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                            <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                         </div>
                                                         ` :
                                                         `
@@ -543,13 +550,7 @@ function getMessageById(data) {
     {% for item in chat_list_user %}
         let chatSocket_chat_{{ item.id }};
         let receiver_{{ item.id }} = "{{ item.id }}";
-        loc = window.location;
-    wsStart = 'ws://';
-
-    if(loc.protocol === 'https:'){
-        wsStart = 'wss://';
-    }
-        chatSocket_chat_{{ item.id }} = new ReconnectingWebSocket(wsStart + window.location.host +
+        chatSocket_chat_{{ item.id }} = new ReconnectingWebSocket('ws://' + window.location.host +
         '/ws/chat/p/'+sender+"/"+receiver_{{ item.id }}+"/");
 
         websocket_dict["chatSocket_chat_{{ item.id }}"] = chatSocket_chat_{{ item.id }};
@@ -792,7 +793,7 @@ function getMessageById(data) {
         }
         // Check URL for media type
         function checkURL(url){
-            if (url.match(/\.(jpeg|jpg|gif|png)$/) != null) return 'image'
+            if (url.match(/\.(jpeg|jpg|gif|png|webp)$/) != null) return 'image'
             else if (url.match(/\.(mp4|ogg|webm)$/) != null) return 'video'
             else return 'file'
         }
@@ -908,6 +909,19 @@ function getMessageById(data) {
                     location.reload()
                 }
             })
+        }
+        // process body for links
+        function urlify(msg){
+            const regex = RegExp(/(https?:\/\/[^\s]+)/)
+            const processedMsg = msg.replace(regex, function(url) {
+                return `<a href="${url}" target="_blank" style="color: inherit; text-decoration:underline; overflow-wrap: anywhere;">${url}</a>`;
+            })
+            return processedMsg;
+        }
+        // show profile on click
+        function  showUserProfile(e) {
+            if (selectedIsUser)
+                $('#receiver_profile_url')[0].click()
         }
 </script>
 {###########################    End of Script For P2p Chat Socket   ##################}

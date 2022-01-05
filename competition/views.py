@@ -33,14 +33,23 @@ class CompetionDetail(DetailView):
             context['user_submission']  = UserSubmission.objects.filter(user=user, competition=competition).last()
         context['submissions'] = UserSubmission.objects.filter(competition=competition).order_by('-score', 'submission_date')
         return context
-    
-class ParticipantsVIew(View):
-    def get(self, *args, **kwargs):
-        context = {}
-        competition = self.kwargs.get('pk')
-        comp = Competion.objects.filter(id=competition)
-        print(comp)
-        return render(self.request,'complist.html',context)
+
+class ParticipateView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        competition_id = self.request.POST.get('pk', None)
+        today = datetime.date.today()
+        competition = Competion.objects.filter(id=competition_id, end__gte=today).last()
+        redirect_url = self.request.META.get('HTTP_REFERER')
+        user = self.request.user
+        if competition:
+            competition.participants.add(user)
+            messages.success(self.request, 'Participation successful.')
+        else:
+            messages.error(self.request, 'The competition has ended.')
+        if redirect_url:
+            return redirect(redirect_url)
+        else:
+            return redirect('Competion:detail', kwargs={'pk': competition_id})
 
 class UserSubmissionView(LoginRequiredMixin, View):
     # def get(self, *args, **kwargs):

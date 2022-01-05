@@ -8,10 +8,10 @@ from . import views
 app_name = 'Competion'
 
 urlpatterns = [
-    path('list/',views.CompetionList.as_view() , name='competionlist'),
-    path('detail/<int:pk>/',views.CompetionDetail.as_view(), name='detail'),
-    path('submissions/<int:pk>/',views.UserSubmissionView.as_view(), name='user-submissions'),
-    path('participants/<int:pk>/', views.ParticipantsVIew.as_view(), name='detail-chapter'),
+    path('list/', views.CompetionList.as_view(), name='competionlist'),
+    path('detail/<int:pk>/', views.CompetionDetail.as_view(), name='detail'),
+    path('submissions/<int:pk>/', views.UserSubmissionView.as_view(), name='user-submissions'),
+    path('participate/', views.ParticipateView.as_view(), name='participate'),
 ]
 if settings.DEBUG:
     urlpatterns += static.static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

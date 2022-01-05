@@ -31,7 +31,7 @@
         $('#offcanvas_profile_fullname').text(groupName);
         $('#offcanvas_profile_username').text(groupInfo);
         $('#update_group_id').val(groupId);
-        $('#offcanvas-tab-profile-people').text('People');
+        // $('#offcanvas-tab-profile-people').text('People');
 
         $('#offcanvas_profile_designation').closest('.list-group-item').hide();
         $('#offcanvas_profile_bio').closest('.list-group-item').hide();
@@ -41,6 +41,8 @@
         {# Showing Call and Chat #}
         // $('#video_call_form').show()
         // $('#audio_call_form').show()
+        selectedIsUser = false;
+        $('#open-notebook').show()
 
         $('#chat-content-div').empty();
         readGroupUnreadMsg(groupId);
@@ -306,7 +308,7 @@
                                                     ${data['body'] ? 
                                                             `
                                                             <div class="message-text">
-                                                                <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                                <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                             </div>
                                                             ` :
                                                             `
@@ -377,7 +379,7 @@
                                                     ${data['body'] ? 
                                                             `
                                                             <div class="message-text">
-                                                                <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                                <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                             </div>
                                                             ` :
                                                             `
@@ -498,7 +500,7 @@
                                                     ${data['body'] ? 
                                                             `
                                                             <div class="message-text">
-                                                                <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                                <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                             </div>
                                                             ` :
                                                             `
@@ -565,7 +567,7 @@
                                                     ${data['body'] ? 
                                                         `
                                                         <div class="message-text">
-                                                            <p style="overflow-wrap:anywhere;">${data['body']}</p>
+                                                            <p style="overflow-wrap:anywhere;">${urlify(data['body'])}</p>
                                                         </div>
                                                         ` :
                                                         `
@@ -618,13 +620,8 @@
 
         let group_chatSocket_chat_{{ group.id }};
         let receiver_group_{{group.id }} = "{{group.id }}";
-        wsStart = 'ws://';
-    loc = window.location;
-    if(loc.protocol === 'https:'){
-        wsStart = 'wss://';
-    }
         group_chatSocket_chat_{{ group.id }} = new ReconnectingWebSocket(
-            wsStart + window.location.host +
+            'ws://' + window.location.host +
             '/ws/chat/group/' + "{{ group.name }}" + '/'+ "{{ request.user.id }}" +'/');
 
         group_websocket_dict["group_chatSocket_chat_{{ group.name }}"] = group_chatSocket_chat_{{ group.id }};

@@ -170,6 +170,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </a>
+                                                                    {% if not user_friend %}
                                                                 <a class="dropdown-item" href="{% url 'chat:chat' %}">
                                                                     <div class="media">
                                                                         <i data-feather="message-square"></i>
@@ -179,6 +180,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </a>
+
                                                                 <hr class="dropdown-divider">
                                                                 <div onclick="this.querySelector(`button[type='submit']`).click()" class="dropdown-item w-100" style="cursor: pointer !important;">
                                                                     <div class="media">
@@ -192,7 +194,8 @@
                                                                             </form>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div></a>
+                                                                    {% endif %}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -243,6 +246,7 @@
                             </div>
                         </div>
                     </a>
+                    {% if not user_friend %}
                     <a class="dropdown-item" href="{% url 'chat:chat' %}">
                         <div class="media">
                             <i data-feather="message-square"></i>
@@ -252,6 +256,7 @@
                             </div>
                         </div>
                     </a>
+
                     <hr class="dropdown-divider">
                     <div onclick="this.querySelector(`button[type='submit']`).click()"  class="dropdown-item w-100" style="cursor: pointer !important;">
                         <div class="media">
@@ -266,6 +271,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
