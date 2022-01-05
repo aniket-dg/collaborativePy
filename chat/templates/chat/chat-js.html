@@ -550,9 +550,14 @@ function getMessageById(data) {
     {% for item in chat_list_user %}
         let chatSocket_chat_{{ item.id }};
         let receiver_{{ item.id }} = "{{ item.id }}";
-        chatSocket_chat_{{ item.id }} = new ReconnectingWebSocket('ws://' + window.location.host +
-        '/ws/chat/p/'+sender+"/"+receiver_{{ item.id }}+"/");
+        loc = window.location;
+    wsStart = 'ws://';
 
+    if(loc.protocol === 'https:'){
+        wsStart = 'wss://';
+    }
+        chatSocket_chat_{{ item.id }} = new ReconnectingWebSocket(wsStart + window.location.host +
+        '/ws/chat/p/'+sender+"/"+receiver_{{ item.id }}+"/");
         websocket_dict["chatSocket_chat_{{ item.id }}"] = chatSocket_chat_{{ item.id }};
 
         chatSocket_chat_{{ item.id }}.onopen = function (e)

@@ -9,6 +9,16 @@
 </script>
 
 <script>
+    const iceConfiguration = {
+    iceServers: [
+        {
+            urls: 'turn:turn.stellar-ai.in:5349',
+            username: 'stunserver_admin',
+            credential: 'stunserver_admin@101'
+        }
+        ]
+    }
+
     function webSocketOnMessage(event){
         let parsedData = JSON.parse(event.data);
         let peerUserName = parsedData['peer'];
@@ -168,7 +178,7 @@ let localStream = new MediaStream();
     }
 
     function createOfferer(peerUserName, receiver_channel_name){
-        let peer = new RTCPeerConnection(null);
+        let peer = new RTCPeerConnection(iceConfiguration);
 
         addLocalTracks(peer);
 
@@ -227,7 +237,7 @@ let localStream = new MediaStream();
 
 
     function createAnswerer(offer, peerUserName, receiver_channel_name){
-        let peer = new RTCPeerConnection(null);
+        let peer = new RTCPeerConnection(iceConfiguration);
 
         addLocalTracks(peer);
         let remoteVideo = createVideo(peerUserName);
