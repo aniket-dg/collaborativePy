@@ -67,6 +67,23 @@ class SaveSessionForNotebook(LoginRequiredMixin, View):
             user.save()
         return redirect("https://stellar-ai.in/jupyter/")
 
+class SaveSessionForNotebook(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        group_id = self.request.GET.get('group_id')
+        group_share = self.request.GET.get('group_share')
+        session = self.request.session
+        user = self.request.user
+        if group_share and group_id:
+            user.is_group_share = True
+            user.group_id_share = group_id
+            user.save()
+        else:
+            user.is_group_share = False
+            user.group_id_share = ''
+            user.save()
+        return redirect("https://stellar-ai.in/jupyter/")
+
+
 class SignUpView(View):
     def get(self, *args, **kwargs):
         register_form = RegistrationForm()
@@ -149,7 +166,8 @@ class CheckProfile:
             return redirect('user:profile')
         return super().dispatch(request, *args, **kwargs)
 
-class UserFriendProfileView(LoginRequiredMixin, CheckProfile,UserPassesTestMixin, DetailView):
+
+class UserFriendProfileView(LoginRequiredMixin, CheckProfile, UserPassesTestMixin, DetailView):
     model = User
     template_name = 'users/profile.html'
 
@@ -172,7 +190,7 @@ class UserFriendProfileView(LoginRequiredMixin, CheckProfile,UserPassesTestMixin
 
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = User
-    fields = ['email', 'first_name', 'last_name', 'phone_number', 'bio', 'designation', 'username']
+    fields = ['email', 'first_name', 'last_name', 'phone_number', 'bio', 'designation']
     template_name = 'users/test.html'
     success_message = 'Profile successfully updated'
 
@@ -190,6 +208,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     def test_func(self):
         model = self.get_object()
         return self.request.user == model
+
 
 class UserProfileImageUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = User
@@ -210,6 +229,7 @@ class UserProfileImageUpdateView(LoginRequiredMixin, UserPassesTestMixin, Succes
     def test_func(self):
         model = self.get_object()
         return self.request.user == model
+
 
 class BookMarkListView(LoginRequiredMixin, ListView):
     model = BookMark
@@ -352,6 +372,7 @@ class AcceptUserRequest(LoginRequiredMixin, View):
             'error': 'You did not receive a request from this user.'
         })
 
+
 class UnfriendUserAJAX(View):
     def post(self, *args, **kwargs):
         user_friend_id = self.request.POST.get('pk')
@@ -375,9 +396,10 @@ class UnfriendUserAJAX(View):
                 'data': 'User removed from your friend list'
             })
         return JsonResponse({
-                'status': 'failure',
-                'error': 'User not found'
-            })
+            'status': 'failure',
+            'error': 'User not found'
+        })
+
 
 class UnfriendUser(View):
     def get(self, *args, **kwargs):
@@ -408,7 +430,7 @@ class UnfriendUser(View):
             return redirect(redirect_url)
         return redirect('user:profile')
 
-        
+
 # class PasswordChangeDoneView(LoginRequiredMixin, )
 
 class UsersAndPostsSearchView(LoginRequiredMixin, View):
@@ -449,7 +471,8 @@ class UsersAndPostsSearchView(LoginRequiredMixin, View):
             'post_list': post_list
         })
 
-class LoadMoreFriends(LoginRequiredMixin,View):
+
+class LoadMoreFriends(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         user = self.request.user
         connected_users = user.get_user_connected_users()
@@ -471,6 +494,6 @@ class LoadMoreFriends(LoginRequiredMixin,View):
                 'username': item.username,
                 'name': item.first_name + " " + item.last_name,
                 'profile': profile,
-                'user_id':item.id,
+                'user_id': item.id,
             })
         return JsonResponse({'friends': friends})
