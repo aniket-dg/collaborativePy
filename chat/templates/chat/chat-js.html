@@ -371,7 +371,7 @@ function setReceiver(username,email, id, user_img_url=null,img_url=null, full_na
         // $('#video_call_form').hide()
         // $('#audio_call_form').hide()
         selectedIsUser = true;
-        $('#open-notebook').hide()
+        $('.open-notebook').hide()
 
 
         $('#receiver_for_msg_send').val(id);
@@ -558,6 +558,7 @@ function getMessageById(data) {
     }
         chatSocket_chat_{{ item.id }} = new ReconnectingWebSocket(wsStart + window.location.host +
         '/ws/chat/p/'+sender+"/"+receiver_{{ item.id }}+"/");
+
         websocket_dict["chatSocket_chat_{{ item.id }}"] = chatSocket_chat_{{ item.id }};
 
         chatSocket_chat_{{ item.id }}.onopen = function (e)
@@ -931,4 +932,3 @@ function getMessageById(data) {
 </script>
 {###########################    End of Script For P2p Chat Socket   ##################}
 </body>
-</html>

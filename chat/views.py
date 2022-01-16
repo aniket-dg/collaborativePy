@@ -18,7 +18,12 @@ from chat.forms import GroupCreateForm
 from chat.models import GroupChatModel, P2pChatModel, GroupChatUnreadMessage, GroupChat, UserMedia, UploadedMedia, GroupCallHistory
 from users.models import User
 from cryptography.fernet import Fernet
+from django.views.decorators.clickjacking import xframe_options_exempt
 
+@method_decorator(xframe_options_exempt, name='dispatch')
+class SampleView(View):
+    def get(self, *args, **kwargs):
+        return render(self.request, "chat/sample.html")
 
 @csrf_exempt
 def update_session(request):
@@ -536,9 +541,9 @@ class VideoCallView(View):
 
 fernet_key = b'YDMimaEVL722izWNn7WnnGlEMf53P-r3rAhXh967G00='
 
-
 class StartVideoCall(View):
     def post(self, *args, **kwargs):
+        context = {}
         group_id = self.request.POST.get('group_id')
         if not group_id:
             messages.warning(self.request, "Cannot start Video Call! Invalid Group Code")
@@ -550,10 +555,11 @@ class StartVideoCall(View):
         if group not in self.request.user.groups.all():
             messages.warning(self.request, "Group not exist!")
             return redirect('chat:chat')
-
-        group_call_history = GroupCallHistory(started_by=self.request.user)
+        group_call_history = GroupCallHistory.objects.filter(started_by=self.request.user, is_end=False).last()
+        if not group_call_history:
+            context['send_notifications'] = True
+            group_call_history = GroupCallHistory(started_by=self.request.user)
         group_call_history.save()
-        context = {}
 
         context['group'] = group
         context['user'] = self.request.user
@@ -562,17 +568,17 @@ class StartVideoCall(View):
         context['group_name'] = hash(group_name)  # use in websocket url
 
         context['is_group_creator'] = group.created_by == self.request.user
-
+        context['is_call_starter'] = True
         fernet = Fernet(fernet_key)
         join_url = fernet.encrypt(group_name.encode())
         context['join_url'] = join_url.decode('utf-8')
         print(join_url, "Aniket join url")
         return render(self.request, 'chat/video.html', context)
 
-
 class VideoCallReceiver(View):
     def get(self, *args, **kwargs):
         encrypted_group = self.kwargs.get('encrypt_group_name')
+
         context = {}
         fernet = Fernet(fernet_key)
 
@@ -616,6 +622,9 @@ class VideoCallReceiver(View):
         context['user'] = self.request.user
         group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"
         context['group_name'] = hash(group_name)
+        fernet = Fernet(fernet_key)
+        join_url = fernet.encrypt(group_name.encode())
+        context['join_url'] = join_url.decode('utf-8')
         return render(self.request, 'chat/video.html', context)
 
 

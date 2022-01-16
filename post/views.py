@@ -730,10 +730,10 @@ class LoadMoreBookmarkPost(View):
                 image5 = ""
             posts.append({
                 'user': post.post.user.get_full_name(), 'profile': profile, 'post_id': post.post.id,
-                'category': post.post.category,
-                'description': post.post.description, 'language': post.post.language,
+                'category': post.post.category.name,
+                'description': post.post.description, 'language': post.post.language.name,
                 'likes': post.post.liked_by.count(),
-                'scope_of_work': post.post.scope_of_work,
+                'scope_of_work': post.post.scope_of_work.name,
                 'timestamp': post.post.user.username,
                 'like_status': True if self.request.user in post.post.liked_by.all() else False, 'image1': image1,
                 'comments': PostComment.objects.filter(post=post.post).count(), 'image2': image2, 'image3': image3,

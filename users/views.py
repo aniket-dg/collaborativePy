@@ -63,25 +63,25 @@ class SaveSessionForNotebook(LoginRequiredMixin, View):
             user.save()
         else:
             user.is_group_share = False
-            user.group_id_share = ''
+            user.group_id_share = 0
             user.save()
         return redirect("https://stellar-ai.in/jupyter/")
 
-class SaveSessionForNotebook(LoginRequiredMixin, View):
-    def get(self, *args, **kwargs):
-        group_id = self.request.GET.get('group_id')
-        group_share = self.request.GET.get('group_share')
-        session = self.request.session
-        user = self.request.user
-        if group_share and group_id:
-            user.is_group_share = True
-            user.group_id_share = group_id
-            user.save()
-        else:
-            user.is_group_share = False
-            user.group_id_share = ''
-            user.save()
-        return redirect("https://stellar-ai.in/jupyter/")
+#class SaveSessionForNotebook(LoginRequiredMixin, View):
+#    def get(self, *args, **kwargs):
+#        group_id = self.request.GET.get('group_id')
+#        group_share = self.request.GET.get('group_share')
+#        session = self.request.session
+#        user = self.request.user
+#        if group_share and group_id:
+#            user.is_group_share = True
+#            user.group_id_share = group_id
+#            user.save()
+#        else:
+#            user.is_group_share = False
+#            user.group_id_share = ''
+#            user.save()
+#        return redirect("https://stellar-ai.in/jupyter/")
 
 
 class SignUpView(View):

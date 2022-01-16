@@ -56,7 +56,6 @@ class P2pConsumer(WebsocketConsumer):
     }
 
     def connect(self):
-        print("in connection")
         try:
             sender = self.scope['url_route']['kwargs']['sender']
             receiver = self.scope['url_route']['kwargs']['receiver']
@@ -108,7 +107,6 @@ class P2pConsumer(WebsocketConsumer):
             print(e)
 
     def receive(self, text_data):
-        print(text_data, "data in receive method of p2p")
         data = json.loads(text_data)
         print(data, "Anu")
         msg_id, receiver_id = self.save_single_message(data)
@@ -274,6 +272,17 @@ class VideoCallConsumer(AsyncWebsocketConsumer):
             message = receive_dict['message']
             action = receive_dict['action']
             print(message['receiver_channel_name'], action)
+            if action == "video-on" or action == "video-off" or action == 'audio-on' or action == 'audio-off':
+                receive_channel_name = receive_dict['message']['receiver_channel_name']
+                receive_channel_name = receive_dict['message']['receiver_channel_name']
+                receive_dict['message']['receiver_channel_name'] = self.channel_name
+                await self.channel_layer.send(
+                    receive_channel_name,
+                    {
+                        'type': 'send.sdp',
+                        'receive_dict': receive_dict
+                    }
+                )
             if action == 'new-offer' or action == 'new-answer':
                 receive_channel_name = receive_dict['message']['receiver_channel_name']
                 receive_dict['message']['receiver_channel_name'] = self.channel_name
@@ -303,4 +312,4 @@ class VideoCallConsumer(AsyncWebsocketConsumer):
             print(receive_dict)
             await self.send(text_data=json.dumps(receive_dict))
         except Exception as e:
-            print("In send_sdp",e)
+            print("In send_sdp", e)

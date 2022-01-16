@@ -45,8 +45,8 @@
                                             `{{ object.username }}`,
                                             `{{ object.email }}`,
                                             `{{ object.id }}`,
-                                            `{{ object.profile_image.url|default_if_none:''|escapejs }}`,
-                                            `{{ request.user.profile_image.url|default_if_none:''|escapejs }}`,
+                                            `{{ object.get_profile_img|default_if_none:''|escapejs }}`,
+                                            `{{ request.user.get_profile_img|default_if_none:''|escapejs }}`,
                                             `{{ object.get_full_name }}`,
                                             `{{ object.phone_number }}`,
                                             `{% url 'user:friend-profile' object.id %}`,
@@ -56,8 +56,8 @@
                                             <div class="card-body">
                                                 <div class="row gx-5">
                                                     <div class="col-auto">
-                                                        <div class="avatar avatar-online">
-                                                            <img {% if object.profile_image %}src="{{ object.profile_image.url }}"{% endif %}  alt="#" style="object-fit: cover;" class="avatar-img">
+                                                        <div class="avatar">
+                                                            <img src="{{ object.get_profile_img }}" alt="#" style="object-fit: cover;" class="avatar-img">
                                                         </div>
                                                     </div>
 
@@ -84,14 +84,14 @@
                                         onclick="setGroup(
                                             `{{ object.name }}`,
                                             `{{ object.profile_image.url|default_if_none:''|escapejs }}`,
-                                            `{{ request.user.profile_image.url|default_if_none:''|escapejs }}`,
+                                            `{{ request.user.get_profile_img|default_if_none:''|escapejs }}`,
                                             `{{ object.id }}`,
                                             `{{ object.group_info }}`)" 
                                             class="card border-0 text-reset">
                                             <div class="card-body">
                                                 <div class="row gx-5">
                                                     <div class="col-auto">
-                                                        <div class="avatar avatar-online">
+                                                        <div class="avatar">
                                                             <img {% if object.profile_image %}src="{{ object.profile_image.url }}"{% endif %}  alt="#"  style="object-fit: cover;" class="avatar-img">
                                                         </div>
                                                     </div>

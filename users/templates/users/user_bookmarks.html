@@ -1086,4 +1086,10 @@ function createBookMarkPost(posts)
         $('#flag-reason-bookemark').removeClass('is-hidden');
         $("input[name='flag-post-id']").val(id);
     }
+    
+    $(document).ready(function () {
+
+       let currentPosts = $('.profile-timeline-bookmark .is-post').length;
+       moreBookmarkPost();
+    });
 </script>

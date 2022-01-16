@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
-
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 SESSION_ENGINE = 'user_sessions.backends.db'
 SILENCED_SYSTEM_CHECKS = ['admin.E410']
 AUTHENTICATION_BACKENDS = (

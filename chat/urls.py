@@ -13,6 +13,7 @@ router.register(r'group/msg', api.GroupChatModelViewSet, basename='group-message
 # router.register(r'user/', api.UserModelSerializer, basename='user-api')
 
 urlpatterns = [
+    path('sample/', views.SampleView.as_view(), name='sample'),
 
     path('', views.ChatRoom.as_view(), name='chat'),
     path('update/session/', views.update_session, name='update-session'),
@@ -68,6 +69,7 @@ urlpatterns = [
 
     path('call/audio/', views.StartAudioCall.as_view(), name='audio-call'),
     path('audio/<str:encrypt_group_name>/', views.AudioCallReceiver.as_view(), name='audio-receiver'),
+    path('video/end/<str:encrypt_group_name>/', views.EndCall.as_view(), name='video-end'),
     path('audio/end/<str:encrypt_group_name>/', views.EndCall.as_view(), name='audio-end'),
     path('call/participant/<int:pk>/', views.CallParticpantInfo.as_view(), name='call-participant'),
 
