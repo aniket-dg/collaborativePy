@@ -1,0 +1,204 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from friendkit.cssninja.io/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 21 Oct 2021 14:42:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title> Stellar AI | Sign Up</title>
+    <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}"/>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/core.css' %}">
+</head>
+
+<body>
+    <!-- Pageloader -->
+    <div class="signup-wrapper">
+        <div class="fake-nav" style="height: 60px;">
+            <a href="/" class="logo">
+                <img src="{% static 'images/logo/color-logo.png' %}" style="width: 70px;" alt="">
+            </a>
+        </div>
+       <!-- Messages -->
+        <style>
+            .custom-alert{
+                height: fit-content;
+                position: fixed;
+                bottom: 1rem;
+                right: 1rem;
+                z-index: 999999;
+            }
+            .notification{
+                max-width: 80vw;
+                min-width: 280px;
+                padding: 1rem;
+                padding-right: 2rem;
+                animation: slide-up 6s ease-in-out 1 alternate forwards;
+            }
+            .notification.is-success {
+                background-color: #1ce589;
+                /* color: rgba(0,0,0,.7); */
+                color: #fff;
+            }
+            .notification.is-danger {
+                background-color: #f71416;
+                color: #fff;
+            }
+            .notification.is-info {
+                background-color: #3e8ed0;
+                color: #fff;
+            }
+            .notification.is-warning {
+                background-color: #ffe08a;
+                color: rgba(0,0,0,.7);
+            }
+            .notification>.delete {
+                right: .5rem;
+                position: absolute;
+                top: .5rem;
+                width: 20px;
+                height: 20px;
+                font-size: 0.7rem;
+                color: white;
+                background-color: rgba(10,10,10,.2);
+                border: none;
+                border-radius: 50%;
+                cursor: pointer;
+                pointer-events: auto;
+            }
+            @keyframes slide-up {
+                0%{
+                    opacity: 0;
+                    transform: translateY(1rem);
+                }
+                10%{
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                90%{
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                100%{
+                    opacity: 0;
+                    transform: translateY(1rem);
+                }
+            }
+        </style>
+        {% if messages %}
+        <div class="custom-alert is-custom">
+            {% for message in messages %}
+                <div class="notification {% if message.tags %} is-{{message.tags}} {% else %} is-primary {% endif %}" data-role="alert">
+                    <button class="delete" onclick="this.closest('.notification').remove()">&#10006;</button>
+                    {{message}}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="outer-panel">
+            <div class="outer-panel-inner">
+                <div class="process-title mt-3">
+                    <h2 id="step-title-3" class="step-title">One final step</h2>
+                </div>
+                <form method="post" id="registerForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div id="signup-panel-1" class="process-panel-wrap is-active is-narrow">
+                        <div class="form-panel">
+                            <div class="photo-upload mb-5">
+                                <div class="preview">
+                                    <img id="preview_profile_image" src="" alt="Uploaded Image" style="display: none;">
+                                    <label for="profile_image" class="upload-button">
+                                        <i data-feather="plus"></i>
+                                    </label>
+                                    <input name="profile_image" id="profile_image" type="file" accept="image/*" alt="" style="display: none;">
+                                </div>
+                                <div class="limitation">
+                                    <div class="is-fullwidth is-flex is-justify-content-center my-3">Set your profile picture</div>
+                                    <small>Only images with a size lower than 3MB are allowed.</small>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label>Username*</label>
+                                <div class="control">
+                                    <input type="text" class="input" name="username" required onblur="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your username">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="buttons">
+                            <button type="submit" class="button is-fullwidth" id="stepbtn2" style="background-color: #5596e6; color: white;">Continue</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Concatenated js plugins and jQuery -->
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{% static 'assets/data/tipuedrop_content.js' %}"></script>
+
+    <!-- Core js -->
+    <script src="{% static 'assets/js/global.js' %}"></script>
+
+    <!-- Navigation options js -->
+    <script src="{% static 'assets/js/navbar-v1.js' %}"></script>
+    <script src="{% static 'assets/js/navbar-v2.js' %}"></script>
+    <script src="{% static 'assets/js/navbar-mobile.js' %}"></script>
+    <script src="{% static 'assets/js/navbar-options.js' %}"></script>
+    <script src="{% static 'assets/js/sidebar-v1.js' %}"></script>
+
+    <!-- Core instance js -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/chat.js' %}"></script>
+    <script src="{% static 'assets/js/touch.js' %}"></script>
+    <script src="{% static 'assets/js/tour.js' %}"></script>
+
+    <!-- Components js -->
+    <script src="{% static 'assets/js/explorer.js' %}"></script>
+    <script src="{% static 'assets/js/widgets.js' %}"></script>
+    <script src="{% static 'assets/js/modal-uploader.js' %}"></script>
+    <script src="{% static 'assets/js/popovers-users.js' %}"></script>
+    <script src="{% static 'assets/js/popovers-pages.js' %}"></script>
+    <script src="{% static 'assets/js/lightbox.js' %}"></script>
+
+    <!-- Landing page js -->
+
+    <!-- Signup page js -->
+    <script src="{% static 'assets/js/signup.js' %}"></script>
+    <script>
+        {
+            let oldImage = null;
+            previewEl = document.getElementById('preview_profile_image');
+            document.getElementById('profile_image').addEventListener('change', function(e){
+                const file = e.target.files[0];
+                if (oldImage !== null) {
+                    URL.revokeObjectURL(oldImage)
+                    previewEl.style.display = 'none';
+                }
+                if (file){
+                    oldImage = URL.createObjectURL(file)
+                    previewEl.src = oldImage;
+                    previewEl.style.display = 'inline-block';
+                }
+            });
+        }
+        
+    </script>
+</body>
+<!-- Mirrored from friendkit.cssninja.io/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 21 Oct 2021 14:42:32 GMT -->
+</html>

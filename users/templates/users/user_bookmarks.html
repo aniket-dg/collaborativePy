@@ -852,10 +852,7 @@ function createBookMarkPost(posts)
     }
 
 
-    $(document).ready(function () {
 
-       let currentPosts = $('.profile-timeline-bookmark .is-post').length;
-    });
     function moreBookmarkPost()
     {
         console.log("More function called");
@@ -1086,4 +1083,10 @@ function createBookMarkPost(posts)
         $('#flag-reason-bookemark').removeClass('is-hidden');
         $("input[name='flag-post-id']").val(id);
     }
+
+    $(document).ready(function () {
+
+       let currentPosts = $('.profile-timeline-bookmark .is-post').length;
+       moreBookmarkPost();
+    });
 </script>

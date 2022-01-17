@@ -18,9 +18,12 @@ from post.models import Post
 from .forms import (
     RegistrationForm, LoginForm, UserUpdateForm
 )
+from django.utils.http import urlsafe_base64_decode
 from .models import User, Connection
 from post.models import Post, FlagInappropriate, BookMark
-from .utils import send_welcome_mail
+from .utils import send_welcome_mail, send_email_verification_mail
+from django.contrib.auth.tokens import default_token_generator
+from social_django.models import UserSocialAuth
 from chat.models import GroupChatModel
 
 
@@ -80,12 +83,58 @@ class SignUpView(View):
     def post(self, *args, **kwargs):
         register_form = RegistrationForm(self.request.POST, self.request.FILES)
         if register_form.is_valid():
-            register_form.save()
-            messages.success(self.request, 'Account successfully created')
+            user = register_form.save()
+
+            # user activation
+            send_email_verification_mail(self.request, user)
+            messages.success(self.request, 'Thank you for registering with us. We have mailed you a verification link to activate your account.')
             return redirect('user:login')
 
         messages.warning(self.request, 'Invalid registration information.')
         return redirect('user:register')
+
+
+class UserAccountActivateView(View):
+    def get(self, *args, **kwargs):
+        try:
+            uidb64 = kwargs['uidb64']
+            token = kwargs['token']
+            uid = urlsafe_base64_decode(uidb64).decode()
+            user = User._default_manager.get(pk=uid)
+        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+
+        if user is not None and default_token_generator.check_token(user, token):
+            user.is_active = True
+            user.save()
+            messages.success(self.request, 'Congratulations! Your account is activated.')
+            return redirect('user:login')
+        else:
+            messages.error(self.request, 'Invalid activation link')
+            return redirect('user:register')
+
+
+class GoogleOAuthSignUpView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        user_social_auth = UserSocialAuth.objects.filter(user=user, provider='google-oauth2').exists()
+        if user_social_auth:
+            return render(self.request, 'users/oauth_register.html')
+        else:
+            return redirect('user:login')
+    
+    def post(self, *args, **kwargs):
+        user = self.request.user
+        user.username = self.request.POST.get('username', None)
+        user.profile_image = self.request.FILES.get('profile_image', None)
+        try:
+            user.save()
+            messages.success(self.request, 'Account details saved.')
+            return redirect('home:home')
+        except Exception as e:
+            print(e)
+            messages.error(self.request, 'Username already taken.')
+            return render(self.request, 'users/oauth_register.html')
 
 
 # Login View
@@ -113,11 +162,11 @@ class LoginView(SuccessMessageMixin, FormView):
                     return redirect(url_redirect)
                 return redirect('home:home')
             else:
-                messages.warning(self.request, 'Your account is not active, Please contact Support!')
+                messages.warning(self.request, 'Your account is not active, check your mail for activation link or contact support!')
                 return redirect('user:login')
 
         if not user_query.is_active:
-            messages.warning(self.request, 'Your account is not active, Please contact Support!')
+            messages.warning(self.request, 'Your account is not active, check your mail for activation link or contact support!')
             return redirect('user:login')
         else:
             messages.warning(self.request, 'Email or Password is incorrect')
@@ -151,8 +200,7 @@ class CheckProfile:
             return redirect('user:profile')
         return super().dispatch(request, *args, **kwargs)
 
-
-class UserFriendProfileView(LoginRequiredMixin, CheckProfile, UserPassesTestMixin, DetailView):
+class UserFriendProfileView(LoginRequiredMixin, CheckProfile,UserPassesTestMixin, DetailView):
     model = User
     template_name = 'users/profile.html'
 
@@ -176,7 +224,7 @@ class UserFriendProfileView(LoginRequiredMixin, CheckProfile, UserPassesTestMixi
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = User
     fields = ['email', 'first_name', 'last_name', 'phone_number', 'bio', 'designation']
-    template_name = 'users/test.html'
+    template_name = 'users/profile.html'
     success_message = 'Profile successfully updated'
 
     def form_valid(self, form):
@@ -188,7 +236,10 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         return redirect('user:profile')
 
     def form_invalid(self, form):
-        return HttpResponse(form.errors.as_json())
+        redirect_url = self.request.META.get('HTTP_REFERER')
+        if redirect_url:
+            return redirect(redirect_url)
+        return redirect('user:profile')
 
     def test_func(self):
         model = self.get_object()
@@ -214,7 +265,6 @@ class UserProfileImageUpdateView(LoginRequiredMixin, UserPassesTestMixin, Succes
     def test_func(self):
         model = self.get_object()
         return self.request.user == model
-
 
 class BookMarkListView(LoginRequiredMixin, ListView):
     model = BookMark
@@ -357,7 +407,6 @@ class AcceptUserRequest(LoginRequiredMixin, View):
             'error': 'You did not receive a request from this user.'
         })
 
-
 class UnfriendUserAJAX(View):
     def post(self, *args, **kwargs):
         user_friend_id = self.request.POST.get('pk')
@@ -381,10 +430,9 @@ class UnfriendUserAJAX(View):
                 'data': 'User removed from your friend list'
             })
         return JsonResponse({
-            'status': 'failure',
-            'error': 'User not found'
-        })
-
+                'status': 'failure',
+                'error': 'User not found'
+            })
 
 class UnfriendUser(View):
     def get(self, *args, **kwargs):
@@ -415,7 +463,7 @@ class UnfriendUser(View):
             return redirect(redirect_url)
         return redirect('user:profile')
 
-
+        
 # class PasswordChangeDoneView(LoginRequiredMixin, )
 
 class UsersAndPostsSearchView(LoginRequiredMixin, View):
@@ -456,8 +504,7 @@ class UsersAndPostsSearchView(LoginRequiredMixin, View):
             'post_list': post_list
         })
 
-
-class LoadMoreFriends(LoginRequiredMixin, View):
+class LoadMoreFriends(LoginRequiredMixin,View):
     def get(self, *args, **kwargs):
         user = self.request.user
         connected_users = user.get_user_connected_users()
@@ -479,6 +526,19 @@ class LoadMoreFriends(LoginRequiredMixin, View):
                 'username': item.username,
                 'name': item.first_name + " " + item.last_name,
                 'profile': profile,
-                'user_id': item.id,
+                'user_id':item.id,
             })
         return JsonResponse({'friends': friends})
+
+
+# def create_oauth_user(backend, user, response, *args, **kwargs):
+#     print("OAUTH RAN")
+#     if backend.name == 'google_oauth2':
+#         print("OAUTH RAN")
+#         profile = User.objects.filter()
+#         if profile is None:
+#             profile = Profile(user_id=user.id)
+#         profile.gender = response.get('gender')
+#         profile.link = response.get('link')
+#         profile.timezone = response.get('timezone')
+#         profile.save()

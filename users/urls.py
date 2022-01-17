@@ -68,6 +68,10 @@ urlpatterns = [
 
     path('load/more/friends/', views.LoadMoreFriends.as_view(), name='load-more-friends'),
     path('redirect/notebook/', views.SaveSessionForNotebook.as_view(), name='redirect-notebook'),
+
+    # Social Login
+    path('oauth/', include('social_django.urls', namespace='social')),
+    path('oauth/register/', views.GoogleOAuthSignUpView.as_view(), name='oauth-register'),
 ]
 
 if settings.DEBUG:
