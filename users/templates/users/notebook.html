@@ -23,31 +23,27 @@
     <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
     <script src='https://8x8.vc/external_api.js'></script>
     <title>Notebook</title>
+
+    <style>
+        #target {
+            height: 100%;
+            overflow-x: auto;
+            overflow-y: auto;
+            resize: horizontal;
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+
 </head>
 <body>
     <div class="custom-container">
-        <main class="wrapper row p-3">
+        <main class="wrapper row" style="position: fixed;">
             {% if call_active %}
-            <div class="col-lg-2 h-100">
-            <button class="btn btn-primary" id="join_meeting">Video Meeting</button>
+            <div class="col-lg-2 p-0 h-100" id="target" style="display: none;">
                 <style>html, body, #jaas-container { height: 100%; }</style>
-        <script type="text/javascript">
-          myFunc = () => {
-            const api = new JitsiMeetExternalAPI("8x8.vc", {
-              roomName: "vpaas-magic-cookie-3d0475b359684cfe87e5bb7b9355aba1/{{ join_url }}",
-              parentNode: document.querySelector('#jaas-container')
-            });
-		api.on('readyToClose', () => {
-     console.log('Video Call ended');
-	window.location.reload();
-});
-          }
-          $('#join_meeting').on('click', ()=>{
-             myFunc();
-             $('#join_meeting').hide();
-          });
-        </script>
-                <section class="video-section" id="video-section">
+
+                <section class="video-section p-1" id="video-section">
 
 
                          <div id="jaas-container" />
@@ -55,7 +51,7 @@
                 </section>
             </div>
             {% endif %}
-            <div class="col h-100">
+            <div class="col p-0 h-100">
                 <section class="notebook-section">
                     <iframe src="{% url 'user:redirect-notebook' %}?group_id={{group_id}}&group_share={{group_share}}" allowfullscreen></iframe>
                     <!-- <iframe src="https://example.org/" allowfullscreen></iframe> -->
@@ -71,6 +67,26 @@
                                 <img src="{{group.profile_image.url}}" alt="Group Profile Image">
                             </div>
                             <p class="h3">{{group.group_name}}</p>
+                            <button class="btn btn-primary" style="margin-left: auto;" id="join_meeting">Video Meeting</button>
+
+                            <script type="text/javascript">
+          myFunc = () => {
+            const api = new JitsiMeetExternalAPI("8x8.vc", {
+              roomName: "vpaas-magic-cookie-3d0475b359684cfe87e5bb7b9355aba1/{{ join_url }}",
+              parentNode: document.querySelector('#jaas-container')
+            });
+		api.on('readyToClose', () => {
+     console.log('Video Call ended');
+	window.location.reload();
+});
+          }
+          $('#join_meeting').on('click', ()=>{
+             myFunc();
+             $('#join_meeting').hide();
+             document.getElementById("target").style.display = "block";
+          });
+        </script>
+
                         </div>
                         <div class="chat-area" id="chat-area">
                         </div>

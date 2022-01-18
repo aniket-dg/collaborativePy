@@ -69,7 +69,7 @@
                                 </div>
 <!--                                <div class="field">-->
 <!--                                    <div class="control">-->
-<!--                                        <a href="{% url 'user:password_reset' %}">-->
+<!--                                        <a href="{% url 'user:password_reset' %}" style="font-size: 13px;">-->
 <!--                                            Forgot password?-->
 <!--                                        </a>-->
 <!--                                    </div>-->
@@ -79,6 +79,12 @@
                                         <button type="submit" class="button is-solid primary-button raised is-rounded is-fullwidth">Login</button>
                                     </div>
                                 </div>
+
+                                   <div class="section forgot-password">
+                                        <div class="has-text-centered">
+                                            <a href="{% url 'user:password_reset' %}">Forgot password?</a>
+                                        </div>
+                                    </div>
 
                                 <a class="button button-tertiary is-flex is-justify-content-center my-4" href="{% url "user:social:begin" "google-oauth2" %}">
                                     <div class="is-align-self-center" style="width: 15px; height: 15px; display: inline-block;">
@@ -96,11 +102,7 @@
                                 </a>
                             </form>
                         </div>
-                        <div class="section forgot-password">
-                            <div class="has-text-centered">
-                                <a href="{% url 'user:password_reset' %}">Forgot password?</a>
-                            </div>
-                        </div>
+
 
 
                     </div>

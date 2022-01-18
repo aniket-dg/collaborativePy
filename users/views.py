@@ -551,14 +551,14 @@ class LoadMoreFriends(LoginRequiredMixin,View):
     def get(self, *args, **kwargs):
         user = self.request.user
         connected_users = user.get_user_connected_users()
-        p = Paginator(connected_users, 2)
+        p = Paginator(connected_users, 10)
         current_status = int(self.request.GET['current_friends'])
         if p.count <= current_status:
             return JsonResponse({
                 'Status': False,
                 'Message': 'No more friends!...'
             })
-        new_friends = list(p.get_page((current_status + 2) / 2))
+        new_friends = list(p.get_page((current_status + 10) / 10))
         friends = []
         for item in new_friends:
             if not item.profile_image:
