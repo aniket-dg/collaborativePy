@@ -13,7 +13,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import (
     FormView, UpdateView
 )
-
+from django.urls import reverse
 from post.models import Post
 from .forms import (
     RegistrationForm, LoginForm, UserUpdateForm
@@ -24,7 +24,9 @@ from post.models import Post, FlagInappropriate, BookMark
 from .utils import send_welcome_mail, send_email_verification_mail
 from django.contrib.auth.tokens import default_token_generator
 from social_django.models import UserSocialAuth
-from chat.models import GroupChatModel
+from chat.models import GroupChatModel, GroupCallHistory
+
+from push_notifications.models import GCMDevice
 
 
 class UserData(LoginRequiredMixin, View):
@@ -61,6 +63,7 @@ class SaveSessionForNotebook(LoginRequiredMixin, View):
         group_share = self.request.GET.get('group_share')
         session = self.request.session
         user = self.request.user
+        print(group_id, group_share, session, user)
         if group_share and group_id:
             user.is_group_share = True
             user.group_id_share = group_id
@@ -70,6 +73,37 @@ class SaveSessionForNotebook(LoginRequiredMixin, View):
             user.group_id_share = ''
             user.save()
         return redirect("https://stellar-ai.in/jupyter/")
+        # return redirect("https://127.0.0.1:8000/jupyter/")
+
+
+class OpenNotebook(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        group_id = int(self.request.GET.get('group_id'))
+        group_share = self.request.GET.get('group_share')
+        group = GroupChatModel.objects.get(id=group_id)
+        group_name_url = None
+        call_active = False
+
+        try:
+            group_call_history = GroupCallHistory.objects.filter(is_end=False).last()
+            group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"  # use in websocket url
+            group_name_url = hash(group_name)  # use in websocket url
+            call_active = True
+        except AttributeError as e:
+            print(e)
+
+
+        session = self.request.session
+        user = self.request.user
+        context={
+            'group_id':group_id,
+            'group_share':group_share,
+            'group_name': group.group_name,
+            'group': group,
+            'group_name_url': group_name_url,
+            'call_active': call_active,
+        }
+        return render(self.request, "users/notebook.html", context)
 
 
 class SignUpView(View):
@@ -126,13 +160,15 @@ class GoogleOAuthSignUpView(LoginRequiredMixin, View):
     def post(self, *args, **kwargs):
         user = self.request.user
         user.username = self.request.POST.get('username', None)
+        user.designation = self.request.POST.get('designation', None)
+        user.bio = self.request.POST.get('bio', None)
         user.profile_image = self.request.FILES.get('profile_image', None)
         try:
             user.save()
             messages.success(self.request, 'Account details saved.')
             return redirect('home:home')
         except Exception as e:
-            print(e)
+            # print(e)
             messages.error(self.request, 'Username already taken.')
             return render(self.request, 'users/oauth_register.html')
 
@@ -474,7 +510,7 @@ class UsersAndPostsSearchView(LoginRequiredMixin, View):
         post_list = []
         users = User.objects.filter(username__icontains=query)
         # posts = Post.objects.filter(description__icontains=query)
-        print(users)
+        # print(users)
 
         for user in users:
             # 0 -> Not Friend, 1 -> Already sent request, 2 -> Already Friend
@@ -487,7 +523,7 @@ class UsersAndPostsSearchView(LoginRequiredMixin, View):
                 'id': user.id,
                 'name': user.get_full_name(),
                 'username': user.username,
-                'profile_image_url': user.profile_image.url,
+                'profile_image_url': user.get_profile_img(),
                 'is_friend': is_friend
             })
         # for post in posts:
@@ -524,8 +560,9 @@ class LoadMoreFriends(LoginRequiredMixin,View):
                 profile = item.profile_image.url
             friends.append({
                 'username': item.username,
-                'name': item.first_name + " " + item.last_name,
-                'profile': profile,
+                'name': item.get_full_name(),
+                'profile_image_url': profile,
+                'profile_link': reverse('user:friend-profile', kwargs={'pk':item.id}),
                 'user_id':item.id,
             })
         return JsonResponse({'friends': friends})

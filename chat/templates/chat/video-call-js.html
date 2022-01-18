@@ -193,8 +193,8 @@ let localStream = new MediaStream();
                if(iceconnectionState !== 'closed'){
                    peer.close();
                }
-
-               removeVideo(remoteVideo);
+               if (!peerUserName.startsWith('viewer_'))
+                removeVideo(remoteVideo);
            }
         });
 
@@ -252,8 +252,8 @@ let localStream = new MediaStream();
                if(iceconnectionState !== 'closed'){
                    peer.close();
                }
-
-               removeVideo(remoteVideo);
+               if (!peerUserName.startsWith('viewer_'))
+                removeVideo(remoteVideo);
            }
         });
 
@@ -308,7 +308,8 @@ let localStream = new MediaStream();
         remoteVideo.playsInline = true;
         remoteVideo.classList.add('custom-video');
         remoteVideo.setAttribute('data-id', userId);
-        addVideoToDOM(remoteVideo, userId)
+        if (!peerUserName.startsWith('viewer_'))
+            addVideoToDOM(remoteVideo, userId)
 
         return remoteVideo;
     }
@@ -399,6 +400,30 @@ let localStream = new MediaStream();
         video.closest(`[data-delete='true']`).remove()
     }
 
+    // Fullscreen feature
+    let fullScreenEl;
+    document.getElementById('video-container').addEventListener('dblclick', (e)=>{
+        if(e.target && e.target.classList.contains('custom-video')) {
+            if (!document.fullscreenElement) {
+                fullScreenEl = e.target;
+                e.target.style.objectFit = 'contain';
+                e.target.closest('.video-participant').requestFullscreen().catch((err)=>{
+                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                })
+            } else {
+                e.target.style.objectFit = 'cover';
+                document.exitFullscreen();
+            }
+        }
+    })
+    document.addEventListener('fullscreenchange', (e)=>{
+        if(!document.fullscreenElement){
+            // runs when fullscreen is removed by escape key
+            if(fullScreenEl){
+                fullScreenEl.style.objectFit = 'cover'
+            }
+        }
+    })
 </script>
 
 

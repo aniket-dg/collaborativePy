@@ -121,10 +121,10 @@
                                     <label for="profile_image" class="upload-button">
                                         <i data-feather="plus"></i>
                                     </label>
-                                    <input name="profile_image" id="profile_image" type="file" accept="image/*" alt="" style="display: none;">
+                                    <input name="profile_image" id="profile_image" type="file" accept="image/*" alt="" style="display: none;" required>
                                 </div>
                                 <div class="limitation">
-                                    <div class="is-fullwidth is-flex is-justify-content-center my-3">Set your profile picture</div>
+                                    <div class="is-fullwidth is-flex is-justify-content-center my-3">Set your profile picture*</div>
                                     <small>Only images with a size lower than 3MB are allowed.</small>
                                 </div>
                             </div>
@@ -132,7 +132,22 @@
                             <div class="field">
                                 <label>Username*</label>
                                 <div class="control">
-                                    <input type="text" class="input" name="username" required onblur="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your username">
+                                    <input type="text" class="input" name="username" required placeholder="Enter your username">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label>Designation*</label>
+                                <div class="control">
+                                    <input type="text" class="input" name="designation" required placeholder="Enter your designation">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="email">Bio*</label>
+                                <div class="control">
+                                    <textarea type="text" id="bio" class="textarea" style="background: transparent !important; border: none;" 
+                                              name="bio" required placeholder="Enter a bio"></textarea>
                                 </div>
                             </div>
                         </div>

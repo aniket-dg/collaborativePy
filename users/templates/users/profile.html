@@ -2,185 +2,178 @@
 {% load static %}
 {% block content %}
 
-
+    <style>
+        .profile-info{
+            min-height: 180px;
+        }
+        .custom-profile-avatar{
+            top: -40px !important;
+            margin-top: 3rem !important;
+        }
+        .update-btn{
+            top: 180px;
+            max-width: 200px;
+        }
+        .custom-head{
+            margin-top: 6rem;
+        }
+        .custom-button{
+            min-width: 130px;
+            background: #5596e6;
+            color: #fff;
+        }
+        @media (min-width: 767px)  {
+            .update-btn{
+                top:.8rem;
+            }
+            .custom-head{
+                margin-top: 1rem;
+            }
+        }
+    </style>
     <div class="view-wrapper">
 
         <!-- Container -->
         <div class="container is-custom">
-           <div class="minimal-profile-wrapper">
-            <!-- Profile page main wrapper -->
-            <div id="profile-about" class="view-wrap is-headless">
-                <div class="columns is-multiline no-margin">
-                    <!-- Left side column -->
-                    <div class="column" style="background: #fff; margin: 1rem .75rem;">
-
-
-                    <div class="profile-info">
-                        <div class="left" style="margin-bottom: 5em;">
-                            <div class="profile-avatar">
-                                <img id="user-avatar-minimal" style="object-fit: cover;margin-top: 5em;" src="{{ profile_user.get_profile_img }}" data-demo-src="{{ profile_user.get_profile_img }}" alt="">
-                                {% if request.user == profile_user %}
-                                <button class="button is-solid secondary-button raised modal-trigger" style="margin-top: 4em;top: 100px;" data-modal="change-profile-pic-modal">
-                                    <i data-feather="plus"></i>
-                                </button>
-                                {% endif %}
+            <div class="minimal-profile-wrapper">
+                <!-- Profile page main wrapper -->
+                <div id="profile-about" class="view-wrap is-headless">
+                    <div class="columns is-multiline no-margin">
+                        <div class="column pb-5" style="background: #fff; margin: 1rem .75rem;">
+                            <div class="profile-info">
+                                <div class="left">
+                                    <div class="profile-avatar custom-profile-avatar modal-trigger" 
+                                         {% if request.user == profile_user %} data-modal="change-profile-pic-modal"{% endif %}>
+                                        <img id="user-avatar-minimal" style="object-fit: cover;" src="{{ profile_user.get_profile_img }}" data-demo-src="{{ profile_user.get_profile_img }}" alt="">
+                                    </div>
+                                    {% if request.user == profile_user %}
+                                    <a class="button modal-trigger mx-auto update-btn" data-modal="change-profile-pic-modal">
+                                        <i data-feather="camera"></i>
+                                        <span>&nbsp;&nbsp;Update Profile</span>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                                    
+                                <div class="right pl-0 pr-lg-3 pr-0">
+                                    <div class="head custom-head">
+                                        <h2>{{profile_user.get_full_name}}</h2>
+                                        {% if profile_user != request.user %}
+                                        <div class="actions">
+                                            {% if profile_user in request.user.get_user_connected_users %}
+                                            <a href="{% url 'chat:chat' %}" class="button is-solid custom-button raised">Send Message</a>
+                                            {% elif request_already_sent %}
+                                            <a class="button tertiary-button raised">Request Sent</a>
+                                            {% elif profile_user not in request.user.get_user_connected_users %}
+                                            <form method="POST" onsubmit="sendFriendRequest(event);$(this).next().show();$(this).hide();">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="id" value="{{profile_user.id}}">
+                                                <button type="submit" class="button is-solid custom-button raised">Send Request</button>
+                                            </form>
+                                            <a style="display: none;" class="button tertiary-button raised">Request Sent</a>
+                                            {% endif %}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="stats">
+                                        <span class="is-inline-flex is-align-items-center">
+                                            <i class="mdi mdi-account-group"></i>
+                                            &nbsp;
+                                            <span style="all:inherit; border:none; padding: 0;" id="total-friends-counter">
+                                                {{connected_users.count}}
+                                            </span>
+                                            &nbsp;Friends
+                                        </span>
+                                        <span class="is-inline-flex is-align-items-center">
+                                            <i class="mdi mdi-bag-checked"></i> 
+                                            &nbsp;{{form.designation.value}}
+                                        </span>
+                                    </div>
+                                    <div class="bio">
+                                        <p>{{form.bio.value|default_if_none:''}}</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div style="padding-top: 4em;">
-                            <a class="button is-fullwidth modal-trigger" data-modal="change-profile-pic-modal" >
-                                <i data-feather="camera"></i>
-                                <span>Update Profile</span>
-                            </a>
-                            </div>
-                        </div>
 
-                        <div class="right">
-                            <div class="head" style="padding: 0em;margin-bottom: 0em;">
-                                <h2>{{profile_user.get_full_name}}</h2>
-                                <div class="actions">
+                            <!-- <div class="cover-bg" style="margin-top: 5em;">
+                                <div class="avatar">
+                                    <img id="user-avatar" class="avatar-image" src="{{ profile_user.get_profile_img }}" data-demo-src="{{ profile_user.get_profile_img }}" alt="">
+                                    {% if request.user == profile_user %}
+                                    <div class="avatar-button">
+                                        <i data-feather="plus"></i>
+                                    </div>
+                                    {% endif %}
+                                    <div class="pop-button is-left has-tooltip modal-trigger" data-modal="change-profile-pic-modal" data-placement="right" data-title="Change profile picture">
+                                        <a class="inner">
+                                            <i data-feather="camera"></i>
+                                        </a>
+                                    </div>
+                                    <div id="chat-pop" class="pop-button is-center has-tooltip" data-placement="right" data-title="Chat">
+                                        <a href="{% url 'chat:chat' %}" class="inner">
+                                            <i data-feather="message-circle"></i>
+                                        </a>
+                                    </div>
+                                    <div class="pop-button is-right has-tooltip" data-placement="right" data-title="Send message">
+                                        <a href="mailto:{{profile_user.email}}" class="inner">
+                                            <i data-feather="mail"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="cover-overlay"></div>
+                            </div>
+    
+                            <div class="profile-menu is-hidden-mobile">
+                            </div>
+    
+                            <div class="profile-subheader">
+                                <div class="subheader-start is-hidden-mobile" style="float: right;">
+                                    <a class="button has-icon is-solid accent-button is-bold">
+                                        <i class="mdi mdi-account-group"></i>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <span style="all:inherit; border:none; padding: 0;" id="total-friends-counter">{{connected_users.count}}</span>&nbsp;Friends
+                                    </a>
+                                </div>
+                                <div class="subheader-middle" style="margin-top: 4em;">
+                                    <h2>{{profile_user.get_full_name}}</h2>
+                                    <span>{{profile_user.username}}</span>
+                                </div>
+                                <div class="subheader-end is-hidden-mobile" style="display: flex; justify-content: end;">
+    
                                     {% if profile_user == request.user %}
-                                    <a class="button" style="border: none;padding: 0em;margin: 0em;"></a>
-                                    {% elif request_already_sent %}
-                                    <a class="button is-solid secondary-button raised">Request Sent</a>
                                     {% elif profile_user in request.user.get_user_connected_users %}
-                                    <a class="button is-solid secondary-button raised">Send Message</a>
-                                    {% else %}
+                                    <a href="{% url 'chat:chat' %}" class="button has-icon is-bold menu-item" style="min-width: 130px;background: #5596e6;color: #fff;" data-content="education-content">
+                                        <i class="mdi mdi-message"></i>
+                                          &nbsp;&nbsp;&nbsp;Send Message
+                                    </a>
+                                    {% elif request_already_sent %}
+                                    <button class="button has-icon is-bold">&#10003;&nbsp;&nbsp; Request Sent</button>
+                                    
+                                    {% elif profile_user not in request.user.get_user_connected_users %}
                                     <form method="POST" onsubmit="sendFriendRequest(event);$(this).next().show();$(this).hide();">
                                         {% csrf_token %}
                                         <input type="hidden" name="id" value="{{profile_user.id}}">
-                                        <button type="submit" class="button is-solid secondary-button raised">Send Request</button>
+                                        <button type="submit" class="button has-icon is-bold menu-item" style="min-width: 130px;background: #5596e6;color: #fff;" data-content="education-content">
+                                            <i class="mdi mdi-send"></i>
+                                            &nbsp;&nbsp;&nbsp;Send Request
+                                        </button>
                                     </form>
+                                    <button style="display: none;" class="button has-icon is-bold">&#10003;&nbsp;&nbsp; Request Sent</button>
+    
                                     {% endif %}
-
+    
+                                    {% if form.designation.value %}
+                                    <a class="button has-icon is-bold menu-item" style="min-width: 130px; margin-left: 20px;" data-content="education-content">
+                                        <i class="mdi mdi-progress-check"></i>
+                                          &nbsp;&nbsp;&nbsp;{{form.designation.value}}
+                                    </a>
+                                    {% endif %}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="stats">
-<!--                                <span>174 posts</span>-->
-                                <span><i class="mdi mdi-account-group"></i> &nbsp;&nbsp;{{connected_users.count}} Friends</span>
-                                <span><i class="mdi mdi-progress-check"></i> &nbsp;&nbsp; {{form.designation.value}}</span>
-                            </div>
-                            <div class="bio">
-                                <p>{{form.bio.value}}</p>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
-
-
-<!--                    </div>-->
-
-                        <!-- Timeline Header -->
-                        <div class="cover-bg" style="margin-top: 5em;">
-<!--                            <br><br><br><br><br><br>-->
-<!--                             <img class="cover-image" src="https://via.placeholder.com/1600x460" data-demo-src="https://friendkit.cssninja.io/assets/img/demo/bg/4.png" alt="">-->
-                            <div class="avatar">
-                                <img id="user-avatar" class="avatar-image" src="{{ profile_user.get_profile_img }}" data-demo-src="{{ profile_user.get_profile_img }}" alt="">
-                                {% if request.user == profile_user %}
-                                <div class="avatar-button">
-                                    <i data-feather="plus"></i>
-                                </div>
-                                {% endif %}
-                                <div class="pop-button is-left has-tooltip modal-trigger" data-modal="change-profile-pic-modal" data-placement="right" data-title="Change profile picture">
-                                    <a class="inner">
-                                        <i data-feather="camera"></i>
-                                    </a>
-                                </div>
-<!--                                <div id="follow-pop" class="pop-button pop-shift is-left has-tooltip" data-placement="top" data-title="Subscription">-->
-<!--                                    <a class="inner">-->
-<!--                                        <i class="inactive-icon" data-feather="bell"></i>-->
-<!--                                        <i class="active-icon" data-feather="bell-off"></i>-->
-<!--                                    </a>-->
-<!--                                </div>-->
-                                <!-- <div id="invite-pop" class="pop-button pop-shift is-left has-tooltip" data-placement="top" data-title="Relationship">
-                                    <a href="#" class="inner">
-                                        <i class="inactive-icon" data-feather="plus"></i>
-                                        <i class="active-icon" data-feather="minus"></i>
-                                    </a>
-                                </div> -->
-                                <div id="chat-pop" class="pop-button is-center has-tooltip" data-placement="right" data-title="Chat">
-                                    <a href="{% url 'chat:chat' %}" class="inner">
-                                        <i data-feather="message-circle"></i>
-                                    </a>
-                                </div>
-                                <div class="pop-button is-right has-tooltip" data-placement="right" data-title="Send message">
-                                    <a href="mailto:{{profile_user.email}}" class="inner">
-                                        <i data-feather="mail"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="cover-overlay"></div>
-
-                        </div>
-
-                        <div class="profile-menu is-hidden-mobile">
-<!--                            <div class="menu-start">-->
-<!--                                <a href="profile-main.html" class="button has-min-width">{{form.designation.value}}</a>-->
-<!--                                <a href="profile-about.html" class="button has-min-width">About</a>-->
-<!--                            </div>-->
-<!--                            <div class="menu-end">-->
-<!--                                <a id="profile-friends-link" href="profile-friends.html" class="button has-min-width">Friends</a>-->
-<!--                                <a href="profile-photos.html" class="button has-min-width">Photos</a>-->
-<!--                            </div>-->
-                        </div>
-
-                        <div class="profile-subheader">
-                            <div class="subheader-start is-hidden-mobile" style="float: right;">
-<!--                                <span>{{connected_users.count}}</span>-->
-<!--                                <span>Friends</span>-->
-                                <a class="button has-icon is-solid accent-button is-bold">
-                                    <i class="mdi mdi-account-group"></i>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <span style="all:inherit; border:none; padding: 0;" id="total-friends-counter">{{connected_users.count}}</span>&nbsp;Friends
-                                </a>
-
-                                {% if form.bio.value %}
-                                <p class="p-2 mt-2" style="font-size: 12px;"><i class="mdi mdi-information-outline"></i>  &nbsp;&nbsp;{{form.bio.value}}</p>
-                                {% endif %}
-                                <!--                                <p class="p-2" style="font-size: 12px;font-weight: bold;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>  &nbsp;&nbsp;Manager</p>-->
-
-                            </div>
-                            <div class="subheader-middle" style="margin-top: 4em;">
-                                <h2>{{profile_user.get_full_name}}</h2>
-                                <span>{{profile_user.username}}</span>
-                            </div>
-                            <div class="subheader-end is-hidden-mobile" style="display: flex; justify-content: end;">
-
-                                {% if profile_user == request.user %}
-                                <!-- If profile_user is request.user -->
-
-                                {% elif profile_user in request.user.get_user_connected_users %}
-                                <a href="{% url 'chat:chat' %}" class="button has-icon is-bold menu-item" style="min-width: 130px;background: #5596e6;color: #fff;" data-content="education-content">
-                                    <i class="mdi mdi-message"></i>
-                                      &nbsp;&nbsp;&nbsp;Send Message
-                                </a>
-                                {% elif request_already_sent %}
-                                <button class="button has-icon is-bold">&#10003;&nbsp;&nbsp; Request Sent</button>
-
-                                {% elif profile_user not in request.user.get_user_connected_users %}
-                                <form method="POST" onsubmit="sendFriendRequest(event);$(this).next().show();$(this).hide();">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="id" value="{{profile_user.id}}">
-                                    <button type="submit" class="button has-icon is-bold menu-item" style="min-width: 130px;background: #5596e6;color: #fff;" data-content="education-content">
-                                        <i class="mdi mdi-send"></i>
-                                        &nbsp;&nbsp;&nbsp;Send Request
-                                    </button>
-                                </form>
-                                <button style="display: none;" class="button has-icon is-bold">&#10003;&nbsp;&nbsp; Request Sent</button>
-
-                                {% endif %}
-
-                                {% if form.designation.value %}
-                                <a class="button has-icon is-bold menu-item" style="min-width: 130px; margin-left: 20px;" data-content="education-content">
-                                    <i class="mdi mdi-progress-check"></i>
-                                      &nbsp;&nbsp;&nbsp;{{form.designation.value}}
-                                </a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
 
                 <div class="column">
-
                     <!-- About sections -->
                     <div class="profile-about side-menu">
                         <div class="left-menu">
@@ -200,7 +193,7 @@
                                     </div>
                                 </div>
 
-<!--                                <div class="menu-item" data-content="personal-content-list">-->
+                                <!--                                <div class="menu-item" data-content="personal-content-list">-->
 <!--                                    <div class="menu-icon">-->
 <!--                                        <i class="mdi mdi-account-box-multiple"></i>-->
 <!--                                        <span>Request Friends List</span>-->
@@ -348,7 +341,7 @@
 
             </div>
         </div>
-
+        
                 </div>
 
             </div>
@@ -392,7 +385,7 @@
                 </form>
             </div>
         </div>
-
+        
     </div>
 
 
@@ -441,7 +434,7 @@
 
         acceptFriendRequest(event, reload=false, alert=false)
 
-        const placeholderEl = $('#page-placeholder');
+        const placeholderEl = $('#page-placeholder-friends');
         if (placeholderEl.length){
            $(placeholderEl).remove();
         }
@@ -492,18 +485,18 @@
             totalFriendsCounterEl.innerText = friendsCount;
             if (friendsCount <= 0){
                 totalFriendsCounterEl.innerText = 0;
-                const placeholderEl = $('#page-placeholder');
+                const placeholderEl = $('#page-placeholder-friends');
                 if (placeholderEl.length){
                     $(placeholderEl).show();
                 } else {
                     const html = `
-                        <div class="page-placeholder" id="page-placeholder">
-                            <div class="placeholder-content">
-                                <img class="light-image" src="{% static 'social_assets/img/illustrations/placeholders/2.svg' %}" alt="" />
-                                <img class="dark-image" src="{% static 'social_assets/img/illustrations/placeholders/2-dark.svg' %}" alt="" />
-                                <h3>You don't have any friends yet.</h3>
-                            </div>
+                    <div class="page-placeholder page-placeholder-friends" id="page-placeholder-friends">
+                        <div class="placeholder-content">
+                            <img class="light-image" src="{% static 'social_assets/img/illustrations/placeholders/2.svg' %}" alt="" />
+                            <img class="dark-image" src="{% static 'social_assets/img/illustrations/placeholders/2-dark.svg' %}" alt="" />
+                            <h3>You don't have any friends yet.</h3>
                         </div>
+                    </div>
                     `
                     document.getElementById('connected-users').insertAdjacentHTML('beforeend', html);
                 }

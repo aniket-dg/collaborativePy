@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'post',
     'competition',
 
+    "push_notifications",
+
     # Third Party Modules
     'crispy_forms',  # crispy forms
     'ckeditor',  # Rich text editor

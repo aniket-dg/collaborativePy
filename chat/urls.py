@@ -36,8 +36,6 @@ urlpatterns = [
     path('api/chat/delete/combine/msg/<int:pk>/', views.DeleteCombineMessage.as_view(), name='api-delete-combine-msg'),
     path('api/chat/clear/all/chat/<int:pk>/', views.ClearAllChat.as_view(), name='api-clear-all-chat'),
 
-
-
     path('api/group/sender/msg/delete/<int:pk>/', views.DeleteSenderGroupChatMessage.as_view(), name='api-group'
                                                                                                      '-delete-msg'
                                                                                                      '-sender'),
@@ -48,8 +46,8 @@ urlpatterns = [
                                                                                                         '-delete-msg'
                                                                                                         '-receiver'),
     path('api/group/clear/all/chat/<int:pk>/', views.ClearAllGroupChat.as_view(), name='api-clear-all-group-chat'),
-    path('api/group/combine/delete/<int:pk>/', views.DeleteCombineGroupMessage.as_view(), name='api-combine-group-chat'),
-
+    path('api/group/combine/delete/<int:pk>/', views.DeleteCombineGroupMessage.as_view(),
+        name='api-combine-group-chat'),
 
     path('upload/', views.Upload.as_view(), name='upload-data'),
 
@@ -60,7 +58,6 @@ urlpatterns = [
     path('delete/group/', views.DeleteGroupView.as_view(), name='delete-group'),
     path('add/member/group/', views.AddMemberToGroupView.as_view(), name='add-member-group'),
 
-
     path('video/call/', views.VideoCallView.as_view(), name='video-call1'),
 
     path('call/video/', views.StartVideoCall.as_view(), name='video-call'),
@@ -68,7 +65,8 @@ urlpatterns = [
 
     path('call/audio/', views.StartAudioCall.as_view(), name='audio-call'),
     path('audio/<str:encrypt_group_name>/', views.AudioCallReceiver.as_view(), name='audio-receiver'),
+    path('video/end/<str:encrypt_group_name>/', views.EndCall.as_view(), name='video-end'),
     path('audio/end/<str:encrypt_group_name>/', views.EndCall.as_view(), name='audio-end'),
     path('call/participant/<int:pk>/', views.CallParticpantInfo.as_view(), name='call-participant'),
-
+    path('loadmore/remaining_users/', views.LoadMoreRemainingUsers.as_view(), name='load-more-remaining-users'),
 ]
