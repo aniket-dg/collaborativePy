@@ -17,6 +17,13 @@
         .custom-head{
             margin-top: 6rem;
         }
+        .custom-username{
+            color:#A2A5B9; 
+            font-size: 1rem;
+            margin-top: .6rem;
+            display: flex;
+            justify-content: center;
+        }
         .custom-button{
             min-width: 130px;
             background: #5596e6;
@@ -28,6 +35,9 @@
             }
             .custom-head{
                 margin-top: 1rem;
+            }
+            .custom-username{
+                justify-content: start;
             }
         }
     </style>
@@ -56,7 +66,10 @@
                                     
                                 <div class="right pl-0 pr-lg-3 pr-0">
                                     <div class="head custom-head">
-                                        <h2>{{profile_user.get_full_name}}</h2>
+                                        <h2>
+                                            {{profile_user.get_full_name}}
+                                            <p class="custom-username">{{profile_user.username}}</h6>
+                                        </h2>
                                         {% if profile_user != request.user %}
                                         <div class="actions">
                                             {% if profile_user in request.user.get_user_connected_users %}

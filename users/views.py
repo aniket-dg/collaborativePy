@@ -108,6 +108,8 @@ class OpenNotebook(LoginRequiredMixin, View):
 
 class SignUpView(View):
     def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('post:post')
         register_form = RegistrationForm()
         context = {
             'register_form': register_form,
@@ -176,8 +178,12 @@ class GoogleOAuthSignUpView(LoginRequiredMixin, View):
 # Login View
 class LoginView(SuccessMessageMixin, FormView):
     form_class = LoginForm
-    template_name = 'users/login.html'
     success_url = '/'
+
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('post:post')
+        return render(self.request, 'users/login.html')
 
     def form_valid(self, form):
         credentials = form.cleaned_data

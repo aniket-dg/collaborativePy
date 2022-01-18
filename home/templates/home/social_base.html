@@ -109,6 +109,9 @@
                             </div>
                         </div>
                     </div> -->
+
+                    {% if request.user.is_authenticated %}
+
                     {% if total_message_count > 0 %}
                     <div class="navbar-item is-icon drop-trigger" title="Chatroom">
                     {% else %}
@@ -214,6 +217,8 @@
                             <span class="indicator"></span>
                         </a>
                     </div>
+
+                        {% endif %}
 
                     {% if all_friend_requests|length > 0 %}
                     <div class="navbar-item is-icon drop-trigger" {% if request.path == profile_path %} onclick='$(`.menu-item[data-content="personal-content"]`).click()' {% endif %} title="Friends">
@@ -455,9 +460,9 @@
                             {% if request.user.is_authenticated %}
                                 <img src="{{ request.user.get_profile_img }}" data-demo-src="{{ request.user.get_profile_img }}" alt="Your Profile Photo">
                             {% else %}
-                            <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" alt="Your Profile Photo">
+                            <img src="{% static 'images/icon/user.png' %}" data-demo-src="{% static 'images/icon/user.png' %}" alt="Profile">
                             {% endif %}
-                            <span class="indicator"></span>
+<!--                            <span class="indicator"></span>-->
                         </div>
 
                         <div class="nav-drop is-account-dropdown">
@@ -476,7 +481,9 @@
                                         </span>
                                     </label>
                                 </div> -->
+
                                 <div class="nav-drop-body account-items">
+                                    {% if request.user.is_authenticated %}
                                     <a id="profile-link" href="{% url 'user:profile' %}" class="account-item">
                                         <div class="media">
                                             <div class="media-left">
@@ -488,11 +495,12 @@
                                                 <h3>{{request.user.get_full_name}}</h3>
                                                 <small>{{request.user.username}}</small>
                                             </div>
-                                            <div class="media-right">
-                                                <i data-feather="check"></i>
-                                            </div>
+<!--                                            <div class="media-right">-->
+<!--                                                <i data-feather="check"></i>-->
+<!--                                            </div>-->
                                         </div>
                                     </a>
+                                    {% endif %}
                                     <hr class="account-divider">
                                     <!-- <a href="" class="account-item">
                                         <div class="media">
