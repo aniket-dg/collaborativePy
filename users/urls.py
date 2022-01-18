@@ -68,6 +68,8 @@ urlpatterns = [
 
     path('load/more/friends/', views.LoadMoreFriends.as_view(), name='load-more-friends'),
     path('redirect/notebook/', views.SaveSessionForNotebook.as_view(), name='redirect-notebook'),
+    path('open/notebook/', views.OpenNotebook.as_view(), name='open-notebook'),
+
 ]
 
 if settings.DEBUG:

@@ -12,9 +12,38 @@
 
 	const iceConfiguration = {
         iceservers: [
-	{
-                urls: '"stun:meet-jit-si-turnrelay.jitsi.net:443"',
+            {
+                urls: ',
+            {
+                urls: 'stun:stun4.l.google.com:19302',
+            },
+            {
+                urls: 'stun:stun.webcalldirect.com:3478',
+            },
+            {
+                urls:  'stun:stun.voipwise.com:3478',
+            },
+            {
+                urls: 'turn:148.72.244.99:3478',
+                username: 'aniket',
+                credential: '123456'
+            }',
+            },
+            {
+                urls: 'stun:stun4.l.google.com:19302',
+            },
+            {
+                urls: 'stun:stun.webcalldirect.com:3478',
+            },
+            {
+                urls:  'stun:stun.voipwise.com:3478',
+            },
+            {
+                urls: 'turn:148.72.244.99:3478',
+                username: 'aniket',
+                credential: '123456'
             }
+
         ]
     };
   let receiver_channel_name;

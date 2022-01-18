@@ -13,15 +13,18 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import (
     FormView, UpdateView
 )
-
+from django.urls import reverse
 from post.models import Post
 from .forms import (
     RegistrationForm, LoginForm, UserUpdateForm
 )
+from django.utils.http import urlsafe_base64_decode
 from .models import User, Connection
 from post.models import Post, FlagInappropriate, BookMark
 from .utils import send_welcome_mail
-from chat.models import GroupChatModel
+from django.contrib.auth.tokens import default_token_generator
+from social_django.models import UserSocialAuth
+from chat.models import GroupChatModel, GroupCallHistory
 
 
 class UserData(LoginRequiredMixin, View):
@@ -51,37 +54,54 @@ class UserData(LoginRequiredMixin, View):
             content_type='application/json'
         )
 
+
 class SaveSessionForNotebook(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         group_id = self.request.GET.get('group_id')
         group_share = self.request.GET.get('group_share')
         session = self.request.session
         user = self.request.user
+        print(group_id, group_share, session, user)
         if group_share and group_id:
             user.is_group_share = True
             user.group_id_share = group_id
             user.save()
         else:
             user.is_group_share = False
-            user.group_id_share = 0
+            user.group_id_share = ''
             user.save()
         return redirect("https://stellar-ai.in/jupyter/")
+        # return redirect("https://127.0.0.1:8000/jupyter/")
 
-#class SaveSessionForNotebook(LoginRequiredMixin, View):
-#    def get(self, *args, **kwargs):
-#        group_id = self.request.GET.get('group_id')
-#        group_share = self.request.GET.get('group_share')
-#        session = self.request.session
-#        user = self.request.user
-#        if group_share and group_id:
-#            user.is_group_share = True
-#            user.group_id_share = group_id
-#            user.save()
-#        else:
-#            user.is_group_share = False
-#            user.group_id_share = ''
-#            user.save()
-#        return redirect("https://stellar-ai.in/jupyter/")
+
+class OpenNotebook(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        group_id = int(self.request.GET.get('group_id'))
+        group_share = self.request.GET.get('group_share')
+        group = GroupChatModel.objects.get(id=group_id)
+        group_name_url = None
+        call_active = False
+
+        try:
+            group_call_history = GroupCallHistory.objects.filter(is_end=False).last()
+            group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"  # use in websocket url
+            group_name_url = hash(group_name)  # use in websocket url
+            call_active = True
+        except AttributeError as e:
+            print(e)
+
+        session = self.request.session
+        user = self.request.user
+        context = {
+            'group_id': group_id,
+            'group_share': group_share,
+            'group_name': group.name,
+            'group': group,
+            'group_name_url': group_name_url,
+            'call_active': call_active,
+            'join_url': group_name_url
+        }
+        return render(self.request, "users/notebook.html", context)
 
 
 class SignUpView(View):
@@ -95,12 +115,61 @@ class SignUpView(View):
     def post(self, *args, **kwargs):
         register_form = RegistrationForm(self.request.POST, self.request.FILES)
         if register_form.is_valid():
-            register_form.save()
-            messages.success(self.request, 'Account successfully created')
+            user = register_form.save()
+
+            # user activation
+            send_email_verification_mail(self.request, user)
+            messages.success(self.request,
+                             'Thank you for registering with us. We have mailed you a verification link to activate your account.')
             return redirect('user:login')
 
         messages.warning(self.request, 'Invalid registration information.')
         return redirect('user:register')
+
+
+class UserAccountActivateView(View):
+    def get(self, *args, **kwargs):
+        try:
+            uidb64 = kwargs['uidb64']
+            token = kwargs['token']
+            uid = urlsafe_base64_decode(uidb64).decode()
+            user = User._default_manager.get(pk=uid)
+        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+
+        if user is not None and default_token_generator.check_token(user, token):
+            user.is_active = True
+            user.save()
+            messages.success(self.request, 'Congratulations! Your account is activated.')
+            return redirect('user:login')
+        else:
+            messages.error(self.request, 'Invalid activation link')
+            return redirect('user:register')
+
+
+class GoogleOAuthSignUpView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        user_social_auth = UserSocialAuth.objects.filter(user=user, provider='google-oauth2').exists()
+        if user_social_auth:
+            return render(self.request, 'users/oauth_register.html')
+        else:
+            return redirect('user:login')
+
+    def post(self, *args, **kwargs):
+        user = self.request.user
+        user.username = self.request.POST.get('username', None)
+        user.designation = self.request.POST.get('designation', None)
+        user.bio = self.request.POST.get('bio', None)
+        user.profile_image = self.request.FILES.get('profile_image', None)
+        try:
+            user.save()
+            messages.success(self.request, 'Account details saved.')
+            return redirect('home:home')
+        except Exception as e:
+            # print(e)
+            messages.error(self.request, 'Username already taken.')
+            return render(self.request, 'users/oauth_register.html')
 
 
 # Login View
@@ -128,11 +197,13 @@ class LoginView(SuccessMessageMixin, FormView):
                     return redirect(url_redirect)
                 return redirect('home:home')
             else:
-                messages.warning(self.request, 'Your account is not active, Please contact Support!')
+                messages.warning(self.request,
+                                 'Your account is not active, check your mail for activation link or contact support!')
                 return redirect('user:login')
 
         if not user_query.is_active:
-            messages.warning(self.request, 'Your account is not active, Please contact Support!')
+            messages.warning(self.request,
+                             'Your account is not active, check your mail for activation link or contact support!')
             return redirect('user:login')
         else:
             messages.warning(self.request, 'Email or Password is incorrect')
@@ -191,7 +262,7 @@ class UserFriendProfileView(LoginRequiredMixin, CheckProfile, UserPassesTestMixi
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = User
     fields = ['email', 'first_name', 'last_name', 'phone_number', 'bio', 'designation']
-    template_name = 'users/test.html'
+    template_name = 'users/profile.html'
     success_message = 'Profile successfully updated'
 
     def form_valid(self, form):
@@ -203,7 +274,10 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         return redirect('user:profile')
 
     def form_invalid(self, form):
-        return HttpResponse(form.errors.as_json())
+        redirect_url = self.request.META.get('HTTP_REFERER')
+        if redirect_url:
+            return redirect(redirect_url)
+        return redirect('user:profile')
 
     def test_func(self):
         model = self.get_object()
@@ -430,7 +504,7 @@ class UnfriendUser(View):
             return redirect(redirect_url)
         return redirect('user:profile')
 
-
+        
 # class PasswordChangeDoneView(LoginRequiredMixin, )
 
 class UsersAndPostsSearchView(LoginRequiredMixin, View):
@@ -454,7 +528,7 @@ class UsersAndPostsSearchView(LoginRequiredMixin, View):
                 'id': user.id,
                 'name': user.get_full_name(),
                 'username': user.username,
-                'profile_image_url': user.profile_image.url,
+                'profile_image_url': user.get_profile_img(),
                 'is_friend': is_friend
             })
         # for post in posts:
@@ -492,8 +566,21 @@ class LoadMoreFriends(LoginRequiredMixin, View):
                 profile = item.profile_image.url
             friends.append({
                 'username': item.username,
-                'name': item.first_name + " " + item.last_name,
-                'profile': profile,
+                'name': item.get_full_name(),
+                'profile_image_url': profile,
+                'profile_link': reverse('user:friend-profile', kwargs={'pk': item.id}),
                 'user_id': item.id,
             })
         return JsonResponse({'friends': friends})
+
+# def create_oauth_user(backend, user, response, *args, **kwargs):
+#     print("OAUTH RAN")
+#     if backend.name == 'google_oauth2':
+#         print("OAUTH RAN")
+#         profile = User.objects.filter()
+#         if profile is None:
+#             profile = Profile(user_id=user.id)
+#         profile.gender = response.get('gender')
+#         profile.link = response.get('link')
+#         profile.timezone = response.get('timezone')
+#         profile.save()

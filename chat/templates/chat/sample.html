@@ -1,114 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-<h1>Video</h1>
-<div id="video-container">
-<video id="local-video" autoplay playsinline muted></video>
-    <video id="remote-video" autoplay playsinline></video>
-
-</div>
-<script>
-    const iceConfiguration = {};
-
-iceConfiguration.iceServers = [];
-//turn server
-iceConfiguration.iceServers.push({
-                urls: 'turn:148.72.244.99:3478',
-                username: 'aniket',
-                credential: '123456'
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <script src='https://8x8.vc/external_api.js' async></script>
+        <style>html, body, #jaas-container { height: 100%; }</style>
+        <script type="text/javascript">
+          window.onload = () => {
+            const api = new JitsiMeetExternalAPI("8x8.vc", {
+              roomName: "vpaas-magic-cookie-3d0475b359684cfe87e5bb7b9355aba1/{{ join_url }}",
+              parentNode: document.querySelector('#jaas-container')
             });
-//stun  server
-iceConfiguration.iceServers.push({
-                urls: 'stun:stun1.l.google.com:19302'
-            });
-    let peer;
-    let dc;
-    function createMeeting()
-    {
-         peer = new RTCPeerConnection(iceConfiguration);
-
-        dc = peer.createDataChannel('channel');
-
-        dc.onopen = e => {
-            console.log("data connection open");
-        }
-        dc.onmessage = ev => {
-            console.log("New message : "+ev.data);
-        }
-        peer.onicecandidate = ev => {
-            console.log("New ice candidate"+JSON.stringify(peer.localDescription));
-        }
-        peer.createOffer().then(o =>peer.setLocalDescription(o)).then(a=>{
-            console.log("Offer set success");
-        });
-    }
-
-    let rc;
-    {#let offer;#}
-    function setReceiver(offer)
-    {
-        rc = new RTCPeerConnection(iceConfiguration);
-        addLocalTracks(rc);
-        rc.onicecandidate = e => {
-            console.log("New ice candidate"+JSON.stringify(rc.localDescription))
-        }
-        rc.ondatachannel = e => {
-            rc.dc = e.channel;
-            rc.dc.onmessage = e=> console.log("New mesge from client"+e.data);
-            rc.dc.onopen = e=> console.log("Connection opened");
-        }
-        rc.setRemoteDescription(offer).then(a=>console.log("Offer set"))
-        rc.createAnswer().then( a=> rc.setLocalDescription(a)).then(a=>console.log("Answer created"))
-    }
-
-    function setAnswer(answer, lc)
-    {
-        lc.setRemoteDescription(answer);
-    }
-
-let localStream = new MediaStream();
-
-    const constraints = {
-        'video': true,
-        'audio': true
-    }
-
-    const localVideo = document.querySelector('#local-video');
-
-    const btnToggleAudio = document.querySelector('#btn-toggle-audio');
-    const btnToggleVideo = document.querySelector('#btn-toggle-video');
-
-
-
-    let userMedia = navigator.mediaDevices.getUserMedia(constraints)
-        .then(stream => {
-
-            localStream = stream;
-            localVideo.srcObject = localStream;
-            localVideo.muted = true;
-
-
-            let audioTracks = stream.getAudioTracks();
-            let videoTracks = stream.getVideoTracks();
-
-            audioTracks[0].enabled = true;
-            videoTracks[0].enabled = true;
-
-        })
-        .catch(error =>{
-            console.log('Error accessing media devices', error);
-        });
-    function addLocalTracks(peer){
-        localStream.getTracks().forEach(track => {
-            peer.addTrack(track, localStream);
-        });
-        return;
-    }
-</script>
-</body>
-</html>
+		api.on('readyToClose', () => {
+     console.log('Video Call ended');
+	window.location.href = 'https://stellar-ai.in/chat/';
+});
+          }
+        </script>
+      </head>
+      <body><div id="jaas-container" /></body>
+    </html>
+  

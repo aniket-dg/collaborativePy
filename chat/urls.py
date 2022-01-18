@@ -13,7 +13,7 @@ router.register(r'group/msg', api.GroupChatModelViewSet, basename='group-message
 # router.register(r'user/', api.UserModelSerializer, basename='user-api')
 
 urlpatterns = [
-    path('sample/', views.SampleView.as_view(), name='sample'),
+    #  path('sample/', views.SampleView.as_view(), name='sample'),
 
     path('', views.ChatRoom.as_view(), name='chat'),
     path('update/session/', views.update_session, name='update-session'),
@@ -65,12 +65,12 @@ urlpatterns = [
     path('video/call/', views.VideoCallView.as_view(), name='video-call1'),
 
     path('call/video/', views.StartVideoCall.as_view(), name='video-call'),
-    path('video/<str:encrypt_group_name>/', views.VideoCallReceiver.as_view(), name='video-receiver'),
+    path('video/<str:app_name>/<str:encrypt_group_name>/', views.VideoCallReceiver.as_view(), name='video-receiver'),
 
     path('call/audio/', views.StartAudioCall.as_view(), name='audio-call'),
     path('audio/<str:encrypt_group_name>/', views.AudioCallReceiver.as_view(), name='audio-receiver'),
     path('video/end/<str:encrypt_group_name>/', views.EndCall.as_view(), name='video-end'),
     path('audio/end/<str:encrypt_group_name>/', views.EndCall.as_view(), name='audio-end'),
     path('call/participant/<int:pk>/', views.CallParticpantInfo.as_view(), name='call-participant'),
-
+    path('loadmore/remaining_users/', views.LoadMoreRemainingUsers.as_view(), name='load-more-remaining-users'),
 ]

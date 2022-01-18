@@ -864,10 +864,12 @@ function getMessageById(data) {
             // console.log(searchUserItemEls)
             if (query) {
                 searchWrapperEl.querySelectorAll('.user_initials')?.forEach((item)=>item.style.display='none');
-                console.log(searchWrapperEl.querySelectorAll('.user_initials'))
+                // console.log(searchWrapperEl.querySelectorAll('.user_initials'))
+                $('#loadRegion').hide();
             } else {
                 searchWrapperEl.querySelectorAll('.user_initials')?.forEach((item)=>item.style.display='block');
-                console.log(searchWrapperEl.querySelectorAll('.user_initials'))
+                // console.log(searchWrapperEl.querySelectorAll('.user_initials'))
+                $('#loadRegion').show();
             }
             searchUserItemEls?.forEach((item, index) => {
                 if (item.querySelector(`[data-search='username']`).innerText.toLowerCase().includes(query) || 
@@ -929,6 +931,114 @@ function getMessageById(data) {
             if (selectedIsUser)
                 $('#receiver_profile_url')[0].click()
         }
+        // show more users dynamically
+        function loadMoreRemainingUsers() {
+            userListContainer = document.getElementById('user-list-left-panel')
+            userCount = userListContainer.querySelectorAll(`div[id^='remaining_']`).length
+            // console.log(userCount)
+
+            $.getJSON("{% url 'chat:load-more-remaining-users' %}", 
+            {current_users:userCount}, 
+            function(data){
+                if(data.status===false){
+                    $('#loadmore-users-btn').hide()
+                    $('#nomore-users').show()
+                } else {
+                    for (let [key, value] of Object.entries(data.users)){
+                        // console.log(key, value)
+                        initialEl = userListContainer.querySelector(`.user_initials[data-value="${key}"]`)
+                        if(!initialEl){
+                            let newInitialEl = `
+                                <div class="my-5 user_initials" data-value="${key}">
+                                    <small class="text-uppercase text-muted">${key}</small>
+                                </div>
+                            `
+                            userListContainer.insertAdjacentHTML('beforeEnd', newInitialEl)
+                        }
+                        allInitials = [...userListContainer.querySelectorAll(`.user_initials`)]
+                        initialEl = userListContainer.querySelector(`.user_initials[data-value="${key}"]`)
+                        initialElIndex = allInitials.indexOf(initialEl)
+                        nextInitialEl = allInitials[initialElIndex+1]
+                        value?.forEach((user)=>{
+                            if (nextInitialEl){
+                                nextInitialEl.insertAdjacentHTML('beforeBegin', createChatItem(user))
+                            } else {
+                                userListContainer.insertAdjacentHTML('beforeEnd', createChatItem(user))
+                            }
+                        })
+                    }
+                }
+            });
+        }
+        // create user item for chat
+        function createChatItem(user){
+            let chatItemEl = `
+            <div class="card border-0" id="remaining_${user.id}">
+                <div class="card-body">
+
+                    <div class="row align-items-center gx-5">
+                        <div class="col-auto">
+                            <a href="${ user.profile }" class="avatar">
+                                <img src="${ user.profile_img }" alt=""  style="object-fit: cover;" class="avatar-img">
+                            </a>
+                        </div>
+
+                        <a href="${ user.profile }" style="color: inherit;" class="col">
+                            <h5 data-search="full_name">${ user.name }</h5>
+                            <p data-search="username">${ user.username }</p>
+                        </a>
+
+                        <div class="col-auto">
+                            <!-- Dropdown -->
+                            <div class="dropdown">
+                                <a class="icon text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li onclick="this.querySelector(${"`"+"button[type='submit']"+"`"}).click()">
+                                        <a class="dropdown-item" href="#">Send Request</a>
+                                        <form method="post" onsubmit="sendFriendRequest(event)" action="">
+                                            <input type="hidden" name="id" value="${ user.id }">
+                                            {% csrf_token %}
+                                            <button class="d-none" type="submit"></button>
+                                        </form>
+                                    </li>
+                                    {% comment %} <li><a class="dropdown-item" href="#">Edit contact</a> {% endcomment %}
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-danger" href="#">Block user</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `
+            return chatItemEl;
+        }
+        // Redirect to jupyter notebook
+        function redirectNotebook(){
+            const url = `{% url 'user:open-notebook' %}?group_id=${current_group}&group_share=${true}`
+            location.href = url
+        }
+        // Repeat a task multiple times
+        function setIntervalX(callback, delay, repetitions){
+            let x = 0;
+            let intervalID = setInterval(() => {
+                callback();
+                if (++x === repetitions){
+                    clearInterval(intervalID)
+                }
+            }, delay);
+        }
+        $(document).ready(()=>{
+            loadMoreRemainingUsers()
+        })
 </script>
 {###########################    End of Script For P2p Chat Socket   ##################}
 </body>

@@ -13,17 +13,14 @@ from django.utils.safestring import mark_safe
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
-
+from django.core.paginator import Paginator
+from django.urls import reverse
 from chat.forms import GroupCreateForm
 from chat.models import GroupChatModel, P2pChatModel, GroupChatUnreadMessage, GroupChat, UserMedia, UploadedMedia, GroupCallHistory
+from chat.serializers import UserModelSerializer
 from users.models import User
 from cryptography.fernet import Fernet
-from django.views.decorators.clickjacking import xframe_options_exempt
 
-@method_decorator(xframe_options_exempt, name='dispatch')
-class SampleView(View):
-    def get(self, *args, **kwargs):
-        return render(self.request, "chat/sample.html")
 
 @csrf_exempt
 def update_session(request):
@@ -94,12 +91,12 @@ class ChatRoom(LoginRequiredMixin, View):
 
         users = user.get_user_connected_users()
         context['chat_list_user'] = users
-        remaining_users = user.get_remaining_users()
         context['contact_list'] = users
         context['group_list'] = self.request.user.groups.all()
         account_dict = arrange_users(users)
-        remaining_dict = arrange_users(remaining_users)
-        context['remaining_dict'] = remaining_dict
+        # remaining_users = user.get_remaining_users()
+        # remaining_dict = arrange_users(remaining_users)
+        # context['remaining_dict'] = remaining_dict
         context['accounts'] = account_dict
         context['room_name_json'] = mark_safe(json.dumps('room_name'))
         context['session_key'] = mark_safe(json.dumps(self.request.session.session_key))
@@ -415,13 +412,17 @@ class DeleteCombineGroupMessage(LoginRequiredMixin, View):
 class Upload(View):
     def post(self, *args, **kwargs):
         file_media = self.request.FILES.getlist('files')
+        if not file_media:
+            file_media = [self.request.FILES.get(f'files[{i}]') for i in range(0, len(self.request.FILES))]
         user_media = UserMedia(owner=self.request.user)
         user_media.save()
+        data_arr = []
+        print('UPLOADED',self.request.FILES.get('files[0]'))
         for file in file_media:
-            data = UploadedMedia.objects.create(media=file)
-            data.save()
-            user_media.files.add(data)
-            user_media.save()
+            data_arr.append(UploadedMedia.objects.create(media=file))
+            # data.save()
+        user_media.files.add(*data_arr)
+            # user_media.save()
         return JsonResponse({
             'bucket_id': user_media.id,
         })
@@ -622,6 +623,7 @@ class VideoCallReceiver(View):
         context['user'] = self.request.user
         group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"
         context['group_name'] = hash(group_name)
+        print(context['group_name'])
         fernet = Fernet(fernet_key)
         join_url = fernet.encrypt(group_name.encode())
         context['join_url'] = join_url.decode('utf-8')
@@ -764,3 +766,30 @@ class EndCall(View):
         except:
             pass
         return redirect('chat:chat')
+
+
+class LoadMoreRemainingUsers(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        remaining_users = user.get_remaining_users().order_by('username')
+        p = Paginator(remaining_users, 10)
+        current_status = int(self.request.GET['current_users'])
+        remaining_dict = arrange_users(p.get_page((current_status + 10) / 10))
+        if p.count <= current_status:
+            return JsonResponse({
+                'status': False,
+                'message': 'No more users found!...'
+            })
+        result = {}
+        for key, values in remaining_dict.items():
+            user_list=[]
+            for user in values:
+                user_list.append({
+                    'id':user.id,
+                    'name':user.get_full_name(),
+                    'username':user.username,
+                    'profile': reverse('user:friend-profile', kwargs={'pk':user.id}),
+                    'profile_img':user.get_profile_img(),
+                })
+            result[key] = user_list
+        return JsonResponse({'users': result})
