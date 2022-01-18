@@ -864,10 +864,12 @@ function getMessageById(data) {
             // console.log(searchUserItemEls)
             if (query) {
                 searchWrapperEl.querySelectorAll('.user_initials')?.forEach((item)=>item.style.display='none');
-                console.log(searchWrapperEl.querySelectorAll('.user_initials'))
+                // console.log(searchWrapperEl.querySelectorAll('.user_initials'))
+                $('#loadRegion').hide();
             } else {
                 searchWrapperEl.querySelectorAll('.user_initials')?.forEach((item)=>item.style.display='block');
-                console.log(searchWrapperEl.querySelectorAll('.user_initials'))
+                // console.log(searchWrapperEl.querySelectorAll('.user_initials'))
+                $('#loadRegion').show();
             }
             searchUserItemEls?.forEach((item, index) => {
                 if (item.querySelector(`[data-search='username']`).innerText.toLowerCase().includes(query) || 
@@ -1024,6 +1026,19 @@ function getMessageById(data) {
             const url = `{% url 'user:open-notebook' %}?group_id=${current_group}&group_share=${true}`
             location.href = url
         }
+        // Repeat a task multiple times
+        function setIntervalX(callback, delay, repetitions){
+            let x = 0;
+            let intervalID = setInterval(() => {
+                callback();
+                if (++x === repetitions){
+                    clearInterval(intervalID)
+                }
+            }, delay);
+        }
+        $(document).ready(()=>{
+            loadMoreRemainingUsers()
+        })
 </script>
 {###########################    End of Script For P2p Chat Socket   ##################}
 </body>
