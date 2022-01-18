@@ -1,4 +1,4 @@
-import json
+impimport json
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -92,6 +92,18 @@ class OpenNotebook(LoginRequiredMixin, View):
         except AttributeError as e:
             print(e)
 
+<<<<<<< HEAD
+        session = self.request.session
+        user = self.request.user
+        context = {
+            'group_id': group_id,
+            'group_share': group_share,
+            'group_name': group.name,
+            'group': group,
+            'group_name_url': group_name_url,
+            'call_active': call_active,
+            'join_url': group_name_url
+=======
 
         session = self.request.session
         user = self.request.user
@@ -102,7 +114,7 @@ class OpenNotebook(LoginRequiredMixin, View):
             'group': group,
             'group_name_url': group_name_url,
             'call_active': call_active,
-            'join_url': group_name_url
+>>>>>>> c347b00b9208d3640c4ae1fab3b75b4f425dab43
         }
         return render(self.request, "users/notebook.html", context)
 
@@ -124,7 +136,12 @@ class SignUpView(View):
 
             # user activation
             send_email_verification_mail(self.request, user)
+<<<<<<< HEAD
+            messages.success(self.request,
+                             'Thank you for registering with us. We have mailed you a verification link to activate your account.')
+=======
             messages.success(self.request, 'Thank you for registering with us. We have mailed you a verification link to activate your account.')
+>>>>>>> c347b00b9208d3640c4ae1fab3b75b4f425dab43
             return redirect('user:login')
 
         messages.warning(self.request, 'Invalid registration information.')
@@ -159,7 +176,11 @@ class GoogleOAuthSignUpView(LoginRequiredMixin, View):
             return render(self.request, 'users/oauth_register.html')
         else:
             return redirect('user:login')
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> c347b00b9208d3640c4ae1fab3b75b4f425dab43
     def post(self, *args, **kwargs):
         user = self.request.user
         user.username = self.request.POST.get('username', None)
@@ -205,11 +226,21 @@ class LoginView(SuccessMessageMixin, FormView):
                     return redirect(url_redirect)
                 return redirect('home:home')
             else:
+<<<<<<< HEAD
+                messages.warning(self.request,
+                                 'Your account is not active, check your mail for activation link or contact support!')
+                return redirect('user:login')
+
+        if not user_query.is_active:
+            messages.warning(self.request,
+                             'Your account is not active, check your mail for activation link or contact support!')
+=======
                 messages.warning(self.request, 'Your account is not active, check your mail for activation link or contact support!')
                 return redirect('user:login')
 
         if not user_query.is_active:
             messages.warning(self.request, 'Your account is not active, check your mail for activation link or contact support!')
+>>>>>>> c347b00b9208d3640c4ae1fab3b75b4f425dab43
             return redirect('user:login')
         else:
             messages.warning(self.request, 'Email or Password is incorrect')
@@ -569,12 +600,20 @@ class LoadMoreFriends(LoginRequiredMixin,View):
                 'username': item.username,
                 'name': item.get_full_name(),
                 'profile_image_url': profile,
+<<<<<<< HEAD
+                'profile_link': reverse('user:friend-profile', kwargs={'pk': item.id}),
+                'user_id': item.id,
+            })
+        return JsonResponse({'friends': friends})
+
+=======
                 'profile_link': reverse('user:friend-profile', kwargs={'pk':item.id}),
                 'user_id':item.id,
             })
         return JsonResponse({'friends': friends})
 
 
+>>>>>>> c347b00b9208d3640c4ae1fab3b75b4f425dab43
 # def create_oauth_user(backend, user, response, *args, **kwargs):
 #     print("OAUTH RAN")
 #     if backend.name == 'google_oauth2':
@@ -585,4 +624,8 @@ class LoadMoreFriends(LoginRequiredMixin,View):
 #         profile.gender = response.get('gender')
 #         profile.link = response.get('link')
 #         profile.timezone = response.get('timezone')
+<<<<<<< HEAD
 #         profile.save()
+=======
+#         profile.save()
+>>>>>>> c347b00b9208d3640c4ae1fab3b75b4f425dab43

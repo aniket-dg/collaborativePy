@@ -15,6 +15,9 @@ from post.models import Post
 from .managers import UserManager
 from django.utils import timezone
 
+from home.signals import process_files
+
+@process_files(['profile_image'])
 class User(AbstractBaseUser, PermissionsMixin):
     # Required
     username = models.CharField(_('User Name'), unique=True, max_length=200)
@@ -36,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     groups = models.ManyToManyField('chat.GroupChatModel', blank=True)
     # Django
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
-    is_active = models.BooleanField(_('active'), default=True)
+    is_active = models.BooleanField(_('active'), default=False)
     is_verified = models.BooleanField(_('verified'), default=False)
     is_staff = models.BooleanField(_('staff'), default=False)
 

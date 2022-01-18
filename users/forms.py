@@ -19,7 +19,7 @@ class EmailForm(forms.Form):
 class RegistrationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('email', 'first_name', 'last_name', 'username', 'profile_image', 'phone_number', 'password1', 'password2')
+        fields = ('email', 'first_name', 'last_name', 'username', 'profile_image', 'bio', 'designation', 'password1', 'password2')
 
     # def clean(self):
     #     super(RegistrationForm, self).clean()
@@ -32,7 +32,7 @@ class RegistrationForm(UserCreationForm):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('email', 'first_name' ,'last_name', 'phone_number', 'bio', 'designation')
+        fields = ('email', 'first_name' ,'last_name', 'bio', 'designation')
 
     def clean_email(self):
         email = self.cleaned_data['email']

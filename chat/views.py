@@ -568,13 +568,13 @@ class StartVideoCall(View):
         group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"  # use in websocket url
         context['group_name'] = hash(group_name)  # use in websocket url
 
-        context['is_group_creator'] = group.created_by == self.request.user
+        context['is_group_creator'] = group.created_by = self.request.user
         context['is_call_starter'] = True
         fernet = Fernet(fernet_key)
         join_url = fernet.encrypt(group_name.encode())
         context['join_url'] = join_url.decode('utf-8')
         print(join_url, "Aniket join url")
-        return render(self.request, 'chat/video.html', context)
+        return render(self.request, 'chat/sample.html', context)
 
 class VideoCallReceiver(View):
     def get(self, *args, **kwargs):

@@ -4,16 +4,21 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from . import views
+from . import api
+from push_notifications.api.rest_framework import GCMDeviceAuthorizedViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'device/gcm', GCMDeviceAuthorizedViewSet)
 
 app_name='user'
 
 urlpatterns = [
-    # Social Login
-    path('oauth/', include('social_django.urls', namespace='social')),
-
+     path('notification/', api.NotificationPermission.as_view(), name='notification'),
     # Login and Register
     path('login/', views.LoginView.as_view(), name='login'),
     path('register/', views.SignUpView.as_view(), name='register'),
+    path('activate/<uidb64>/<token>/', views.UserAccountActivateView.as_view(), name='activate'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
 
     # Update User profile
@@ -64,12 +69,18 @@ urlpatterns = [
 
      #path('send/user/request/<int:user_id>/', views.SendRequest.as_view(), name='send-user-request'),
      #path('accept/user/request/<int:id>/', views.AcceptRequest.as_view(), name='accept-user-request'),
-    path('unfriend/user/<int:pk>/', views.UnfriendUser.as_view(), name='unfriend-user'),
+     path('unfriend/user/<int:pk>/', views.UnfriendUser.as_view(), name='unfriend-user'),
 
     path('load/more/friends/', views.LoadMoreFriends.as_view(), name='load-more-friends'),
-    path('redirect/notebook/', views.SaveSessionForNotebook.as_view(), name='redirect-notebook'),
     path('open/notebook/', views.OpenNotebook.as_view(), name='open-notebook'),
+    path('redirect/notebook/', views.SaveSessionForNotebook.as_view(), name='redirect-notebook'),
 
+    # Social Login
+    path('oauth/', include('social_django.urls', namespace='social')),
+    path('oauth/register/', views.GoogleOAuthSignUpView.as_view(), name='oauth-register'),
+
+    # Webpush
+    path(r'api/wp/', include(router.urls)),
 ]
 
 if settings.DEBUG:
