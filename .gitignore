@@ -152,18 +152,13 @@ cython_debug/
 /.idea/Stellar-Ai.iml
 /.idea/inspectionProfiles/Project_Default.xml
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
 /analytics/migrations
-=======
->>>>>>> f4e418d3419e2f9f60344a6d77a009508778999a
-=======
-=======
+
 
 /analytics/migrations
->>>>>>> 89cc5c880ef3c27c067ddfb50418772854b35961
->>>>>>> 56bfe91de03c7b27afbc0b5c5a6409ba12b01de3
+
 /chat/migrations
 /home/migrations
 /order/migrations
