@@ -13,13 +13,16 @@
     <title> Stellar AI</title>
     <link rel="icon" type="image/png" href="{% static 'images/logo/color-logo.png' %}" />.
     <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
-    {# <link href="../cdn.jsdelivr.net/npm/fontisto%40v3.0.4/css/fontisto/fontisto-brands.min.css" rel="stylesheet"> #}
+    <link href="../cdn.jsdelivr.net/npm/fontisto%40v3.0.4/css/fontisto/fontisto-brands.min.css" rel="stylesheet">
     <!-- Core CSS -->
     <link rel="stylesheet" href="{% static 'social_assets/css/app.css' %}">
     <link rel="stylesheet" href="{% static 'social_assets/css/core.css' %}">
-    <script src="https://kit.fontawesome.com/d59caff470.js" crossorigin="anonymous"></script>
+<!--    <script src="https://kit.fontawesome.com/d59caff470.js" crossorigin="anonymous"></script>-->
+
 </head>
 
 <body>
@@ -190,14 +193,14 @@
                     </div> -->
                     <div class="navbar-item is-icon" title="Forums">
                         <a class="icon-link custom-icon" href="{% url 'post:post' %}">
-                            <i class="fab fa-wpforms"></i>
+                            <i class="fa fa-wpforms"></i>
                             <span class="indicator"></span>
                         </a>
                     </div>
 
                     <div class="navbar-item is-icon" title="Skeleton Code" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
                         <a class="icon-link custom-icon" href="{% url 'post:skeleton-post' %}">
-                            <i class="fas fa-code"></i>
+                            <i class="fa fa-code"></i>
                             <span class="indicator"></span>
                         </a>
                     </div>
@@ -211,7 +214,7 @@
 
                     <div class="navbar-item is-icon" title="Plans">
                         <a class="icon-link custom-icon" href="{% url 'home:plan-list' %}">
-                            <i class="fas fa-credit-card"></i>
+                            <i class="fa fa-credit-card"></i>
                             <span class="indicator"></span>
                         </a>
                     </div>
@@ -520,11 +523,11 @@
                                         <div class="media">
                                             <div class="media-left">
                                                 <div class="image">
-                                                    <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="{% static 'social_assets/img/icons/logos/fastpizza.svg" alt="">
+                                                    <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="{% static 'social_assets/img/icons/logos/fatpizza.svg" alt="">
                                                 </div>
                                             </div>
                                             <div class="media-content">
-                                                <h3>Fast Pizza</h3>
+                                                <h3>Fat Pizza</h3>
                                                 <small>Company page</small>
                                             </div>
                                             <div class="media-right is-hidden">
@@ -730,14 +733,14 @@
 
                 <div class="navbar-item is-icon" title="Forums">
                     <a class="icon-link custom-icon" href="{% url 'post:post' %}">
-                        <i class="fab fa-wpforms"></i>
+                        <i class="fa fa-wpforms"></i>
                         <span class="indicator"></span>
                     </a>
                 </div>
 
                 <div class="navbar-item is-icon" title="Skeleton code" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
                     <a class="icon-link custom-icon" href="{% url 'post:skeleton-post' %}">
-                        <i class="fas fa-code"></i>
+                        <i class="fa fa-code"></i>
                         <span class="indicator"></span>
                     </a>
                 </div>
@@ -751,7 +754,7 @@
 
                 <div class="navbar-item is-icon" title="Plans">
                     <a class="icon-link custom-icon" href="{% url 'home:plan-list' %}">
-                        <i class="fas fa-credit-card"></i>
+                        <i class="fa fa-credit-card"></i>
                         <span class="indicator"></span>
                     </a>
                 </div>
