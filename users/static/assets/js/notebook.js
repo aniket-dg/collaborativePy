@@ -78,10 +78,10 @@ function drawMessage(data, isCurrentUser) {
         html = `
             <div class="message-wrapper ${isCurrentUser ? 'reverse':null}" data-id="${data.id}">
                 <div class="profile-picture">
-                    <img src="${data.user_profile_url}" alt="${data.full_name}">
+                    <img src="${data.user_profile_url}" alt="${data.user_full_name}">
                 </div>
                 <div class="message-content">
-                    <p class="name">${data.full_name}<span class="c-dropdown-btn">&#8942;</span></p>
+                    <p class="name">${data.user_full_name}<span class="c-dropdown-btn">&#8942;</span></p>
                     ${data.body ? `
                         <div class="message pe-5">${urlify(data.body)}</div>
                     `:''}

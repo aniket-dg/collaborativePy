@@ -23,15 +23,15 @@ if(location.protocol === 'https:'){
 }
 
 // For chat
-let socketChatURL = `${wsStart}${window.location.host}/ws/chat/group/${group_name}/${ user_id }/`;
-let chatSocket = new ReconnectingWebSocket(socketChatURL);
-chatSocket.onmessage = validateMessage;
-getGroupConversation(group_name);
+const socketChatURL = `${wsStart}${window.location.host}/ws/chat/group/${group_name}/${ user_id }/`;
+const chatSocket = new ReconnectingWebSocket(socketChatURL)
+chatSocket.onmessage = validateMessage
+getGroupConversation(group_name)
 
 // Validate message
 function validateMessage(e) {
-    data = JSON.parse(e['data']);
-    getGroupMessage(data);
+    data = JSON.parse(e['data'])
+    getGroupMessage(data)
 }
 
 // Get newest received group message
@@ -73,15 +73,16 @@ function getGroupConversation(groupName) {
 
 // Displays a single message
 function drawMessage(data, isCurrentUser) {
+	console.log(data);
     let html = '';
     const mediaEl = generateMediaEl(data, isCurrentUser)
         html = `
             <div class="message-wrapper ${isCurrentUser ? 'reverse':null}" data-id="${data.id}">
                 <div class="profile-picture">
-                    <img src="${data.user_profile_url}" alt="${data.full_name}">
+                    <img src="${data.user_profile_url}" alt="${data.user_full_name}">
                 </div>
                 <div class="message-content">
-                    <p class="name">${data.full_name}<span class="c-dropdown-btn">&#8942;</span></p>
+                    <p class="name">${data.user_full_name}<span class="c-dropdown-btn">&#8942;</span></p>
                     ${data.body ? `
                         <div class="message pe-5">${urlify(data.body)}</div>
                     `:''}

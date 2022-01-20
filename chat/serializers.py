@@ -60,6 +60,7 @@ class GroupChatModelSerializer(serializers.ModelSerializer):
     group_profile_url = serializers.CharField(source='group.profile_image.url')
     timestamp = serializers.DateTimeField(format="%I:%M")
     media_files = serializers.SerializerMethodField('get_media_files')
+    user_full_name = serializers.CharField(source='user.get_full_name')
 
     def get_media_files(self, instance):
         if instance.is_media_present:
@@ -69,6 +70,6 @@ class GroupChatModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GroupChat
-        fields = ('id', 'user', 'user_id','group_name', 'group_id','user_profile_url','is_media_present','bucket', 'media_files', 'body','receiver_delete','group_profile_url','timestamp','is_delete')
+        fields = ('id', 'user', 'user_id','group_name', 'group_id','user_profile_url','is_media_present','bucket', 'media_files', 'body','receiver_delete','group_profile_url','timestamp','is_delete','user_full_name')
 
 
