@@ -25,8 +25,6 @@ INSTALLED_APPS = [
     'post',
     'competition',
 
-    "push_notifications",
-
     # Third Party Modules
     'crispy_forms',  # crispy forms
     'ckeditor',  # Rich text editor
@@ -41,7 +39,7 @@ INSTALLED_APPS = [
     'user_sessions',
     'oauth2_provider',
     'corsheaders',
-
+    "push_notifications",
 ]
 
 MIDDLEWARE = [
@@ -177,11 +175,11 @@ CHANNEL_LAYERS = {
 #        "KEY_PREFIX": "example"
 #    }
 #}
-#CHANNEL_LAYERS = {
-#    'default': {
-#        'BACKEND': 'channels.layers.InMemoryChannelLayer'
-#    },
-#}
+CHANNEL_LAYERS = {
+   'default': {
+       'BACKEND': 'channels.layers.InMemoryChannelLayer'
+   },
+}
 
 #CACHES = {
 #     'default': {
@@ -247,3 +245,9 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 USER_FIELDS = ['email', 'username']
 LOGIN_ERROR_URL = 'user:login'
 
+# WEB PUSH
+PUSH_NOTIFICATIONS_SETTINGS = {
+    'FCM_API_KEY': 'AAAALr-daWw:APA91bGcsbbYW18Idrw9zlo2nvnxvDn7VFKyyi8ORPdne4lKUj7Cnreb5HBAlim7TQ7p9CmHaBSMwpYlp36BDz5FI266SbsUBwVY5ocKFX7_hgnW3j969loxaTQmpZqWrNn1kfwbg7gD',
+    'FCM_POST_URL': 'https://fcm.googleapis.com/fcm/send',
+    'UPDATE_ON_DUPLICATE_REG_ID':True,
+}

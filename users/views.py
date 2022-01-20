@@ -26,7 +26,7 @@ from django.contrib.auth.tokens import default_token_generator
 from social_django.models import UserSocialAuth
 from chat.models import GroupChatModel, GroupCallHistory
 
-from push_notifications.models import GCMDevice
+from .api import send_notification
 
 
 class UserData(LoginRequiredMixin, View):
@@ -352,7 +352,8 @@ class SendUserRequest(LoginRequiredMixin, View):
         id = self.request.POST.get('id')
         user = self.request.user
         send_request_user = User.objects.filter(id=int(id)).last()
-        if send_request_user:
+        is_connection = send_request_user.pending_connections.filter(connection_user=user).exists()
+        if send_request_user and not is_connection:
             connection = Connection()
             connection.connection_user = send_request_user
             connection.request = True
@@ -365,11 +366,22 @@ class SendUserRequest(LoginRequiredMixin, View):
             send_request_user.pending_connections.add(receive_connection)
             send_request_user.save()
             user.save()
+            extra = {
+                'title': 'New friend request!',
+                'url': reverse('user:profile')
+                # 'icon': self.request.build_absolute_uri(user.get_profile_img()),
+            }
+            send_notification([send_request_user.id], f'Request from {user.get_full_name()}', extra)
             # messages.success(self.request, "Request sent")
             # return redirect('user:profile')
             return JsonResponse({
                 'status': 'success',
                 'data': 'Friend Request Sent!'
+            })
+        if is_connection:
+            return JsonResponse({
+                'status': 'failure',
+                'data': 'Already requested'
             })
         # messages.warning(self.request, "User not found")
         # return redirect('user:profile')
@@ -439,6 +451,11 @@ class AcceptUserRequest(LoginRequiredMixin, View):
             user_pending_connection.save()
             # messages.success(self.request, "Request accepted")
             # return redirect('user:profile')
+            extra = {
+                'title': 'Request accepted!',
+                'url': reverse('chat:chat')
+            }
+            send_notification([request_user.id], f'You are now friends with {user.get_full_name()}', extra)
             return JsonResponse({
                 'status': 'success',
                 'data': 'Request accepted!'
