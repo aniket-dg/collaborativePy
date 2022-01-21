@@ -45,7 +45,7 @@
     margin: 1rem;
     padding: .7rem;
     overflow: hidden;
-    border: solid 1px #919191;
+    border: solid 1px #e7e7e7;
 }
 .c-card:hover{
     box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
@@ -137,20 +137,20 @@
 }
 </style>
 <div class="wrapper">
-    <div class="wrapper-inner">
-        <div class="c-option-tabs">
-            <div class="c-option-tab" data-tab="all-active">
+    <div class="wrapper-inner" style="padding: 2em;margin: 5em auto;">
+        <div class="c-option-tabs" style="border-bottom: solid 1px #eeeeee;">
+            <div class="c-option-tab is-active" style="font-weight: 500;" data-tab="all-active">
                 Active
             </div>
-            <div class="c-option-tab" data-tab="all-late">
+            <div class="c-option-tab" style="font-weight: 500;" data-tab="all-late">
                 Late Submission
             </div>
-            <div class="c-option-tab" data-tab="all-closed">
+            <div class="c-option-tab" style="font-weight: 500;" data-tab="all-closed">
                 Closed
             </div>
         </div>
         <div class="c-status is-active" id="all-active">
-            <h1 class="c-type-title">Active</h1>
+            <h1 class="py-3" style="font-weight: 600">Active</h1>
             <div class="c-list">
             {% for list in list %}
                 {%if list.status == "Active" %}
@@ -158,9 +158,9 @@
                     {% if list.image %}
                     <img class="card-img-top c-card-img-top" src="{{list.image.url}}" alt="Competition Image">
                     {% endif %}
-                    <div class="badge-wrapper">
-                        <img class="card-img-badge" src="{% static 'images/logo/color-logo.png' %}" alt="Competition Image">
-                    </div>
+<!--                    <div class="badge-wrapper">-->
+<!--                        <img class="card-img-badge" src="{% static 'images/logo/color-logo.png' %}" alt="Competition Image">-->
+<!--                    </div>-->
                     <div class="c-card-body">
                       <h5 class="c-card-time">{{list.status}}</h5>
                       <h5 class="c-card-title">{{ list.name }}</h5>
@@ -173,7 +173,7 @@
             </div>
         </div>
         <div class="c-status is-active" id="all-late">
-            <h1 class="c-type-title">Late Submission</h1>
+            <h1 class="py-3" style="font-weight: 600">Late Submission</h1>
             <div class="c-list">
                 {% for list in list %}
                     {%if list.status == "Late Submission" %}
@@ -181,9 +181,9 @@
                         {% if list.image %}
                         <img class="card-img-top c-card-img-top" src="{{list.image.url}}" alt="Competition Image">
                         {% endif %}
-                        <div class="badge-wrapper">
-                            <img class="card-img-badge" src="{% static 'images/logo/color-logo.png' %}" alt="Competition Image">
-                        </div>
+<!--                        <div class="badge-wrapper">-->
+<!--                            <img class="card-img-badge" src="{% static 'images/logo/color-logo.png' %}" alt="Competition Image">-->
+<!--                        </div>-->
                         <div class="c-card-body">
                         <h5 class="c-card-time">{{list.status}}</h5>
                         <h5 class="c-card-title">{{ list.name }}</h5>
@@ -196,7 +196,7 @@
             </div>
         </div>
         <div class="c-status is-active" id="all-closed">
-            <h1 class="c-type-title">Closed</h1>
+            <h1 class="py-3" style="font-weight: 600">Closed</h1>
             <div class="c-list">
                 {% for list in list %}
                     {%if list.status == "Closed" %}
@@ -204,9 +204,9 @@
                         {% if list.image %}
                         <img class="card-img-top c-card-img-top" src="{{list.image.url}}" alt="Competition Image">
                         {% endif %}
-                        <div class="badge-wrapper">
-                            <img class="card-img-badge" src="{% static 'images/logo/color-logo.png' %}" alt="Competition Image">
-                        </div>
+<!--                        <div class="badge-wrapper">-->
+<!--                            <img class="card-img-badge" src="{% static 'images/logo/color-logo.png' %}" alt="Competition Image">-->
+<!--                        </div>-->
                         <div class="c-card-body">
                         <h5 class="c-card-time">{{list.status}}</h5>
                         <h5 class="c-card-title">{{ list.name }}</h5>

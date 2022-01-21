@@ -15,7 +15,7 @@ from post.models import Post, FlagInappropriate, SkeletonPost, FirstLevelCategor
 from home.models import Contact, NewsLetter
 from order.models import Plan
 from users.models import User
-from home.models import TPP
+from home.models import TPP, Faq
 from competition.models import Competion, UserSubmission
 
 class PlanCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -710,6 +710,55 @@ class CompetitionListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 20
     template_name = 'analytics/competition_list.html'
     ordering = ['-id']
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class FaqDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Faq
+
+    def delete(self, request, *args, **kwargs):
+        competition = self.get_object()
+        competition.delete()
+        messages.success(self.request, "Faq deleted!")
+        return redirect('analytics:faq-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class FaqListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Faq
+    template_name = 'analytics/faq.html'
+    ordering = ['-id']
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class FaqUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Faq
+    fields = "__all__"
+    template_name = 'analytics/faq_add_update.html'
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Faq updated successfully!")
+        return redirect('analytics:faq-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+class FaqCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Faq
+    fields = "__all__"
+    template_name = 'analytics/faq_add_update.html'
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Faq created successfully!")
+        return redirect('analytics:faq-list')
 
     def test_func(self):
         return self.request.user.is_staff

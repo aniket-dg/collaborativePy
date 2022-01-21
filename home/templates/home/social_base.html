@@ -13,6 +13,7 @@
     <title> Stellar AI</title>
     <link rel="icon" type="image/png" href="{% static 'images/logo/color-logo.png' %}" />.
     <!-- Fonts -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
@@ -21,7 +22,7 @@
     <!-- Core CSS -->
     <link rel="stylesheet" href="{% static 'social_assets/css/app.css' %}">
     <link rel="stylesheet" href="{% static 'social_assets/css/core.css' %}">
-<!--    <script src="https://kit.fontawesome.com/d59caff470.js" crossorigin="anonymous"></script>-->
+
 
 </head>
 
@@ -283,7 +284,7 @@
                     {% if request.user.is_staff %}
                     <div class="navbar-item is-icon" title="Analytics">
                         <a class="icon-link custom-icon" href="{% url 'analytics:user-list' %}">
-                            <i class="far fa-chart-bar"></i>
+                            <i class="fa fa-bar-chart-o"></i>
                             <span class="indicator"></span>
                         </a>
                     </div>
@@ -821,7 +822,7 @@
                 {% if request.user.is_staff %}
                 <div class="navbar-item is-icon" title="Analytics">
                     <a class="icon-link custom-icon" href="{% url 'analytics:user-list' %}">
-                        <i class="far fa-chart-bar"></i>
+                        <i class="fa fa-bar-chart-o"></i>
                         <span class="indicator"></span>
                     </a>
                 </div>

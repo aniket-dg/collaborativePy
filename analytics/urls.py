@@ -74,4 +74,9 @@ urlpatterns = [
     path('competition/update/<int:pk>/', views.CompetitionUpdateView.as_view(), name="competition-update"),
     path('competition/detail/<int:pk>/', views.CompetitionDetailView.as_view(), name="competition-detail"),
     path('competition/delete/<int:pk>/', views.CompetitionDeleteView.as_view(), name="competition-delete"),
+
+    path('faq/list/', views.FaqListView.as_view(), name="faq-list"),
+    path('faq/create/', views.FaqCreateView.as_view(), name="faq-create"),
+    path('faq/update/<int:pk>/', views.FaqUpdateView.as_view(), name="faq-update"),
+    path('faq/delete/<int:pk>/', views.FaqDeleteView.as_view(), name="faq-delete"),
 ] 

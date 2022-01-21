@@ -141,9 +141,9 @@
                                 <li><a href="{{path_home}}"><span
                                             class="{% ifequal request.path path_home %}text-primary{% endifequal %}">Home</span></a>
                                 </li>
-                                <li><a href="{{path_plan_list}}"><span
-                                            class="{% ifequal request.path path_plan_list %}text-primary{% endifequal %}">Plans</span></a>
-                                </li>
+<!--                                <li><a href="{{path_plan_list}}"><span-->
+<!--                                            class="{% ifequal request.path path_plan_list %}text-primary{% endifequal %}">Plans</span></a>-->
+<!--                                </li>-->
 <!--                                <li><a href="{{path_about}}"><span-->
 <!--                                            class="{% ifequal request.path path_about %}text-primary{% endifequal %}">About</span></a>-->
 <!--                                </li>-->
@@ -247,7 +247,7 @@
             <div class="footer-top">
                 <div class="container">
                     <div class="row">
-                        <div class="col-12 col-sm-6 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="col-12 col-sm-3 wow fadeInUp" data-wow-delay="0.2s">
                             <div class="widget widget_services border-0">
                                 <h5 class="footer-title">Navigation</h5>
                                 <ul>
@@ -257,28 +257,29 @@
 <!--                                    <li><a href="{% url 'home:news-letter' %}">Newsletter</a></li>-->
                                 </ul>
                             </div>
-                            <!-- <div class="mobile-apps">
-                               <p>Mobile Apps :</p>
-                               <ul>
-                                   <li><a href="javascript:void(0);"><i class="fa fa-apple"></i></a></li>
-                                   <li><a href="javascript:void(0);"><i class="fa fa-windows"></i></a></li>
-                                   <li><a href="javascript:void(0);"><i class="fa fa-android"></i></a></li>
-                               </ul>
-                            </div> -->
+<!--                            <div class="mobile-apps">-->
+<!--                               <p>Policy</p>-->
+
+<!--                                <ul>-->
+<!--                                   <li><a href="{% url 'home:terms' 'refund_policy' %}">Refund Policy</a></li>-->
+<!--                                   <li><a href="{% url 'home:terms' 'cancellation_policy' %}">Cancellation Policy</a></li>-->
+<!--                                </ul>-->
+<!--&lt;!&ndash;                               <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                                   <li><a href="javascript:void(0);"><i class="fa fa-apple"></i></a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                   <li><a href="javascript:void(0);"><i class="fa fa-windows"></i></a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                   <li><a href="javascript:void(0);"><i class="fa fa-android"></i></a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                               </ul>&ndash;&gt;-->
+<!--                            </div>-->
                         </div>
-                        <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.4s">
+                       <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay="0.4s">
                             <div class="widget widget_services border-0">
-                                <h5 class="footer-title">Solution</h5>
+                                <h5 class="footer-title">Policy</h5>
                                 <ul>
-                                   <li><a href="javascript:void(0);">UI/UX Web Design</a></li>
-                                   <li><a href="javascript:void(0);">Content Strategy</a></li>
-                                   <li><a href="javascript:void(0);">WordPress Support</a></li>
-                                   <li><a href="javascript:void(0);">Sketch to HTML service</a></li>
-                                   <li><a href="javascript:void(0);">Social media markering</a></li>
-                                    <li><a href="javascript:void(0);">Email marketing</a></li>
+                                   <li><a href="{% url 'home:terms' 'refund_policy' %}">Refund Policy</a></li>
+                                   <li><a href="{% url 'home:terms' 'cancellation_policy' %}">Cancellation Policy</a></li>
                                 </ul>
                             </div>
-                        </div> -->
+                        </div>
                         <div class="col-12 col-sm-6 col-md-3 wow fadeInUp" data-wow-delay="0.6s">
                             <div class="widget widget_getintuch">
                                 <h5 class="footer-title">Contact</h5>
