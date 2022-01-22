@@ -63,10 +63,8 @@ cover/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-staticfiles
 git_ignore
 stellar_ai/local_settings.py
-media
 tmp
 db.json
 # Flask stuff:
