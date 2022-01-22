@@ -3,316 +3,247 @@
 
 {% block content %}
 <style>
-    .activeBtn {
-        color: white;
-        border-radius: 20px;
-        padding: 8px;
-        padding-right: 35px;
-        background-image: linear-gradient(to right, #519cf8, #1253a3);
-        /* width: 100px; */
-        padding-left: 37px;
+.wrapper{
+    margin: 2.5rem auto 1rem auto;
+    max-width: 74rem;
+}
+.wrapper-inner{
+    padding: clamp(.2rem, 5vw, 1rem);
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+.c-status{
+    width: 100%;
+    display: none;
+    padding: 1rem 0;
+    border-bottom: solid 1px #dadada;
+}
+.c-status.is-active{
+    display: block;
+}
+.c-type-title{
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
+    font-weight: 700;
+    margin-left: .5rem;
+}
+.c-list{
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* margin: 0 auto; */
+    flex-wrap: wrap;
+}
+.c-card, .c-card:active, .c-card:visited, .c-card:link{
+    color: inherit;
+    position: relative;
+    flex: 1;
+    min-width: 240px;
+    max-width: 240px;
+    height: 280px;
+    /* height: 450px; */
+    margin: 1rem;
+    padding: .7rem;
+    overflow: hidden;
+    border: solid 1px #e7e7e7;
+}
+.c-card:hover{
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
+}
+.c-card-img-top{
+    height: 50%;
+    width: 100%;
+    border-radius: inherit;
+    object-fit: cover;
+}
+.badge-wrapper{
+    position: absolute;
+    top: 50%;
+    right: 2rem;
+    transform: translateY(-50%);
+    height: 45px;
+    width: 45px;
+    background-color: white;
+    border: solid 1px #919191;
+    border-radius: inherit;
+}
+.c-card-img-badge{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.c-card-body{
+    height: fit-content;
+    margin-top: 23px;
+}
+.c-card-time{
+    text-transform: uppercase;
+    font-size: .75rem;
+    margin-top: -.5rem;
+    margin-bottom: .5rem;
+}
+.c-card-title{
+    font-weight: 700;
+    font-size: .95rem;
+    margin-bottom: .5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.c-card-text{
+    font-size: .9rem;
+    margin-bottom: .5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.c-card-end{
+}
+.c-option-tabs{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: solid 1px #919191;
+}
+.c-option-tab{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(.9rem, 2vw, 1rem);
+    width: clamp(4rem, 35%, 10rem);
+    padding: clamp(.1rem, 2vw, .8rem);
+    margin-bottom: .6rem;
+    border-radius: 5px;
+    font-weight: 400;
+    cursor: pointer;
+    text-align: center;
+    /* color: #5596e6; */
+}
+.c-option-tab.is-active{
+    background-color: #5596e6;
+    color: #ffffff;
+}
+@media screen and (max-width: 440px) {
+    /* .c-option-tabs{
+        margin: 0 .2rem;
+    } */
+    .c-list{
+        justify-content: center;
     }
-
-    .lateBtn {
-        color: white;
-        border-radius: 20px;
-        padding: 8px;
-        padding-right: 35px;
-        background-image: linear-gradient(to right, #519cf8, #1253a3);
-        /* width: 180px; */
-        padding-left: 37px;
-        
-
-    }
-
-    .beginBtn {
-        margin-left: 10px;
-        color: #636369;
-        border-radius: 20px;
-        padding: 8px;
-        background: #adb4c25e;
-        padding-right: 25px;
-        /* width: 130px; */
-        padding-left: 28px;
-        
-
-    }
-
-    .advBtn {
-        margin-left: 35px;
-        color: #636369;
-        border-radius: 20px;
-        padding: 8px;
-        background: #adb4c25e;
-        padding-right: 25px;
-        /* width: 130px; */
-        padding-left: 30px;
-        
-    }
-
-    .blog-post {
-        max-width: 80rem;
-        padding: 1rem;
-        background-color: #fff;
-        box-shadow: 0 1.2rem 6rem rgba(0, 0, 0, .15);
-        display: flex;
-        align-items: center;
-        border-radius: .8rem;
-        margin-top: 2rem;
-    }
-
-    .blog-post_img {
-        min-width: 25rem;
-        max-width: 25rem;
-        padding: .7rem;
-        height: 15rem;
-        position: relative;
-    }
-
-    .blog-post_img img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        border-radius: .8rem;
-    }
-
-    .blog-post_img::before {
-        content: '';
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        border-radius: .8rem;
-    }
-
-    .blog-post_title {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        text-transform: uppercase;
-        color: #4facfe;
-        font-weight: bold;
-    }
-
-    .blog-post_info {
-
-        margin: 1rem 2rem;
-        /* font-size: 1.4rem;
-        color: rgba(0,0,0,.7); */
-    }
-
-    .blog-post_cta {
-        display: inline-block;
-        margin-top: 1.6rem;
-    }
-
-    .option-tab{
-        cursor: pointer;
-        width: 8rem;
-        color: #CECECE;
-    }
-    
-    .option-tab.is-active{
-        color: #393A4F !important;
-        /* box-shadow: inset 0 -2px black; */
-    }
-    @media screen and (min-width:1290px) and (max-width:1500px){
-        .blog-post {
-        }
-    }
-
-    @media screen and (max-width:1068px) {
-        .blog-post {
-            
-        }
-
-        .options-nav{
-            margin-top: 1rem;
-        }
-
-        .blog-post_info {
-            margin: 1rem 1rem;
-        }
-
-        .blog-post_img {
-            max-width: 20rem;
-            min-width: 20rem;
-        }
-
-        .beginBtn {
-            margin-left: 0%;
-        }
-    }
-
-    @media screen and (max-width:868px) {
-        .blog-post {
-        }
-
-        .blog-post_info {
-            margin: 1rem 1rem;
-        }
-
-        .beginBtn {
-            margin-left: 0%;
-        }
-    }
-
-    @media screen and (max-width:768px) {
-        .blog-post {
-            padding: 1rem;
-            flex-direction: column;
-        }
-
-        .beginBtn {
-            margin-left: 0%;
-        }
-
-        .blog-post_info {
-            margin: unset;
-            width: 100%;
-        }
-
-        .blog-post_img {
-            max-width: 100%;
-            min-width: 100%;
-            transform: translate(0, -.5rem);
-        }
-
-        .option-tab{
-            font-size: .75rem;
-        }
-    }
+}
 </style>
-
-<div class="view-wrapper">
-
-    <!-- /partials/global/options-nav/friends-options-nav.html -->
-    <div class="options-nav no-shadow">
-        <div class="nav-inner is-friends">
-            <div class="option-tabs d-flex justify-content-start" style="width: 30rem;overflow-x: auto;">
-                <div class="option-tab is-active" data-tab="all-friends">
-                    Active
-                </div>
-                <div class="option-tab" data-tab="starred-friends" style="white-space: nowrap;">
-                    Late Submission
-                </div>
-                <div class="option-tab" data-tab="new-friends">
-                    Closed
-                </div>
-                <div class="option-naver"></div>
+<div class="wrapper">
+    <div class="wrapper-inner" style="padding: 2em;margin: 5em auto;">
+        <div class="c-option-tabs" style="border-bottom: solid 1px #eeeeee;">
+            <div class="c-option-tab is-active" style="font-weight: 500;" data-tab="all-active">
+                Active
+            </div>
+            <div class="c-option-tab" style="font-weight: 500;" data-tab="all-late">
+                Late Submission
+            </div>
+            <div class="c-option-tab" style="font-weight: 500;" data-tab="all-closed">
+                Closed
             </div>
         </div>
-    </div>
-
-
-
-    <div id="friends-page" class="friends-wrapper main-container mt-4">
-        <!--First tab-->
-        <div id="all-friends" class="sec-row-wrap is-active">
-        {% for list in list %}
-            {%if list.status == "Active" %}
-            <div class="blog-post">
-                <div class="blog-post_img">
+        <div class="c-status is-active" id="all-active">
+            <h1 class="py-3" style="font-weight: 600">Active</h1>
+            <div class="c-list">
+            {% for list in list %}
+                {%if list.status == "Active" %}
+                <a href="{% url 'Competion:detail' list.id %}" class="card c-card">
                     {% if list.image %}
-                    <img src="{{list.image.url}}" alt="">
+                    <img class="card-img-top c-card-img-top" src="{{list.image.url}}" alt="Competition Image">
                     {% endif %}
-                </div>
-                <div class="blog-post_info">
-                    <a href="{% url 'Competion:detail' list.id %}">
-                        <h1 class="mb-3" style="font-weight: 500;font-size: 22px;">{{ list.name }}</h1>
-                    </a>
-                    <p class="blog-post_text">{{ list.overview | safe |truncatewords:35 }}</p>
-
-                    <h3 class="activeBtn blog-post_cta" align="center" style="color: white;padding: 0.5em 3em;min-width: 150px;"> {{list.status}}</h3>
-
-                    <h3 class="beginBtn blog-post_cta" align="center" style="color:#636369;min-width: 150px;">{{list.level}}</h3>
-
-                </div>
+<!--                    <div class="badge-wrapper">-->
+<!--                        <img class="card-img-badge" src="{% static 'images/logo/color-logo.png' %}" alt="Competition Image">-->
+<!--                    </div>-->
+                    <div class="c-card-body">
+                      <h5 class="c-card-time">{{list.status}}</h5>
+                      <h5 class="c-card-title">{{ list.name }}</h5>
+                      <!-- <p class="c-card-text">{{ list.overview|safe|truncatewords:8 }}</p> -->
+                      <small class="c-card-end">{{list.level}}</small>
+                    </div>
+                </a>
+                {%endif%}
+            {% endfor %}
             </div>
-            {%endif%}
-        {% endfor %}
         </div>
-
-        <!--Friend-->
-        <!--Second tab-->
-        <div id="starred-friends" class="sec-row-wrap" style="display: none;">
-        {% for list in list %}
-            {%if list.status == "Late Submission" %}
-            <div class="conatiner">
-                <div class="blog-post">
-                    <div class="blog-post_img">
+        <div class="c-status is-active" id="all-late">
+            <h1 class="py-3" style="font-weight: 600">Late Submission</h1>
+            <div class="c-list">
+                {% for list in list %}
+                    {%if list.status == "Late Submission" %}
+                    <a href="{% url 'Competion:detail' list.id %}" class="card c-card">
                         {% if list.image %}
-                        <img src="{{list.image.url}}" alt="">
+                        <img class="card-img-top c-card-img-top" src="{{list.image.url}}" alt="Competition Image">
                         {% endif %}
-                    </div>
-                    <div class="blog-post_info">
-                        <a href="{% url 'Competion:detail' list.id %}">
-                        <h1 class="mb-3" style="font-weight: 500;font-size: 22px;">{{ list.name }}</h1>
+<!--                        <div class="badge-wrapper">-->
+<!--                            <img class="card-img-badge" src="{% static 'images/logo/color-logo.png' %}" alt="Competition Image">-->
+<!--                        </div>-->
+                        <div class="c-card-body">
+                        <h5 class="c-card-time">{{list.status}}</h5>
+                        <h5 class="c-card-title">{{ list.name }}</h5>
+                        <!-- <p class="c-card-text">{{ list.overview }}</p> -->
+                        <small class="c-card-end">{{list.level}}</small>
+                        </div>
                     </a>
-                    <p class="blog-post_text">{{ list.overview | safe |truncatewords:35 }}</p>
-
-                    <h3 class="activeBtn blog-post_cta" align="center" style="color: white;padding: 0.5em 3em;min-width: 150px;"> {{list.status}}</h3>
-
-                    <h3 class="beginBtn blog-post_cta" align="center" style="color:#636369;min-width: 150px;">{{list.level}}</h3>
-
-                    </div>
-                </div>
+                    {%endif%}
+                {% endfor %}
             </div>
-            {%endif%}
-        {% endfor %}
         </div>
-
-        <div id="new-friends" class="sec-row-wrap" style="display: none;">
-        {% for list in list %}
-            {%if list.status == "Closed" %}
-            <div class="conatiner">
-                <div class="blog-post">
-                    <div class="blog-post_img">
+        <div class="c-status is-active" id="all-closed">
+            <h1 class="py-3" style="font-weight: 600">Closed</h1>
+            <div class="c-list">
+                {% for list in list %}
+                    {%if list.status == "Closed" %}
+                    <a href="{% url 'Competion:detail' list.id %}" class="card c-card">
                         {% if list.image %}
-                        <img src="{{list.image.url}}" alt="">
+                        <img class="card-img-top c-card-img-top" src="{{list.image.url}}" alt="Competition Image">
                         {% endif %}
-                    </div>
-                    <div class="blog-post_info">
-                        <a href="{% url 'Competion:detail' list.id %}">
-                        <h1 class="mb-3" style="font-weight: 500;font-size: 22px;">{{ list.name }}</h1>
+<!--                        <div class="badge-wrapper">-->
+<!--                            <img class="card-img-badge" src="{% static 'images/logo/color-logo.png' %}" alt="Competition Image">-->
+<!--                        </div>-->
+                        <div class="c-card-body">
+                        <h5 class="c-card-time">{{list.status}}</h5>
+                        <h5 class="c-card-title">{{ list.name }}</h5>
+                        <!-- <p class="c-card-text">{{ list.overview }}</p> -->
+                        <small class="c-card-end">{{list.level}}</small>
+                        </div>
                     </a>
-                    <p class="blog-post_text">{{ list.overview | safe |truncatewords:35 }}</p>
-
-                    <h3 class="activeBtn blog-post_cta" align="center" style="color: white;padding: 0.5em 3em;min-width: 150px;"> {{list.status}}</h3>
-
-                    <h3 class="beginBtn blog-post_cta" align="center" style="color:#636369;min-width: 150px;">{{list.level}}</h3>
-
-
-                    </div>
-                </div>
+                    {%endif%}
+                {% endfor %}
             </div>
-            {%endif%}
-        {% endfor %}
         </div>
     </div>
 </div>
 <script>
-const optionTabs = document.querySelectorAll('.option-tab')
-const optionNaver = document.querySelector('.option-naver')
-const secEls = document.querySelectorAll('.sec-row-wrap')
+const optionTabs = document.querySelectorAll('.c-option-tab')
+const secEls = document.querySelectorAll('.c-status')
 console.log(optionTabs, secEls)
 optionTabs?.forEach((tab)=>{
     tab.addEventListener('click', (e)=>{
+        if (e.target.classList.contains('is-active')){
+            e.target.classList.remove('is-active');
+            secEls?.forEach((sec)=>{
+                sec.classList.add('is-active')
+            })
+            return null;
+        }
         optionTabs?.forEach((t)=>{
             t.classList.remove('is-active')
         })
         secEls?.forEach((sec)=>{
             sec.classList.remove('is-active')
-            sec.style.display = 'none';
         })
         tab.classList.add('is-active')
         let secId = tab.getAttribute('data-tab')
         const activeSec = document.getElementById(secId)
         activeSec.classList.add('is-active')
-        activeSec.style.display = 'block'
         let num = [...optionTabs].indexOf(tab)
-        optionNaver.style.marginLeft = `${num * 33.33}%`;
     })
 })
 </script>

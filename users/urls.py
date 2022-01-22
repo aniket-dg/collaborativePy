@@ -14,7 +14,7 @@ router.register(r'device/gcm', GCMDeviceAuthorizedViewSet)
 app_name='user'
 
 urlpatterns = [
-     path('notification/', api.NotificationPermission.as_view(), name='notification'),
+
     # Login and Register
     path('login/', views.LoginView.as_view(), name='login'),
     path('register/', views.SignUpView.as_view(), name='register'),
@@ -80,7 +80,8 @@ urlpatterns = [
     path('oauth/register/', views.GoogleOAuthSignUpView.as_view(), name='oauth-register'),
 
     # Webpush
-    path(r'api/wp/', include(router.urls)),
+    path('notification/', api.NotificationPermission.as_view(), name='notification'),  # only for testing
+    path('device/fcm/', api.FCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), name='create_fcm_device'),
 ]
 
 if settings.DEBUG:

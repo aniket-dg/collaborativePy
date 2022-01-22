@@ -38,6 +38,8 @@ class Contact(models.Model):
 class TPP(models.Model):
     terms_and_condition = RichTextField(null=True, blank=True)
     privacy_policy = RichTextField(null=True, blank=True)
+    refund_policy = RichTextField(null=True, blank=True)
+    cancellation_policy = RichTextField(null=True, blank=True)
 
     def __str__(self):
         return 'TPP'
@@ -100,3 +102,15 @@ class PopUpQuestions(models.Model):
 
     def __str__(self):
         return f"{self.id}"
+
+
+
+class Faq(models.Model):
+    question = models.CharField(max_length=300)
+    answer = models.TextField()
+    date = models.DateTimeField(default=timezone.now)
+    is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.question
+

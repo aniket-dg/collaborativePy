@@ -116,7 +116,14 @@
                     <div class="separator"></div>
                     <div class="menu-block">
                         <ul>
-                            
+
+                            <li data-section="personal" {% if 'faq/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:faq-list' %}">
+                                    <i data-feather="faq"></i>
+                                    <span>Faq</span>
+                                </a>
+                            </li>
+
                             <li data-section="personal" {% if 'contact/list/' in request.path %} class="is-active" {% endif %}>
                                 <a href="{% url 'analytics:contact-list' %}">
                                     <i data-feather="mail"></i>

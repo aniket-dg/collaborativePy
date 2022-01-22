@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 import debug_toolbar
-
+from django.views.generic import TemplateView
 from home import views
 
 
@@ -19,6 +19,11 @@ urlpatterns = [
 
     # Oauth
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    # Webpush
+    path('messaging-sw.js', TemplateView.as_view(
+                                                template_name='users/sw/messaging-sw.js',
+                                                content_type='application/javascript',
+                                ), name='messaging-sw.js'),
 
     path('', views.handler403),
     path('', views.handler404),

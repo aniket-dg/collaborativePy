@@ -12,7 +12,8 @@ from users.models import User
 from .models import Message, P2pChatModel, GroupChatModel, GroupChat, GroupChatUnreadMessage, UserMedia
 from channels.layers import get_channel_layer
 from channels.generic.websocket import AsyncWebsocketConsumer
-
+from django.urls import reverse
+from users.api import send_notification
 
 class P2pConsumer(WebsocketConsumer):
 
@@ -101,7 +102,13 @@ class P2pConsumer(WebsocketConsumer):
                     msg.bucket = bucket
                     msg.is_media_present = True
                     msg.save()
-            # end
+            # send notification
+            extra = {
+                'title': f'{recipient.get_full_name()} messaged',
+                'url': reverse('chat:chat'),
+            }
+            send_notification([recipient.id], data['message'] or 'Received ❐ media files.', extra)
+
             return msg.id, recipient.id
         except Exception as e:
             print(e)
@@ -208,7 +215,13 @@ class GroupConsumer(WebsocketConsumer):
                     msg.bucket = bucket
                     msg.is_media_present = True
                     msg.save()
-            # end
+            # send notification
+            extra = {
+                'title': f'Group: {group.group_name}',
+                'url': reverse('chat:chat'),
+            }
+            member_ids = group.user_set.values_list('id', flat=True)
+            send_notification(member_ids, data['message'] or 'Received ❐ media files.', extra)
 
             return msg.id, msg.group.id
         except Exception as e:

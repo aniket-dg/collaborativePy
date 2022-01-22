@@ -7,7 +7,7 @@ from django.views.generic.edit import CreateView
 
 from order.models import Plan
 from .forms import NewsLetterForm, PopUpQuestionsForm
-from .models import Contact, TPP
+from .models import Contact, TPP, Faq
 
 
 def handler403(request, *args, **kwargs):
@@ -28,7 +28,8 @@ class Home(View):
         if self.request.user.is_authenticated:
             return redirect('post:post')
         context = {
-            'form':form
+            'form':form,
+            'faq': Faq.objects.filter(is_active=True)
         }
         # context['parent_category_list'] = ParentCategory.objects.all()
         return render(self.request, 'home/home.html', context)
@@ -71,6 +72,10 @@ class Terms(View):
             tpp = tpp.terms_and_condition
         elif page_name == 'privacy-policy':
             tpp = tpp.privacy_policy
+        elif page_name == 'refund_policy':
+            tpp = tpp.refund_policy
+        elif page_name == 'privacy-policy':
+            tpp = tpp.cancellation_policy
         return render(self.request, 'home/terms_and_condition.html', {'tpp': tpp, 'page': page_name})
 
 

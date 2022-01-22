@@ -1,0 +1,73 @@
+{% extends 'analytics/base.html' %}
+{% load crispy_forms_tags %} 
+{% load static %} 
+
+{% block title %}
+<h2 class="has-text-centered">
+    {% if 'create' in request.path %}
+        Faq Add
+    {% else %}
+        Faq Update
+    {% endif %}
+</h2>
+{% endblock title %}
+
+{% block data %}
+
+<style>
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group label {
+        font-size: 0.8em;
+    }
+
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group {
+        padding: 0.8em;
+    }
+
+    .form-control{
+        padding: 0.5em;
+        width: 100%;
+        border: 1px solid #e7e7e7;
+    }
+
+    .select {
+        padding: 0em 1em;
+        border: 1px solid #e7e7e7;
+    }
+
+</style>
+
+<div style="max-width: 100%;" class="settings-form-wrapper">
+    <div class="settings-form">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="columns is-multiline">
+
+                {% for field in form %}
+                <div class="column {% if field.label == 'Answer' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+                       
+                        <div class="control has-icon">
+                            {{ field.errors }}
+                            {{ field|as_crispy_field }}
+                            
+                            
+                        </div>
+                    </div>                    
+                </div>
+                
+                {% endfor %}
+
+
+                <div class="column is-12">
+                    <div class="buttons">
+                        <button type="submit" class="button is-solid accent-button form-button">Submit</button>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock data %}

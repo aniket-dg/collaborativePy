@@ -1,0 +1,30 @@
+{% extends 'analytics/base.html' %}
+{% load crispy_forms_tags %} 
+{% load static %} 
+
+{% block title %}
+<h2 class="has-text-centered">
+    FAQ
+</h2>
+
+<a href="{% url 'analytics:faq-create' %}" class="button is-solid accent-button" style="margin-left: auto;">ADD FAQ</a>
+
+{% endblock title %}
+
+{% block data %}
+
+{% for object in object_list %}
+
+<h4 style="font-weight: 600;">Q. {{ object.question }}</h4>
+
+<p class="pl-4 py-3">{{object.answer}}</p>
+
+<p class="py-2">
+   <a href="{% url 'analytics:faq-update' object.id %}" class="button is-warning px-4" style="width: 100px;font-weight: 600;">Edit</a>
+   <a href="{% url 'analytics:faq-delete' object.id %}" class="button is-danger px-4" style="width: 100px;color: white;">Delete</a>
+</p>
+
+<hr>
+{% endfor %}
+
+{% endblock data %}
