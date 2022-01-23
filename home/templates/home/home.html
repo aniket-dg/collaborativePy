@@ -16,6 +16,23 @@
     object-fit: contain;
     object-position: center;
 }
+i.fa.fa-chevron-down{
+    transform: rotateZ(-180deg);
+    transition: all .1s;
+}
+.collapsed i.fa.fa-chevron-down{
+    transform: rotateZ(0deg);
+}
+.faq-header{
+    font-weight: 700;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: #5596e6;
+}
+.collapsed.faq-header{
+    color: #717171;
+}
 </style>
 <!-- Content -->
 
@@ -45,7 +62,6 @@
                     <option value="ABOVE 30">ABOVE 30</option>
                 </select>
             </div>
-
             <div class="p-2">
                 <label for="knowledge_ml_dl_ai">HAVE ANY PREVIOUS KNOWLEDGE ABOUT ML/DL/AI?</label>
                 <select id="knowledge_ml_dl_ai" name="knowledge_ml_dl_ai" class="form-select my-2">
@@ -53,7 +69,6 @@
                     <option value="No">No</option>
                 </select>
             </div>
-
             <div class="p-2">
                 <label for="worked_in">HAVE WORKED MORE IN?</label>
                 <select id="worked_in" name="worked_in" class="form-select my-2">
@@ -63,7 +78,6 @@
                     <option value="NONE OF THE ABOVE">NONE OF THE ABOVE</option>
                 </select>
             </div>
-
             <div class="p-2">
                 <label for="code_difficult">FINDS CODING REALLY DIFFICULT?</label>
                 <select id="code_difficult" name="code_difficult" class="form-select my-2">
@@ -71,7 +85,6 @@
                     <option value="No">No</option>
                 </select>
             </div>
-
             <div class="p-2">
                 <label for="does_ml_dl_ai">DONE ANY ML/ DL /AI COURSES OR STUDIED ARTIFICIAL INTELLIGENCE IN COLLEGE
                     YET?</label>
@@ -80,7 +93,6 @@
                     <option value="No">No</option>
                 </select>
             </div>
-
             <div class="p-2">
                 <label for="like_to_work_in">Likes to study/create/work/do projects --</label>
                 <select id="like_to_work_in" name="like_to_work_in" class="form-select my-2">
@@ -88,7 +100,6 @@
                     <option value="In a team">In a team</option>
                 </select>
             </div>
-
             <div class="p-2">
                 <label for="functionality_areas">Likes to study/create/work/do projects --</label>
                 <select id="functionality_areas" multiple name="functionality_areas" class="form-select my-2" size="21">
@@ -119,13 +130,10 @@
                     <option value="Chemical">Chemical</option>
                 </select>
             </div>
-
             <button type="button" onclick="PopUpSubmit()" class="btn btn-primary m-2 mb-5">Submit</button>
-
         </div>
     </form>
 </div>
-
        <div class="alert alert-{{ item.tags }}" role="alert">
   {{ item }}
 </div>
@@ -309,9 +317,44 @@
             </div>
         </div>
 
+        <style>
+            
+        </style>
+        <div class="section-full bg-white content-inner-1">
+            <div class="container">
+                <div class="overview-box style1">
+                    <!-- <div class="overview-media wow fadeInLeft img-move2" data-wow-delay="0.3s">
+                        <img src="{% static 'images/illustrator/skeleton.svg' %}" alt="">
+                    </div> -->
+                    <div class="w-100">
+                        <h2 class="title text-center mb-5">Frequently Asked Questions</h2>
+                        <div class="accordion mb-2">
+                            <div class="row">
+                                {% for f in faq %}
+                                <div class="col-lg-6">
+                                    <div class="card" style="border:none; border-bottom: 1px solid rgba(0, 0, 0, .125);" >
+                                        <div class="card-header faq-header collapsed" data-toggle="collapse" data-target="#collapseFAQ{{f.id}}" aria-expanded="false" aria-controls="collapseFAQ{{f.id}}">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span>{{f.question}}</span>
+                                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                        <div id="collapseFAQ{{f.id}}" class="collapse">
+                                            <div class="card-body">
+                                                {{f.answer}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-
-<br><br><br><br><br><br><br><br>
+        <br><br><br>
 
 
         <!-- contact form -->

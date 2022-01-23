@@ -10,13 +10,17 @@
     height: 35rem;
     max-height: 35rem;
 }
+.participate-form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1rem;
+}
 .btn-grad {
     background-image: linear-gradient(to right, #314755 0%, #26a0da 51%, #314755 100%);
     width: 120px;
     height: 50px;
     padding: 10px;
-    margin-bottom: auto;
-    margin-top: auto;
     font-weight: 500;
     cursor: pointer;
     border: none;
@@ -60,9 +64,6 @@
  .abc {
      display: none;
 }
- ul li:hover {
-     background-color: #E1E5EA;
-}
  #icon {
      height: 24px;
      font-size: 40px;
@@ -75,7 +76,7 @@ li i{
  .ulist {
     display: flex;
     justify-content: safe space-around;
-    align-items: center;
+    /* align-items: center; */
     padding: 0 1rem;
     height: 110px;
     background: white;
@@ -85,14 +86,22 @@ li i{
     overflow-y: hidden;
     overflow-x: auto;
 }
- .t1 {
-     margin: auto;
+.t1 {
+     margin: 0 auto;
+     height: 100%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+ .t1:hover{
+    background-color: #E1E5EA;
  }
  .t1[data-active]{
-    background-color: #E1E5EA;
-    transform: scale(1.1);
+     border-bottom: solid 5px #5596e6;
  }
  .list {
+     font-size: 13px;
+     height: 100%;
      cursor: pointer;
      padding: 28px 11px 18px 11px;
      text-align: center;
@@ -124,7 +133,7 @@ li i{
  }
  .drag-area {
      text-align: center;
-     border: 2px dashed #4facfe;
+     border: 2px dashed #5596e6;
      height: 22rem;
      width: 100%;
      border-radius: 0.5em;
@@ -134,26 +143,26 @@ li i{
      flex-direction: column;
 }
  .drag-area.active {
-     border: 2px solid #4facfe;
+     border: 2px solid #5596e6;
 }
  .drag-area .icon {
      font-size: 5rem;
-     color: #4facfe;
+     color: #5596e6;
 }
  .drag-area header {
      font-size: 30px;
      font-weight: 500;
-     color: #4facfe;
+     color: #5596e6;
 }
  .drag-area span {
      font-size: 25px;
      font-weight: 500;
-     color: #4facfe;
+     color: #5596e6;
      margin: 10px 0 15px 0;
 }
  .drag-button {
      padding: 10px 20px;
-     border: solid 1px #4facfe;
+     border: solid 1px #5596e6;
      background: transparent;
      border-radius: 3px;
      cursor: pointer;
@@ -162,7 +171,7 @@ li i{
     padding: 10px 20px;
     font-size: 1rem;
     color: white;
-    background:#4facfe;
+    background:#5596e6;
     box-shadow: 0 1px 1px 1px #b8b8b8;
  }
  .drag-area img {
@@ -185,8 +194,7 @@ li i{
      float: left;
      min-width: 1%;
      height: 100%;
-     background-image: -webkit-linear-gradient(#06F, #0CF);
-     background-image: linear-gradient(#06F, #0CF);
+     background-color: #5596e6;
 }
  .percent {
      position: absolute;
@@ -295,8 +303,8 @@ li i{
      .drag{
          font-size: 1.3rem;
     }
-     .btn-grad {
-         display: none;
+    .participate-form{
+        display: none;
     }
      .btn-participate {
          display: block;
@@ -322,9 +330,6 @@ li i{
      .label1 {
          display: none;
     }
-     .btn-grad {
-         display: none;
-    }
      .btn-participate {
          display: block;
     }
@@ -335,15 +340,9 @@ li i{
          padding: 28px 5px 18px 5px;
     }
 }
-
-li {
-  font-size: 13px;
-}
-
 li p {
    font-weight: 600;
 }
-
 </style>
 
 <div class="container">
@@ -558,7 +557,7 @@ li p {
 
                             <li data-list="tab_7" class="list">
 
-                                <i class="fa fa-crown fa-lg icon mb-2"  style="font-size: 23px;"></i>
+                                <i class="fa fa-line-chart fa-lg icon mb-2"  style="font-size: 23px;"></i>
 
                                 <p>Ranking</p>
 
@@ -566,15 +565,13 @@ li p {
 
                         </div>
                         {% if request.user not in competion.participants.all %}
-                        <div style="margin-left: 1rem;">
-                            <form method="POST" action="{% url 'Competion:participate' %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="pk" value="{{competion.pk}}">
-                                <button type="submit" id="participate-btn" class="btn-grad">
-                                    Participate
-                                </button>
-                            </form>
-                        </div>
+                        <form class="participate-form" method="POST" action="{% url 'Competion:participate' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk" value="{{competion.pk}}">
+                            <button type="submit" id="participate-btn" class="btn-grad">
+                                Participate
+                            </button>
+                        </form>
                         {% endif %}
                     </ul>
 
@@ -623,7 +620,7 @@ li p {
                                 <form method="POST" action="{% url 'Competion:user-submissions' competion.id %}" enctype="multipart/form-data">
                                     {% csrf_token %}
                                     <div class="drag-area">
-                                        <div class="icon"><i id="upload-icon" class="fa fa-cloud-upload-alt"></i></div>
+                                        <div class="icon"><i id="upload-icon" class="fa fa-upload"></i></div>
                                         <br><br>
                                         <p class="drag m-2">Drag & drop to upload file.</p>
                                         <button type="button" class="drag-button mt-4" style="font-family: inherit;">Browse File</button>

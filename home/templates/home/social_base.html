@@ -23,8 +23,6 @@
     <link rel="stylesheet" href="{% static 'social_assets/css/app.css' %}">
     <link rel="stylesheet" href="{% static 'social_assets/css/core.css' %}">
 
-    <!-- <script src="https://kit.fontawesome.com/d59caff470.js" crossorigin="anonymous"></script> -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -45,6 +43,14 @@
                 </a>
             </div>
             <style>
+                .custom-icon.c-active{
+                    background: #6ba4e9;
+                    color: #fafafa !important;
+                    box-shadow: 0 14px 26px -12px rgb(85 150 230 / 42%), 0 4px 23px 0px rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(85 150 230 / 20%) !important;
+                }
+                .custom-icon.c-active i::before{
+                    color: white !important;
+                }
                 .custom-indicator{
                     position: absolute;
                     top: -5px;
@@ -74,7 +80,11 @@
                 <div class="navbar-start">
                     <!-- Navbar Search -->
                     {% url 'user:profile' as profile_path %}
-
+                    {% url 'post:post' as path_post %}
+                    {% url 'post:skeleton-post' as path_skeleton_post %}
+                    {% url 'Competion:competionlist' as path_competition %}
+                    {% url 'home:plan' as path_plan %}
+                    {% url 'analytics:user-list' as path_analytics %}
                     <!-- <div class="navbar-item is-icon drop-trigger">
                         <a class="icon-link" href="javascript:void(0);">
                             <i data-feather="bell"></i>
@@ -195,28 +205,28 @@
                         </a>
                     </div> -->
                     <div class="navbar-item is-icon" title="Forums">
-                        <a class="icon-link custom-icon" href="{% url 'post:post' %}">
+                        <a class="icon-link custom-icon {% ifequal request.path path_post %}c-active{% endifequal %}" href="{% url 'post:post' %}">
                             <i class="fa fa-wpforms"></i>
                             <span class="indicator"></span>
                         </a>
                     </div>
 
                     <div class="navbar-item is-icon" title="Skeleton Code" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
-                        <a class="icon-link custom-icon" href="{% url 'post:skeleton-post' %}">
+                        <a class="icon-link custom-icon {% ifequal request.path path_skeleton_post %}c-active{% endifequal %}" href="{% url 'post:skeleton-post' %}">
                             <i class="fa fa-code"></i>
                             <span class="indicator"></span>
                         </a>
                     </div>
 
                      <div class="navbar-item is-icon" title="Competition">
-                        <a class="icon-link custom-icon" href="{% url 'Competion:competionlist' %}">
+                        <a class="icon-link custom-icon {% ifequal request.path path_competition %}c-active{% endifequal %}" href="{% url 'Competion:competionlist' %}">
                             <i class="mdi mdi-trophy-outline"></i>
                             <span class="indicator"></span>
                         </a>
                     </div>
 
                     <div class="navbar-item is-icon" title="Plans">
-                        <a class="icon-link custom-icon" href="{% url 'home:plan-list' %}">
+                        <a class="icon-link custom-icon {% ifequal request.path path_plan %}c-active{% endifequal %}" href="{% url 'home:plan-list' %}">
                             <i class="fa fa-credit-card"></i>
                             <span class="indicator"></span>
                         </a>
@@ -285,7 +295,7 @@
 
                     {% if request.user.is_staff %}
                     <div class="navbar-item is-icon" title="Analytics">
-                        <a class="icon-link custom-icon" href="{% url 'analytics:user-list' %}">
+                        <a class="icon-link custom-icon {% ifequal request.path path_analytics %}c-active{% endifequal %}" href="{% url 'analytics:user-list' %}">
                             <i class="fa fa-bar-chart-o"></i>
                             <span class="indicator"></span>
                         </a>
@@ -566,7 +576,7 @@
                                             </div>
                                         </div>
                                     </a> -->
-                                    <a class="account-item">
+                                    <a href="{% url 'home:contact' %}" class="account-item">
                                         <div class="media">
                                             <div class="icon-wrap">
                                                 <i data-feather="help-circle"></i>
@@ -735,28 +745,28 @@
                 </div> -->
 
                 <div class="navbar-item is-icon" title="Forums">
-                    <a class="icon-link custom-icon" href="{% url 'post:post' %}">
+                    <a class="icon-link custom-icon {% ifequal request.path path_post %}c-active{% endifequal %}" href="{% url 'post:post' %}">
                         <i class="fa fa-wpforms"></i>
                         <span class="indicator"></span>
                     </a>
                 </div>
 
                 <div class="navbar-item is-icon" title="Skeleton code" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
-                    <a class="icon-link custom-icon" href="{% url 'post:skeleton-post' %}">
+                    <a class="icon-link custom-icon {% ifequal request.path path_skeleton_post %}c-active{% endifequal %}" href="{% url 'post:skeleton-post' %}">
                         <i class="fa fa-code"></i>
                         <span class="indicator"></span>
                     </a>
                 </div>
 
                  <div class="navbar-item is-icon" title="Competition">
-                    <a class="icon-link custom-icon" href="{% url 'Competion:competionlist' %}">
+                    <a class="icon-link custom-icon {% ifequal request.path path_competition %}c-active{% endifequal %}" href="{% url 'Competion:competionlist' %}">
                         <i class="mdi mdi-trophy-outline"></i>
                         <span class="indicator"></span>
                     </a>
                 </div>
 
                 <div class="navbar-item is-icon" title="Plans">
-                    <a class="icon-link custom-icon" href="{% url 'home:plan-list' %}">
+                    <a class="icon-link custom-icon {% ifequal request.path path_plan %}c-active{% endifequal %}" href="{% url 'home:plan-list' %}">
                         <i class="fa fa-credit-card"></i>
                         <span class="indicator"></span>
                     </a>
@@ -823,7 +833,7 @@
 
                 {% if request.user.is_staff %}
                 <div class="navbar-item is-icon" title="Analytics">
-                    <a class="icon-link custom-icon" href="{% url 'analytics:user-list' %}">
+                    <a class="icon-link custom-icon {% ifequal request.path path_analytics %}c-active{% endifequal %}" href="{% url 'analytics:user-list' %}">
                         <i class="fa fa-bar-chart-o"></i>
                         <span class="indicator"></span>
                     </a>

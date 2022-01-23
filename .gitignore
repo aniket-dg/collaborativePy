@@ -162,3 +162,5 @@ cython_debug/
 /order/migrations
 /post/migrations
 /users/migrations
+
+/home/static
