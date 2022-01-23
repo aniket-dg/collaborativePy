@@ -72,7 +72,7 @@ class SaveSessionForNotebook(LoginRequiredMixin, View):
             user.is_group_share = False
             user.group_id_share = ''
             user.save()
-        return redirect("https://jupyter.stellar-ai.in/jupyter/")
+        return redirect("http://jupyter.stellar-ai.in/jupyter/")
         #return redirect("https://www.google.com/jupyter/")
 
 

@@ -59,7 +59,8 @@ MIDDLEWARE = [
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
-X_FRAME_OPTIONS = 'SAMEORIGIN'
+X_FRAME_OPTIONS = 'ALLOWALL'
+XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
 SESSION_ENGINE = 'user_sessions.backends.db'
 SILENCED_SYSTEM_CHECKS = ['admin.E410']
 AUTHENTICATION_BACKENDS = (

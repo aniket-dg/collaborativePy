@@ -73,7 +73,6 @@ function getGroupConversation(groupName) {
 
 // Displays a single message
 function drawMessage(data, isCurrentUser) {
-	console.log(data);
     let html = '';
     const mediaEl = generateMediaEl(data, isCurrentUser)
         html = `
