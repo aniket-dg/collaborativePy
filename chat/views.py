@@ -105,7 +105,7 @@ class ChatRoom(LoginRequiredMixin, View):
         if not user.payment:
             context['allow_group_creation'] = False
         else:
-            context['allow_group_creation'] = user.payment.plan.total_group_create_size > number_of_user_created_groups
+            context['allow_group_creation'] = user.payment.total_group_create_size > number_of_user_created_groups
         return render(self.request, 'chat/chat-direct.html', context)
 
 

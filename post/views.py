@@ -311,6 +311,43 @@ class BookMarkPost(LoginRequiredMixin, View):
                 'Status': 1
             })
 
+@method_decorator(csrf_exempt, name='dispatch')
+class SkeletonBookMarkPost(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        """
+        :param request:
+            authenticated_user, post-id,
+        :return:
+            True/False, Bookmark post
+        """
+        id = self.request.POST.get('id')
+        if not id:
+            return JsonResponse({
+                'Status': False,
+                'Message': 'ID is required!...'
+            })
+        if len(SkeletonPost.objects.filter(id=id)) == 0:
+            return JsonResponse({
+                'Status': False,
+                'Message': 'Something went wrong!...'
+            })
+        post = SkeletonPost.objects.filter(id=id).get()
+        # if FlagInappropriate.objects.filter(user=self.request.user, post=post).exists():
+        #     return JsonResponse({
+        #         'Status': False,
+        #         'Message': 'Cant bookmark a Inappropriate post!...'
+        #     })
+        if BookMark.objects.filter(user=self.request.user, skeleton_post=post).exists():
+            BookMark.objects.filter(user=self.request.user, skeleton_post=post).delete()
+            return JsonResponse({
+                'Status': 0
+            })
+        else:
+            BookMark.objects.create(user=self.request.user, skeleton_post=post)
+            return JsonResponse({
+                'Status': 1
+            })
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class FlagInappropriatePost(LoginRequiredMixin, View):
@@ -394,8 +431,10 @@ class LoadMoreSkeletonPost(View):
         print(new_posts, "Aniket")
         for post in new_posts:
             bookmark = "none"
-            flag = ""
+            if BookMark.objects.filter(user=self.request.user, skeleton_post=post).exists():
+                bookmark = "#1589FF"
             code_file_url = ""
+            flag = ""
             if not post.user.profile_image:
                 profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
             else:
@@ -704,44 +743,84 @@ class LoadMoreBookmarkPost(View):
         new_posts = list(p.get_page((current_status + 2) / 2))
         posts = []
         for post in new_posts:
-            bookmark = "#1589FF"
-            flag = ""
-            if FlagInappropriate.objects.filter(user=self.request.user, post=post.post).exists():
-                flag = "is-hidden"
-            if not post.post.user.profile_image:
-                profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
-            else:
-                profile = post.post.user.profile_image.url
-            try:
-                image1 = post.post.image1.url
-            except ValueError:
-                image1 = ""
-            try:
-                image2 = post.post.image2.url
-            except ValueError:
-                image2 = ""
-            try:
-                image3 = post.post.image3.url
-            except ValueError:
-                image3 = ""
-            try:
-                image4 = post.post.image4.url
-            except ValueError:
-                image4 = ""
-            try:
-                image5 = post.post.image5.url
-            except ValueError:
-                image5 = ""
-            posts.append({
-                'user': post.post.user.get_full_name(), 'profile': profile, 'post_id': post.post.id,
-                'category': post.post.category.name,
-                'description': post.post.description, 'language': post.post.language.name,
-                'likes': post.post.liked_by.count(),
-                'scope_of_work': post.post.scope_of_work.name,
-                'timestamp': post.post.user.username,
-                'like_status': True if self.request.user in post.post.liked_by.all() else False, 'image1': image1,
-                'comments': PostComment.objects.filter(post=post.post).count(), 'image2': image2, 'image3': image3,
-                'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.post.code
+            if post.post:
+                bookmark = "#1589FF"
+                flag = ""
+                if FlagInappropriate.objects.filter(user=self.request.user, post=post.post).exists():
+                    flag = "is-hidden"
+                if not post.post.user.profile_image:
+                    profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
+                else:
+                    profile = post.post.user.profile_image.url
+                try:
+                    image1 = post.post.image1.url
+                except ValueError:
+                    image1 = ""
+                try:
+                    image2 = post.post.image2.url
+                except ValueError:
+                    image2 = ""
+                try:
+                    image3 = post.post.image3.url
+                except ValueError:
+                    image3 = ""
+                try:
+                    image4 = post.post.image4.url
+                except ValueError:
+                    image4 = ""
+                try:
+                    image5 = post.post.image5.url
+                except ValueError:
+                    image5 = ""
+                posts.append({
+                    'user': post.post.user.get_full_name(), 'profile': profile, 'post_id': post.post.id,
+                    'category': post.post.category.name,
+                    'description': post.post.description, 'language': post.post.language.name,
+                    'likes': post.post.liked_by.count(),
+                    'scope_of_work': post.post.scope_of_work.name,
+                    'timestamp': post.post.user.username,
+                    'like_status': True if self.request.user in post.post.liked_by.all() else False, 'image1': image1,
+                    'comments': PostComment.objects.filter(post=post.post).count(), 'image2': image2, 'image3': image3,
+                    'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.post.code
 
-            })
+                })
+            else:
+                bookmark = "#1589FF"
+                flag = ""
+                if not post.skeleton_post.user.profile_image:
+                    profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
+                else:
+                    profile = post.skeleton_post.user.profile_image.url
+                try:
+                    image1 = post.skeleton_post.image1.url
+                except ValueError:
+                    image1 = ""
+                try:
+                    image2 = post.skeleton_post.image2.url
+                except ValueError:
+                    image2 = ""
+                try:
+                    image3 = post.skeleton_post.image3.url
+                except ValueError:
+                    image3 = ""
+                try:
+                    image4 = post.skeleton_post.image4.url
+                except ValueError:
+                    image4 = ""
+                try:
+                    image5 = post.skeleton_post.image5.url
+                except ValueError:
+                    image5 = ""
+                posts.append({
+                    'user': post.skeleton_post.user.get_full_name(), 'profile': profile, 'post_id': post.skeleton_post.id,
+                    # 'category': post.skeleton_post.category.name,
+                    'description': post.skeleton_post.description, 'language': post.skeleton_post.language,
+                    'likes': post.skeleton_post.liked_by.count(),
+                    'scope_of_work': post.skeleton_post.scope_of_work,
+                    'timestamp': post.skeleton_post.user.username,
+                    'like_status': True if self.request.user in post.skeleton_post.liked_by.all() else False, 'image1': image1,
+                    'comments': SkeletonPostComment.objects.filter(post=post.post).count(), 'image2': image2, 'image3': image3,
+                    'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.skeleton_post.skeleton_code
+
+                })
         return JsonResponse({'posts': posts})
