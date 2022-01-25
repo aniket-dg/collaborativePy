@@ -26,6 +26,7 @@ urlpatterns = [
     path('comment/', views.PostComments.as_view(), name='comment'),
     path('loadMore/', views.LoadMore.as_view(), name='load-more'),
     path('bookmark/', views.BookMarkPost.as_view(), name='book-mark'),
+    path('skeleton/bookmark/', views.SkeletonBookMarkPost.as_view(), name='skeleton-book-mark'),
     path('flag_post/', views.FlagInappropriatePost.as_view(), name='flag-post'),
     path('skeleton/post/', views.SkeletonPostListView.as_view(), name='skeleton-post'),
     path('loadMore/skeleton/', views.LoadMoreSkeletonPost.as_view(), name='load-more-skeleton'),

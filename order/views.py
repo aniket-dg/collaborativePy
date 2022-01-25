@@ -48,10 +48,17 @@ class PaymentResponseView(View):
                 valid_till = payment.valid_till + timedelta(int(remaining_days))
                 payment.valid_till = valid_till
                 payment.save()
+                payment.total_group_create_size = old_payment.total_group_create_size + payment.plan.total_group_create_size
+                payment.group_size = max(old_payment.group_size, payment.plan.group_size)
+                payment.save()
                 user.payment = payment
                 user.save()
             else:
                 user.payment = payment
+                payment = user.payment
+                payment.total_group_create_size = payment.plan.total_group_create_size
+                payment.group_size = payment.plan.group_size
+                payment.save()
                 user.save()
             messages.success(self.request, "Payment Success!")
             return redirect('home:home')

@@ -1014,13 +1014,14 @@
         $.ajax({
             async: true,
             method: "POST",
-            url: "{% url 'post:book-mark' %}",
+            url: "{% url 'post:skeleton-book-mark' %}",
             data: {
                 csrfmiddlewaretoken: csrfmiddlewaretoken,
                 'id': id,
             },
             success: function (response) {
                 if (response['Status'] === false) {
+                    console.log(response);
                     alert(response['Message']);
                 } else if (response['Status'] === 1) {
                     $('#book-mark-' + id).css('fill', '#1589FF');
@@ -1029,7 +1030,8 @@
                 }
             },
             error: function (response) {
-                alert(response['Message']);
+                console.log(response);
+                {% comment %} alert(response['Message']); {% endcomment %}
             },
         });
     }
