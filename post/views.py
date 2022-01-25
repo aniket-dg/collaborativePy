@@ -395,6 +395,7 @@ class LoadMoreSkeletonPost(View):
         for post in new_posts:
             bookmark = "none"
             flag = ""
+            code_file_url = ""
             if not post.user.profile_image:
                 profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
             else:
@@ -419,6 +420,8 @@ class LoadMoreSkeletonPost(View):
                 image5 = post.image5.url
             except ValueError:
                 image5 = ""
+            if post.code_file:
+                code_file_url = post.code_file.url
             posts.append({
                 'user': post.user.get_full_name(),'user_id': post.user.id, 'profile': profile, 'post_id': post.id,
                 'description': post.description, 'language': post.language, 'likes': post.liked_by.count(),
@@ -429,7 +432,8 @@ class LoadMoreSkeletonPost(View):
                 'first_level_category': post.first_level_category.id,
                 'second_level_category': post.second_level_category.id if post.second_level_category else "null",
                 'third_level_category': post.third_level_category.id if post.third_level_category else "null",
-                'fourth_level_category': post.fourth_level_category.id if post.fourth_level_category else "null"
+                'fourth_level_category': post.fourth_level_category.id if post.fourth_level_category else "null",
+                'code_file_url':code_file_url,
             })
         return JsonResponse({'posts': posts})
 

@@ -125,6 +125,7 @@ class SkeletonPost(models.Model):
     language = models.CharField(max_length=100, choices=LANGUAGES_CHOICES)
     scope_of_work = models.CharField(max_length=100, choices=SCOPE_CHOICES)
     liked_by = models.ManyToManyField('users.User', blank=True, related_name='liked')
+    code_file = models.FileField(upload_to="skeleton_code_file/", null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
