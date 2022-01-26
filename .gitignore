@@ -65,6 +65,7 @@ db.sqlite3
 db.sqlite3-journal
 git_ignore
 stellar_ai/local_settings.py
+media
 tmp
 db.json
 # Flask stuff:

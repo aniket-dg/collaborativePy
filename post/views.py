@@ -478,6 +478,36 @@ class LoadMoreSkeletonPost(View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
+class SkeletonPostLike(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        """
+        :param request:
+            authenticated_user, post-id,
+        :return:
+            True/False, Number of likes
+        """
+        id = self.request.POST.get('id')
+        if not id:
+            return JsonResponse({
+                'Status': False,
+                'Message': 'ID is required!...'
+            })
+        if len(SkeletonPost.objects.filter(id=id)) == 0:
+            return JsonResponse({
+                'Status': False,
+                'Message': 'Something went wrong!...'
+            })
+        post = SkeletonPost.objects.filter(id=id).get()
+        if self.request.user not in post.liked_by.all():
+            post.liked_by.add(self.request.user)
+        else:
+            post.liked_by.remove(self.request.user)
+        return JsonResponse({
+            'likes': post.liked_by.all().count()
+        })
+
+
+@method_decorator(csrf_exempt, name='dispatch')
 class SkeletonPostCommentView(View):
     """
     :param request:

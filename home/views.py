@@ -74,7 +74,7 @@ class Terms(View):
             tpp = tpp.privacy_policy
         elif page_name == 'refund_policy':
             tpp = tpp.refund_policy
-        elif page_name == 'privacy-policy':
+        elif page_name == 'cancellation_policy':
             tpp = tpp.cancellation_policy
         return render(self.request, 'home/terms_and_condition.html', {'tpp': tpp, 'page': page_name})
 

@@ -764,7 +764,7 @@
         $.ajax({
             async: true,
             method: "POST",
-            url: "{% url 'post:like' %}",
+            url: "{% url 'post:skeleton-post-like' %}",
             data: {
                 csrfmiddlewaretoken: csrfmiddlewaretoken,
                 'id': id,

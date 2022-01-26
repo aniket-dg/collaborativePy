@@ -33,6 +33,7 @@ urlpatterns = [
     path('loadmore/post/', views.LoadMorePost.as_view(), name='load-more-post'),
     path('loadmore/bookmark/post/', views.LoadMoreBookmarkPost.as_view(), name='load-more-bookmark-post'),
     path('skeleton/comment/', views.SkeletonPostCommentView.as_view(), name='skeleton-post-comment'),
+    path('skeleton/like/', views.SkeletonPostLike.as_view(), name='skeleton-post-like'),
 
     path('loadMore/comments/', views.LoadMoreComments.as_view(), name='load-more-comments'),
     path('loadMore/skeleton/comments/', views.LoadMoreSkeletonComments.as_view(), name='load-more-skeleton-comments'),
