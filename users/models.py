@@ -98,11 +98,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         return False
 
     def is_new_group_valid(self):
-        plan = self.payment.plan
+        payment = self.payment
         groups = GroupChatModel.objects.filter(created_by=self).count()
-        if plan.total_group_create_size > groups:
-            return True, plan.total_group_create_size, groups
-        return False, plan.total_group_create_size, groups
+        if payment.total_group_create_size > groups:
+            return True, payment.total_group_create_size, groups
+        return False, payment.total_group_create_size, groups
 
     def remaining_days(self):
         if self.payment:

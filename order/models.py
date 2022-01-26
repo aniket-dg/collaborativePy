@@ -37,6 +37,7 @@ class Payment(models.Model):
     order_id = models.CharField(unique=True, max_length=100, null=True, blank=True)
     paid = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
-
+    total_group_create_size = models.IntegerField(default=0)
+    group_size = models.IntegerField(default=0)
     def __str__(self):
         return f"{self.id}_Payment"

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Stellar | Notebook</title>
 
@@ -75,7 +76,7 @@
             <div class="col p-0 h-100 hide-mobile">
                 <section class="notebook-section">
                     <iframe src="https://jupyter.stellar-ai.in/jupyter/?group_id={{group_id}}&group_share={{group_share}}" allowfullscreen></iframe>
-                    <!-- <iframe src="https://example.org/" allowfullscreen></iframe> -->
+                    <iframe src=>Content-Security-Policy: frame-ancestors  '*' </iframe>
                 </section>
             </div>
 
@@ -148,6 +149,9 @@
     {{request.user.email|json_script:"user_email"}}
     {{group_name|json_script:"group_name"}}
     {{group_name_url|json_script:"group_name_url"}}
+    <script>
+        let name_url = "{{ group.name }}";
+    </script>
     <script src="{% static 'assets/js/notebook.js' %}"></script>
 </body>
 </html>

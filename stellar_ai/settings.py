@@ -234,6 +234,8 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
 )
 
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
 SOCIAL_AUTH_URL_NAMESPACE = "user:social"
 
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
