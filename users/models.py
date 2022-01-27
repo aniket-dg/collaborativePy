@@ -82,12 +82,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def is_plan_valid(self):
         if self.payment:
-            if not self.payment.paid:
-                return False
-            now = datetime.now().date()
-            day = now.day if now.day>1 else 1
-            now = datetime(day=day, month=now.month, year=now.year).date()
-            if now < self.payment.valid_till:
+            if self.payment.paid:
                 return True
         return False
 
@@ -99,10 +94,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def is_new_group_valid(self):
         payment = self.payment
-        groups = GroupChatModel.objects.filter(created_by=self).count()
-        if payment.total_group_create_size > groups:
-            return True, payment.total_group_create_size, groups
-        return False, payment.total_group_create_size, groups
+        if payment.plans.count() > 0:
+            return True
+        return False
 
     def remaining_days(self):
         if self.payment:

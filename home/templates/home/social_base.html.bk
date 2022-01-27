@@ -1,0 +1,1201 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title> Stellar AI</title>
+    <link rel="icon" type="image/png" href="{% static 'images/logo/color-logo.png' %}" />.
+    <!-- Fonts -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <link href="../cdn.jsdelivr.net/npm/fontisto%40v3.0.4/css/fontisto/fontisto-brands.min.css" rel="stylesheet">
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{% static 'social_assets/css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'social_assets/css/core.css' %}">
+
+    <!-- <script src="https://kit.fontawesome.com/d59caff470.js" crossorigin="anonymous"></script> -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <!-- Pageloader -->
+    <div class="pageloader" style="display: none;"></div>
+    <div class="infraloader is-active" style="display: none;"></div>
+    <div class="app-overlay"></div>
+
+    <div id="main-navbar" class="navbar navbar-v1 is-inline-flex is-transparent no-shadow is-hidden-mobile">
+        <div class="container is-fluid">
+            <div class="navbar-brand">
+                <a href="{% url 'home:home' %}" class="navbar-item">
+                    <!-- <h1>Stellar Ai</h1> -->
+                    <img class="logo light-image" src="{% static 'images/logo/color-logo.png' %}" width="112" height="28" alt="">
+                    <!-- <img class="logo dark-image" src="{% static 'social_assets/img/logo/friendkit-white.svg' %}" width="112" height="28" alt=""> -->
+                </a>
+            </div>
+            <style>
+                .custom-indicator{
+                    position: absolute;
+                    top: -5px;
+                    right: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #5596E6;
+                    color: white;
+                    min-width: 17px;
+                    min-height: 17px;
+                    font-size: 12px;
+                    height: 15px;
+                    border-radius: 50%;
+                }
+                .custom-indicator.red{
+                    background-color: #E6122F;
+                }
+                .custom-icon{
+                    color: #999;
+                }
+                .custom-icon:hover{
+                    color: #fafafa;
+                }
+            </style>
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <!-- Navbar Search -->
+                    {% url 'user:profile' as profile_path %}
+
+                    <!-- <div class="navbar-item is-icon drop-trigger">
+                        <a class="icon-link" href="javascript:void(0);">
+                            <i data-feather="bell"></i>
+                            <span class="indicator"></span>
+                        </a>
+
+                        <div class="nav-drop">
+                            <div class="inner">
+                                <div class="nav-drop-header">
+                                    <span>Notifications</span>
+                                    <a href="#">
+                                        <i data-feather="bell"></i>
+                                    </a>
+                                </div>
+                                <div class="nav-drop-body is-notifications">
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="{% static 'social_assets/img/avatars/david.jpg' %}" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <span><a href="#">David Kim</a> commented on <a href="#">your post</a>.</span>
+                                            <span class="time">30 minutes ago</span>
+                                        </div>
+                                        <div class="media-right">
+                                            <div class="added-icon">
+                                                <i data-feather="message-square"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nav-drop-footer">
+                                    <a href="#" onclick="navDropClose(event, this,'personal-content-list')">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    {% if request.user.is_authenticated %}
+
+                    {% if total_message_count > 0 %}
+                    <div class="navbar-item is-icon drop-trigger" title="Chatroom">
+                    {% else %}
+                    <div class="navbar-item is-icon" onclick="location.href = `{% url 'chat:chat' %}`" title="Chatroom">
+                    {% endif %}
+                        {% if p2p_unread_messages|length > 0 or group_unread_messages|length > 0 %}
+                        <a class="icon-link is-active" href="javascript:void(0);">
+                        {% else %}
+                        <a class="icon-link" href="javascript:void(0);">
+                        {% endif %}
+                            <i data-feather="mail"></i>
+                            {% if total_message_count > 0 %}
+                            <div class="custom-indicator red">
+                                {{total_message_count}}
+                            </div>
+                            {% endif %}
+                        </a>
+
+                        <div class="nav-drop">
+                            <div class="inner">
+                                <div class="nav-drop-header">
+                                    <span>Messages</span>
+                                    <a href="{% url 'chat:chat' %}">Inbox</a>
+                                </div>
+                                <div class="nav-drop-body is-friend-requests" style="overflow-x: hidden;">
+                                    <!-- Message -->
+                                    {% for p2pchat in p2p_unread_messages %}
+                                    <div class="media" onclick="location={% url 'chat:chat' %}" style="cursor: pointer;">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="{{p2pchat.user.get_profile_img}}" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content" style="width: 60%;">
+                                            <a>{{p2pchat.user.get_full_name}}</a>
+                                            <span style="white-space:nowrap; text-overflow: ellipsis; overflow-x: hidden;">{{p2pchat.body|default:'Received &#10064 media files.'}}</span>
+                                            <span class="time">{{p2pchat.timestamp|date:'F j, Y: f A'}}</span>
+                                        </div>
+                                        <div class="media-right is-centered">
+                                            <div class="added-icon">
+                                                <i data-feather="message-square"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    <!-- Message -->
+                                    {% for groupchat in group_unread_messages %}
+                                    <div class="media" onclick="location={% url 'chat:chat' %}" style="cursor: pointer;">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="{{groupchat.group.profile_image.url}}" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content" style="width: 60%;">
+                                            <a>{{groupchat.group.group_name}}</a>
+                                            <span style="white-space:nowrap; text-overflow: ellipsis; overflow-x: hidden;">{{groupchat.body|default:'Received &#10064 media files.'}}</span>
+                                            <span class="time">{{groupchat.timestamp|date:'F j, Y: f A'}}</span>
+                                        </div>
+                                        <div class="media-right is-centered">
+                                            <div class="added-icon">
+                                                <i data-feather="message-square"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="nav-drop-footer">
+                                    <a href="{% url 'chat:chat' %}" onclick="navDropClose(event, this, null)">Go to chat</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="navbar-item is-icon">
+                        <a class="icon-link is-primary" href="{% url 'chat:chat' %}">
+                            <i data-feather="message-square"></i>
+                            <span class="indicator"></span>
+                        </a>
+                    </div> -->
+                    <div class="navbar-item is-icon" title="Forums">
+                        <a class="icon-link custom-icon" href="{% url 'post:post' %}">
+                            <i class="fa fa-wpforms"></i>
+                            <span class="indicator"></span>
+                        </a>
+                    </div>
+
+                    <div class="navbar-item is-icon" title="Skeleton Code" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
+                        <a class="icon-link custom-icon" href="{% url 'post:skeleton-post' %}">
+                            <i class="fa fa-code"></i>
+                            <span class="indicator"></span>
+                        </a>
+                    </div>
+
+                     <div class="navbar-item is-icon" title="Competition">
+                        <a class="icon-link custom-icon" href="{% url 'Competion:competionlist' %}">
+                            <i class="mdi mdi-trophy-outline"></i>
+                            <span class="indicator"></span>
+                        </a>
+                    </div>
+
+                    <div class="navbar-item is-icon" title="Plans">
+                        <a class="icon-link custom-icon" href="{% url 'home:plan-list' %}">
+                            <i class="fa fa-credit-card"></i>
+                            <span class="indicator"></span>
+                        </a>
+                    </div>
+
+                        {% endif %}
+
+                    {% if all_friend_requests|length > 0 %}
+                    <div class="navbar-item is-icon drop-trigger" {% if request.path == profile_path %} onclick='$(`.menu-item[data-content="personal-content"]`).click()' {% endif %} title="Friends">
+                        <a class="icon-link is-friends {% if all_friend_requests|length > 0 %} is-active {% endif %}">
+                            <i data-feather="users"></i>
+                            {% if all_friend_requests|length > 0 %}
+                            <div class="custom-indicator" data-requests-counter="true">
+                                    {{all_friend_requests|length}}
+                            </div>
+                            {% endif %}
+                        </a>
+                        {% if request.path != profile_path %}
+                        <div class="nav-drop">
+                            <div class="inner">
+                                <div class="nav-drop-header">
+                                    <span>Friend requests</span>
+                                    <a href="#">
+                                        <i data-feather="users"></i>
+                                    </a>
+                                </div>
+                                {% for friend_request in all_friend_requests %}
+                                {{friend_request.get_profile_img}}
+                                <div class="nav-drop-body is-friend-requests">
+                                    <div class="media">
+                                        <figure class="media-left">
+                                            <p class="image">
+                                                <img src="{{friend_request.connection_user.get_profile_img}}" data-demo-src="{{friend_request.connection_user.get_profile_img}}" alt="">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <a href="#">{{friend_request.connection_user.get_full_name}}</a>
+                                            <span>{{friend_request.connection_user.username}}</span>
+                                        </div>
+                                        <div class="media-right">
+                                            <!-- <button class="button icon-button grey-button raised">
+                                                <i data-feather="x"></i>
+                                            </button> -->
+                                            <form method="post"
+                                                onsubmit="acceptFriendRequest(event, reload=false, alert=false);this.closest('.nav-drop-body').remove();">
+                                                <input type="hidden" name="id" value="{{ friend_request.connection_user.id }}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="button icon-button grey-button raised">
+                                                    <i data-feather="check"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <div class="nav-drop-footer">
+                                    <a href="{% url 'user:profile' %}" onclick="navDropClose(event, this,'personal-content-list')">
+                                        View All
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    {% if request.user.is_staff %}
+                    <div class="navbar-item is-icon" title="Analytics">
+                        <a class="icon-link custom-icon" href="{% url 'analytics:user-list' %}">
+                            <i class="fa fa-bar-chart-o"></i>
+                            <span class="indicator"></span>
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    <!-- <div id="explorer-trigger" class="navbar-item is-icon">
+                        <a class="icon-link is-primary">
+                            <i class="mdi mdi-apps"></i>
+                        </a>
+                    </div> -->
+                </div>
+
+                <div class="navbar-end">
+
+                    <div class="navbar-item">
+                        <div id="global-search" class="control">
+                            <input oninput="searchUsers(event, this)" id="tipue_drop_input" class="input is-rounded" type="text" placeholder="Search" required="">
+                            <span id="clear-search" class="reset-search">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </span>
+                            <span class="search-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            </span>
+
+                            <div id="tipue_drop_content" class="tipue-drop-content">
+                                <div class="tipue_drop_box">
+                                  <div id="tipue_drop_wrapper">
+
+                                  </div>
+                                </div>
+                            </div>
+                            <script>
+                                let searchTimer;
+                                function searchUsers(e, element) {
+                                    const query = element.value.trim()
+                                    if (query){
+                                        clearTimeout(searchTimer);
+                                        searchTimer = setTimeout(() => {
+                                            setResults(query);
+                                        }, 1000);
+                                    } else {
+                                        clearTimeout(searchTimer);
+                                        $('#tipue_drop_content').hide()
+                                        $('#tipue_drop_content_mobile').hide()
+
+                                        $('#tipue_drop_wrapper').empty()
+                                        $('#tipue_drop_wrapper_mobile').empty()
+                                    }
+                                }
+                                function setResults(query) {
+                                    $.getJSON(`/user/search/?query=${query}`, function (data) {
+                                        console.log(data)
+                                        $('#tipue_drop_wrapper').empty()
+                                        $('#tipue_drop_wrapper_mobile').empty()
+                                        $('#tipue_drop_content').show()
+                                        $('#tipue_drop_content_mobile').show()
+                                        // Setting User Data
+                                        let userResultEl = '';
+                                        // 0 -> Not Friend, 1 -> Already sent request, 2 -> Already Friend
+                                        data['user_list']?.forEach((user)=>{
+                                            userResultEl += `
+                                                ${user.is_friend ?
+                                                `<a href="/user/profile/${user.id}">`
+                                                    :
+                                                `<a href="/user/profile/${user.id}">`}
+                                                    <div class="tipue_drop_item">
+                                                        <div class="tipue_drop_left">
+                                                            <img src="${user.profile_image_url}" class="tipue_drop_image">
+                                                        </div>
+                                                        <div class="tipue_drop_right" style="width: 220px">
+                                                            <div style="display:flex; justify-content: space-between; align-items: center;">
+                                                                <div>
+                                                                    ${user.name}
+                                                                    <div>
+                                                                        <small>${user.username}</small>
+                                                                    </div>
+                                                                </div>
+                                                                ${user.is_friend == 1 ?
+                                                                    `
+                                                                    <div class="p-1 px-2">&#10003; Sent</div>
+                                                                    `
+                                                                    :
+                                                                    user.is_friend == 2 ?
+                                                                        ``
+                                                                        :
+                                                                        `
+                                                                        <form method="post" onsubmit="sendFriendRequest(event); $(this).next().show(); $(this).hide();" action="">
+                                                                            <input type="hidden" name="id" value="${user.id}">
+                                                                            {% csrf_token %}
+                                                                            <button class="button is-active p-1 px-2" type="submit">Send Request</button>
+                                                                        </form>
+                                                                        `
+                                                                }
+                                                                <div style="display:none" class="p-1 px-2">&#10003; Sent</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            `
+                                        })
+                                        $('#tipue_drop_wrapper').append(userResultEl)
+                                        $('#tipue_drop_wrapper_mobile').append(userResultEl)
+                                        userResultEl = '';
+                                    })
+                                }
+                            </script>
+                        </div>
+                    </div>
+
+                    <div class="navbar-item is-cart">
+                        <!-- <div class="cart-button">
+                            <i data-feather="shopping-cart"></i>
+                            <div class="cart-count">
+                            </div>
+                        </div> -->
+
+                        <!-- Cart dropdown -->
+                        <div class="shopping-cart">
+                            <div class="cart-inner">
+
+                                <!--Loader-->
+                                <div class="navbar-cart-loader is-active">
+                                    <div class="loader is-loading"></div>
+                                </div>
+
+                                <div class="shopping-cart-header">
+                                    <a href="" class="cart-link">View Cart</a>
+                                    <div class="shopping-cart-total">
+                                        <span class="lighter-text">Total:</span>
+                                        <span class="main-color-text">$193.00</span>
+                                    </div>
+                                </div>
+                                <!--end shopping-cart-header -->
+
+                                <ul class="shopping-cart-items">
+                                    <li class="cart-row">
+                                        <img src="{% static 'social_assets/img/products/2.svg' %}" alt="" />
+                                        <span class="item-meta">
+                                                <span class="item-name">Cool Shirt</span>
+                                        <span class="meta-info">
+                                                    <span class="item-price">$29.00</span>
+                                        <span class="item-quantity">Qty: 01</span>
+                                        </span>
+                                        </span>
+                                    </li>
+
+                                    <li class="cart-row">
+                                        <img src="{% static 'social_assets/img/products/3.svg' %}" alt="" />
+                                        <span class="item-meta">
+                                                <span class="item-name">Military Short</span>
+                                        <span class="meta-info">
+                                                    <span class="item-price">$39.00</span>
+                                        <span class="item-quantity">Qty: 01</span>
+                                        </span>
+                                        </span>
+                                    </li>
+
+                                    <li class="cart-row">
+                                        <img src="{% static 'social_assets/img/products/4.svg' %}" alt="" />
+                                        <span class="item-meta">
+                                                <span class="item-name">Cool Backpack</span>
+                                        <span class="meta-info">
+                                                    <span class="item-price">$125.00</span>
+                                        <span class="item-quantity">Qty: 01</span>
+                                        </span>
+                                        </span>
+                                    </li>
+                                </ul>
+
+                                <a href="#" class="button primary-button is-raised">Checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="account-dropdown" class="navbar-item is-account drop-trigger has-caret">
+                        <div class="user-image">
+                            {% if request.user.is_authenticated %}
+                                <img src="{{ request.user.get_profile_img }}" data-demo-src="{{ request.user.get_profile_img }}" alt="Your Profile Photo">
+                            {% else %}
+                            <img src="{% static 'images/icon/user.png' %}" data-demo-src="{% static 'images/icon/user.png' %}" alt="Profile">
+                            {% endif %}
+<!--                            <span class="indicator"></span>-->
+                        </div>
+
+                        <div class="nav-drop is-account-dropdown">
+                            <div class="inner">
+                                <!-- <div class="nav-drop-header">
+                                    <span class="username">{{request.user.username}}</span>
+                                    <label class="theme-toggle">
+                                        <input type="checkbox">
+                                        <span class="toggler">
+                                                <span class="dark">
+                                                    <i data-feather="moon"></i>
+                                                </span>
+                                        <span class="light">
+                                                    <i data-feather="sun"></i>
+                                                </span>
+                                        </span>
+                                    </label>
+                                </div> -->
+
+                                <div class="nav-drop-body account-items">
+                                    {% if request.user.is_authenticated %}
+                                    <a id="profile-link" href="{% url 'user:profile' %}" class="account-item">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <div class="image">
+                                                    <img src="{{request.user.get_profile_img}}" data-demo-src="{{request.user.get_profile_img}}" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>{{request.user.get_full_name}}</h3>
+                                                <small>{{request.user.username}}</small>
+                                            </div>
+<!--                                            <div class="media-right">-->
+<!--                                                <i data-feather="check"></i>-->
+<!--                                            </div>-->
+                                        </div>
+                                    </a>
+                                    {% endif %}
+                                    <hr class="account-divider">
+                                    <!-- <a href="" class="account-item">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <div class="image">
+                                                    <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="{% static 'social_assets/img/avatars/hanzo.svg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>Css Ninja</h3>
+                                                <small>Company page</small>
+                                            </div>
+                                            <div class="media-right is-hidden">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a href="" class="account-item">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <div class="image">
+                                                    <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="{% static 'social_assets/img/icons/logos/fatpizza.svg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>Fat Pizza</h3>
+                                                <small>Company page</small>
+                                            </div>
+                                            <div class="media-right is-hidden">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a href="" class="account-item">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <div class="image">
+                                                    <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="{% static 'social_assets/img/icons/logos/slicer.svg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>Slicer</h3>
+                                                <small>Company page</small>
+                                            </div>
+                                            <div class="media-right is-hidden">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </a> -->
+                                    <!-- <hr class="account-divider">
+                                    <a href="" class="account-item">
+                                        <div class="media">
+                                            <div class="icon-wrap">
+                                                <i data-feather="settings"></i>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>Settings</h3>
+                                                <small>Access widget settings.</small>
+                                            </div>
+                                        </div>
+                                    </a> -->
+                                    <a class="account-item">
+                                        <div class="media">
+                                            <div class="icon-wrap">
+                                                <i data-feather="help-circle"></i>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>Support</h3>
+                                                <small>Contact our team.</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    {% if request.user.is_authenticated %}
+                                    <a class="account-item" href="{% url 'user:logout' %}">
+                                        <div class="media">
+                                            <div class="icon-wrap">
+                                                <i data-feather="power"></i>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>Log out</h3>
+                                                <small>Log out from your account.</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <nav class="navbar mobile-navbar is-hidden-desktop" aria-label="main navigation">
+        <!-- Brand -->
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'home:home' %}">
+                <!-- <h1>Stellar Ai</h1> -->
+                <img class="light-image" src="{% static 'social_assets/img/logo.jpeg' %}" alt="">
+                <!-- <img class="dark-image" src="{% static 'social_assets/img/logo/friendkit-white.svg' %}" alt=""> -->
+            </a>
+            <div style="display: flex; overflow-x: auto; overflow-y: hidden;">
+
+                <!-- <div class="navbar-item is-icon drop-trigger">
+                    <a class="icon-link" href="javascript:void(0);">
+                        <i data-feather="bell"></i>
+                        <span class="indicator"></span>
+                    </a>
+
+                    <div class="nav-drop">
+                        <div class="inner">
+                            <div class="nav-drop-header">
+                                <span>Notifications</span>
+                                <a href="#">
+                                    <i data-feather="bell"></i>
+                                </a>
+                            </div>
+                            <div class="nav-drop-body is-notifications">
+                                <div class="media">
+                                    <figure class="media-left">
+                                        <p class="image">
+                                            <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="{% static 'social_assets/img/avatars/david.jpg' %}" alt="">
+                                        </p>
+                                    </figure>
+                                    <div class="media-content">
+                                        <span><a href="#">David Kim</a> commented on <a href="#">your post</a>.</span>
+                                        <span class="time">30 minutes ago</span>
+                                    </div>
+                                    <div class="media-right">
+                                        <div class="added-icon">
+                                            <i data-feather="message-square"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nav-drop-footer">
+                                <a href="#">View All</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                {% if total_message_count > 0 %}
+                <div class="navbar-item is-icon drop-trigger" title="Chatroom">
+                {% else %}
+                <div class="navbar-item is-icon" onclick="location.href = `{% url 'chat:chat' %}`" title="Chatroom">
+                {% endif %}
+                    {% if p2p_unread_messages|length > 0 or group_unread_messages|length > 0 %}
+                    <a class="icon-link is-active" href="javascript:void(0);">
+                    {% else %}
+                    <a class="icon-link" href="javascript:void(0);">
+                    {% endif %}
+                        <i data-feather="mail"></i>
+                        {% if total_message_count > 0 %}
+                        <div class="custom-indicator red">
+                            {{total_message_count}}
+                        </div>
+                        {% endif %}
+                    </a>
+
+                    <div class="nav-drop">
+                        <div class="inner">
+                            <div class="nav-drop-header">
+                                <span>Messages</span>
+                                <a href="{% url 'chat:chat' %}">Inbox</a>
+                            </div>
+                            <div class="nav-drop-body is-friend-requests" style="overflow-x: hidden;">
+                                <!-- Message -->
+                                {% for p2pchat in p2p_unread_messages %}
+                                <div class="media" onclick="location={% url 'chat:chat' %}" style="cursor: pointer;">
+                                    <figure class="media-left">
+                                        <p class="image">
+                                            <img src="{{p2pchat.user.get_profile_img}}" alt="">
+                                        </p>
+                                    </figure>
+                                    <div class="media-content" style="width: 60%;">
+                                        <a>{{p2pchat.user.get_full_name}}</a>
+                                        <span style="white-space:nowrap; text-overflow: ellipsis; overflow-x: hidden;">{{p2pchat.body|default:'Received &#10064 media files.'}}</span>
+                                        <span class="time">{{p2pchat.timestamp|date:'F j, Y: f A'}}</span>
+                                    </div>
+                                    <div class="media-right is-centered">
+                                        <div class="added-icon">
+                                            <i data-feather="message-square"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <!-- Message -->
+                                {% for groupchat in group_unread_messages %}
+                                <div class="media" onclick="location={% url 'chat:chat' %}" style="cursor: pointer;">
+                                    <figure class="media-left">
+                                        <p class="image">
+                                            <img src="{{groupchat.group.profile_image.url}}" alt="">
+                                        </p>
+                                    </figure>
+                                    <div class="media-content" style="width: 60%;">
+                                        <a>{{groupchat.group.group_name}}</a>
+                                        <span style="white-space:nowrap; text-overflow: ellipsis; overflow-x: hidden;">{{groupchat.body|default:'Received &#10064 media files.'}}</span>
+                                        <span class="time">{{groupchat.timestamp|date:'F j, Y: f A'}}</span>
+                                    </div>
+                                    <div class="media-right is-centered">
+                                        <div class="added-icon">
+                                            <i data-feather="message-square"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="nav-drop-footer">
+                                <a href="{% url 'chat:chat' %}" onclick="navDropClose(event, this, null)">Go to chat</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="navbar-item is-icon">
+                    <a class="icon-link is-primary" href="{% url 'chat:chat' %}"">
+                        <i data-feather="message-square"></i>
+                        <span class="indicator"></span>
+                    </a>
+                </div> -->
+
+                <!-- <div class="navbar-item is-icon" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
+                    <a class="icon-link is-primary" href="#">
+                        <i data-feather="bookmark"></i>
+                        <span class="indicator"></span>
+                    </a>
+                </div> -->
+
+                <div class="navbar-item is-icon" title="Forums">
+                    <a class="icon-link custom-icon" href="{% url 'post:post' %}">
+                        <i class="fa fa-wpforms"></i>
+                        <span class="indicator"></span>
+                    </a>
+                </div>
+
+                <div class="navbar-item is-icon" title="Skeleton code" onclick='$(`.menu-item[data-content="job-content"]`).click()'>
+                    <a class="icon-link custom-icon" href="{% url 'post:skeleton-post' %}">
+                        <i class="fa fa-code"></i>
+                        <span class="indicator"></span>
+                    </a>
+                </div>
+
+                 <div class="navbar-item is-icon" title="Competition">
+                    <a class="icon-link custom-icon" href="{% url 'Competion:competionlist' %}">
+                        <i class="mdi mdi-trophy-outline"></i>
+                        <span class="indicator"></span>
+                    </a>
+                </div>
+
+                <div class="navbar-item is-icon" title="Plans">
+                    <a class="icon-link custom-icon" href="{% url 'home:plan-list' %}">
+                        <i class="fa fa-credit-card"></i>
+                        <span class="indicator"></span>
+                    </a>
+                </div>
+
+                {% if all_friend_requests|length > 0 %}
+                <div class="navbar-item is-icon drop-trigger" {% if request.path == profile_path %} onclick='$(`.menu-item[data-content="personal-content"]`).click()' {% endif %} title="Friends">
+                    <a class="icon-link is-friends {% if all_friend_requests|length > 0 %} is-active {% endif %}">
+                        <i data-feather="users"></i>
+                        {% if all_friend_requests|length > 0 %}
+                        <div class="custom-indicator" data-requests-counter="true">
+                                {{all_friend_requests|length}}
+                        </div>
+                        {% endif %}
+                    </a>
+                    {% if request.path != profile_path %}
+                    <div class="nav-drop">
+                        <div class="inner">
+                            <div class="nav-drop-header">
+                                <span>Friend requests</span>
+                                <a href="#">
+                                    <i data-feather="users"></i>
+                                </a>
+                            </div>
+                            {% for friend_request in all_friend_requests %}
+                            {{friend_request.get_profile_img}}
+                            <div class="nav-drop-body is-friend-requests">
+                                <div class="media">
+                                    <figure class="media-left">
+                                        <p class="image">
+                                            <img src="{{friend_request.connection_user.get_profile_img}}" data-demo-src="{{friend_request.connection_user.get_profile_img}}" alt="">
+                                        </p>
+                                    </figure>
+                                    <div class="media-content">
+                                        <a href="#">{{friend_request.connection_user.get_full_name}}</a>
+                                        <span>{{friend_request.connection_user.username}}</span>
+                                    </div>
+                                    <div class="media-right">
+                                        <!-- <button class="button icon-button grey-button raised">
+                                            <i data-feather="x"></i>
+                                        </button> -->
+                                        <form method="post"
+                                            onsubmit="acceptFriendRequest(event, reload=false, alert=false);this.closest('.nav-drop-body').remove();">
+                                            <input type="hidden" name="id" value="{{ friend_request.connection_user.id }}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="button icon-button grey-button raised">
+                                                <i data-feather="check"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="nav-drop-footer">
+                                <a href="{% url 'user:profile' %}" onclick="navDropClose(event, this,'personal-content-list')">
+                                    View All
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                {% if request.user.is_staff %}
+                <div class="navbar-item is-icon" title="Analytics">
+                    <a class="icon-link custom-icon" href="{% url 'analytics:user-list' %}">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <span class="indicator"></span>
+                    </a>
+                </div>
+                {% endif %}
+
+
+                <!-- <div id="mobile-explorer-trigger" class="navbar-item is-icon">
+                    <a class="icon-link is-primary">
+                        <i class="mdi mdi-apps"></i>
+                    </a>
+                </div> -->
+
+
+                <div id="open-mobile-search" class="navbar-item is-icon">
+                    <a class="icon-link is-primary" href="javascript:void(0);">
+                        <i data-feather="search"></i>
+                    </a>
+                </div>
+
+                <!-- Mobile menu toggler icon -->
+                <div class="navbar-item is-icon navbar-burger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        <!-- Navbar mobile menu -->
+        <div class="navbar-menu">
+            <!-- Account -->
+            <div class="navbar-item has-dropdown is-active">
+                <a href="#" class="navbar-link">
+                    {% if request.user.is_authenticated %}
+                    <img src="{{ request.user.get_profile_img }}" data-demo-src="{{ request.user.get_profile_img }}" alt="Your Profile Photo">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" data-demo-src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVvcGxlfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60" alt="Your Profile Photo">
+                    {% endif %}
+                    <span class="is-heading">{{request.user.get_full_name}}</span>
+                </a>
+
+                <!-- Mobile Dropdown -->
+                <div class="navbar-dropdown">
+                    <!-- <a href="" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="activity"></i>Feed</span>
+                        <span class="menu-badge">87</span>
+                    </a>
+                    <a href="" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="play-circle"></i>Watch</span>
+                        <span class="menu-badge">21</span>
+                    </a>
+                    <a href="" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="users"></i>Friend Requests</span>
+                        <span class="menu-badge">3</span>
+                    </a>
+                    <a href="" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="user"></i>Profile</span>
+                    </a>
+                    <a href="" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="shopping-cart"></i>Cart</span>
+                        <span class="menu-badge">3</span>
+                    </a>
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="bookmark"></i>Bookmarks</span>
+                    </a> -->
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="help-circle"></i>Support</span>
+                    </a>
+                    {% if request.user.is_authenticated %}
+                    <a href="{% url 'user:logout' %}" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="power"></i>Log out</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- More -->
+            <!-- <div class="navbar-item has-dropdown">
+                <a href="" class="navbar-link">
+                    <i data-feather="user"></i>
+                    <span class="is-heading">Account</span>
+                </a>
+
+                <div class="navbar-dropdown">
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="life-buoy"></i>Support</span>
+                    </a>
+                    <a href="" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="settings"></i>Settings</span>
+                    </a>
+                    <a class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="log-out"></i>Logout</span>
+                    </a>
+                </div>
+            </div> -->
+        </div>
+        <!--Search-->
+        <div class="mobile-search is-hidden">
+            <div class="control w-100">
+                <input oninput="searchUsers(event, this)" id="tipue_drop_input_mobile" class="input" placeholder="Search...">
+                <!-- <div class="form-icon">
+                    <i data-feather="search"></i>
+                </div> -->
+                <div class="close-icon">
+                    <i data-feather="x"></i>
+                </div>
+                <div id="tipue_drop_content_mobile" class="tipue-drop-content">
+                    <div class="tipue_drop_box">
+                        <div id="tipue_drop_wrapper_mobile">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Messages -->
+    <style>
+        .custom-alert{
+            height: fit-content;
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 999999;
+        }
+        .notification{
+            max-width: 80vw;
+            min-width: 280px;
+            padding: 1rem;
+            padding-right: 2rem;
+            animation: slide-up 6s ease-in-out 1 alternate forwards;
+        }
+        .notification.is-success {
+            background-color: #1ce589;
+            /* color: rgba(0,0,0,.7); */
+            color: #fff;
+        }
+        .notification.is-danger {
+            background-color: #f71416;
+            color: #fff;
+        }
+        .notification.is-info {
+            background-color: #3e8ed0;
+            color: #fff;
+        }
+        .notification.is-warning {
+            background-color: #ffe08a;
+            color: rgba(0,0,0,.7);
+        }
+        .notification>.delete {
+            right: .5rem;
+            position: absolute;
+            top: .5rem;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            color: white;
+            background-color: rgba(10,10,10,.2);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+        @keyframes slide-up {
+            0%{
+                opacity: 0;
+                transform: translateY(1rem);
+            }
+            10%{
+                opacity: 1;
+                transform: translateY(0);
+            }
+            90%{
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100%{
+                opacity: 0;
+                transform: translateY(1rem);
+            }
+        }
+    </style>
+    <div class="custom-alert is-custom" id="custom-alert-wrapper">
+        {% if messages %}
+        {% for message in messages %}
+            <div class="notification {% if message.tags %} is-{{message.tags}} {% else %} is-primary {% endif %}" data-role="alert">
+                <button class="delete" onclick="this.closest('.notification').remove()">&#10006;</button>
+                {{message}}
+            </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Custom Scripts -->
+    <script>
+        function navDropClose(e, element, listName=null) {
+            setTimeout(() => {
+                element.closest('.nav-drop.is-active').classList.remove('is-active')
+            }, 200);
+            $(`.menu-item[data-content='${listName}']`).click()
+        }
+        function sendFriendRequest(e, reload=false, giveAlert=false){
+            e.preventDefault()
+            const formData = new FormData(e.target)
+            fetch("{% url 'user:send-request' %}", {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                if (giveAlert){
+                    setToast(data)
+                }
+                if (data['data'] && reload){
+                        location.reload();
+                }
+            })
+        }
+        function acceptFriendRequest(e, reload=false, giveAlert=false, returnVal=false){
+            e.preventDefault();
+            const formData = new FormData(e.target)
+            fetch("{% url 'user:accept-user' %}", {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                if (giveAlert){
+                    setToast(data)
+                }
+                if (data['data'] && reload){
+                    location.reload();
+                }
+                if(data['data']){
+                    updateRequestsCounter(-1);
+                    updateTotalFriendsCounter(1);
+                }
+                if (returnVal){
+                    return data['data'] ? true : false;
+                }
+            })
+        }
+        // Navbar updates for friends notif counter
+        function updateRequestsCounter(val) {
+            const counters = document.querySelectorAll('[data-requests-counter="true"]')
+            counters?.forEach((counter) => {
+                const newVal = parseInt(counter.innerText) + val;
+                counter.innerText = newVal;
+                if (newVal <  1){
+                    counter.innerText = '';
+                    if (counter.closest('.is-active')){
+                        counter.closest('.is-active').classList.remove('is-active');
+                    }
+                    counter.closest('.custom-indicator').remove();
+                }
+            })
+        }
+        function unfriendUser(e, reload=false, giveAlert=false, returnVal=false) {
+            e.preventDefault();
+            const formData = new FormData(e.target)
+            fetch("{% url 'user:unfriend-ajax' %}", {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                if (giveAlert){
+                    setToast(data)
+                }
+                if (data['data'] && reload){
+                    location.reload();
+                }
+                if(data['data']){
+                    updateTotalFriendsCounter(-1);
+                }
+                if (returnVal){
+                    console.log(data['data'] ? true : false)
+                    return data['data'] ? true : false;
+                }
+            })
+        }
+        // Toast Generator
+        function setToast(data){
+            // This is different than the one in chat app.
+            let tag;
+            data['error'] ? tag='danger':tag='info';
+
+            const toast = `
+                <div class="notification is-${tag}" data-role="alert">
+                    <button class="delete" onclick="this.closest('.notification').remove()">&#10006;</button>
+                    ${data['data'] || data['error']}
+                </div>
+                `
+            $('#custom-alert-wrapper').append(toast);
+        }
+    </script>
+
+    <!-- Concatenated js plugins and jQuery -->
+    <script src="{% static 'social_assets/js/app.js' %}"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{% static 'social_assets/data/tipuedrop_content.js' %}"></script>
+
+    <!-- Core js -->
+    <script src="{% static 'social_assets/js/global.js' %}"></script>
+
+    <!-- Navigation options js -->
+    <script src="{% static 'social_assets/js/navbar-v1.js' %}"></script>
+    <script src="{% static 'social_assets/js/navbar-v2.js' %}"></script>
+    <script src="{% static 'social_assets/js/navbar-mobile.js' %}"></script>
+    <script src="{% static 'social_assets/js/navbar-options.js' %}"></script>
+    <script src="{% static 'social_assets/js/sidebar-v1.js' %}"></script>
+
+    <!-- Core instance js -->
+    <script src="{% static 'social_assets/js/main.js' %}"></script>
+    <script src="{% static 'social_assets/js/chat.js' %}"></script>
+    <script src="{% static 'social_assets/js/touch.js' %}"></script>
+    <script src="{% static 'social_assets/js/tour.js' %}"></script>
+
+    <!-- Components js -->
+    <script src="{% static 'social_assets/js/explorer.js' %}"></script>
+    <script src="{% static 'social_assets/js/widgets.js' %}"></script>
+    <script src="{% static 'social_assets/js/modal-uploader.js' %}"></script>
+    <script src="{% static 'social_assets/js/popovers-users.js' %}"></script>
+    <script src="{% static 'social_assets/js/popovers-pages.js' %}"></script>
+    <script src="{% static 'social_assets/js/lightbox.js' %}"></script>
+
+    <!-- Landing page js -->
+
+    <!-- Signup page js -->
+    <script src="{% static 'social_assets/js/signup.js' %}"></script>
+
+    <!-- Feed pages js -->
+    <script src="{% static 'social_assets/js/feed.js' %}"></script>
+
+    <script src="{% static 'social_assets/js/webcam.js' %}"></script>
+    <script src="{% static 'social_assets/js/compose.js' %}"></script>
+    <script src="{% static 'social_assets/js/autocompletes.js' %}"></script>
+
+    <!-- profile js -->
+    <script src="{% static 'social_assets/js/profile.js' %}"></script>
+
+    <!-- stories js -->
+
+    <!-- friends js -->
+
+    <!-- questions js -->
+    <script src="{% static 'social_assets/js/questions.js' %}"></script>
+
+    <!-- video js -->
+
+    <!-- events js -->
+
+    <!-- news js -->
+
+    <!-- shop js -->
+
+    <!-- inbox js -->
+
+    <!-- settings js -->
+    <script src="{% static 'social_assets/js/settings.js' %}"></script>
+    <!-- map page js -->
+
+    <!-- elements page js -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    {% block script %}{% endblock %}
+
+</body>
+
+
+</html>

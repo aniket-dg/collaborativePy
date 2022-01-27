@@ -3,7 +3,8 @@ const session_key = JSON.parse(document.getElementById('session_key').textConten
 const user_id = JSON.parse(document.getElementById('user_id').textContent);
 const user_email = JSON.parse(document.getElementById('user_email').textContent);
 const group_id = JSON.parse(document.getElementById('group_id').textContent);
-const group_name = JSON.parse(document.getElementById('group_name').textContent);
+//const group_name = JSON.parse(document.getElementById('group_name').textContent);
+const group_name = name_url;
 const group_name_url = document.getElementById('group_name_url').textContent;
 const upload_url = document.getElementById('chat-form').getAttribute('data-upload-url');
 // console.log(
@@ -73,7 +74,6 @@ function getGroupConversation(groupName) {
 
 // Displays a single message
 function drawMessage(data, isCurrentUser) {
-	console.log(data);
     let html = '';
     const mediaEl = generateMediaEl(data, isCurrentUser)
         html = `

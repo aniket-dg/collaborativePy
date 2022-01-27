@@ -23,7 +23,7 @@
                 currentPosts += 1;
                             let likeStatus = "";
                             if (post.like_status) {
-                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}')"
+                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}', '${post.type}')"
                                         id="like-button` + post.post_id + `" class="like-button is-active">
                                         <i class="mdi mdi-heart not-liked bouncy"></i>
                                         <i class="mdi mdi-heart is-liked bouncy"></i>
@@ -31,7 +31,7 @@
                                     </a>`;
                             }
                             else {
-                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}')"
+                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}', '${post.type}')"
                                                 id="like-button` + post.post_id + `" class="like-button">
                                                 <i class="mdi mdi-heart not-liked bouncy"></i>
                                                 <i class="mdi mdi-heart is-liked bouncy"></i>
@@ -119,7 +119,7 @@
 <!--                                </div>-->
 <!--                            </div>-->
 <!--                        </a>-->
-                        ${post.code_file_url ? 
+                        ${post.code_file_url ?
                             `
                             <hr class="dropdown-divider">
                             <a href="${post.code_file_url}" target="_blank" download="skeleton_code" class="dropdown-item">
@@ -351,7 +351,7 @@
                 currentPosts += 1;
                             let likeStatus = "";
                             if (post.like_status) {
-                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}')"
+                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}', '${post.type}')"
                                         id="like-button` + post.post_id + `" class="like-button is-active">
                                         <i class="mdi mdi-heart not-liked bouncy"></i>
                                         <i class="mdi mdi-heart is-liked bouncy"></i>
@@ -359,7 +359,7 @@
                                     </a>`;
                             }
                             else {
-                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}')"
+                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}', '${post.type}')"
                                                 id="like-button` + post.post_id + `" class="like-button">
                                                 <i class="mdi mdi-heart not-liked bouncy"></i>
                                                 <i class="mdi mdi-heart is-liked bouncy"></i>
@@ -446,7 +446,7 @@
 <!--                                </div>-->
 <!--                            </div>-->
 <!--                        </a>-->
-                            ${post.code_file_url ? 
+                            ${post.code_file_url ?
                                 `
                                 <hr class="dropdown-divider">
                                 <a href="${post.code_file_url}" target="_blank" download="skeleton_code" class="dropdown-item">

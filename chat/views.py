@@ -1,7 +1,7 @@
 # chat/views.py
 import json
 import re
-
+from datetime import datetime, timedelta 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -105,7 +105,7 @@ class ChatRoom(LoginRequiredMixin, View):
         if not user.payment:
             context['allow_group_creation'] = False
         else:
-            context['allow_group_creation'] = user.payment.total_group_create_size > number_of_user_created_groups
+            context['allow_group_creation'] = user.payment.plans.count() > 0
         return render(self.request, 'chat/chat-direct.html', context)
 
 
@@ -114,12 +114,11 @@ class IsGroupPermission:
         user = request.user
         if user.is_plan_valid():
             if user.has_group_create_permission():
-                valid, total_groups_valid, current_groups = user.is_new_group_valid()
+                valid = user.is_new_group_valid()
                 if valid:
                     return super().dispatch(request, *args, **kwargs)
                 else:
-                    msg = f"Only {total_groups_valid} groups allowed to create under your current plan. You already " \
-                          f"have {current_groups} groups. "
+                    msg = f"You don't have any plan remaining to create new Group!"
                     messages.warning(self.request, msg)
                     return redirect('chat:chat')
             else:
@@ -135,16 +134,38 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
 
     def form_valid(self, form):
         user = self.request.user
-        plan = user.payment.plan
+        plan_id = self.request.POST.get('plan_id')
+        plan = None
+        if not plan_id:
+            if user.payment.plans.all():
+                if user.payment.plans.count() == 1:
+                    plan = user.payment.plans.last()
+                    print("Here andikdfgsfgsdfgsdfgsdfgsdf")
+                else:
+                    messages.warning(self.request, "Sorry plan not selected! Select one of purchased plan")
+                    return redirect('chat:chat')
+            else:
+                messages.warning(self.request, "Unexpected Error! Plan Not Found")
+                return redirect('chat:chat')
+        if not plan:
+            plan = user.payment.plans.filter(id=plan_id).last()
+        if not plan:
+            messages.warning(self.request, "Sorry plan not purchase yet! Not Found")
+            return redirect('chat:chat')
+
         users = self.request.POST.getlist('groupMember[]')
         if len(users) > plan.group_size:
-            msg = f"Only {plan.group_size} member allowed in one Group"
+            msg = f"Only {plan.group_size} member allowed in Group in selected plan"
             messages.warning(self.request, msg)
             return redirect('chat:chat')
         group = form.instance
         group.created_by = user
         group.save()
-
+        group.plan = plan
+        today = datetime.now().date()
+        valid_till = today + timedelta(int(plan.duration))
+        group.valid_till = valid_till
+        group.save()
         group.admin.add(user)
         group.name = re.sub(r"\s+", "", group.group_name, flags=re.UNICODE)
         group.save()
@@ -157,7 +178,8 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
                 user = User.objects.filter(id=int(id)).last()
                 user.groups.add(group)
                 user.save()
-
+        self.request.user.payment.plans.remove(plan)
+        self.request.user.payment.save()
         return redirect('chat:chat')
 
 class GroupUpdateView(LoginRequiredMixin, IsGroupPermission, View):
@@ -519,7 +541,7 @@ class AddMemberToGroupView(View):
         #     })
         user_ids = self.request.GET.getlist('user_ids[]')
         users = User.objects.filter(id__in=user_ids)
-        plan = self.request.user.payment.plan
+        plan = group.plan
         for user in users:
             # Creator is not counted in total group members size
             if plan.group_size > (group.user_set.count() - 1):

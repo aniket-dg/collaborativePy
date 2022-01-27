@@ -126,7 +126,13 @@
                                                         </div>
                                                     </div> -->
                                                 </div>
-
+                                                <select class="form-select" aria-label="Default select example" name="plan_id">
+                                                    <option selected>Open this select menu</option>
+                                                    {% for item in request.user.payment.plans.all %}
+                                                    <option value="{{ item.id }}">{{ item.title }}</option>
+                                                    {% endfor %}
+                                                  </select>
+                                                  
                                                 <div class="card-body">
                                                         <div class="row gy-6">
                                                             <div class="col-12">

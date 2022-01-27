@@ -357,7 +357,7 @@
 <!--                </div>-->
 
                 <div class="fab-wrapper is-share is-active">
-                    <a onclick="moreComments('` + post.post_id + `')" href="javascript:void(0);" class="small-fab">
+                    <a onclick="moreComments('` + post.post_id + `', '${post.type}')" href="javascript:void(0);" class="small-fab">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-message-circle">
@@ -450,7 +450,7 @@
         <!-- Comments body -->
         <div id="comment-body` + post.post_id + `" class="comments-body has-slimscroll"></div>
         <div id="load-more-comments-btn_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered">
-                        <a onclick="moreComments(${post.post_id})" id="load-more" style="font-size: 14px;">Load More</a>
+                        <a onclick="moreComments(${post.post_id}, '${post.type}')" id="load-more" style="font-size: 14px;">Load More</a>
                     </div>
                     <div id="no-comment-tag_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered" style="display: none;">
                         <p>No more posts!...</p>
@@ -500,7 +500,7 @@
                                                     <input type="file" name="image" id="comment_image"
                                                         accept=".png, .jpg, .jpeg">
                                                 </div> -->
-                            <button onclick="postComment('` + post.post_id + `')"
+                            <button onclick="postComment('` + post.post_id + `', '${post.type}')"
                                 class="button is-solid primary-button raised">Post
                                 Comment</button>
                         </div>
@@ -671,7 +671,7 @@
 <!--                </div>-->
 
                 <div class="fab-wrapper is-share is-active">
-                    <a onclick="moreComments('` + post.post_id + `')" href="javascript:void(0);" class="small-fab">
+                    <a onclick="moreComments('` + post.post_id + `', '${post.type}')" href="javascript:void(0);" class="small-fab">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-message-circle">
@@ -764,7 +764,7 @@
         <!-- Comments body -->
         <div id="comment-body` + post.post_id + `" class="comments-body has-slimscroll"></div>
         <div id="load-more-comments-btn_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered">
-                        <a onclick="moreComments(${post.post_id})" id="load-more" style="font-size: 14px;">Load More</a>
+                        <a onclick="moreComments(${post.post_id}, '${post.type}')" id="load-more" style="font-size: 14px;">Load More</a>
                     </div>
                     <div id="no-comment-tag_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered" style="display: none;">
                         <p>No more posts!...</p>
@@ -814,7 +814,7 @@
                                                     <input type="file" name="image" id="comment_image"
                                                         accept=".png, .jpg, .jpeg">
                                                 </div> -->
-                            <button onclick="postComment('` + post.post_id + `')"
+                            <button onclick="postComment('` + post.post_id + `', '${post.type}')"
                                 class="button is-solid primary-button raised">Post
                                 Comment</button>
                         </div>
@@ -996,7 +996,7 @@
 <!--                </div>-->
 
                 <div class="fab-wrapper is-share is-active">
-                    <a onclick="moreComments('` + post.post_id + `')" href="javascript:void(0);" class="small-fab">
+                    <a onclick="moreComments('` + post.post_id + `', '${post.type}')" href="javascript:void(0);" class="small-fab">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-message-circle">
@@ -1089,7 +1089,7 @@
         <!-- Comments body -->
         <div id="comment-body` + post.post_id + `" class="comments-body has-slimscroll"></div>
         <div id="load-more-comments-btn_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered">
-                        <a onclick="moreComments(${post.post_id})" id="load-more" style="font-size: 14px;">Load More</a>
+                        <a onclick="moreComments(${post.post_id},'${post.type}')" id="load-more" style="font-size: 14px;">Load More</a>
                     </div>
                     <div id="no-comment-tag_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered" style="display: none;">
                         <p>No more posts!...</p>
@@ -1139,7 +1139,7 @@
                                                     <input type="file" name="image" id="comment_image"
                                                         accept=".png, .jpg, .jpeg">
                                                 </div> -->
-                            <button onclick="postComment('` + post.post_id + `')"
+                            <button onclick="postComment('` + post.post_id + `', '${post.type}')"
                                 class="button is-solid primary-button raised">Post
                                 Comment</button>
                         </div>
@@ -1311,7 +1311,7 @@
 <!--                </div>-->
 
                 <div class="fab-wrapper is-share is-active">
-                    <a onclick="moreComments('` + post.post_id + `')" href="javascript:void(0);" class="small-fab">
+                    <a onclick="moreComments('` + post.post_id + `', '${post.type}')" href="javascript:void(0);" class="small-fab">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-message-circle">
@@ -1406,7 +1406,7 @@
         <!-- Comments body -->
         <div id="comment-body` + post.post_id + `" class="comments-body has-slimscroll"></div>
         <div id="load-more-comments-btn_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered">
-                        <a onclick="moreComments(${post.post_id})" id="load-more" style="font-size: 14px;">Load More</a>
+                        <a onclick="moreComments(${post.post_id}, '${post.type}')" id="load-more" style="font-size: 14px;">Load More</a>
                     </div>
                     <div id="no-comment-tag_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered" style="display: none;">
                         <p>No more posts!...</p>
@@ -1456,7 +1456,7 @@
                                                     <input type="file" name="image" id="comment_image"
                                                         accept=".png, .jpg, .jpeg">
                                                 </div> -->
-                            <button onclick="postComment('` + post.post_id + `')"
+                            <button onclick="postComment('` + post.post_id + `', '${post.type}')"
                                 class="button is-solid primary-button raised">Post
                                 Comment</button>
                         </div>
@@ -1561,9 +1561,7 @@
     function createComment(id, comments)
     {
         comments.forEach(data =>
-
             {
-
             if (data.user_profile === '') {
                     var profile = "{% static 'social_assets/img/avatars/dan.jpg' %}";
                 } else {
@@ -1633,7 +1631,7 @@
         );
     }
 
-    function moreComments(post_id)
+    function moreComments(post_id, type='post')
     {
         $("#comment-text-action" + post_id).css({
             display: "none"
@@ -1649,6 +1647,7 @@
             data: {
                 'post_id': post_id,
                 'current_comments': currentComments,
+                'type': type,
             },
             success: function (response) {
                 console.log(response);

@@ -143,17 +143,28 @@ class PostLike(LoginRequiredMixin, View):
             True/False, Number of likes
         """
         id = self.request.POST.get('id')
+        type = self.request.POST.get('type')
         if not id:
             return JsonResponse({
                 'Status': False,
                 'Message': 'ID is required!...'
             })
-        if len(Post.objects.filter(id=id)) == 0:
+        
+        if type=='post' and len(Post.objects.filter(id=id)) == 0:
             return JsonResponse({
                 'Status': False,
                 'Message': 'Something went wrong!...'
             })
-        post = Post.objects.filter(id=id).get()
+
+        if type == 'skeleton-post':
+            post = SkeletonPost.objects.filter(id=id).last()
+            if not post:
+                return JsonResponse({
+                'Status': False,
+                'Message': 'Something went wrong!...'
+            })
+        else:
+            post = Post.objects.filter(id=id).get()
         if self.request.user not in post.liked_by.all():
             post.liked_by.add(self.request.user)
         else:
@@ -173,42 +184,79 @@ class PostComments(View):
 
     def get(self, *args, **kwargs):
         id = self.request.GET['id']
-        if len(Post.objects.filter(id=id)) == 0:
-            return JsonResponse({
-                'status': False,
-                'Message': 'Invalid post id!...'
-            })
+        type = self.request.GET.get('type')
+        if type == 'post':
 
-        post = Post.objects.filter(id=id).get()
-        return JsonResponse({
-            'status': True,
-            'post_id': post.id,
-        })
+            post = Post.objects.filter(id=id).last()
+            if not post:
+                return JsonResponse({
+                    'status': False,
+                    'Message': 'Invalid post id!...'
+                })
+            else:
+                return JsonResponse({
+                    'status': True,
+                    'post_id': post.id,
+                })
+        else:
+            if len(SkeletonPost.objects.filter(id=id)) == 0:
+                return JsonResponse({
+                    'status': False,
+                    'Message': 'Invalid post id!...'
+                })
+            else:
+                post = SkeletonPost.objects.filter(id=id).get()
+                return JsonResponse({
+                    'status': True,
+                    'post_id': post.id,
+                })
 
     def post(self, *args, **kwargs):
+
         if not self.request.user.is_authenticated:
             return JsonResponse({
                 "status": False,
                 'Message': "Authenticated user can comment only!..."
             })
         id = self.request.POST.get('id')
-        if len(Post.objects.filter(id=id)) == 0:
-            return JsonResponse({
-                'status': False,
-                'Message': 'Invalid post id!...'
-            })
-        post = Post.objects.filter(id=id).get()
-        form = PostCommentForm(self.request.user, self.request.POST)
-        if not form.is_valid():
-            return JsonResponse({
-                'status': False,
-                'Message': 'Invalid data!...'
-            })
-        comment = form.save(commit=False)
-        comment.user = self.request.user
-        comment.post = post
-        comment.save()
-        return JsonResponse({'status': True, 'id': post.id})
+        type = self.request.POST.get('type')
+        if type == 'post':
+            post = Post.objects.filter(id=int(id)).last()
+            print(post)
+            if not post:
+                return JsonResponse({
+                    'status': False,
+                    'Message': 'Invalid post id!...'
+                })
+            form = PostCommentForm(self.request.user, self.request.POST)
+            if not form.is_valid():
+                return JsonResponse({
+                    'status': False,
+                    'Message': 'Invalid data!...'
+                })
+            comment = form.save(commit=False)
+            comment.user = self.request.user
+            comment.post = post
+            comment.save()
+            return JsonResponse({'status': True, 'id': post.id, 'type': 'post'})
+        else:
+            if len(SkeletonPost.objects.filter(id=id)) == 0:
+                return JsonResponse({
+                    'status': False,
+                    'Message': 'Invalid post id!...'
+                })
+            post = SkeletonPost.objects.filter(id=id).get()
+            form = SkeletonPostCommentForm(self.request.user, self.request.POST)
+            if not form.is_valid():
+                return JsonResponse({
+                    'status': False,
+                    'Message': 'Invalid data!...'
+                })
+            comment = form.save(commit=False)
+            comment.user = self.request.user
+            comment.post = post
+            comment.save()
+            return JsonResponse({'status': True, 'id': post.id, 'type': 'skeleton-post'})
 
 
 class LoadMore(View):
@@ -269,7 +317,8 @@ class LoadMore(View):
                 'scope_of_work': post.scope_of_work, 'timestamp': post.timestamp.strftime("%H:%M:%S %d-%m-%Y"),
                 'like_status': True if self.request.user in post.liked_by.all() else False, 'image1': image1,
                 'comments': PostComment.objects.filter(post=post).count(), 'image2': image2, 'image3': image3,
-                'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.skeleton_code
+                'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.skeleton_code,
+                'type':'post',
             })
         return JsonResponse({'posts': posts})
 
@@ -431,6 +480,7 @@ class LoadMoreSkeletonPost(View):
         print(new_posts, "Aniket")
         for post in new_posts:
             bookmark = "none"
+            flag = ""
             if BookMark.objects.filter(user=self.request.user, skeleton_post=post).exists():
                 bookmark = "#1589FF"
             code_file_url = ""
@@ -472,39 +522,9 @@ class LoadMoreSkeletonPost(View):
                 'second_level_category': post.second_level_category.id if post.second_level_category else "null",
                 'third_level_category': post.third_level_category.id if post.third_level_category else "null",
                 'fourth_level_category': post.fourth_level_category.id if post.fourth_level_category else "null",
-                'code_file_url':code_file_url,
+                'type': 'skeleton-post','code_file_url': code_file_url,
             })
         return JsonResponse({'posts': posts})
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class SkeletonPostLike(LoginRequiredMixin, View):
-    def post(self, *args, **kwargs):
-        """
-        :param request:
-            authenticated_user, post-id,
-        :return:
-            True/False, Number of likes
-        """
-        id = self.request.POST.get('id')
-        if not id:
-            return JsonResponse({
-                'Status': False,
-                'Message': 'ID is required!...'
-            })
-        if len(SkeletonPost.objects.filter(id=id)) == 0:
-            return JsonResponse({
-                'Status': False,
-                'Message': 'Something went wrong!...'
-            })
-        post = SkeletonPost.objects.filter(id=id).get()
-        if self.request.user not in post.liked_by.all():
-            post.liked_by.add(self.request.user)
-        else:
-            post.liked_by.remove(self.request.user)
-        return JsonResponse({
-            'likes': post.liked_by.all().count()
-        })
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -601,7 +621,7 @@ class LoadMorePost(View):
                 'scope_of_work': post.scope_of_work.name, 'timestamp': post.user.username,
                 'like_status': True if self.request.user in post.liked_by.all() else False, 'image1': image1,
                 'comments': PostComment.objects.filter(post=post).count(), 'image2': image2, 'image3': image3,
-                'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.code
+                'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.code,'type': 'post'
 
             })
         return JsonResponse({'posts': posts})
@@ -627,10 +647,17 @@ class DeletePost(View):
 class LoadMoreComments(View):
     def get(self, *args, **kwargs):
         post_id = self.request.GET.get('post_id')
-        post = Post.objects.filter(id=post_id).last()
+        type = self.request.GET.get('type')
+        if type == 'post':
+            post = Post.objects.filter(id=post_id).last()
+        else:
+            post = SkeletonPost.objects.filter(id=post_id).last()
         if not post:
             return JsonResponse({})
-        comment_list = PostComment.objects.filter(post=post)
+        if type == 'post':
+            comment_list = PostComment.objects.filter(post=post)
+        else:
+            comment_list = SkeletonPostComment.objects.filter(post=post)
         p = Paginator(comment_list, 4)
 
         current_status = int(self.request.GET.get('current_comments'))
@@ -655,7 +682,7 @@ class LoadMoreComments(View):
                 'user': item.user.username,
                 'post_user': item.user.get_full_name(),
                 'user_email': item.user.email,
-                'user_profile': profile
+                'user_profile': profile,
             })
 
         return JsonResponse({
@@ -709,7 +736,9 @@ class GetComment(View):
         comment_list = PostComment.objects.filter(post=post).first()
         comment_list = [comment_list]
         comments = []
+
         for item in comment_list:
+
             if not item.user.profile_image:
                 profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
             else:
@@ -735,11 +764,14 @@ class GetSkeletonComment(View):
     def get(self, *args, **kwargs):
         post_id = self.request.GET.get('post_id')
         post = SkeletonPost.objects.filter(id=post_id).last()
-        comment_list = SkeletonPostComment.objects.filter(post=post).first()
+        comment_list = SkeletonPostComment.objects.filter(post=post).last()
         comment_list = [comment_list]
         comments = []
+        print(comment_list)
         for item in comment_list:
-            if not item.user.profile_image:
+            if item is None:
+                continue
+            elif not item.user.profile_image:
                 profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
             else:
                 profile = item.post.user.profile_image.url
@@ -811,7 +843,7 @@ class LoadMoreBookmarkPost(View):
                     'timestamp': post.post.user.username,
                     'like_status': True if self.request.user in post.post.liked_by.all() else False, 'image1': image1,
                     'comments': PostComment.objects.filter(post=post.post).count(), 'image2': image2, 'image3': image3,
-                    'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.post.code
+                    'image4': image4, 'image5': image5, 'bookmark': bookmark, 'type': 'post','flag': flag, 'code': post.post.code
 
                 })
             else:
@@ -850,7 +882,36 @@ class LoadMoreBookmarkPost(View):
                     'timestamp': post.skeleton_post.user.username,
                     'like_status': True if self.request.user in post.skeleton_post.liked_by.all() else False, 'image1': image1,
                     'comments': SkeletonPostComment.objects.filter(post=post.post).count(), 'image2': image2, 'image3': image3,
-                    'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.skeleton_post.skeleton_code
+                    'image4': image4, 'image5': image5, 'bookmark': bookmark,'type': 'skeleton-post', 'flag': flag, 'code': post.skeleton_post.skeleton_code
 
                 })
         return JsonResponse({'posts': posts})
+
+@method_decorator(csrf_exempt, name='dispatch')
+class SkeletonPostLike(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        """
+        :param request:
+            authenticated_user, post-id,
+        :return:
+            True/False, Number of likes
+        """
+        id = self.request.POST.get('id')
+        if not id:
+            return JsonResponse({
+                'Status': False,
+                'Message': 'ID is required!...'
+            })
+        if len(SkeletonPost.objects.filter(id=id)) == 0:
+            return JsonResponse({
+                'Status': False,
+                'Message': 'Something went wrong!...'
+            })
+        post = SkeletonPost.objects.filter(id=id).get()
+        if self.request.user not in post.liked_by.all():
+            post.liked_by.add(self.request.user)
+        else:
+            post.liked_by.remove(self.request.user)
+        return JsonResponse({
+            'likes': post.liked_by.all().count()
+        })

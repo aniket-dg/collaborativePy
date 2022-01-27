@@ -1184,7 +1184,7 @@
         });
     }
 
-    function postComment(id) {
+    function postComment(id, type='post') {
         var formData = new FormData();
         var comment = $("textarea[name='comment" + id + "']").val();
         if (comment === "") {
@@ -1198,6 +1198,7 @@
             formData.append('csrfmiddlewaretoken', $("input[name='csrfmiddlewaretoken']").val());
             formData.append('id', id);
             formData.append('comment', comment);
+            formData.append('type', type)
             $.ajax({
                 type: "POST",
                 url: "{% url 'post:comment' %}",

@@ -1,3 +1,4 @@
+from statistics import mode
 from django.db import models
 import decimal
 from ckeditor.fields import RichTextField
@@ -30,7 +31,7 @@ class Plan(models.Model):
 
 
 class Payment(models.Model):
-    plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
+    plan = models.ForeignKey(Plan, on_delete=models.CASCADE, related_name='dummpy_plan_payment', blank=True, null=True)
 
     valid_till = models.DateField(null=True, blank=True)
     amt_paid = models.FloatField(null=True, blank=True)
@@ -38,6 +39,8 @@ class Payment(models.Model):
     paid = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     total_group_create_size = models.IntegerField(default=0)
-    group_size = models.IntegerField(default=0)
+    group_size = models.CharField(null=True, blank=True, max_length=200)
+
+    plans = models.ManyToManyField(Plan, blank=True)
     def __str__(self):
         return f"{self.id}_Payment"
