@@ -1043,6 +1043,11 @@
                     </div>
 
                 </div>
+                <div class="chat-placeholder">
+                    <img src="{% static 'chat/img/chat-placeholder.svg' %}">
+                    <h3>Chat with your friends!</h3>
+                    <p>Find users, create groups, share files and much more.</p>
+                </div>
             </main>
             <!-- Chat -->
 
@@ -1050,6 +1055,30 @@
             {% include 'chat/offcanvas.html' %}
         </div>
         <!-- Layout -->
+        <style>
+            .main:not(.is-visible) .chat-placeholder{
+                display: flex;
+                user-select: none;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                background-image: repeating-linear-gradient(-45deg,
+                    transparent,
+                    transparent 100px,
+                    #80808011 100px,
+                    #80808011 102px);
+                width: 100%;
+                height: 100%;
+                font-size: 1.2rem;
+            }
+            .main:not(.is-visible) .chat-placeholder img{
+                width: 50%;
+            }
+            .main:not(.is-visible) .chat-placeholder h3{
+                font-size: 1.5rem;
+                color: #444444;
+            }
+        </style>
 
 {#############################     Modal Invoke while uploading media     ################################}
 <!-- <div class="modal fade" id="modalForUploadingData" tabindex="-1" role="dialog" aria-labelledby="Loading Modal" aria-hidden="true">

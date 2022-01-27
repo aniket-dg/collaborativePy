@@ -207,13 +207,13 @@ $('#flag-reason-bookmark').addClass('is-hidden');
 function createBookMarkPost(posts)
     {
         posts.forEach(post => {
-
+            console.log('POST:', post)
             if(post.code === undefined || post.code===null ||post.code==='')
             {
                 currentPosts += 1;
                             let likeStatus = "";
                             if (post.like_status) {
-                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}')"
+                                likeStatus = `<a onclick="like(event, '${post.post_id}', ${post.is_skeleton_post})"
                                         id="like-button` + post.post_id + `" class="like-button is-active">
                                         <i class="mdi mdi-heart not-liked bouncy"></i>
                                         <i class="mdi mdi-heart is-liked bouncy"></i>
@@ -221,7 +221,7 @@ function createBookMarkPost(posts)
                                     </a>`;
                             }
                             else {
-                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}')"
+                                likeStatus = `<a onclick="like(event, '${post.post_id}', ${post.is_skeleton_post})"
                                                 id="like-button` + post.post_id + `" class="like-button">
                                                 <i class="mdi mdi-heart not-liked bouncy"></i>
                                                 <i class="mdi mdi-heart is-liked bouncy"></i>
@@ -531,7 +531,7 @@ function createBookMarkPost(posts)
                 currentPosts += 1;
                             let likeStatus = "";
                             if (post.like_status) {
-                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}')"
+                                likeStatus = `<a onclick="like(event, '${post.post_id}', ${post.is_skeleton_post})"
                                         id="like-button` + post.post_id + `" class="like-button is-active">
                                         <i class="mdi mdi-heart not-liked bouncy"></i>
                                         <i class="mdi mdi-heart is-liked bouncy"></i>
@@ -539,7 +539,7 @@ function createBookMarkPost(posts)
                                     </a>`;
                             }
                             else {
-                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}')"
+                                likeStatus = `<a onclick="like(event, '${post.post_id}', ${post.is_skeleton_post})"
                                                 id="like-button` + post.post_id + `" class="like-button">
                                                 <i class="mdi mdi-heart not-liked bouncy"></i>
                                                 <i class="mdi mdi-heart is-liked bouncy"></i>

@@ -1,210 +1,218 @@
 {% extends "home/social_base.html" %}
 {% load static %}
 {% block content %}
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap-grid.min.css" integrity="sha512-Xj2sd25G+JgJYwo0cvlGWXoUekbLg5WvW+VbItCMdXrDoZRWcS/d40ieFHu77vP0dF5PK+cX6TIp+DsPfZomhw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
-    .plan-wrapper{
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    }
-    .heading-box{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        background-image: linear-gradient(to bottom, #5596E6, #3473c0, #5596E6);
-        color: white;
-        font-family: inherit;
-        min-height: 15rem;
-        margin-top: 3.625rem;
-    }
-    .heading-box h1{
-        font-size: 3rem;
-    }
-    .heading-box p{
-        font-size:1.3rem;
-    }
-    .c-row{
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .c-card{
-        flex: 0 1 25%;
-        margin: 1rem 3rem;
-    }
-    .pricingtable-inner {
-        position: relative;
-        background-image: linear-gradient(to top, white 60%, #a2c8f7 100%);
-        box-shadow: 0 0 45px 0 rgb(205 205 205 / 40%);
-        border-radius: 5px;
-        text-align: center;
-        display: flex;
-        justify-content: stretch;
-        flex-direction: column;
-    }
-    .pricingtable-price {
-        border: 0;
-        background-color: transparent;
-        padding: 40px 0 30px;
-        text-transform: uppercase;
-    }
-    .pricingtable-bx {
-        position: relative;
-        background-color: white;
-        font-family: muli;
-        font-weight: 700;
-        font-size: 1.8em;
-        /* height: 125px; */
-        width: 125px;
-        display: block;
-        margin: auto;
-        line-height: 125px;
-        border-radius: 50%;
-    }
-    .pricingtable-title {
-        background-color: transparent;
-        font-size: 1.15rem;
-        margin-bottom: 1rem;
-    }
-    .pricingtable-description{
-        color: rgba(0, 0, 0, 0.6);
-        font-style: italic;
-    }
-    .pricingtable-features {
-        border: none;
-        padding: 1rem 0;
-        list-style: none;
-    }
-    .pricingtable-features p{
-        padding: .6rem 0;
-    }
-    .pricingtable-footer {
-        padding: 20px;
-        margin-bottom: 1rem;
-    }
-    .recommend-section {
-        position: absolute;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transform: translateY(-100%);
-        color: white;
-        background-color: #5596E6;
-        text-transform: uppercase;
-    }
+.pricing-table > *{
+    box-sizing:border-box;
+}
+.pricing-table{
+  background-color: #eee;
+  font-family: 'Montserrat', sans-serif;
+  padding-top: 5rem;
+}
 
-    .discount-section {
-        font-size: .9rem;
-        position: absolute;
-        display: flex;
-        align-items:center;
-        justify-content:evenly;
-        inset: -3rem 0 auto 0;
-        min-width: 12rem;
-    }
+.pricing-table .block-heading {
+  padding-top: 50px;
+  margin-bottom: 40px;
+  text-align: center; 
+}
 
-    .discount-percent {
-        line-height: normal;
-        font-size: .8rem;
-        padding: 5px 10px;
-        border-radius: 10rem;
-        color: white;
-        background-image: linear-gradient(to bottom, #5596E6, #3473c0);
-        text-transform: uppercase;
-        white-space: nowrap;
-    }
+.pricing-table .block-heading h2 {
+  color: #5596E6;
+}
 
-    .original-price {
-        transform: translateY(-10px);
-    }
+.pricing-table .block-heading p {
+  text-align: center;
+  max-width: 420px;
+  margin: auto;
+  opacity: 0.7; 
+}
 
-    .c-btn{
-        position: relative;
-        border: 1px solid #818181;
-        display: inline-block;  /* required for hiding absolute children */
-        border-radius: 50rem;
-        padding: .6rem 1.5rem;
-        font-size: 1.2rem;
-        color: rgb(60, 60, 60);
-        overflow: hidden;
-    }
-    .c-btn:hover{
-        color: white;
-        background: #5596E6;
-    }
-    .c-btn::before, .c-btn::after{
-        content: '';
-        pointer-events: none;
-        position: absolute;
-        top: 0%;
-        left: -150%;
-        width: 200%;
-        height: 70%;
-        background: rgba(255, 255, 255, 0.3);
-        transform-origin: 50% 50%;
-        transform: rotateZ(45deg);
-        transition: all .2s ease-out;
-    }
-    .c-btn:hover::before{
-        left: 50%;
-    }
-    .c-btn:hover::after{
-        left: 100%;
-    }
+.pricing-table .heading {
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); 
+}
+
+.pricing-table .item {
+  background-color: #ffffff;
+  border-top: 4px solid #5596E6;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+  padding: 30px;
+  overflow: hidden;
+  position: relative; 
+}
+
+.pricing-table .col-md-5:not(:last-child) .item {
+  margin-bottom: 30px; 
+}
+
+.pricing-table .item button {
+  font-weight: 600; 
+}
+
+.pricing-table .ribbon {
+  width: 180px;
+  height: 32px;
+  font-size: 12px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0px 2px 3px rgba(136, 136, 136, 0.25);
+  background: #4dbe3b;
+  transform: rotate(45deg);
+  position: absolute;
+  right: -42px;
+  top: 35px;
+  padding-top: 7px; 
+}
+.heading{
+    font-size: 1.8rem;
+}
+.pricing-table .item p {
+  text-align: center;
+  margin: 20px 20px;
+  opacity: 0.7; 
+}
+
+.pricing-table .features .feature {
+  font-weight: 600; 
+}
+
+.pricing-table .features h4 {
+  text-align: center;
+  font-size: 18px;
+  padding: 5px; 
+}
+
+.features p:not(:last-child){
+    margin: 0 .8rem;
+    padding: .6rem;
+    border-bottom: 1px solid #81818133;
+
+}
+.pricing-table .price{
+    position: relative;
+    margin-top: 3rem;
+}
+.pricing-table .price h4 {
+  margin: 15px 0;
+  font-size: 45px;
+  text-align: center;
+  color: #5596E6; 
+}
+
+.pricing-table .buy-now button {
+  text-align: center;
+  margin: auto;
+  font-weight: 600;
+  padding: 9px 0; 
+}
+
+.discount-section{
+    position: absolute;
+    margin-top: -1.8rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.discount-percent{
+    line-height: normal;
+    font-size: .8rem;
+    padding: 5px 10px;
+    border-radius: 10rem;
+    color: white;
+    background-color: #5596E6;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.original-price{
+    transform: translateY(-5px);
+}
+.c-button{
+    position: relative;
+    margin-top: 3rem;
+    display: inline-block;  /* required for hiding absolute children */
+    overflow: hidden;
+}
+.item:hover .c-button {
+    border: 1px solid #5596E6;
+}
+.c-button:hover{
+    background-color: #5596E6;
+    color: white;
+}
+.c-button::before{
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    top: 0%;
+    left: -150%;
+    width: 200%;
+    height: 70%;
+    background: rgba(255, 255, 255, 0.3);
+    transform-origin: 50% 50%;
+    transform: rotateZ(45deg);
+    opacity: 1;
+    transition: all .5s ease-out;
+}
+.c-button:hover::before{
+    left: 50%;
+    opacity: 0;
+}
 </style>
-
-<!-- Content -->
-<div class="plan-wrapper">
-    <div class="heading-box">
-        <h1>Our Plans</h1>
-        <p>Access more features with subscription</p>
-    </div>
-    <div class="container" style="margin-top: 6rem;">
-        <div class="c-row">
+<section class="pricing-table">
+    <div class="container">
+        <!-- <div class="block-heading">
+            <h2>Our Pricing</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
+        </div> -->
+        <div class="row justify-content-md-center">
             {% for object in object_list %}
-            <div class="c-card">
-                <div class="pricingtable-inner">
+            <div class="col-md-5 col-lg-4">
+                <div class="item">
                     {% if object.is_recommended %}
-                    <div class="recommend-section">
-                        Recommended
-                    </div>
+                    <div class="ribbon">Recommended</div>
                     {% endif %}
-                    <div class="pricingtable-price">
-                        <div class="pricingtable-bx">
-                            {% if object.cost %}
-                            ₹{{ object.get_discounted_price|floatformat:1 }}
-                            {% else %}
-                            N/A
-                            {% endif %}
-                            {% if object.discount_percentage > 0 and object.cost %}
-                            <div class="discount-section">
-                                <span class="original-price"><s>₹ {{ object.cost|floatformat }}</s></span>
-                                <span class="discount-percent ml-2">Save
-                                    {{object.discount_percentage|floatformat}}%</span>
-                            </div>
-                            {% endif %}
+                    <div class="heading">
+                        <h3>{{object.title}}</h3>
+                    </div>
+                    <p>{{object.description}}</p>
+                    <div class="features">
+                        <h4>{{object.features | safe}}</h4>
+                    </div>
+                    <div class="price">
+                        {% if object.discount_percentage > 0 and object.cost %}
+                        <div class="discount-section d-flex align-items-center justify-content-evenly">
+                            <span class="original-price"><s>₹ {{ object.cost|floatformat }}</s></span>
+                            &emsp;
+                            <span class="discount-percent ml-2">Save {{object.discount_percentage|floatformat}}%</span>
                         </div>
+                        {% endif %}
+                        <h4>
+                            {% if object.cost %}
+                                ₹{{ object.get_discounted_price|floatformat:1 }}
+                            {% else %}
+                                Let's Talk
+                            {% endif %}
+                        </h4>
                     </div>
-                    <div class="pricingtable-title">
-                        <h2><strong>{{ object.title }}</strong></h2>
-                    </div>
-                    <div class="pricingtable-description">
-                        {{object.description | safe}}
-                    </div>
-                    <div class="pricingtable-features">
-                        {{object.features | safe}}
-                    </div>
-                    <div class="pricingtable-footer"> 
-                        <a href="{% if user.is_authenticated %}{% url 'order:payment-request' object.id %}{% else %}{% url 'user:login' %}{% endif %}"
-                            class="c-btn">Buy Now
-                        </a>
-                    </div>
+                    {% if object.cost %}
+                    <a href="{% if user.is_authenticated %}{% url 'order:payment-request' object.id %}{% else %}{% url 'user:login' %}{% endif %}"
+                     class="c-button button is-fullwidth">
+                     BUY NOW
+                    </a>
+                    {% else %}
+                    <a href="{% url 'home:contact' %}" class="c-button button is-fullwidth">
+                     CONTACT
+                    </a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
-</div>
-<!-- Content END-->
-
+</section>
 {% endblock content %}

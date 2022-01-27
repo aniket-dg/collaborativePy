@@ -405,6 +405,11 @@
 <script>
     function like(id) {
         var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
+        if ($('#like-button' + id).hasClass('is-active')) {
+            $('#like-button' + id).removeClass('is-active');
+        } else {
+            $('#like-button' + id).addClass('is-active');
+        }
         $.ajax({
             async: true,
             method: "POST",
