@@ -330,9 +330,15 @@ class UserProfileView(LoginRequiredMixin, View):
         for flag in flags_objs:
             flags.append(flag.post.id)
         bookmarks = []
+        skeleton_bookmarks = []
         for bookmark in context['bookmark_list']:
-            bookmarks.append(bookmark.post.id)
+            if bookmark.post:
+                bookmarks.append(bookmark.post.id)
+            else:
+                skeleton_bookmarks.append(bookmark.skeleton_post.id)
         context['bookmark_list_post_id'] = bookmarks
+        context['skeleton_bookmark_list_post_id'] = skeleton_bookmarks
+
         context['flag_list'] = flags
         context['profile_user'] = user
         connected_users = user.get_user_connected_users()

@@ -3,7 +3,7 @@ aiohttp==3.8.1
 aioredis==1.3.1
 aiosignal==1.2.0
 alembic==1.7.5
-apns2==0.7.2
+apns2
 argon2-cffi==21.1.0
 asgiref==3.4.1
 async-generator==1.10
@@ -123,7 +123,7 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
 Pygments==2.10.0
-PyJWT==1.7.1
+PyJWT
 pyOpenSSL==21.0.0
 pyparsing==3.0.6
 pyrsistent==0.18.0
@@ -147,8 +147,8 @@ ruamel.yaml.clib==0.2.6
 Send2Trash==1.8.0
 service-identity==21.1.0
 six==1.16.0
-social-auth-app-django==5.0.0
-social-auth-core==4.1.0
+social-auth-app-django
+social-auth-core
 SQLAlchemy==1.4.27
 sqlparse==0.4.2
 terminado==0.12.1

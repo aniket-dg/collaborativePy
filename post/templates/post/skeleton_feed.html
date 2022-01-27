@@ -754,7 +754,7 @@
         })
     }
 
-    function like(id, user) {
+    function like(id, user, type='post') {
         var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
         if ($('#like-button' + id).hasClass('is-active')) {
             $('#like-button' + id).removeClass('is-active');
@@ -768,7 +768,8 @@
             data: {
                 csrfmiddlewaretoken: csrfmiddlewaretoken,
                 'id': id,
-                'user': user
+                'user': user,
+                'type': type
             },
             success: function (response) {
                 $('.likes-display' + id).html(response['likes']);
@@ -781,7 +782,7 @@
 
 
 
-    function postComment(id) {
+    function postComment(id, type='post') {
         var formData = new FormData();
         var comment = $("textarea[name='comment" + id + "']").val();
         if (comment === "") {
@@ -795,6 +796,7 @@
             formData.append('csrfmiddlewaretoken', $("input[name='csrfmiddlewaretoken']").val());
             formData.append('id', id);
             formData.append('comment', comment);
+            formData.append('type', type)
             // formData.append('image', $("#comment_image")[0].files[0]);
             $.ajax({
                 type: "POST",
@@ -1014,13 +1016,14 @@
         $.ajax({
             async: true,
             method: "POST",
-            url: "{% url 'post:book-mark' %}",
+            url: "{% url 'post:skeleton-book-mark' %}",
             data: {
                 csrfmiddlewaretoken: csrfmiddlewaretoken,
                 'id': id,
             },
             success: function (response) {
                 if (response['Status'] === false) {
+                    console.log(response);
                     alert(response['Message']);
                 } else if (response['Status'] === 1) {
                     $('#book-mark-' + id).css('fill', '#1589FF');
@@ -1029,7 +1032,8 @@
                 }
             },
             error: function (response) {
-                alert(response['Message']);
+                console.log(response);
+                {% comment %} alert(response['Message']); {% endcomment %}
             },
         });
     }

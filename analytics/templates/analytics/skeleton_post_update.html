@@ -155,6 +155,15 @@
                     </div>
                 </div>
 
+            <div class="column {% if field.label == 'Description' %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+    
+                        <div class="control has-icon">
+                            {{ form.code_file|as_crispy_field }}
+                        </div>
+                    </div>
+                </div>
+
                 <div class="column is-12">
                     <div class="buttons">
                         <button type="submit" class="button is-solid accent-button form-button">Submit</button>

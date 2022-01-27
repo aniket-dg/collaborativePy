@@ -213,7 +213,7 @@ function createBookMarkPost(posts)
                 currentPosts += 1;
                             let likeStatus = "";
                             if (post.like_status) {
-                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}')"
+                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}','${post.type}')"
                                         id="like-button` + post.post_id + `" class="like-button is-active">
                                         <i class="mdi mdi-heart not-liked bouncy"></i>
                                         <i class="mdi mdi-heart is-liked bouncy"></i>
@@ -221,7 +221,7 @@ function createBookMarkPost(posts)
                                     </a>`;
                             }
                             else {
-                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}')"
+                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}','${post.type}')"
                                                 id="like-button` + post.post_id + `" class="like-button">
                                                 <i class="mdi mdi-heart not-liked bouncy"></i>
                                                 <i class="mdi mdi-heart is-liked bouncy"></i>
@@ -367,7 +367,7 @@ function createBookMarkPost(posts)
 <!--                </div>-->
 
                 <div class="fab-wrapper is-share is-active">
-                    <a onclick="moreComments('` + post.post_id + `')" href="javascript:void(0);" class="small-fab">
+                    <a onclick="moreComments('` + post.post_id + `','${post.type}')" href="javascript:void(0);" class="small-fab">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-message-circle">
@@ -513,7 +513,7 @@ function createBookMarkPost(posts)
                                                     <input type="file" name="image" id="comment_image"
                                                         accept=".png, .jpg, .jpeg">
                                                 </div> -->
-                            <button onclick="postComment('` + post.post_id + `')"
+                            <button onclick="postComment('` + post.post_id + `', '${post.type}')"
                                 class="button is-solid primary-button raised">Post
                                 Comment</button>
                         </div>
@@ -531,7 +531,7 @@ function createBookMarkPost(posts)
                 currentPosts += 1;
                             let likeStatus = "";
                             if (post.like_status) {
-                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}')"
+                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}','${post.type}')"
                                         id="like-button` + post.post_id + `" class="like-button is-active">
                                         <i class="mdi mdi-heart not-liked bouncy"></i>
                                         <i class="mdi mdi-heart is-liked bouncy"></i>
@@ -539,7 +539,7 @@ function createBookMarkPost(posts)
                                     </a>`;
                             }
                             else {
-                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}')"
+                                likeStatus = `<a onclick="like('` + post.post_id + `', '{{request.user}}','${post.type}')"
                                                 id="like-button` + post.post_id + `" class="like-button">
                                                 <i class="mdi mdi-heart not-liked bouncy"></i>
                                                 <i class="mdi mdi-heart is-liked bouncy"></i>
@@ -685,7 +685,7 @@ function createBookMarkPost(posts)
 <!--                </div>-->
 
                 <div class="fab-wrapper is-share is-active">
-                    <a onclick="moreComments('` + post.post_id + `')" href="javascript:void(0);" class="small-fab">
+                    <a onclick="moreComments('` + post.post_id + `','${post.type}')" href="javascript:void(0);" class="small-fab">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-message-circle">
@@ -785,7 +785,7 @@ function createBookMarkPost(posts)
         <!-- Comments body -->
         <div id="comment-body` + post.post_id + `" class="comments-body has-slimscroll"></div>
         <div id="load-more-comments-btn_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered">
-                        <a onclick="moreComments(${post.post_id})" id="load-more" class="load-more-button">Load More</a>
+                        <a onclick="moreComments(${post.post_id},'${post.type}')" id="load-more" class="load-more-button">Load More</a>
                     </div>
                     <div id="no-comment-tag_${post.post_id}" class=" load-more-wrap narrow-top has-text-centered" style="display: none;">
                         <p>No more posts!...</p>
@@ -835,7 +835,7 @@ function createBookMarkPost(posts)
                                                     <input type="file" name="image" id="comment_image"
                                                         accept=".png, .jpg, .jpeg">
                                                 </div> -->
-                            <button onclick="postComment('` + post.post_id + `')"
+                            <button onclick="postComment('` + post.post_id + `', '${post.type}')"
                                 class="button is-solid primary-button raised">Post
                                 Comment</button>
                         </div>
@@ -1047,7 +1047,7 @@ function createBookMarkPost(posts)
         );
     }
 
-    function moreBookmarkComments(post_id)
+    function moreBookmarkComments(post_id, type='post')
     {
         $("#comment-text-action" + post_id).css({
             display: "none"
@@ -1063,6 +1063,7 @@ function createBookMarkPost(posts)
             data: {
                 'post_id': post_id,
                 'current_comments': currentComments,
+                'type': type
             },
             success: function (response) {
                 console.log(response);
@@ -1088,4 +1089,23 @@ function createBookMarkPost(posts)
        let currentPosts = $('.profile-timeline-bookmark .is-post').length;
        moreBookmarkPost();
     });
+    function like(id, user,type='post') {
+        var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
+        $.ajax({
+            async: true,
+            method: "POST",
+            url: "{% url 'post:like' %}",
+            data: {
+                csrfmiddlewaretoken: csrfmiddlewaretoken,
+                'id': id,
+                'type': type
+            },
+            success: function (response) {
+                $('.likes-display' + id).html(response['likes']);
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        });
+    }
 </script>

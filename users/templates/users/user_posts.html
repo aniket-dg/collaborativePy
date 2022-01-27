@@ -122,10 +122,17 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <script>
-    function getCommentList(id) {
+    function getCommentList(id, type='post') {
         host = window.location.host;
-        let url = `{% url 'post:api-comment-list' %}?post_id=${id}`;
-        console.log(url);
+        let url;
+        if(type === 'post')
+        {
+         url = `{% url 'post:api-comment-list' %}?post_id=${id}`;
+        }
+        else{
+            url = `{% url 'post:api-skeleton-post-comment-list' %}?post_id=${id}`;
+        }
+         console.log(url);
         $.ajax({
             url : url,
             success: function(response)
@@ -207,13 +214,13 @@
 
     }
 
-    function display_comments(id) {
+    function display_comments(id, type) {
         // $("#comment-text-action" + id).css({
         //     display: "none"
         // });
         $('#comments-wrap' + id).removeClass('is-hidden');
         $('#content-wrap' + id).addClass('is-hidden');
-        getCommentList(id);
+        getCommentList(id, type);
     }
 
     function closeComment(id) {
@@ -221,7 +228,7 @@
         $('#content-wrap' + id).removeClass('is-hidden');
     }
 
-    function postComment(id) {
+    function postComment(id, type='post') {
         var formData = new FormData();
         var comment = $("textarea[name='comment" + id + "']").val();
         if (comment === "") {
@@ -234,6 +241,7 @@
             });
             formData.append('csrfmiddlewaretoken', $("input[name='csrfmiddlewaretoken']").val());
             formData.append('id', id);
+            formData.append('type', type);
             formData.append('comment', comment);
             $.ajax({
                 type: "POST",
@@ -246,7 +254,7 @@
                         alert(response['Message']);
                     }
                     $("textarea[name='comment" + id + "']").val("");
-                    display_comments(id);
+                    display_comments(id, response['type']);
                 },
                 error: function (response) {
                     alert(response['Message']);
@@ -1150,7 +1158,7 @@ function getSingleComment(id)
         );
     }
 
-    function moreComments(post_id)
+    function moreComments(post_id, type='post')
     {
         $("#comment-text-action" + post_id).css({
             display: "none"
@@ -1166,6 +1174,7 @@ function getSingleComment(id)
             data: {
                 'post_id': post_id,
                 'current_comments': currentComments,
+		'type': type,
             },
             success: function (response) {
                 console.log(response);

@@ -44,20 +44,26 @@ class PaymentResponseView(View):
             user = self.request.user
             if user.payment:
                 old_payment = user.payment
-                remaining_days = user.remaining_days() - 1
-                valid_till = payment.valid_till + timedelta(int(remaining_days))
-                payment.valid_till = valid_till
+                # remaining_days = user.remaining_days() - 1
+                # valid_till = payment.valid_till + timedelta(int(remaining_days))
+                # payment.valid_till = valid_till
                 payment.save()
                 payment.total_group_create_size = old_payment.total_group_create_size + payment.plan.total_group_create_size
-                payment.group_size = max(old_payment.group_size, payment.plan.group_size)
+                # payment.group_size = max(old_payment.group_size, payment.plan.group_size)
+                payment.save()
+                old_plans = old_payment.plans.all()
+                for item in old_plans:
+                    payment.plans.add(item)
+                    payment.save()
+                payment.plans.add(payment.plan)
                 payment.save()
                 user.payment = payment
                 user.save()
             else:
                 user.payment = payment
                 payment = user.payment
-                payment.total_group_create_size = payment.plan.total_group_create_size
-                payment.group_size = payment.plan.group_size
+                payment.save()
+                payment.plans.add(payment.plan)
                 payment.save()
                 user.save()
             messages.success(self.request, "Payment Success!")

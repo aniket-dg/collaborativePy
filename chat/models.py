@@ -56,7 +56,8 @@ class GroupChatModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     history = models.ManyToManyField(GroupCallHistory, blank=True)
-
+    plan = models.ForeignKey('order.Plan',null=True, blank=True, on_delete=models.CASCADE)
+    valid_till = models.DateField(null=True, blank=True)
     def __str__(self):
         return str(self.id)
 

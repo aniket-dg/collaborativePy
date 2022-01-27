@@ -1,101 +1,209 @@
-
-{% extends "home/base.html" %}
+{% extends "home/social_base.html" %}
 {% load static %}
 {% block content %}
 
 <style>
-    .recommend-section{
-        position:absolute;
+    .plan-wrapper{
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    .heading-box{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background-image: linear-gradient(to bottom, #5596E6, #3473c0, #5596E6);
+        color: white;
+        font-family: inherit;
+        min-height: 15rem;
+        margin-top: 3.625rem;
+    }
+    .heading-box h1{
+        font-size: 3rem;
+    }
+    .heading-box p{
+        font-size:1.3rem;
+    }
+    .c-row{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .c-card{
+        flex: 0 1 25%;
+        margin: 1rem 3rem;
+    }
+    .pricingtable-inner {
+        position: relative;
+        background-image: linear-gradient(to top, white 60%, #a2c8f7 100%);
+        box-shadow: 0 0 45px 0 rgb(205 205 205 / 40%);
+        border-radius: 5px;
+        text-align: center;
+        display: flex;
+        justify-content: stretch;
+        flex-direction: column;
+    }
+    .pricingtable-price {
+        border: 0;
+        background-color: transparent;
+        padding: 40px 0 30px;
+        text-transform: uppercase;
+    }
+    .pricingtable-bx {
+        position: relative;
+        background-color: white;
+        font-family: muli;
+        font-weight: 700;
+        font-size: 1.8em;
+        /* height: 125px; */
+        width: 125px;
+        display: block;
+        margin: auto;
+        line-height: 125px;
+        border-radius: 50%;
+    }
+    .pricingtable-title {
+        background-color: transparent;
+        font-size: 1.15rem;
+        margin-bottom: 1rem;
+    }
+    .pricingtable-description{
+        color: rgba(0, 0, 0, 0.6);
+        font-style: italic;
+    }
+    .pricingtable-features {
+        border: none;
+        padding: 1rem 0;
+        list-style: none;
+    }
+    .pricingtable-features p{
+        padding: .6rem 0;
+    }
+    .pricingtable-footer {
+        padding: 20px;
+        margin-bottom: 1rem;
+    }
+    .recommend-section {
+        position: absolute;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         transform: translateY(-100%);
         color: white;
         background-color: #5596E6;
         text-transform: uppercase;
     }
-    .discount-section{
+
+    .discount-section {
         font-size: .9rem;
         position: absolute;
+        display: flex;
+        align-items:center;
+        justify-content:evenly;
         inset: -3rem 0 auto 0;
         min-width: 12rem;
     }
-    .discount-percent{
+
+    .discount-percent {
         line-height: normal;
         font-size: .8rem;
         padding: 5px 10px;
         border-radius: 10rem;
         color: white;
-        background-color: #5596E6;
+        background-image: linear-gradient(to bottom, #5596E6, #3473c0);
         text-transform: uppercase;
         white-space: nowrap;
     }
-    .original-price{
+
+    .original-price {
         transform: translateY(-10px);
+    }
+
+    .c-btn{
+        position: relative;
+        border: 1px solid #818181;
+        display: inline-block;  /* required for hiding absolute children */
+        border-radius: 50rem;
+        padding: .6rem 1.5rem;
+        font-size: 1.2rem;
+        color: rgb(60, 60, 60);
+        overflow: hidden;
+    }
+    .c-btn:hover{
+        color: white;
+        background: #5596E6;
+    }
+    .c-btn::before, .c-btn::after{
+        content: '';
+        pointer-events: none;
+        position: absolute;
+        top: 0%;
+        left: -150%;
+        width: 200%;
+        height: 70%;
+        background: rgba(255, 255, 255, 0.3);
+        transform-origin: 50% 50%;
+        transform: rotateZ(45deg);
+        transition: all .2s ease-out;
+    }
+    .c-btn:hover::before{
+        left: 50%;
+    }
+    .c-btn:hover::after{
+        left: 100%;
     }
 </style>
 
 <!-- Content -->
-<div class="page-content">
-    <!-- inner page banner -->
-        <div class="dlab-bnr-inr bg-custom" style="background-image:url('{% static 'images/background/bg1.jpg' %}');height: 280px;">
-        <div class="container">
-            <div class="dlab-bnr-inr-entry text-white">
-                <h1>Our Plans</h1>
-                <p>Access more features with subscription</p>
-            </div>
-        </div>
+<div class="plan-wrapper">
+    <div class="heading-box">
+        <h1>Our Plans</h1>
+        <p>Access more features with subscription</p>
     </div>
-    <!-- inner page banner END -->
-    <!-- inner page banner END -->
-    <div class="content-block">
-
-<div class="section-full bg-white content-inner-2">
-    <div class="container">
-        <div class="section-head text-center">
-            <!-- <span class="sub-title text-primary">Pricing Plan</span> -->
-<!--            <h2 class="title text-secondry">Simple pricing that works</h2>-->
-        </div>
-        <div class="row">
+    <div class="container" style="margin-top: 6rem;">
+        <div class="c-row">
             {% for object in object_list %}
-            <div class="col-lg-4 col-md-4 m-b60 wow fadeInUp" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
-                <div class="pricingtable-wrapper">
-                    <div class="pricingtable-inner" style="position: relative;">
-                        {% if object.is_recommended %}
-                        <div class="recommend-section w-100 p-1 d-flex align-items-center justify-content-center">
-                            Recommended
-                        </div>
-                        {% endif %}
-                        <div class="pricingtable-price"> 
-                            <div style="font-size: 1.8em; position: relative;" class="pricingtable-bx text-primary">
-                                {% if object.cost %}
-                                    ₹{{ object.get_discounted_price|floatformat:1 }}
-                                {% else %}
-                                    N/A
-                                {% endif %}
-                                {% if object.discount_percentage > 0 and object.cost %}
-                                <div class="discount-section d-flex align-items-center justify-content-evenly">
-                                    <span class="original-price"><s>₹ {{ object.cost|floatformat }}</s></span>
-                                    <span class="discount-percent ml-2">Save {{object.discount_percentage|floatformat}}%</span>
-                                </div>
-                                {% endif %}
+            <div class="c-card">
+                <div class="pricingtable-inner">
+                    {% if object.is_recommended %}
+                    <div class="recommend-section">
+                        Recommended
+                    </div>
+                    {% endif %}
+                    <div class="pricingtable-price">
+                        <div class="pricingtable-bx">
+                            {% if object.cost %}
+                            ₹{{ object.get_discounted_price|floatformat:1 }}
+                            {% else %}
+                            N/A
+                            {% endif %}
+                            {% if object.discount_percentage > 0 and object.cost %}
+                            <div class="discount-section">
+                                <span class="original-price"><s>₹ {{ object.cost|floatformat }}</s></span>
+                                <span class="discount-percent ml-2">Save
+                                    {{object.discount_percentage|floatformat}}%</span>
                             </div>
+                            {% endif %}
                         </div>
-                        <div class="pricingtable-title">
-                            <h2>{{ object.title }}</h2>
-                        </div>
-                        <div class="mb-4 px-5" style="font-style:italic;">
-                            {{object.description | safe}}
-                        </div>
-                        <ul class="pricingtable-features px-5">
-                            {{object.features | safe}}
-                        </ul>
-                        <div class="pricingtable-footer"> <a href="{% if user.is_authenticated %}{% url 'order:payment-request' object.id %}{% else %}{% url 'user:login' %}{% endif %}" class="btn outline outline-1 radius-xl btn-aware">Buy Now<span></span></a> </div>
+                    </div>
+                    <div class="pricingtable-title">
+                        <h2><strong>{{ object.title }}</strong></h2>
+                    </div>
+                    <div class="pricingtable-description">
+                        {{object.description | safe}}
+                    </div>
+                    <div class="pricingtable-features">
+                        {{object.features | safe}}
+                    </div>
+                    <div class="pricingtable-footer"> 
+                        <a href="{% if user.is_authenticated %}{% url 'order:payment-request' object.id %}{% else %}{% url 'user:login' %}{% endif %}"
+                            class="c-btn">Buy Now
+                        </a>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
-</div>
-</div>
 </div>
 <!-- Content END-->
 
