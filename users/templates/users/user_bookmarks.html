@@ -1058,6 +1058,7 @@ function createBookMarkPost(posts)
     });
     function like(id, user,type='post') {
         var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
+        $(`[id^='like-button${id}']`).toggleClass('is-active');
         $.ajax({
             async: true,
             method: "POST",
