@@ -57,6 +57,7 @@
         $('#receiver_for_msg_send').val();
         $('#receiver_for_group_send').val(groupName);
         $('#setReceiverModal').attr('data-bs-target', '#modal-group');
+        $('.open-notebook').attr('onclick', `redirectNotebook()`);
         groupInitialize(groupId);
 
         // For mobiles
