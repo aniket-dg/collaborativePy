@@ -371,8 +371,8 @@ function setReceiver(username,email, id, user_img_url=null,img_url=null, full_na
         // $('#video_call_form').hide()
         // $('#audio_call_form').hide()
         selectedIsUser = true;
-        $('.open-notebook').hide()
-
+        {#$('.open-notebook').hide()#}
+        $('.open-notebook').attr('onclick', `redirectPeerNotebook(${id})`);
 
         $('#receiver_for_msg_send').val(id);
         $('#chat-group').val("P2p");
