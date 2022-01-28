@@ -32,7 +32,16 @@ from .api import send_notification
 class UserData(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         user = self.request.user
-
+        if user.is_peer_share:
+            peer = User.objects.filter(id=user.peer_id).last()
+            if peer and peer in user.get_user_connected_users():
+                first = max(peer.id, user.id)
+                second = min(peer.id, user.id)
+                return HttpResponse(
+                    json.dumps({
+                        'username': f"{first}_{second}"
+                    })
+                )
         if user.is_group_share:
             group_id = user.group_id_share
             group = GroupChatModel.objects.filter(id=int(group_id)).last()
@@ -61,25 +70,40 @@ class SaveSessionForNotebook(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         group_id = self.request.GET.get('group_id')
         group_share = self.request.GET.get('group_share')
+
+        user_id = int(self.request.GET.get('user_id'))
         session = self.request.session
         user = self.request.user
+
+        if user_id:
+            request_user = User.objects.filter(id=user_id).last()
+            if request_user and request_user in self.request.user.get_user_connected_users():
+                user.is_peer_share = True
+                user.is_group_share = False
+                user.peer_id = request_user.id
+                user.save()
+                return redirect("https://jupyter.stellar-ai.in/jupyter/")
+
         print(group_id, group_share, session, user)
         if group_share and group_id:
             user.is_group_share = True
+            user.is_peer_share = False
             user.group_id_share = group_id
             user.save()
         else:
             user.is_group_share = False
+            user.is_peer_share = False
             user.group_id_share = ''
             user.save()
         return redirect("https://jupyter.stellar-ai.in/jupyter/")
-        #return redirect("https://www.google.com/jupyter/")
+        # return redirect("https://www.google.com/jupyter/")
 
 
 class OpenNotebook(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         group_id = int(self.request.GET.get('group_id'))
         group_share = self.request.GET.get('group_share')
+
         group = GroupChatModel.objects.get(id=group_id)
         group_name_url = None
         call_active = False
@@ -92,12 +116,11 @@ class OpenNotebook(LoginRequiredMixin, View):
         except AttributeError as e:
             print(e)
 
-
         session = self.request.session
         user = self.request.user
-        context={
-            'group_id':group_id,
-            'group_share':group_share,
+        context = {
+            'group_id': group_id,
+            'group_share': group_share,
             'group_name': group.group_name,
             'group': group,
             'group_name_url': group_name_url,
@@ -105,6 +128,29 @@ class OpenNotebook(LoginRequiredMixin, View):
             'join_url': group_name_url
         }
         return render(self.request, "users/notebook.html", context)
+
+
+class OpenChatNotebook(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        user_id = int(self.request.GET.get('user_id'))
+        request_user = User.objects.filter(id=user_id).last()
+        if not request_user:
+            messages.warning(self.request, "User does not exist!")
+            return redirect('chat:chat')
+        if request_user not in user.get_user_connected_users():
+            messages.warning(self.request, "User not Found!")
+            return redirect('chat:chat')
+
+        user_url = f"P2pVideoMeeting_{user.id}_{request_user.id}"
+        meeting_url = hash(user_url)
+        context = {
+            'receiver_id': request_user.id,
+            'receiver': request_user,
+            'join_url': meeting_url,
+            'user': user
+        }
+        return render(self.request, 'users/user_notebook.html', context)
 
 
 class SignUpView(View):
@@ -124,7 +170,8 @@ class SignUpView(View):
 
             # user activation
             send_email_verification_mail(self.request, user)
-            messages.success(self.request, 'Thank you for registering with us. We have mailed you a verification link to activate your account.')
+            messages.success(self.request,
+                             'Thank you for registering with us. We have mailed you a verification link to activate your account.')
             return redirect('user:login')
 
         messages.warning(self.request, 'Invalid registration information.')
@@ -159,7 +206,7 @@ class GoogleOAuthSignUpView(LoginRequiredMixin, View):
             return render(self.request, 'users/oauth_register.html')
         else:
             return redirect('user:login')
-    
+
     def post(self, *args, **kwargs):
         user = self.request.user
         user.username = self.request.POST.get('username', None)
@@ -205,11 +252,13 @@ class LoginView(SuccessMessageMixin, FormView):
                     return redirect(url_redirect)
                 return redirect('home:home')
             else:
-                messages.warning(self.request, 'Your account is not active, check your mail for activation link or contact support!')
+                messages.warning(self.request,
+                                 'Your account is not active, check your mail for activation link or contact support!')
                 return redirect('user:login')
 
         if not user_query.is_active:
-            messages.warning(self.request, 'Your account is not active, check your mail for activation link or contact support!')
+            messages.warning(self.request,
+                             'Your account is not active, check your mail for activation link or contact support!')
             return redirect('user:login')
         else:
             messages.warning(self.request, 'Email or Password is incorrect')
@@ -243,7 +292,8 @@ class CheckProfile:
             return redirect('user:profile')
         return super().dispatch(request, *args, **kwargs)
 
-class UserFriendProfileView(LoginRequiredMixin, CheckProfile,UserPassesTestMixin, DetailView):
+
+class UserFriendProfileView(LoginRequiredMixin, CheckProfile, UserPassesTestMixin, DetailView):
     model = User
     template_name = 'users/profile.html'
 
@@ -308,6 +358,7 @@ class UserProfileImageUpdateView(LoginRequiredMixin, UserPassesTestMixin, Succes
     def test_func(self):
         model = self.get_object()
         return self.request.user == model
+
 
 class BookMarkListView(LoginRequiredMixin, ListView):
     model = BookMark
@@ -473,6 +524,7 @@ class AcceptUserRequest(LoginRequiredMixin, View):
             'error': 'You did not receive a request from this user.'
         })
 
+
 class UnfriendUserAJAX(View):
     def post(self, *args, **kwargs):
         user_friend_id = self.request.POST.get('pk')
@@ -496,9 +548,10 @@ class UnfriendUserAJAX(View):
                 'data': 'User removed from your friend list'
             })
         return JsonResponse({
-                'status': 'failure',
-                'error': 'User not found'
-            })
+            'status': 'failure',
+            'error': 'User not found'
+        })
+
 
 class UnfriendUser(View):
     def get(self, *args, **kwargs):
@@ -529,7 +582,7 @@ class UnfriendUser(View):
             return redirect(redirect_url)
         return redirect('user:profile')
 
-        
+
 # class PasswordChangeDoneView(LoginRequiredMixin, )
 
 class UsersAndPostsSearchView(LoginRequiredMixin, View):
@@ -570,7 +623,8 @@ class UsersAndPostsSearchView(LoginRequiredMixin, View):
             'post_list': post_list
         })
 
-class LoadMoreFriends(LoginRequiredMixin,View):
+
+class LoadMoreFriends(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         user = self.request.user
         connected_users = user.get_user_connected_users()
@@ -592,11 +646,10 @@ class LoadMoreFriends(LoginRequiredMixin,View):
                 'username': item.username,
                 'name': item.get_full_name(),
                 'profile_image_url': profile,
-                'profile_link': reverse('user:friend-profile', kwargs={'pk':item.id}),
-                'user_id':item.id,
+                'profile_link': reverse('user:friend-profile', kwargs={'pk': item.id}),
+                'user_id': item.id,
             })
         return JsonResponse({'friends': friends})
-
 
 # def create_oauth_user(backend, user, response, *args, **kwargs):
 #     print("OAUTH RAN")

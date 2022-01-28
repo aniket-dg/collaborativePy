@@ -620,6 +620,7 @@ function getMessageById(data) {
                 chatsocket = 'chatSocket_chat_' + receiver_for_msg_send;
                 socket = websocket_dict[chatsocket];
                 if (socket) {
+
                     socket.send(JSON.stringify({
                         'message': message,
                         'receiver_id': receiver,
@@ -1023,8 +1024,12 @@ function getMessageById(data) {
         }
         // Redirect to jupyter notebook
         function redirectNotebook(){
-            const url = `{% url 'user:open-notebook' %}?group_id=${current_group}&group_share=${true}`
-            location.href = url
+            let url = `{% url 'user:open-notebook' %}?group_id=${current_group}&group_share=${true}`
+            location.href = url;
+        }
+        function redirectPeerNotebook(user_id){
+            let url = `{% url 'user:open-peer-notebook' %}?user_id=${user_id}`;
+            location.href = url;
         }
         // Repeat a task multiple times
         function setIntervalX(callback, delay, repetitions){

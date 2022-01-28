@@ -45,6 +45,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_group_share = models.BooleanField(default=False)
     group_id_share = models.IntegerField(null=True, blank=True)
+
+    is_peer_share = models.BooleanField(default=False)
+    peer_id = models.IntegerField(null=True, blank=True)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

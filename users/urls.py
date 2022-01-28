@@ -73,6 +73,7 @@ urlpatterns = [
 
     path('load/more/friends/', views.LoadMoreFriends.as_view(), name='load-more-friends'),
     path('open/notebook/', views.OpenNotebook.as_view(), name='open-notebook'),
+    path('open/chat/notebook/', views.OpenChatNotebook.as_view(), name='open-peer-notebook'),
     path('redirect/notebook/', views.SaveSessionForNotebook.as_view(), name='redirect-notebook'),
 
     # Social Login
