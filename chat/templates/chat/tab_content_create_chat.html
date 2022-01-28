@@ -1,7 +1,6 @@
 {% load static %}
 
 <!-- Create -->
-
                 <div class="tab-pane fade h-100" id="tab-content-create-chat" role="tabpanel">
 
                     <div class="d-flex flex-column h-100">
@@ -44,50 +43,28 @@
 
                                         <ul class="nav nav-pills nav-justified" role="tablist">
                                             <li class="nav-item">
-                                                <a class="nav-link active" data-bs-toggle="pill" href="#create-chat-info" role="tab" aria-controls="create-chat-info" aria-selected="true">
+                                                <a class="nav-link active" id="details-tab" data-bs-toggle="pill" href="#create-chat-info" role="tab" aria-controls="create-chat-info" aria-selected="true">
                                                     Details
                                                 </a>
                                             </li>
 
-                                            <li class="nav-item" id="choose-members-tab" onclick="unlockChooseMemberBtn(this)">
-                                                <a class="nav-link" disabled data-bs-toggle="pill" href="#create-chat-members" role="tab" aria-controls="create-chat-members" aria-selected="true">
+                                            {% if request.user.payment.plans.all.count > 1 %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="plans-tab" disabled data-bs-toggle="pill" href="#choose-chat-plans" role="tab" aria-controls="choose-chat-plans" aria-selected="true">
+                                                    Plans
+                                                </a>
+                                            </li>
+                                            {% endif %}
+
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="people-tab" disabled data-bs-toggle="pill" href="#create-chat-members" role="tab" aria-controls="create-chat-members" aria-selected="true">
                                                     People
                                                 </a>
                                             </li>
-
-                                            <script>
-                                                function unlockChooseMemberBtn(element) {
-                                                    const groupNameEl = document.getElementById(`group_name`)
-                                                    const bool1 = Boolean(groupNameEl.value.trim())
-                                                    const bool2 = document.getElementById('upload-chat-img').checkValidity()
-                                                    const tab = document.querySelector(`a[href='#create-chat-members']`)
-                                                    const chooseMembersBtn = document.getElementById('choose-members-btn')
-                                                    if (!bool1 || !bool2){
-                                                        groupNameEl.focus();
-                                                        tab.setAttribute('disabled', true)
-                                                        chooseMembersBtn.setAttribute('disabled', true)
-                                                        if (!bool1){
-                                                            groupNameEl.focus()
-                                                        }
-                                                        return null;
-
-                                                    } else {
-                                                        tab.removeAttribute('disabled')
-                                                        chooseMembersBtn.removeAttribute('disabled')
-                                                    }
-                                                    if (!bool2){
-                                                        data = {
-                                                            'error': 'Group image is mandatory.'
-                                                        }
-                                                        setToast(data)
-                                                        return null;
-                                                    }
-                                                }
-                                            </script>
                                         </ul>
                                     </div>
 
-                                    <!-- Tabs content -->
+                                    <!-- CREATE CHAT -->
                                     <div class="tab-content" role="tablist">
                                         <div class="tab-pane fade show active" id="create-chat-info" role="tabpanel">
 
@@ -105,7 +82,7 @@
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                                                             </a>
 
-                                                            <input id="upload-chat-img" oninput="previewImage(event, this,'preview_chat_image');unlockChooseMemberBtn(this);" name="profile_image" class="d-none" type="file" accept="image/*" required>
+                                                            <input id="upload-chat-img" oninput="previewImage(event, this,'preview_chat_image');" name="profile_image" class="d-none" type="file" accept="image/*" required>
                                                             <label class="stretched-label mb-0" for="upload-chat-img"></label>
                                                         </div>
                                                     </div>
@@ -126,28 +103,22 @@
                                                         </div>
                                                     </div> -->
                                                 </div>
-                                                <select class="form-select" aria-label="Default select example" name="plan_id">
-                                                    <option selected>Open this select menu</option>
-                                                    {% for item in request.user.payment.plans.all %}
-                                                    <option value="{{ item.id }}">{{ item.title }}</option>
-                                                    {% endfor %}
-                                                  </select>
                                                   
                                                 <div class="card-body">
-                                                        <div class="row gy-6">
-                                                            <div class="col-12">
-                                                                <div class="form-floating">
-                                                                    <input type="text" class="form-control" required name="group_name" oninput="unlockChooseMemberBtn(this)" id="group_name" placeholder="Enter a chat name">
-                                                                    <label for="group_name">Enter group name <span style="color:#2787F5">*</span></label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12">
-                                                                <div class="form-floating">
-                                                                    <textarea class="form-control" name="group_info" placeholder="Description" id="floatingTextarea" rows="8" data-autosize="true" style="min-height: 100px;"></textarea>
-                                                                    <label for="floatingTextarea">What's your purpose?</label>
-                                                                </div>
+                                                    <div class="row gy-6">
+                                                        <div class="col-12">
+                                                            <div class="form-floating">
+                                                                <input type="text" class="form-control" required name="group_name" id="group_name" placeholder="Enter a chat name">
+                                                                <label for="group_name">Enter group name <span style="color:#2787F5">*</span></label>
                                                             </div>
                                                         </div>
+                                                        <div class="col-12">
+                                                            <div class="form-floating">
+                                                                <textarea class="form-control" name="group_info" placeholder="Description" id="floatingTextarea" rows="8" data-autosize="true" style="min-height: 100px;"></textarea>
+                                                                <label for="floatingTextarea">What's your purpose?</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -155,24 +126,77 @@
                                                 <small class="text-muted me-auto">Enter chat name and add a group photo.</small>
                                             </div>
 
-                                            <!-- Button Choose Members -->
+                                            <!-- Button Choose Plan -->
                                             <div class="mt-5 position-relative">
-                                                <button type="button" id="choose-members-btn" onclick="$(`a[href='#create-chat-members']`)[0].click()" class="btn btn-lg btn-primary w-100 d-flex align-items-center" disabled>
-                                                    Choose Members 
+                                                <button type="button" id="choose-plans-btn" 
+                                                {% if request.user.payment.plans.all.count > 1 %}
+                                                onclick="$(`a[href='#choose-chat-plans']`)[0].click()"
+                                                {% else %}
+                                                onclick="$(`a[href='#create-chat-members']`)[0].click()"
+                                                {% endif %} 
+                                                class="btn btn-lg btn-primary w-100 d-flex align-items-center" disabled>
+                                                    Next
                                                     <span class="icon ms-auto">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                                                     </span>
                                                 </button>
                                             </div>
-                                            <!-- Button -->
-
                                         </div>
 
-                                        <!-- Members -->
+                                        {% if request.user.payment.plans.all.count > 1 %}
+                                        <!-- PLANS -->
+                                        <div class="tab-pane fade" id="choose-chat-plans" role="tabpanel">
+                                            
+                                            <!-- <select class="form-select" aria-label="Default select example" name="plan_id">
+                                                <option selected>Open this select menu</option>
+                                                {% for item in request.user.payment.plans.all %}
+                                                <option value="{{ item.id }}">{{ item.title }}</option>
+                                                {% endfor %}
+                                              </select> -->
+                                            <nav>
+                                                {% for item in request.user.payment.plans.all %}
+                                                <!-- Card -->
+                                                <div class="card border-0 mt-5" id="create_receiver_{{user.id}}">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center gx-5">
+                                                            <!-- <div class="col-auto">
+                                                                <div class="avatar ">
+                                                                        <img class="avatar-img" src="{{ user.profile_image.url }}" alt="">
+                                                                </div>
+                                                            </div> -->
+                                                            <div class="col">
+                                                                <h5>{{ item.title }}&emsp;|&emsp;Max members: {{item.group_size}}</h5>
+                                                                <p>Valid till: {{request.user.payment.valid_till}}</p>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" value="{{ item.id }}" name="plan_id" id="id-plan-{{ item.id }}">
+                                                                    <label class="form-check-label" for="id-plan-{{ item.id }}"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <label class="stretched-label" for="id-plan-{{ item.id }}"></label>
+                                                    </div>
+                                                </div>
+                                                <!-- Card -->
+                                                {% endfor %}
+                                            </nav>
+                                            <!-- Button Choose Members -->
+                                            <div class="mt-5 position-relative">
+                                                <button id="choose-members-btn" onclick="$(`a[href='#create-chat-members']`)[0].click()" class="btn btn-lg btn-primary w-100 d-flex align-items-center" disabled type="button">
+                                                    Choose Members
+                                                    <span class="icon ms-auto">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+                                        <!-- MEMBERS -->
                                         <div class="tab-pane fade" id="create-chat-members" role="tabpanel">
                                             <nav>
-                                        {% for initial, account in accounts.items %}
-
+                                            {% for initial, account in accounts.items %}
                                                 <div class="my-5 user_initials">
                                                     <small class="text-uppercase text-muted">{{ initial }}</small>
                                                 </div>
@@ -202,7 +226,7 @@
                                                 </div>
                                                 <!-- Card -->
                                                 {% endfor %}
-                                        {% endfor %}
+                                            {% endfor %}
                                             </nav>
                                             <!-- Button Start Chat -->
                                             <div class="mt-5 position-relative">
@@ -216,14 +240,83 @@
                                             <!-- Button -->
                                         </div>
                                     </div>
-                                    <!-- Tabs content -->
-                                    <!-- Button Start Chat was here -->
                                 </form>
                                 {######################## End Group Chat Form   ##################################}
                             </div>
                         </div>
                     </div>
                     <script>
+                        let pageArr = [
+                            [
+                                'profile_image',
+                                'group_name',
+                            ],
+                            {% if request.user.payment.plans.all.count > 1 %}
+                            [
+                                'plan_id',
+                            ],
+                            {% endif %}
+                            [
+                                'groupMember[]',
+                            ],
+                        ]
+                        let nextBtnArr = [
+                            'choose-plans-btn',
+                            {% if request.user.payment.plans.all.count > 1 %}
+                            'choose-members-btn',
+                            {% endif %}
+                            'create-chat-members-btn',
+                        ]
+                        let tabArr = [
+                            'details-tab',
+                            {% if request.user.payment.plans.all.count > 1 %}
+                            'plans-tab',
+                            {% endif %}
+                            'people-tab',
+                        ]
+                        pageArr.forEach((page, pageIndex)=>{
+                            page.forEach(name => {
+                                document.querySelectorAll(`[name='${name}']`).forEach(inputEl => {
+                                    inputEl.addEventListener('input', function (event){
+                                        unlockNextBtn(
+                                            pageIndex, 
+                                            nextBtnArr[pageIndex],
+                                            // unlocking the next tab 
+                                            tabArr.hasOwnProperty(pageIndex+1) ? tabArr[pageIndex+1]:'',
+                                        )
+                                    })
+                                })
+                            })
+                        })
+                        function unlockNextBtn(pageNo, nextBtn, nextTab) {
+                            let completePageValid = true;
+                            for (let name of pageArr[pageNo]){
+                                const element = document.querySelector(`[name='${name}']`)
+                                if (!element.checkValidity()){
+                                    completePageValid = false;
+                                    break;
+                                }
+                            }
+                            if (completePageValid){
+                                // console.log(document.getElementById(nextTab))
+                                document.getElementById(nextBtn)?.removeAttribute('disabled')
+                                document.getElementById(nextTab)?.removeAttribute('disabled')
+                            } else {
+                                document.getElementById(nextBtn).setAttribute('disabled', '')
+                                // if goes to previous tab and makes page invalid, then disable all further tabs
+                                const nextTabIndex = tabArr.indexOf(nextTab)
+                                for(let [index, tab] of tabArr.entries()){
+                                    if(index >= nextTabIndex){
+                                        document.getElementById(tab)?.setAttribute('disabled', '')
+                                    }
+                                }
+                            }
+                            // fire event for no reason so that validation runs for that page
+                            if (pageArr.hasOwnProperty(pageNo+1)){
+                                document.querySelector(`[name='${pageArr[pageNo+1][0]}']`).dispatchEvent(new Event('change'))
+                                document.querySelector(`[name='${pageArr[pageNo+1][0]}']`).dispatchEvent(new Event('change'))
+                            }
+                        }
                         function checkIfUsersSelected(e, element, id){
                             const checked = document.getElementById(`${id}`).querySelectorAll('input:checked')
                             if (checked.length === 0) {
