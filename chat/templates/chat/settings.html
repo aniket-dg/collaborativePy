@@ -155,6 +155,49 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="d-flex align-items-center my-4 px-6">
+                                            <small class="text-muted me-auto">Plans</small>
+                                        </div>
+
+                                        <div class="card border-0">
+                                            <div class="card-body py-2">
+                                                <div class="accordion accordion-flush" id="accordion-plans">
+                                                    <div class="accordion-item">
+                                                        <div class="accordion-header" id="accordion-plans-1">
+                                                            <a href="#" class="accordion-button text-reset" data-bs-toggle="collapse" data-bs-target="#accordion-plans-body-1" aria-expanded="true" aria-controls="accordion-plans-body-1">
+                                                                <div>
+                                                                    <h5>Plans</h5>
+                                                                    <p>Upgrade and renew your plans.</p>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        <div id="accordion-plans-body-1" class="accordion-collapse collapse show" aria-labelledby="accordion-plans-1" data-parent="#accordion-plans">
+                                                            <div class="accordion-body pb-0">
+                                                                {% now 'Y-m-d' as todays_date %}
+                                                                {% for item in request.user.payment.plans.all %}
+                                                                <div class="row align-items-center mb-5">
+                                                                    <div class="col">
+                                                                        <h5>{{ item.title }}&emsp;|&emsp;Max members: {{item.group_size}}</h5>
+                                                                        <p>Valid till: {{request.user.payment.valid_till}}</p>
+                                                                    </div>
+                                                                    {% if todays_date > request.user.payment.valid_till|date:'Y-m-d' %}
+                                                                    <div class="col-auto">
+                                                                        <a href="#" class="btn btn-sm btn-soft-primary w-100">Renew</a>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                </div>
+                                                                <hr class="dropdown-divider my-5">
+                                                                {% endfor %}
+                                                            </div>
+                                                            <div class="w-100 mb-3">
+                                                                <a href="{% url 'home:plan-list' %}" class="btn btn btn-primary w-100">Upgrade Plan</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- Account -->
 
