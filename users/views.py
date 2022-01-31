@@ -74,7 +74,7 @@ class SaveSessionForNotebook(LoginRequiredMixin, View):
         user_id = int(self.request.GET.get('user_id'))
         session = self.request.session
         user = self.request.user
-
+        print(group_id, group_share, user_id, "Aniket")
         if user_id:
             request_user = User.objects.filter(id=user_id).last()
             if request_user and request_user in self.request.user.get_user_connected_users():
@@ -83,8 +83,6 @@ class SaveSessionForNotebook(LoginRequiredMixin, View):
                 user.peer_id = request_user.id
                 user.save()
                 return redirect("https://jupyter.stellar-ai.in/jupyter/")
-
-        print(group_id, group_share, session, user)
         if group_share and group_id:
             user.is_group_share = True
             user.is_peer_share = False
@@ -103,11 +101,20 @@ class OpenNotebook(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         group_id = int(self.request.GET.get('group_id'))
         group_share = self.request.GET.get('group_share')
-
+        user = self.request.user
         group = GroupChatModel.objects.get(id=group_id)
         group_name_url = None
         call_active = False
-
+        if group_id and group_share:
+            user.is_group_share = True
+            user.is_peer_share = False
+            user.group_id_share = group_id
+            user.save()
+        else:
+            user.is_group_share = False
+            user.is_peer_share = False
+            user.group_id_share = ''
+            user.save()
         try:
             group_call_history = GroupCallHistory.objects.filter(is_end=False).last()
             group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"  # use in websocket url
@@ -115,7 +122,6 @@ class OpenNotebook(LoginRequiredMixin, View):
             call_active = True
         except AttributeError as e:
             print(e)
-
         session = self.request.session
         user = self.request.user
         context = {
@@ -141,7 +147,13 @@ class OpenChatNotebook(LoginRequiredMixin, View):
         if request_user not in user.get_user_connected_users():
             messages.warning(self.request, "User not Found!")
             return redirect('chat:chat')
-
+        if user_id:
+            request_user = User.objects.filter(id=user_id).last()
+            if request_user and request_user in self.request.user.get_user_connected_users():
+                user.is_peer_share = True
+                user.is_group_share = False
+                user.peer_id = request_user.id
+                user.save()
         user_url = f"P2pVideoMeeting_{user.id}_{request_user.id}"
         meeting_url = hash(user_url)
         context = {
