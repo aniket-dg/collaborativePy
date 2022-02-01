@@ -161,6 +161,7 @@ class OpenChatNotebook(LoginRequiredMixin, View):
             'receiver_id': request_user.id,
             'receiver': request_user,
             'join_url': meeting_url,
+            'call_active': True,
             'user': user
         }
         return render(self.request, 'users/user_notebook.html', context)
