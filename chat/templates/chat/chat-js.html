@@ -1030,11 +1030,12 @@ function getMessageById(data) {
                 success : function(data)
                 {
                     console.log("User logout from previous session in jupyterhub");
+                    location.href = `{% url 'user:open-notebook' %}?group_id=${current_group}&group_share=${true}`;
                 }
             });
 
 
-            location.href = `{% url 'user:open-notebook' %}?group_id=${current_group}&group_share=${true}`;
+
         }
         function redirectPeerNotebook(user_id){
             let logout_url = 'https://jupyter.stellar-ai.in/jupyter/hub/logout';
@@ -1043,10 +1044,11 @@ function getMessageById(data) {
                 success : function(data)
                 {
                     console.log("User logout from previous session in jupyterhub");
+                    location.href = `{% url 'user:open-peer-notebook' %}?user_id=${user_id}`;
                 }
             });
 
-            location.href = `{% url 'user:open-peer-notebook' %}?user_id=${user_id}`;
+
         }
         // Repeat a task multiple times
         function setIntervalX(callback, delay, repetitions){
