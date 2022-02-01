@@ -35,11 +35,12 @@ class UserData(LoginRequiredMixin, View):
         if user.is_peer_share:
             peer = User.objects.filter(id=user.peer_id).last()
             if peer and peer in user.get_user_connected_users():
-                first = max(peer.id, user.id)
-                second = min(peer.id, user.id)
+                x = user if user.id > peer.id else peer
+                y = peer if peer.id < user.id else user
+
                 return HttpResponse(
                     json.dumps({
-                        'username': f"{first}_{second}"
+                        'username': f"{x.username}_{y.username}"
                     })
                 )
         if user.is_group_share:
