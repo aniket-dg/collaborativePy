@@ -25,7 +25,11 @@ if(location.protocol === 'https:'){
 
 // For chat
 const socketChatURL = `${wsStart}${window.location.host}/ws/chat/group/${group_name}/${ user_id }/`;
-const chatSocket = new ReconnectingWebSocket(socketChatURL)
+const chatSocket = new ReconnectingWebSocket(socketChatURL);
+chatSocket.onclose = function (e){
+    console.log("Connection closed");
+    console.log(e);
+}
 chatSocket.onmessage = validateMessage
 getGroupConversation(group_name)
 
