@@ -127,9 +127,9 @@
                     {% if request.user.is_authenticated %}
 
                     {% if total_message_count > 0 %}
-                    <div class="navbar-item is-icon drop-trigger" title="Chatroom">
+                    <div class="navbar-item is-icon drop-trigger" title="Code Room">
                     {% else %}
-                    <div class="navbar-item is-icon" onclick="location.href = `{% url 'chat:chat' %}`" title="Chatroom">
+                    <div class="navbar-item is-icon" onclick="location.href = `{% url 'chat:chat' %}`" title="Code Room">
                     {% endif %}
                         {% if p2p_unread_messages|length > 0 or group_unread_messages|length > 0 %}
                         <a class="icon-link is-active" href="javascript:void(0);">
@@ -658,9 +658,9 @@
                     </div>
                 </div> -->
                 {% if total_message_count > 0 %}
-                <div class="navbar-item is-icon drop-trigger" title="Chatroom">
+                <div class="navbar-item is-icon drop-trigger" title="Code Room">
                 {% else %}
-                <div class="navbar-item is-icon" onclick="location.href = `{% url 'chat:chat' %}`" title="Chatroom">
+                <div class="navbar-item is-icon" onclick="location.href = `{% url 'chat:chat' %}`" title="Code Room">
                 {% endif %}
                     {% if p2p_unread_messages|length > 0 or group_unread_messages|length > 0 %}
                     <a class="icon-link is-active" href="javascript:void(0);">
