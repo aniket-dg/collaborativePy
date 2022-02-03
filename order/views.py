@@ -8,19 +8,30 @@ from datetime import datetime, timedelta
 
 from django.views.decorators.csrf import csrf_exempt
 
-from order.models import Plan, Payment
+from order.models import Plan, Payment, Coupon
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-
-class PaymentRequestView(View):
+class PaymentRequestView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         user = self.request.user
         plan_id = self.kwargs.get('plan_id')
+        coupon_code = self.request.GET.get('coupon_code')
         plan = Plan.objects.filter(id=plan_id).last()
         if not plan:
             return redirect('/')
         order_id = f"{datetime.now()}_{user.id}"
-        payment = Payment(plan=plan, order_id=order_id)
+        
+        coupon = Coupon.objects.filter(code=coupon_code, is_active=True).last()
+        if coupon:
+            if user in coupon.used_by.all():
+                messages.warning(self.request, 'Coupon already used.')
+                coupon = None
+            else:
+                messages.success(self.request, 'Coupon applied.')
+                coupon.used_by.add(user)
+
+        payment = Payment(plan=plan, order_id=order_id, coupon=coupon)
         payment.amt_paid = 0
 
         # valid till
@@ -33,7 +44,7 @@ class PaymentRequestView(View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class PaymentResponseView(View):
+class PaymentResponseView(LoginRequiredMixin, View):
     def post(self, *args, **kwargs):
         payment_id = self.request.POST.get('payment_id')
         payment = Payment.objects.filter(id=int(payment_id)).last()

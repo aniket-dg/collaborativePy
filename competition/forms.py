@@ -12,5 +12,10 @@ class CompetitionCreateForm(forms.ModelForm):
             'end': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
         help_texts={
-            'admin_file': '*Click to download a demo file to understand its structure.'
+            'image': 'Image for thumbnail of competition.',
+            'data': 'Data for competition (e.g. some dataset).',
+            'admin_file': '*Upload a file to which user submissions should be compared to. \
+                           Click to download a demo file to understand its structure.',
+            'start': 'Start date for competition.',
+            'end': 'End date for competition.',
         }

@@ -276,9 +276,8 @@
                 <div class="column is-3 is-hidden-mobile">
                     <!-- Weather widget -->
                     <!-- /partials/widgets/weather-widget.html -->
-                    <div class="card is-weather-card has-background-image"
-                        data-background="assets/img/illustrations/cards/weather-bg.svg' %}">
-                        <div class="card-heading">
+                    <div class="card p-0" style="background: transparent; border: 0px;">
+                        <!-- <div class="card-heading">
                             <div class="dropdown is-spaced is-accent is-right dropdown-trigger is-light">
                                 <div>
                                     <div class="button">
@@ -327,68 +326,94 @@
                                     </div>
                                 </div>
                             </div>
+                        </div> -->
+                        <div class="custom-ad-slider">
+                            <a href="#" class="custom-ad-slider-item-wrap">
+                                <img src="https://picsum.photos/280/320/" class="custom-ad-slider-item" alt="Advertisement">
+                            </a>
+                            <a href="#" class="custom-ad-slider-item-wrap">
+                                <img src="https://picsum.photos/280/320/" class="custom-ad-slider-item" alt="Advertisement">
+                            </a>
+                            <a href="#" class="custom-ad-slider-item-wrap">
+                                <img src="https://picsum.photos/280/320/" class="custom-ad-slider-item" alt="Advertisement">
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <div class="temperature" style="padding: 8em 1em;">
-                                <span style="font-size: 16px;">Ads Here </span>
+                        <style>
+                            .tns-liveregion{
+                                display: none;
+                            }
+                            .tns-ovh {
+                                overflow: hidden;
+                            }
+                            .custom-ad-slider{
+                                user-select: none;
+                                display: flex;
+                                align-items: flex-start;
+                                height: 320px;
+                            }
+                            .custom-ad-slider-item{
+                                width: 100%;
+                                height: 100%;
+                                border-radius: 6px;
+                                object-fit: contain;
+                            }
+                        </style>
+                        <!-- <div class="card-body">
+                            <div class="weather-icon">
+                                <div>
+                                    <i data-feather="sun"></i>
+                                    <h4>Sunny</h4>
+                                    <div class="details">
+                                        <span>Real Feel: 78° </span>
+                                        <span>Rain Chance: 5%</span>
+                                    </div>
+                                </div>
                             </div>
-<!--                            <div class="weather-icon">-->
-<!--                                <div>-->
-<!--                                    <i data-feather="sun"></i>-->
-<!--                                    <h4>Sunny</h4>-->
-<!--                                    <div class="details">-->
-<!--                                        <span>Real Feel: 78° </span>-->
-<!--                                        <span>Rain Chance: 5%</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="previsions">-->
-<!--                                <div class="day">-->
-<!--                                    <span>Mon</span>-->
-<!--                                    <i data-feather="sun"></i>-->
-<!--                                    <span>69°</span>-->
-<!--                                </div>-->
-<!--                                <div class="day">-->
-<!--                                    <span>Tue</span>-->
-<!--                                    <i data-feather="cloud-lightning"></i>-->
-<!--                                    <span>74°</span>-->
-<!--                                </div>-->
-<!--                                <div class="day">-->
-<!--                                    <span>Wed</span>-->
-<!--                                    <i data-feather="cloud-lightning"></i>-->
-<!--                                    <span>73°</span>-->
-<!--                                </div>-->
-<!--                                <div class="day">-->
-<!--                                    <span>Thu</span>-->
-<!--                                    <i data-feather="sun"></i>-->
-<!--                                    <span>68°</span>-->
-<!--                                </div>-->
-<!--                                <div class="day">-->
-<!--                                    <span>Fri</span>-->
-<!--                                    <i data-feather="cloud-drizzle"></i>-->
-<!--                                    <span>55°</span>-->
-<!--                                </div>-->
-<!--                                <div class="day">-->
-<!--                                    <span>Sat</span>-->
-<!--                                    <i data-feather="cloud-rain"></i>-->
-<!--                                    <span>58°</span>-->
-<!--                                </div>-->
-<!--                                <div class="day">-->
-<!--                                    <span>Sun</span>-->
-<!--                                    <i data-feather="sun"></i>-->
-<!--                                    <span>64°</span>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="current-date-location has-text-centered">-->
-<!--                                <span class="date">Sunday, 18th 2018</span>-->
-<!--                                <span class="location"> <i data-feather="map-pin"></i> Los Angeles, CA</span>-->
-<!--                            </div>-->
-                        </div>
+                            <div class="previsions">
+                                <div class="day">
+                                    <span>Mon</span>
+                                    <i data-feather="sun"></i>
+                                    <span>69°</span>
+                                </div>
+                                <div class="day">
+                                    <span>Tue</span>
+                                    <i data-feather="cloud-lightning"></i>
+                                    <span>74°</span>
+                                </div>
+                                <div class="day">
+                                    <span>Wed</span>
+                                    <i data-feather="cloud-lightning"></i>
+                                    <span>73°</span>
+                                </div>
+                                <div class="day">
+                                    <span>Thu</span>
+                                    <i data-feather="sun"></i>
+                                    <span>68°</span>
+                                </div>
+                                <div class="day">
+                                    <span>Fri</span>
+                                    <i data-feather="cloud-drizzle"></i>
+                                    <span>55°</span>
+                                </div>
+                                <div class="day">
+                                    <span>Sat</span>
+                                    <i data-feather="cloud-rain"></i>
+                                    <span>58°</span>
+                                </div>
+                                <div class="day">
+                                    <span>Sun</span>
+                                    <i data-feather="sun"></i>
+                                    <span>64°</span>
+                                </div>
+                            </div>
+                            <div class="current-date-location has-text-centered">
+                                <span class="date">Sunday, 18th 2018</span>
+                                <span class="location"> <i data-feather="map-pin"></i> Los Angeles, CA</span>
+                            </div>
+                        </div> -->
                     </div>
-
-                    <!-- Fake Ad -->
-
                 </div>
+                <!-- Fake Ad -->
                 <!-- /Left side column -->
 
                 <!-- Middle column -->
@@ -632,11 +657,27 @@
 {% block script %}
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
 <script>
     hljs.initHighlightingOnLoad();
     let current_filter = "all";
 
-
+    // Ad Slider
+    // https://github.com/ganlanyuan/tiny-slider
+    // Ideal size for ad image is 280x320
+    var adSlider = tns({
+        container: '.custom-ad-slider',
+        items: 1,
+        slideBy: 'page',
+        autoplay: true,
+        mouseDrag: true,
+        center: true,
+        animateDelay: 6000,
+        nav: false,
+        navPosition: 'bottom',
+        autoplayButtonOutput: false,
+        controls: false,
+    });
 
     function closeComment(id) {
         $('#comments-wrap' + id).addClass('is-hidden');

@@ -158,9 +158,28 @@
     opacity: 1;
     transition: all .5s ease-out;
 }
+[id^=plan-details].modal{
+  font-family: 'Roboto' !important;
+}
+.plan-info > p.c-field{
+  font-weight: 600;
+  margin: .3rem 0;
+}
+.plan-info > p{
+  padding-left: 1rem;
+}
+.plan-info > p span {
+  font-weight: 300;
+}
 .c-button:hover::before{
     left: 50%;
     opacity: 0;
+}
+.plan-form{
+  display: flex;
+  align-items: center; 
+  flex-direction: column;
+  height: 100%;
 }
 </style>
 <section class="pricing-table">
@@ -200,10 +219,13 @@
                         </h4>
                     </div>
                     {% if object.cost %}
-                    <a href="{% if user.is_authenticated %}{% url 'order:payment-request' object.id %}{% else %}{% url 'user:login' %}{% endif %}"
+                    <!-- <a href="{% if user.is_authenticated %}{% url 'order:payment-request' object.id %}{% else %}{% url 'user:login' %}{% endif %}"
                      class="c-button button is-fullwidth">
                      BUY NOW
-                    </a>
+                    </a> -->
+                    <div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}">
+                     SHOW DETAILS
+                    </div>
                     {% else %}
                     <a href="{% url 'home:contact' %}" class="c-button button is-fullwidth">
                      CONTACT
@@ -211,8 +233,109 @@
                     {% endif %}
                 </div>
             </div>
+            <div id="plan-details-{{object.id}}" class="modal is-medium has-light-bg">
+              <div class="modal-background"></div>
+              <div class="modal-content">
+                  <div class="card p-3">
+                      <div class="card-heading">
+                          <h3 style="font-size: 1.3rem;">Plan Details</h3>
+                          <!-- Close X button -->
+                          <div class="close-wrap">
+                              <span class="close-modal">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="card-body pb-4">
+                          <div class="columns">
+
+                              <div class="column is-6 plan-info" style="overflow-y: auto;">
+                                <p class="c-field">
+                                  Type :&nbsp;
+                                  <span>{{object.title}}</span>
+                                </p>
+                                <p class="c-field">
+                                  Cost :&nbsp;
+                                  <span>₹{{object.cost}}</span>
+                                </p>
+                                <p class="c-field">
+                                  Duration :&nbsp;
+                                  <span>{{object.duration}} days</span>
+                                </p>
+                                <p class="c-field">
+                                  Description :&nbsp;
+                                  <span>{{object.description}}</span>
+                                </p>
+                                {% if object.discount %}
+                                <p class="c-field">
+                                  Discount :&nbsp;
+                                  <span>{{object.discount}} days</span>
+                                </p>
+                                {% endif %}
+                                {% if object.features %}
+                                <p class="c-field mb-0">
+                                  Features :&nbsp;
+                                  {{object.features|safe}}
+                                </p>
+                                {% endif %}
+                                {% if object.group_create %}
+                                  <p class="c-field">
+                                    Group creation :&nbsp;
+                                    <span> &#10003; </span>
+                                  </p>
+                                {% endif %}
+                                {% if object.add_people %}
+                                <p class="c-field">
+                                  Adding people :&nbsp;
+                                  <span> &#10003; </span>
+                                </p>
+                                {% endif %}
+                                <p class="c-field">
+                                  Total groups allowed :&nbsp;
+                                  <span>{{object.total_group_create_size}} groups</span>
+                                </p>
+                                <p class="c-field">
+                                  Members per group :&nbsp;
+                                  <span>{{object.group_size}} members</span>
+                                </p>
+                              </div>
+
+                              <div class="column is-6" style="background-color: #fff;">
+                                <form action="#" method="POST" class="plan-form">
+                                  {% csrf_token %}
+                                  <p for="id_coupon_code" class="mt-3 mb-1 has-text-centered" style="font-size: 1.2rem; font-weight: 500;">
+                                    Enter coupon code<br>if any
+                                  </p>
+                                  <div class="control has-icon mt-5" style="width: 90%;">
+                                    <input type="text" class="input" placeholder="Enter code" name="coupon_code">
+                                    <div class="form-icon">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                                    </div>
+                                  </div>
+                                  <!-- <button type="submit" class="c-button button is-solid accent-button is-fullwidth mt-5 mb-1"></button> -->
+                                  <a href="{% url 'order:payment-request' object.id %}"
+                                     class="c-button button is-solid accent-button is-fullwidth mt-5 mb-1">
+                                    Proceed &#10142;
+                                  </a>
+                                </form>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
             {% endfor %}
         </div>
     </div>
+    <script>
+      document.querySelectorAll(`[name='coupon_code']`)?.forEach((input)=>{
+        input.addEventListener('input', function(e){
+          const anchorEl = e.target.closest('form').querySelector('a')
+          const link = anchorEl.href.split('?')[0];
+          const code = encodeURIComponent(e.target.value.trim());
+          anchorEl.href = `${link}?coupon_code=${code}`;
+        })
+      })
+    </script>
 </section>
 {% endblock content %}

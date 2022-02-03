@@ -406,7 +406,7 @@
                 </div>
                 <div class="dropdown-menu" role="menu">
                     <div class="dropdown-content" id="dropdown_${post.post_id}">
-                        <a onclick="BookMark('`+ post.post_id +`')" class="dropdown-item">
+                        <!-- <a onclick="BookMark('`+ post.post_id +`')" class="dropdown-item">
                             <div class="media">
                                 <svg id="book-mark-`+ post.post_id +`" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="`+ post.bookmark +`" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark">
                                                         <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z">
@@ -417,7 +417,7 @@
                                     <small>Add this post to your bookmarks.</small>
                                 </div>
                             </div>
-                        </a>
+                        </a> -->
 
 
                     </div>
@@ -700,7 +700,7 @@
                 </div>
                 <div class="dropdown-menu" role="menu">
                     <div class="dropdown-content" id="dropdown_${post.post_id}">
-                        <a onclick="BookMark('`+ post.post_id +`')" class="dropdown-item">
+                        <!-- <a onclick="BookMark('`+ post.post_id +`')" class="dropdown-item">
                             <div class="media">
                                 <svg id="book-mark-`+ post.post_id +`" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="`+ post.bookmark +`" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark">
                                                         <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z">
@@ -711,7 +711,7 @@
                                     <small>Add this post to your bookmarks.</small>
                                 </div>
                             </div>
-                        </a>
+                        </a> -->
 
                     </div>
                 </div>
@@ -941,7 +941,8 @@
             console.log(user_id, post.user_id, "Aniket");
             if(user_id === post.user_id.toString())
             {
-                html = `<hr class="dropdown-divider">
+                html = `
+                        <!-- <hr class="dropdown-divider"> -->
                         <a href="/post/delete/post/${post.post_id}" class="dropdown-item">
                             <div class="media">
                                 <i class="mdi mdi-trash-can" style="height: 24px;width: 24px;"></i>

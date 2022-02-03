@@ -23,7 +23,7 @@ SCOPE_CHOICES = (
 
 class Scope(models.Model):
     name = models.CharField(max_length=200)
-    icon = models.CharField(max_length=100, default="fas fa-globe")
+    icon = models.CharField(max_length=100, default="mdi mdi-earth")
 
     def __str__(self):
         return f"{self.name}"
@@ -31,7 +31,7 @@ class Scope(models.Model):
 
 class Language(models.Model):
     name = models.CharField(max_length=200)
-    icon = models.CharField(max_length=100, default="fas fa-globe")
+    icon = models.CharField(max_length=100, default="mdi mdi-earth")
 
     def __str__(self):
         return f"{self.name}"
@@ -39,7 +39,7 @@ class Language(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
-    icon = models.CharField(max_length=100, default="fas fa-pencil-alt")
+    icon = models.CharField(max_length=100, default="mdi mdi-pencil")
 
     def __str__(self):
         return f"{self.name}"
