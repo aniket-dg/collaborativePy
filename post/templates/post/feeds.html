@@ -435,6 +435,18 @@
 
                 </div>
                 <!-- /Left side column -->
+                <style>
+                    [id^='cat-panel']{
+                        flex-basis: 50%;
+                    }
+                    .is-highlighted [id^='cat-panel']{
+                        flex-basis: 45%;
+                    }
+                    [id^='cat-panel'].is-active a{
+                        background-color: #5596E6 !important;
+                        color: white !important;
+                    }
+                </style>
 
                 <!-- Middle column -->
                 <div class="column is-6">
@@ -572,7 +584,7 @@
                                                     <!-- Publication Channel -->
                                                     <div class="channel">
                                                         <div class="channel-icon">
-                                                            <i class="fas fa-language"></i>
+                                                            <i class="fa fa-language"></i>
                                                         </div>
                                                         <div class="channel-name">Language</div>
                                                         <!-- Dropdown menu -->
@@ -611,7 +623,7 @@
                                                     <!-- Publication Channel -->
                                                     <div class="channel">
                                                         <div class="channel-icon">
-                                                            <i class="fas fa-code-branch"></i>
+                                                            <i class="mdi mdi-source-branch"></i>
                                                         </div>
 
                                                         <div class="channel-name">Scope of Work</div>
@@ -760,9 +772,9 @@
 
                                         </ul>
                                     </li>
-                                    <li>
+                                    <li class="is-active">
                                         <a>
-                                            <i class="fas fa-language" style="color: #4a4a4a;"></i>
+                                            <i class="fa fa-language" style="color: #4a4a4a;"></i>
                                             <span>LANGUAGES</span>
                                             <span class="close-icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -783,9 +795,9 @@
 
                                         </ul>
                                     </li>
-                                    <li>
+                                    <li class="is-active">
                                         <a>
-                                            <i class="fas fa-code-branch" style="color: #4a4a4a"></i>
+                                            <i class="mdi mdi-source-branch" style="color: #4a4a4a"></i>
                                             <span>Scope</span>
                                             <span class="close-icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"

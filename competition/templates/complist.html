@@ -107,7 +107,6 @@
     width: 100%;
     display: flex;
     justify-content: flex-start;
-    border-bottom: solid 1px #919191;
 }
 .c-option-tab{
     display: flex;
@@ -115,8 +114,8 @@
     justify-content: center;
     font-size: clamp(.9rem, 2vw, 1rem);
     width: clamp(4rem, 35%, 10rem);
+    max-width: 33%;
     padding: clamp(.1rem, 2vw, .8rem);
-    margin-bottom: .6rem;
     border-radius: 5px;
     font-weight: 400;
     cursor: pointer;
@@ -126,6 +125,8 @@
 .c-option-tab.is-active{
     background-color: #5596e6;
     color: #ffffff;
+}
+.search-competition{
 }
 @media screen and (max-width: 440px) {
     /* .c-option-tabs{
@@ -137,93 +138,63 @@
 }
 </style>
 <div class="wrapper">
-    <div class="wrapper-inner" style="padding: 2em;margin: 5em auto;">
-        <div class="c-option-tabs" style="border-bottom: solid 1px #eeeeee;">
-            <div class="c-option-tab is-active" style="font-weight: 500;" data-tab="all-active">
-                Active
+    <div class="wrapper-inner" id="all-competitions-wrap" style="padding: 2em; margin: 5em auto;">
+        <div class="columns" style="border-bottom: solid 1px #dadada;">
+            <div class="column is-8 p-0">
+                <div class="c-option-tabs">
+                    <div class="c-option-tab is-active" style="font-weight: 500;" data-tab="all-active">
+                        Active
+                    </div>
+                    <div class="c-option-tab" style="font-weight: 500;" data-tab="all-late">
+                        Late Submission
+                    </div>
+                    <div class="c-option-tab" style="font-weight: 500;" data-tab="all-closed">
+                        Closed
+                    </div>
+                </div>
             </div>
-            <div class="c-option-tab" style="font-weight: 500;" data-tab="all-late">
-                Late Submission
-            </div>
-            <div class="c-option-tab" style="font-weight: 500;" data-tab="all-closed">
-                Closed
+            <div class="column is-4 px-0 search-competition">
+                <div class="control has-icon">
+                    <input type="text" class="input is-fade" value="" id="search_competition" placeholder="Search competition">
+                    <div class="form-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="c-status is-active" id="all-active">
             <h1 class="py-3" style="font-weight: 600">Active</h1>
             <div class="c-list">
-            {% for list in list %}
-                {%if list.status == "Active" %}
-                <a href="{% url 'Competion:detail' list.id %}" class="card c-card">
-                    {% if list.image %}
-                    <img class="card-img-top c-card-img-top" src="{{list.image.url}}" alt="Competition Image">
-                    {% endif %}
-<!--                    <div class="badge-wrapper">-->
-<!--                        <img class="card-img-badge" src="{% static 'images/logo/color-logo.png' %}" alt="Competition Image">-->
-<!--                    </div>-->
-                    <div class="c-card-body">
-                      <h5 class="c-card-time">{{list.status}}</h5>
-                      <h5 class="c-card-title">{{ list.name }}</h5>
-                      <!-- <p class="c-card-text">{{ list.overview|safe|truncatewords:8 }}</p> -->
-                      <small class="c-card-end">{{list.level}}</small>
-                    </div>
-                </a>
-                {%endif%}
-            {% endfor %}
+                <!-- Competitions will be loaded dynamically here -->            
+            </div>
+            <div class="load-more-wrap narrow-top has-text-centered py-4">
+                <a class="load-more-button" data-type="Active">View More</a>
             </div>
         </div>
         <div class="c-status is-active" id="all-late">
             <h1 class="py-3" style="font-weight: 600">Late Submission</h1>
             <div class="c-list">
-                {% for list in list %}
-                    {%if list.status == "Late Submission" %}
-                    <a href="{% url 'Competion:detail' list.id %}" class="card c-card">
-                        {% if list.image %}
-                        <img class="card-img-top c-card-img-top" src="{{list.image.url}}" alt="Competition Image">
-                        {% endif %}
-<!--                        <div class="badge-wrapper">-->
-<!--                            <img class="card-img-badge" src="{% static 'images/logo/color-logo.png' %}" alt="Competition Image">-->
-<!--                        </div>-->
-                        <div class="c-card-body">
-                        <h5 class="c-card-time">{{list.status}}</h5>
-                        <h5 class="c-card-title">{{ list.name }}</h5>
-                        <!-- <p class="c-card-text">{{ list.overview }}</p> -->
-                        <small class="c-card-end">{{list.level}}</small>
-                        </div>
-                    </a>
-                    {%endif%}
-                {% endfor %}
+                <!-- Competitions will be loaded dynamically here -->
+            </div>
+            <div class="load-more-wrap narrow-top has-text-centered py-4">
+                <a class="load-more-button" data-type="Late Submission">View More</a>
             </div>
         </div>
         <div class="c-status is-active" id="all-closed">
             <h1 class="py-3" style="font-weight: 600">Closed</h1>
             <div class="c-list">
-                {% for list in list %}
-                    {%if list.status == "Closed" %}
-                    <a href="{% url 'Competion:detail' list.id %}" class="card c-card">
-                        {% if list.image %}
-                        <img class="card-img-top c-card-img-top" src="{{list.image.url}}" alt="Competition Image">
-                        {% endif %}
-<!--                        <div class="badge-wrapper">-->
-<!--                            <img class="card-img-badge" src="{% static 'images/logo/color-logo.png' %}" alt="Competition Image">-->
-<!--                        </div>-->
-                        <div class="c-card-body">
-                        <h5 class="c-card-time">{{list.status}}</h5>
-                        <h5 class="c-card-title">{{ list.name }}</h5>
-                        <!-- <p class="c-card-text">{{ list.overview }}</p> -->
-                        <small class="c-card-end">{{list.level}}</small>
-                        </div>
-                    </a>
-                    {%endif%}
-                {% endfor %}
+                <!-- Competitions will be loaded dynamically here -->                
+            </div>
+            <div class="load-more-wrap narrow-top has-text-centered py-4">
+                <a class="load-more-button" data-type="Closed">View More</a>
             </div>
         </div>
     </div>
 </div>
 <script>
+/* Tabs Filtering */
 const optionTabs = document.querySelectorAll('.c-option-tab')
 const secEls = document.querySelectorAll('.c-status')
-console.log(optionTabs, secEls)
 optionTabs?.forEach((tab)=>{
     tab.addEventListener('click', (e)=>{
         if (e.target.classList.contains('is-active')){
@@ -245,6 +216,75 @@ optionTabs?.forEach((tab)=>{
         activeSec.classList.add('is-active')
         let num = [...optionTabs].indexOf(tab)
     })
+})
+
+/* Searching */
+document.getElementById('search_competition').addEventListener('input', function (e) {
+    document.querySelectorAll('.c-card-title')?.forEach((el)=>{
+        const query = e.target.value.trim().toLowerCase();
+        if (query !== ''){
+            if (el.textContent.toLowerCase().includes(query)){
+                el.closest('.c-card').style.display = 'block';
+            } else {
+                el.closest('.c-card').style.display = 'none';
+            }
+        } else {
+            el.closest('.c-card').style.display = 'block';
+        }
+    })
+})
+
+/* AJAX Competitions */
+document.getElementById('all-competitions-wrap').addEventListener('click', function (e) {
+    if (e.target && e.target.classList.contains('load-more-button')){
+        const status = e.target.getAttribute('data-type')
+        const compSection = e.target.closest('.c-status')
+        if (status){
+            moreCompetitions(status, compSection)
+        }
+    }
+})
+
+async function moreCompetitions(status, compSection) {
+    const currentCount = compSection.querySelectorAll('.c-card').length
+    try {
+        const res = await fetch(
+            `/competition/list/?current_count=${encodeURIComponent(currentCount)}&comp_status=${encodeURIComponent(status)}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+            }
+        })
+        const data = await res.json()
+        if (data.status){
+            let html = '';
+            data.data?.forEach((item)=>{
+                html += `
+                    <a href="/competition/detail/${item.id}" class="card c-card">
+                        <img class="card-img-top c-card-img-top" src="${item.image}" alt="${item.name} photo">
+                <!--    <div class="badge-wrapper">-->
+                <!--        <img class="card-img-badge" src="{% static 'images/logo/color-logo.png' %}" alt="Competition Image">-->
+                <!--    </div>-->
+                        <div class="c-card-body">
+                        <h5 class="c-card-time">${item.status}</h5>
+                        <h5 class="c-card-title">${ item.name }</h5>
+                        <!-- <p class="c-card-text"></p> -->
+                        <small class="c-card-end">${item.level}</small>
+                        </div>
+                    </a>
+                `
+            })
+            compSection.querySelector('.c-list').insertAdjacentHTML('beforeend', html)
+        } else {
+            compSection.querySelector('.load-more-wrap').style.display = 'none'
+        }   
+    } catch (error) {
+        console.log('Failed to fetch competitions: ', error)
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function (e) {
+    document.querySelectorAll('.load-more-button')?.forEach(btn=>btn.click())
 })
 </script>
 {% endblock %}
