@@ -124,6 +124,13 @@
                                 </a>
                             </li>
 
+                            <li data-section="personal" {% if 'ad/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:ad-list' %}">
+                                    <i data-feather="image"></i>
+                                    <span>Ad</span>
+                                </a>
+                            </li>
+
                             <li data-section="personal" {% if 'contact/list/' in request.path %} class="is-active" {% endif %}>
                                 <a href="{% url 'analytics:contact-list' %}">
                                     <i data-feather="mail"></i>

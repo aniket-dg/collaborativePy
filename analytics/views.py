@@ -15,7 +15,7 @@ from post.models import Post, FlagInappropriate, SkeletonPost, FirstLevelCategor
 from home.models import Contact, NewsLetter
 from order.models import Plan
 from users.models import User
-from home.models import TPP, Faq
+from home.models import TPP, Faq, Ad
 from competition.models import Competion, UserSubmission
 
 class PlanCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -759,6 +759,67 @@ class FaqCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         form.save()
         messages.success(self.request, "Faq created successfully!")
         return redirect('analytics:faq-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+# Ads
+class AdCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Ad
+    fields = ['image', 'link']
+    template_name = 'analytics/ad_create.html'
+
+    def get_success_url(self):
+        messages.success(self.request, "Ad created successfully!")
+        return super(AdCreateView, self).get_success_url()
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class AdUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Ad
+    fields = ['image', 'link']
+    template_name = 'analytics/ad_create.html'
+
+    def get_success_url(self):
+        messages.success(self.request, "Ad updated successfully!")
+        return super(AdUpdateView, self).get_success_url()
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class AdDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Ad
+    template_name = 'analytics/ad_detail.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class AdDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Ad
+
+    def delete(self, request, *args, **kwargs):
+        ad = self.get_object()
+        ad.delete()
+        messages.success(self.request, "Ad deleted!")
+        return redirect('analytics:ad-list')
+    
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class AdListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Ad
+    paginate_by = 20
+    template_name = 'analytics/ad_list.html'
+    ordering = ['-id']
 
     def test_func(self):
         return self.request.user.is_staff

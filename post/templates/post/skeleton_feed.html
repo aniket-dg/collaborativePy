@@ -328,15 +328,14 @@
                             </div>
                         </div> -->
                         <div class="custom-ad-slider">
-                            <a href="#" class="custom-ad-slider-item-wrap">
-                                <img src="https://picsum.photos/280/320/" class="custom-ad-slider-item" alt="Advertisement">
+                            {% for ad in ads %}
+                            <a href="{{ad.link}}" class="custom-ad-slider-item-wrap">
+                                <img src="https://picsum.photos/280/520/" class="custom-ad-slider-item" alt="Advertisement">
                             </a>
-                            <a href="#" class="custom-ad-slider-item-wrap">
-                                <img src="https://picsum.photos/280/320/" class="custom-ad-slider-item" alt="Advertisement">
-                            </a>
-                            <a href="#" class="custom-ad-slider-item-wrap">
-                                <img src="https://picsum.photos/280/320/" class="custom-ad-slider-item" alt="Advertisement">
-                            </a>
+                            {% endfor %}
+                            <!-- <a href="#" class="custom-ad-slider-item-wrap">
+                                <img src="https://picsum.photos/280/520/" class="custom-ad-slider-item" alt="Advertisement">
+                            </a> -->
                         </div>
                         <style>
                             .tns-liveregion{
@@ -349,7 +348,7 @@
                                 user-select: none;
                                 display: flex;
                                 align-items: flex-start;
-                                height: 320px;
+                                height: 520px;
                             }
                             .custom-ad-slider-item{
                                 width: 100%;
@@ -664,7 +663,6 @@
 
     // Ad Slider
     // https://github.com/ganlanyuan/tiny-slider
-    // Ideal size for ad image is 280x320
     var adSlider = tns({
         container: '.custom-ad-slider',
         items: 1,

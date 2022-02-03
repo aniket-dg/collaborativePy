@@ -1,0 +1,81 @@
+{% extends 'analytics/base.html' %}
+{% load crispy_forms_tags %} 
+{% load static %} 
+
+{% block title %}
+{{form.media}}
+{% load widget_tweaks %}
+<h2 class="has-text-centered">
+    {% if 'create' in request.path %}
+        Ad Create
+    {% else %}
+        Ad Update
+    {% endif %}
+</h2>
+{% endblock title %}
+
+{% block data %}
+
+<style>
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group label {
+        font-size: 0.8em;
+    }
+
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group {
+        padding: 0.8em;
+    }
+
+    .control.has-icon .input {
+        padding-left: 6px !important;
+    }
+
+    .form-control{
+        padding: 0.5em;
+        width: 100%;
+        border: 1px solid #e7e7e7;
+    }
+
+    .select {
+        padding: 0em 1em;
+        border: 1px solid #e7e7e7;
+    }
+
+    small.form-text.text-muted{
+        display: block;
+        margin-top: .4rem;
+    }
+</style>
+{% with 'ckeditorwidget,textarea' as widget_list %}
+    <div class="settings-form is-fullwidth">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="columns is-multiline">
+
+                {% for field in form %}
+                <div class="column {% if field|widget_type in widget_list %} is-12 {% else %} is-6 {% endif %}">
+                    <div class="field field-group">
+                       
+                        <div class="control has-icon">
+                            {{ field.errors }}
+                            {{ field|as_crispy_field }}
+                            
+                            
+                        </div>
+                    </div>                    
+                </div>
+                
+                {% endfor %}
+
+
+                <div class="column is-12">
+                    <div class="buttons">
+                        <button type="submit" class="button is-solid accent-button form-button">Submit</button>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+{% endwith %}
+{% endblock data %}

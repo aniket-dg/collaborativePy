@@ -79,4 +79,10 @@ urlpatterns = [
     path('faq/create/', views.FaqCreateView.as_view(), name="faq-create"),
     path('faq/update/<int:pk>/', views.FaqUpdateView.as_view(), name="faq-update"),
     path('faq/delete/<int:pk>/', views.FaqDeleteView.as_view(), name="faq-delete"),
+
+    path('ad/list/', views.AdListView.as_view(), name="ad-list"),
+    path('ad/create/', views.AdCreateView.as_view(), name="ad-create"),
+    path('ad/update/<int:pk>/', views.AdUpdateView.as_view(), name="ad-update"),
+    path('ad/detail/<int:pk>/', views.AdDetailView.as_view(), name="ad-detail"),
+    path('ad/delete/<int:pk>/', views.AdDeleteView.as_view(), name="ad-delete"),
 ] 
