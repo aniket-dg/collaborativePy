@@ -51,6 +51,8 @@
     small.form-text.text-muted{
         display: block;
         margin-top: .4rem;
+    }
+    #hint_id_admin_file{
         cursor: pointer;
         color: #5596E6;
     }
@@ -93,7 +95,7 @@
             </div>
         </form>
     </div>
-    <a id="admin-demo-file" target="_blank" download="Admin Demo File.csv" href="data:@file/vnd.ms-excel;base64,YWRtaW4gc29sdXRpb24NCjENCjENCjENCjENCjANCjENCjANCjANCjENCjENCg==" style="display: none;"></a>
+    <a id="admin-demo-file" target="_blank" download="Admin Demo File.csv" href="{% static 'competition/demo/admin_file.csv' %}" style="display: none;"></a>
 </div>
 {% endwith %}
 <script>
