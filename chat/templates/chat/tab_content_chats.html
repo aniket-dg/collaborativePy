@@ -91,8 +91,17 @@
                                             <div class="card-body">
                                                 <div class="row gx-5">
                                                     <div class="col-auto">
+                                                        <!-- <div class="avatar-group">
+                                                            <a href="#" class="avatar">
+                                                                <img src="{{ request.user.get_profile_img }}" alt="#"  style="object-fit: cover;" class="avatar-img">
+                                                            </a>
+                                                            <a href="#" class="avatar">
+                                                                <img {% if object.profile_image %}src="{{ object.profile_image.url }}"{% endif %}  alt="#"  style="object-fit: cover;" class="avatar-img">
+                                                            </a>
+                                                        </div> -->
                                                         <div class="avatar">
-                                                            <img {% if object.profile_image %}src="{{ object.profile_image.url }}"{% endif %}  alt="#"  style="object-fit: cover;" class="avatar-img">
+                                                            <img src="{{ request.user.profile_image.url }}" alt="#"  style="object-fit: cover;" class="avatar-img">
+                                                            <img {% if object.profile_image %}src="{{ object.profile_image.url }}"{% endif %}  alt="#"  style="object-fit: cover; margin-left: -2rem;" class="avatar-img">
                                                         </div>
                                                     </div>
 
