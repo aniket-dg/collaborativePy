@@ -247,8 +247,14 @@ USER_FIELDS = ['email', 'username']
 LOGIN_ERROR_URL = 'user:login'
 
 # WEB PUSH
+# PUSH_NOTIFICATIONS_SETTINGS = {
+#     'FCM_API_KEY': 'AAAALr-daWw:APA91bGcsbbYW18Idrw9zlo2nvnxvDn7VFKyyi8ORPdne4lKUj7Cnreb5HBAlim7TQ7p9CmHaBSMwpYlp36BDz5FI266SbsUBwVY5ocKFX7_hgnW3j969loxaTQmpZqWrNn1kfwbg7gD',
+#     'FCM_POST_URL': 'https://fcm.googleapis.com/fcm/send',
+#     'UPDATE_ON_DUPLICATE_REG_ID':True,
+# }
+
 PUSH_NOTIFICATIONS_SETTINGS = {
-    'FCM_API_KEY': 'AAAALr-daWw:APA91bGcsbbYW18Idrw9zlo2nvnxvDn7VFKyyi8ORPdne4lKUj7Cnreb5HBAlim7TQ7p9CmHaBSMwpYlp36BDz5FI266SbsUBwVY5ocKFX7_hgnW3j969loxaTQmpZqWrNn1kfwbg7gD',
+    'FCM_API_KEY': 'AAAAWo7t_nQ:APA91bHE2y_d4XcK74nOd70wtcMUkWI_s15qYBdYMezTbkMIW5aafXaUlJTm41JAvFukTUTkwIiooxGVL4K0S7dMwcsQ6ctV2GvCTW2IEsD91lyQRhW6rhCiGSG5pyW-mgFkgHxhYzX1',
     'FCM_POST_URL': 'https://fcm.googleapis.com/fcm/send',
     'UPDATE_ON_DUPLICATE_REG_ID':True,
 }

@@ -70,22 +70,36 @@ self.addEventListener('push', function(e) {
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+//const firebaseConfig = {
+//    apiKey: "AIzaSyBUBxvnL-kiOmGy3jn4zSuODP_pvMQ_uMY",
+//    authDomain: "stellar-ai-test.firebaseapp.com",
+//    projectId: "stellar-ai-test",
+//    storageBucket: "stellar-ai-test.appspot.com",
+//    messagingSenderId: "200783260012",
+//    appId: "1:200783260012:web:87f291502baab08152eb49",
+//    measurementId: "G-LFG6ZP6ZLC"
+//};
+
 const firebaseConfig = {
-    apiKey: "AIzaSyBUBxvnL-kiOmGy3jn4zSuODP_pvMQ_uMY",
-    authDomain: "stellar-ai-test.firebaseapp.com",
-    projectId: "stellar-ai-test",
-    storageBucket: "stellar-ai-test.appspot.com",
-    messagingSenderId: "200783260012",
-    appId: "1:200783260012:web:87f291502baab08152eb49",
-    measurementId: "G-LFG6ZP6ZLC"
-};
+    apiKey: "AIzaSyCgfo-giLUmzB7wqwOffD4rnJZzjqmUkhA",
+    authDomain: "stellar-ai-4cfe6.firebaseapp.com",
+    projectId: "stellar-ai-4cfe6",
+    storageBucket: "stellar-ai-4cfe6.appspot.com",
+    messagingSenderId: "388945018484",
+    appId: "1:388945018484:web:315cc707231f684ceadb21",
+    measurementId: "G-J547JZL1WD"
+  };
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
+//messaging.usePublicVapidKey(
+//    "BJMtWEit7IsPhW5FKfXpfdqHSx-h27vjv0Zd_y8w6rBj-Kmn3EPbBOOQKU1qDzePeYz-oS2rYQz8_VH2r9QWA6s"
+//)
+
 messaging.usePublicVapidKey(
-    "BJMtWEit7IsPhW5FKfXpfdqHSx-h27vjv0Zd_y8w6rBj-Kmn3EPbBOOQKU1qDzePeYz-oS2rYQz8_VH2r9QWA6s"
+    "BB33Facuw46_JoeaHdkwSX2RzyOoCBytwPI8_gKN8_drwbCzmbr72g6JqGqU-FaLRYS0RrB-FhyOkgL0T52NpA8"
 )
 
 function manageFCMUser(data) {
