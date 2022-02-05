@@ -263,13 +263,16 @@
         }
     }
 
-    function BookMark(id) {
+    function BookMark(id, type='post') {
         var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
         $("#options-post-" + id).removeClass('is-active');
+        let url = "{% url 'post:book-mark' %}"
+        if (type==='skeleton-post')
+            url = '{% url 'post:skeleton-book-mark' %}'
         $.ajax({
             async: true,
             method: "POST",
-            url: "{% url 'post:book-mark' %}",
+            url: url,
             data: {
                 csrfmiddlewaretoken: csrfmiddlewaretoken,
                 'id': id,

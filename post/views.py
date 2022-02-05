@@ -6,6 +6,7 @@ from django.http import JsonResponse, Http404
 from django.shortcuts import redirect, render
 
 from users.models import User
+from home.models import Ad
 from .forms import PostCreateForm, PostCommentForm, SkeletonPostCommentForm
 from .models import Post, PostComment, SkeletonPostComment, POST_CATEGORY_CHOICES, LANGUAGES_CHOICES, SCOPE_CHOICES, \
     Category, Scope, Language
@@ -69,6 +70,7 @@ class PostIndex(View):
         context['languages'] = Language.objects.all()
         context['scopes'] = Scope.objects.all()
         context['post'] = []
+        context['ads'] = Ad.objects.all()
         return render(self.request, 'post/feeds.html', context)
 
     def post(self, *args, **kwargs):
@@ -456,6 +458,8 @@ class SkeletonPostListView(ListView):
         context['second_level_category'] = SecondLevelCategory.objects.all()
         context['third_level_category'] = ThirdLevelCategory.objects.all()
         context['fourth_level_category'] = FourthLevelCategory.objects.all()
+        context['ads'] = Ad.objects.all()
+        print(context['ads'])
         return context
 
 

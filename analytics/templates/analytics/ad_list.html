@@ -1,0 +1,99 @@
+{% extends 'analytics/base.html' %}
+{% load crispy_forms_tags %} 
+{% load static %} 
+
+{% block title %}
+<h2 class="has-text-centered">
+    Ad List
+</h2>
+
+<a href="{% url 'analytics:ad-create' %}" class="button is-solid accent-button" style="margin-left: auto;">Add Advertisement</a>
+
+{% endblock title %}
+
+{% block data %}
+
+<!-- <link rel="stylesheet" href="{% static 'social_assets/css/table_bulma.css' %}"> -->
+
+<style>
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group label {
+        font-size: 0.8em;
+    }
+
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group {
+        padding: 0.8em;
+    }
+
+    .table thead th {
+        font-weight: 500;
+        color: rgb(146, 146, 146);
+        font-size: 0.9em;
+    }
+    .table thead td, .table thead th {
+        border-width: 0 0 0.5px;
+        padding-bottom: 15px;
+    }
+    .table td {
+        padding-top: 15px;
+    }
+    
+</style>
+
+    <div style="width: 100% !important;" class="">
+        
+            <div class="table-container">
+              <table class="table is-fullwidth">
+                <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Link</th>
+                  <!-- <th>Description</th> -->
+                  <th class="has-text-centered">Update</th>
+                  <th class="has-text-centered">Detail</th>
+                  <th class="has-text-centered">Delete</th>
+                  <th></th>
+                </tr>
+                </thead>
+                
+                <tbody>
+                {% for object in object_list %}
+                <tr>
+                  <!-- <td class="is-image-cell">
+                    <div class="image">
+                      <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" class="is-rounded">
+                    </div>
+                  </td> -->
+                  <td class="is-image-cell">
+                    <div class="image" style="max-height: 3rem; max-width: 3rem;">
+                      <img src="{{object.image.url}}" class="is-rounded">
+                    </div>
+                  </td>
+                  <td data-label="link">{{object.link}}</td>
+                  
+                  <td class="has-text-centered" data-label="Mobile">
+                    <a href="{% url 'analytics:ad-update' object.pk %}" class="button is-warning" type="button">
+                        <span class="icon"><i class="mdi mdi-pen"></i></span>
+                    </a>
+                  </td>
+                  <td class="has-text-centered" data-label="Mobile">
+                    <a href="{% url 'analytics:ad-detail' object.pk %}" class="button is-primary" type="button">
+                        <span class="icon"><i class="mdi mdi-information"></i></span>
+                    </a>
+                  </td>
+                  <td class="has-text-centered" data-label="Mobile">
+                    <a href="{% url 'analytics:ad-delete' object.pk %}" class="button is-danger jb-modal" data-target="sample-modal" type="button">
+                        <span class="icon"><i class="mdi mdi-trash-can"></i></span>
+                      </a>
+                  </td>
+                  
+                  
+                </tr>
+                {% endfor %}
+                
+                </tbody>
+              </table>
+            </div>
+         
+    </div>
+
+{% endblock data %}

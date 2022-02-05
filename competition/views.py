@@ -26,7 +26,7 @@ class CompetionList(ListView):
     def get_queryset(self):
         today = datetime.date.today()
         qs = super(CompetionList, self).get_queryset()
-        qs = qs.filter(start__lte=today).order_by('-start')
+        qs = qs.filter(start__lte=today, end__gte=today).order_by('-start')
         return qs
 
     def get(self, request, *args, **kwargs):
@@ -59,7 +59,8 @@ class CompetionDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         competition_id = self.kwargs.get('pk', None)
-        competition = Competion.objects.filter(id=competition_id).last()
+        today = datetime.date.today()
+        competition = Competion.objects.filter(id=competition_id, start__lte=today, end__gte=today).last()
         user = self.request.user
         if user.is_authenticated:
             context['user_submission']  = UserSubmission.objects.filter(user=user, competition=competition).last()
@@ -101,7 +102,7 @@ class UserSubmissionView(LoginRequiredMixin, View):
         """Handles user submissions for competitions"""
         competition_id = self.kwargs.get('pk', None)
         today = datetime.date.today()
-        competition = Competion.objects.filter(id=competition_id, start__lte=today).last()
+        competition = Competion.objects.filter(id=competition_id, start__lte=today, end__gte=today).last()
         user = self.request.user
         user_file = self.request.FILES.get('user_file', None)
         has_submitted = UserSubmission.objects.filter(competition=competition, user=user).exists()
@@ -116,11 +117,19 @@ class UserSubmissionView(LoginRequiredMixin, View):
             return redirect('Competion:detail', pk=competition_id)
         if user in competition.participants.all():
             admin_file = competition.admin_file
+            print(admin_file == None)
             score, is_valid = self._get_submission_score(user_file, admin_file)
             if not is_valid:
                 messages.error(self.request, 'Please check the demo file above and submit with proper column name.')
                 return redirect('Competion:detail', pk=competition_id)
             if (user_file and admin_file and competition and score != None):
+                user_submission = UserSubmission.objects.create(user=user, competition=competition,\
+                                                            user_file=user_file,submission_date=datetime.datetime.now(),\
+                                                            score=score)
+                messages.success(self.request, 'Successfully submitted.')
+                return redirect('Competion:detail', pk=competition_id)
+            # if no admin file provided
+            elif not admin_file:
                 user_submission = UserSubmission.objects.create(user=user, competition=competition,\
                                                             user_file=user_file,submission_date=datetime.datetime.now(),\
                                                             score=score)
@@ -152,7 +161,7 @@ class UserSubmissionView(LoginRequiredMixin, View):
                 print('Submission NOT proper',e)
                 return 0, False
         else:
-            return 0, False
+            return 0, True
     
             
 

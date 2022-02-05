@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.utils import timezone
 from multiselectfield import MultiSelectField
 from ckeditor.fields import RichTextField
+from django.urls import reverse
 
 
 class NewsLetter(models.Model):
@@ -114,3 +115,13 @@ class Faq(models.Model):
     def __str__(self):
         return self.question
 
+
+class Ad(models.Model):
+    image = models.ImageField(upload_to='ads/', help_text='Size of 280x520 is recommended.')
+    link = models.URLField()
+
+    def __str__(self):
+        return self.link
+
+    def get_absolute_url(self):
+        return reverse('analytics:ad-list')
