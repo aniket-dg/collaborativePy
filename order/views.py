@@ -97,7 +97,12 @@ class PaymentResponseView(View):
         print(self.request.POST)
         print(self.request.GET)
 
-        if payment and self.request.POST.get('status') == "success":
+        if payment:
+            if not self.request.POST.get('status') == "success":
+                payment.payu_dict = self.request.POST
+                payment.save()
+                messages.warning(self.request, self.request.POST.get('error_Message'))
+                return redirect('home:plan')
             payment.paid = True
             payment.amt_paid = self.request.POST.get('amount')
             payment.payu_dict = self.request.POST
