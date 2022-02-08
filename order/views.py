@@ -61,7 +61,7 @@ class PaymentRequestView(LoginRequiredMixin, View):
 
         import uuid
         payload = {
-            "amount": plan.cost,
+            "amount": plan.get_discounted_price(),
             "firstname": self.request.user.first_name,
             "email": self.request.user.email,
             "phone": self.request.user.phone_number,
@@ -77,7 +77,7 @@ class PaymentRequestView(LoginRequiredMixin, View):
         }
         payu_data = payu.transaction(**payload)
         import hashlib
-        hash = hashlib.sha512(str(f"{merchant_key}|{payload['txnid']}|{plan.cost}|{plan.title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|||||||||{merchant_salt}").encode("utf-8")).hexdigest()
+        hash = hashlib.sha512(str(f"{merchant_key}|{payload['txnid']}|{plan.get_discounted_price()}|{plan.title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|||||||||{merchant_salt}").encode("utf-8")).hexdigest()
 
         context = {'payment_id': payment.id, 'posted': payu_data}
         context['hashh'] = hash
