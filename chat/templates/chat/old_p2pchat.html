@@ -1,0 +1,173 @@
+<!-- chat/templates/chat/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Rooms</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+</head>
+<body>
+<ul>
+<br>
+        {% for user in contact_list %}
+
+            <button class="btn-info btn-sm" onclick="setReceiver('{{ user.email }}', {{ user.id }})">{{ user.email }}:  Chat Now</button><br><br>
+        {% endfor %}
+    </ul>
+
+     <div id="chat-log" cols="100" rows="20"></div><br/>
+    <div class="col-md-6">
+    <input id="chat-message-input" type="text" class="form-control" /><br/>
+    <input id="chat-message-submit" type="button" class="btn-sm btn-success" value="Send"/>
+    </div>
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<script>
+    let receiver = '';
+    let session_id = '{{ request.session.session_key }}';
+    let sender = {{ request.user.id }};
+    let receiver_id = '';
+    let chatSocket;
+    let currentUser = '{{ request.user.email }}';
+    let session = '';
+
+
+
+    function setReceiver(email, id)
+    {
+        receiver = email;
+        receiver_id = id;
+        {#createConnection(session_id);#}
+        {#saveSession(id);#}
+        refreshMessage();
+    }
+
+    {#######################    Custom Api calls      ##########################    #}
+    function sendMessage(recipient, body)
+    {
+        {#let url = '{% url 'message-api' %}/message';#}
+        $.post('/chat/api/chat/msg/', {
+            recipient: recipient,
+            body: body
+            }).fail(function () {
+        alert('Error! Check console!');
+        });
+    }
+
+    function refreshMessage()
+    {
+        getConversation(receiver);
+    }
+
+
+    function getConversation(recipient) {
+    $.getJSON(`/chat/api/chat/msg/?target=${recipient}`, function (data) {
+         $('#chat-log').empty();
+
+        for (let i = data['results'].length - 1; i >= 0; i--) {
+            drawMessage(data['results'][i]);
+        }
+    });
+
+    function getMessageById(data) {
+        id = JSON.parse(data).id
+        $.getJSON(`/chat/api/chat/msg/${id}/`, function (data) {
+            let html = '';
+            console.log(currentUser === data['user']);
+            console.log(data);
+            if (currentUser === data['user']) {
+                html += `<li class="text-info">${data['user']}: ${data['body']}</li><br>`;
+            } else {
+                html += `<span class="text-success" style="margin-left: 300px;">${data['user']}: ${data['body']}</span><br>`;
+            }
+            $('#chat-log').append(html);
+        });
+    }
+
+
+    function drawMessage(data) {
+        let html = '';
+            console.log(currentUser === data['user']);
+            console.log(data);
+            if (currentUser === data['user']) {
+                html += `<li class="text-info">${data['user']}: ${data['body']}</li><br>`;
+            } else {
+                html += `<span class="text-success" style="margin-left: 300px;">${data['user']}: ${data['body']}</span><br>`;
+            }
+            $('#chat-log').append(html);
+    }
+}
+
+{######################                           ###############################}
+
+    function createConnection(sessionKey)
+    {
+      chatSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/chat/p/'+sender+"/"+receiver_id+"/");
+
+      console.log(chatSocket);
+    chatSocket.onopen = function (e)
+    {
+        console.log("Open connection")
+    }
+    chatSocket.onclose = function (e)
+    {
+        console.error('Chat socket closed unexpectedly');
+    }
+    function getMessageById(data) {
+        id = JSON.parse(data).id
+        $.getJSON(`/chat/api/chat/msg/${id}/`, function (data) {
+            let html = '';
+            console.log(currentUser === data['user']);
+            console.log(data);
+            if (currentUser === data['user']) {
+                html += `<li class="text-info">${data['user']}: ${data['body']}</li><br>`;
+            } else {
+                html += `<span class="text-success" style="margin-left: 300px;">${data['user']}: ${data['body']}</span><br>`;
+            }
+            $('#chat-log').append(html);
+        });
+    }
+    chatSocket.onmessage = function (e)
+    {
+        console.log("Here new message arrived!");
+        console.log(e['data']);
+        x = getMessageById(e['data']);
+        console.log(x);
+    }
+
+    {#document.querySelector('#chat-message-input').focus();#}
+    {#document.querySelector('#chat-message-input').onkeyup = function(e) {#}
+    {#    if (e.keyCode === 13) {  // enter, return#}
+    {#        document.querySelector('#chat-message-submit').click();#}
+    {#    }#}
+    {#};#}
+    {##}
+    {#document.querySelector('#chat-message-submit').onclick = function(e) {#}
+    {#    console.log("Data submit start");#}
+    {#    var messageInputDom = document.querySelector('#chat-message-input');#}
+    {#    var message = messageInputDom.value;#}
+        {#sendMessage(receiver, message);#}
+    {#    chatSocket.send(JSON.stringify({#}
+    {#        'message': message,#}
+    {#        'receiver_id': receiver,#}
+    {#        'command': 'new_message',#}
+    {#    }));#}
+    {##}
+    {#    messageInputDom.value = '';#}
+    {#};#}
+    }
+
+
+
+
+</script>
+
+</html>
+
+
+

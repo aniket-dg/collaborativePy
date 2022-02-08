@@ -15,7 +15,6 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from django.urls import reverse
 from users.api import send_notification
 
-
 class P2pConsumer(WebsocketConsumer):
 
     def fetch_messages(self, data):
@@ -74,7 +73,7 @@ class P2pConsumer(WebsocketConsumer):
             )
             self.accept()
         except Exception as e:
-            print(e, "error in connection in p2p")
+            print(e,"error in connection in p2p")
 
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(

@@ -103,15 +103,25 @@ TEMPLATES = [
         },
     },
 ]
-
+'''
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.sqlite3',
          'NAME': BASE_DIR / 'db.sqlite3',
      }
  }
+'''
 
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'myproject',
+        'USER': 'sgstellar',
+        'PASSWORD': 'SG@stellar101',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 AUTH_PASSWORD_VALIDATORS = [
     # {
     #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -141,7 +151,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Channel
 # TODO for production setup redis server
-WSGI_APPLICATION = 'stellar_ai.wsgi.application'
+#WSGI_APPLICATION = 'stellar_ai.wsgi.application'
 ASGI_APPLICATION = "stellar_ai.asgi.application"
 
 CHANNEL_LAYERS = {
@@ -163,11 +173,11 @@ CHANNEL_LAYERS = {
 #        "KEY_PREFIX": "example"
 #    }
 #}
-CHANNEL_LAYERS = {
-   'default': {
-       'BACKEND': 'channels.layers.InMemoryChannelLayer'
-   },
-}
+#CHANNEL_LAYERS = {
+#   'default': {
+#       'BACKEND': 'channels.layers.InMemoryChannelLayer'
+#   },
+#}
 
 #CACHES = {
 #     'default': {
