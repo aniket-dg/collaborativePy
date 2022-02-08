@@ -85,7 +85,7 @@ class PaymentRequestView(LoginRequiredMixin, View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class PaymentResponseView(View):
+class PaymentResponseView(LoginRequiredMixin,View):
     def post(self, *args, **kwargs):
         print(self.request.POST)
         payment_id = self.request.POST.get('udf1')
