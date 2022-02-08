@@ -10,7 +10,19 @@ from django.views.decorators.csrf import csrf_exempt
 
 from order.models import Plan, Payment, Coupon
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.conf import settings
 
+from paywix.payu import Payu
+
+
+payu_config = settings.PAYU_CONFIG
+merchant_key = payu_config.get('merchant_key')
+merchant_salt = payu_config.get('merchant_salt')
+surl = payu_config.get('success_url')
+furl = payu_config.get('failure_url')
+mode = payu_config.get('mode')
+
+payu = Payu(merchant_key, merchant_salt, surl, furl, mode)
 
 class PaymentRequestView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
@@ -39,7 +51,25 @@ class PaymentRequestView(LoginRequiredMixin, View):
         valid_till = today + timedelta(int(plan.duration))
         payment.valid_till = valid_till
         payment.save()
-        context = {'payment_id': payment.id}
+
+        import uuid
+        payload = {
+            "amount": plan.cost,
+            "firstname": self.request.user.first_name,
+            "email": self.request.user.email,
+            "phone": self.request.user.phone_number,
+            "lastname": self.request.user.last_name,
+            "productinfo": plan.title,
+            # "address1": "",
+            # "address2": "Test Address 2",
+            # "city": "Test city",
+            # "state": "Test state",
+            # "country": "Test country",
+            # "zipcode": 673576,
+            "txnid": uuid.uuid1()
+        }
+        payu_data = payu.transaction(**payload)
+        context = {'payment_id': payment.id, 'posted': payu_data}
         return render(self.request, 'order/payment_redirect.html', context=context)
 
 
