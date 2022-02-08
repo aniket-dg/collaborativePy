@@ -15,6 +15,7 @@ from django.conf import settings
 
 from paywix.payu import Payu
 
+from users.models import User
 
 payu_config = settings.PAYU_CONFIG
 merchant_key = payu_config.get('merchant_key')
@@ -76,7 +77,7 @@ class PaymentRequestView(LoginRequiredMixin, View):
         }
         payu_data = payu.transaction(**payload)
         import hashlib
-        hash = hashlib.sha512(str(f"{merchant_key}|{payload['txnid']}|{plan.cost}|{plan.title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}||||||||||{merchant_salt}").encode("utf-8")).hexdigest()
+        hash = hashlib.sha512(str(f"{merchant_key}|{payload['txnid']}|{plan.cost}|{plan.title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|||||||||{merchant_salt}").encode("utf-8")).hexdigest()
 
         context = {'payment_id': payment.id, 'posted': payu_data}
         context['hashh'] = hash
@@ -85,19 +86,24 @@ class PaymentRequestView(LoginRequiredMixin, View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class PaymentResponseView(LoginRequiredMixin,View):
+class PaymentResponseView(View):
     def post(self, *args, **kwargs):
         print(self.request.POST)
         payment_id = self.request.POST.get('udf1')
+        user_id = self.request.POST.get('udf2')
+
         payment = Payment.objects.filter(id=int(payment_id)).last()
         print("Payment")
         print(self.request.POST)
         print(self.request.GET)
-        if payment:
+
+        if payment and self.request.POST.get('status') == "success":
             payment.paid = True
+            payment.amt_paid = self.request.POST.get('amount')
+            payment.payu_dict = self.request.POST
             payment.save()
-            user = self.request.user
-            if user.payment:
+            user = User.objects.filter(id=int(user_id)).last()
+            if user and user.payment:
                 old_payment = user.payment
                 # remaining_days = user.remaining_days() - 1
                 # valid_till = payment.valid_till + timedelta(int(remaining_days))
@@ -130,4 +136,3 @@ class PaymentResponseView(LoginRequiredMixin,View):
 
     def get(self,*args,**kwargs):
         return HttpResponse(self.request.GET)
-

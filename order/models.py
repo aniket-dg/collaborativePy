@@ -46,6 +46,8 @@ class Payment(models.Model):
     group_size = models.CharField(null=True, blank=True, max_length=200)
 
     plans = models.ManyToManyField(Plan, blank=True)
+
+    payu_dict = models.TextField(null=True, blank=True)
     def __str__(self):
         return f"{self.id}_Payment"
 
