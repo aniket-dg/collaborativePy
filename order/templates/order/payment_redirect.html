@@ -4,12 +4,13 @@
         <title>Loading...</title>
     </head>
 
-    <body onload="document.payuForm.submit()">
-        <form action="{{ posted.action }}" method="post" name="payuForm">
+    <body>
+
+    <form action="https://test.payu.in/_payment" method="post" name="payuForm">
             {% csrf_token %}
             <input type="hidden" name="key" value="{{posted.key}}" />
-            <input type="hidden" name="hash_string" value="{{ posted.hash_string }}" />
-            <input type="hidden" name="hash" value="{{ posted.hashh }}" />
+            <input type="hidden" name="hash_string" value="" />
+            <input type="hidden" name="hash" value="{{ hashh }}" />
             <input type="hidden" name="posted" value="{{ posted }}" />
             <input type="hidden" name="txnid" value="{{ posted.txnid }}" />
             <input type="hidden" name="amount" value="{{ posted.amount|default:'10' }}" /></td>
@@ -28,12 +29,18 @@
             <input type="hidden" name="state" value="{{ posted.state }}" /></td>
             <input type="hidden" name="country" value="{{ posted.country }}" /></td>
             <input type="hidden" name="zipcode" value="{{ posted.zipcode }}" /></td>
-            <input type="hidden" name="udf1" value="{{ posted.udf1 }}" /></td>
-            <input type="hidden" name="udf2" value="{{ posted.udf2 }}" /></td>
-            <input type="hidden" name="udf3" value="{{ posted.udf3 }}" /></td>
-            <input type="hidden" name="udf4" value="{{ posted.udf4 }}" /></td>
-            <input type="hidden" name="udf5" value="{{ posted.udf5 }}" /></td>
+<input type="hidden" name="surl" value="http://127.0.0.1:8000/order/payment/response/" />
+<input type="hidden" name="furl" value="http://127.0.0.1:8000/order/payment/response/" />
+            <input type="hidden" name="udf1" value="{{ payment.id }}" /></td>
+{#            <input type="hidden" name="udf2" value="{{ posted.udf2 }}" /></td>#}
+{#            <input type="hidden" name="udf3" value="{{ posted.udf3 }}" /></td>#}
+{#            <input type="hidden" name="udf4" value="{{ posted.udf4 }}" /></td>#}
+{#            <input type="hidden" name="udf5" value="{{ posted.udf5 }}" /></td>#}
+        <h1>{{ hashh }}</h1>
+        <button type="submit">Submit</button>
         </form>
+
+<h1>{{ posted }}</h1>
     </body>
 
     </html>

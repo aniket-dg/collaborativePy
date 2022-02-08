@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -23,6 +24,11 @@ furl = payu_config.get('failure_url')
 mode = payu_config.get('mode')
 
 payu = Payu(merchant_key, merchant_salt, surl, furl, mode)
+
+
+from payu.gateway import get_hash
+from uuid import uuid4
+
 
 class PaymentRequestView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
@@ -66,19 +72,27 @@ class PaymentRequestView(LoginRequiredMixin, View):
             # "state": "Test state",
             # "country": "Test country",
             # "zipcode": 673576,
-            "txnid": uuid.uuid1()
+            "txnid": str(uuid.uuid1())
         }
         payu_data = payu.transaction(**payload)
+        import hashlib
+        hash = hashlib.sha512(str(f"{merchant_key}|{payload['txnid']}|{plan.cost}|{plan.title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}||||||||||{merchant_salt}").encode("utf-8")).hexdigest()
+
         context = {'payment_id': payment.id, 'posted': payu_data}
+        context['hashh'] = hash
+        context['payment'] = payment
         return render(self.request, 'order/payment_redirect.html', context=context)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class PaymentResponseView(LoginRequiredMixin, View):
+class PaymentResponseView(View):
     def post(self, *args, **kwargs):
-        payment_id = self.request.POST.get('payment_id')
+        print(self.request.POST)
+        payment_id = self.request.POST.get('udf1')
         payment = Payment.objects.filter(id=int(payment_id)).last()
         print("Payment")
+        print(self.request.POST)
+        print(self.request.GET)
         if payment:
             payment.paid = True
             payment.save()
@@ -114,4 +128,6 @@ class PaymentResponseView(LoginRequiredMixin, View):
             messages.warning(self.request, "Payment Fail!")
             return redirect('home:home')
 
+    def get(self,*args,**kwargs):
+        return HttpResponse(self.request.GET)
 
