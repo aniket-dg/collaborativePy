@@ -110,7 +110,7 @@ class PaymentResponseView(View):
                 payment.payu_dict = self.request.POST
                 payment.save()
                 messages.warning(self.request, self.request.POST.get('error_Message'))
-                return redirect('home:plan')
+                return redirect('home:plan-list')
             payment.paid = True
             payment.amt_paid = self.request.POST.get('amount')
             payment.payu_dict = self.request.POST
