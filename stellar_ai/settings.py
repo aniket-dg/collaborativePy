@@ -104,25 +104,25 @@ TEMPLATES = [
         },
     },
 ]
-
+'''
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.sqlite3',
          'NAME': BASE_DIR / 'db.sqlite3',
      }
  }
+'''
 
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'myproject',
-#         'USER': 'sgstellar',
-#         'PASSWORD': 'SG@stellar101',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'myproject',
+        'USER': 'sgstellar',
+        'PASSWORD': 'SG@stellar101',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 AUTH_PASSWORD_VALIDATORS = [
     # {
     #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -195,6 +195,7 @@ CHANNEL_LAYERS = {
 AUTH_USER_MODEL = 'users.User'  # Custom User Model
 
 # BootStrap
+CRISPY_TEMPLATE_PACK = 'bootstrap4'  # To use Bootstrap
 
 LOGIN_URL = 'user:login'  # Login URL
 LOGOUT_URL = 'user:login'  # Logout URL
@@ -256,8 +257,8 @@ PAYU_CONFIG = {
     "merchant_key": "gtKFFx",
     "merchant_salt": "wia56q6O",
     "mode": "test",
-    "success_url": "http://127.0.0.1:8000/order/payment/response/",
-    "failure_url": "http://127.0.0.1:8000/order/payment/response/"
+    "success_url": "https://stellar-ai.in/order/payment/response/",
+    "failure_url": "https://stellar-ai.in/order/payment/response/"
 }
 
 # Change the PAYU_MODE to 'LIVE' for production.
