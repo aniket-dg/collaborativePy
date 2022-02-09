@@ -85,4 +85,9 @@ urlpatterns = [
     path('ad/update/<int:pk>/', views.AdUpdateView.as_view(), name="ad-update"),
     path('ad/detail/<int:pk>/', views.AdDetailView.as_view(), name="ad-detail"),
     path('ad/delete/<int:pk>/', views.AdDeleteView.as_view(), name="ad-delete"),
+
+    path('coupon/list/', views.CouponListView.as_view(), name="coupon-list"),
+    path('coupon/create/', views.CouponCreateView.as_view(), name="coupon-create"),
+    path('coupon/update/<int:pk>/', views.CouponUpdateView.as_view(), name="coupon-update"),
+    path('coupon/delete/<int:pk>/', views.CouponDeleteView.as_view(), name="coupon-delete"),
 ] 

@@ -566,7 +566,7 @@ function getMessageById(data) {
         }
 
         chatSocket_chat_{{ item.id }}.onmessage = function (e) {
-            console.log(e['data'], 'DATA');
+            console.log(e['data']);
             data = JSON.parse(e['data']);
             anu = data;
             let check = $('#chat-group').val();
@@ -613,7 +613,7 @@ function getMessageById(data) {
             // bucket_id = data;
             // $('#modalForUploadingData').modal('hide');
             bucket_id = JSON.parse(data[0]['xhr'].responseText)['bucket_id'];
-            console.log(bucket_id, "Bucket ID")
+            console.log(bucket_id)
             let check = $('#chat-group').val();
             if (check === "P2p") {
                 receiver_for_msg_send = $('#receiver_for_msg_send').val();
@@ -671,7 +671,7 @@ function getMessageById(data) {
                         receiver_for_msg_send = $('#receiver_for_msg_send').val();
                         chatsocket = 'chatSocket_chat_' + receiver_for_msg_send;
                         socket = websocket_dict[chatsocket];
-                        console.log(bucket_id + " bucket_id");
+                        console.log(bucket_id + "Anant");
                         if (socket) {
                             socket.send(JSON.stringify({
                                 'message': message,
@@ -820,7 +820,7 @@ function getMessageById(data) {
             const bol = confirm('You are about to remove a member from the group. Do you wish to proceed?')
             if (bol){
                 $.getJSON(`remove/from/group/${groupId}/${pk}/`, function (data) {
-                    console.log(data, " DATA 1")
+                    console.log(data)
                     setToast(data)
                     if (data['data']){
                         // element.closest(`[data-delete='deleteMember']`).remove();
@@ -835,7 +835,7 @@ function getMessageById(data) {
             const bol = confirm('You are about to delete a group! The process is irreversible. Do you wish to proceed?')
             if (bol){
                 $.getJSON(`delete/group/?pk=${pk}`, function (data) {
-                    console.log(data, " DATA 2")
+                    console.log(data)
                     setToast(data)
                     if (data['data']){
                         location.reload()
@@ -848,7 +848,7 @@ function getMessageById(data) {
             const bol = confirm('You are about to leave a group. Do you wish to proceed?')
             if (bol){
                 $.getJSON(`remove/from/group/${groupId}/${pk}/`, function (data) {
-                    console.log(data, " DATA 3")
+                    console.log(data)
                     setToast(data)
                     if (data['data']){
                         // element.closest(`[data-delete='deleteMember']`).remove();
@@ -859,7 +859,7 @@ function getMessageById(data) {
         }
         // Search users
         function searchUsersAndGroups(event, query, searchWrapperId, searchUserItemId, searchGroupItemId=null){
-            console.log(event, query, searchWrapperId, searchUserItemId, searchGroupItemId, "EQSSS")
+            console.log(event, query, searchWrapperId, searchUserItemId, searchGroupItemId)
             searchWrapperEl = document.getElementById(searchWrapperId);
             searchUserItemEls = searchWrapperEl.querySelectorAll(`[id^='${searchUserItemId}']`);
             // console.log(searchUserItemEls)
@@ -1066,4 +1066,3 @@ function getMessageById(data) {
 </script>
 {###########################    End of Script For P2p Chat Socket   ##################}
 </body>
-

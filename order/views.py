@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -10,11 +11,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 from order.models import Plan, Payment, Coupon
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.conf import settings
+
 from paywix.payu import Payu
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+
+from users.models import User
 
 payu_config = settings.PAYU_CONFIG
 merchant_key = payu_config.get('merchant_key')
@@ -24,6 +25,9 @@ furl = payu_config.get('failure_url')
 mode = payu_config.get('mode')
 
 payu = Payu(merchant_key, merchant_salt, surl, furl, mode)
+
+from payu.gateway import get_hash
+from uuid import uuid4
 
 
 class PaymentRequestView(LoginRequiredMixin, View):
@@ -35,89 +39,89 @@ class PaymentRequestView(LoginRequiredMixin, View):
         if not plan:
             return redirect('/')
         order_id = f"{datetime.now()}_{user.id}"
-        
+
         coupon = Coupon.objects.filter(code=coupon_code, is_active=True).last()
         if coupon:
             if user in coupon.used_by.all():
                 messages.warning(self.request, 'Coupon already used.')
                 coupon = None
             else:
-                messages.success(self.request, 'Coupon applied.')
-                coupon.used_by.add(user)
-
+                pass
+                # messages.success(self.request, 'Coupon applied.')
+                # coupon.used_by.add(user)
+        else:
+            coupon = None
         payment = Payment(plan=plan, order_id=order_id, coupon=coupon)
         payment.amt_paid = 0
-
+        if coupon:
+            payment.coupon_discount = coupon.discount_percent
         # valid till
         today = datetime.now().date()
         valid_till = today + timedelta(int(plan.duration))
         payment.valid_till = valid_till
         payment.save()
+        coupon_applied = 0
+        if coupon:
+            coupon_applied = coupon.id
         import uuid
         payload = {
-            "amount": 130,
-            "firstname": "renjith",
-            "email": "renjithsraj@live.com",
-            "phone": 9746272610,
-            "lastname": "s raj",
-            "productinfo": "Test Product",
-            "address1": "Test address 1",
-            "address2": "Test Address 2",
-            "city": "Test city",
-            "state": "Test state",
-            "country": "Test country",
-            "zipcode": 673576,
-            "txnid": uuid.uuid1()
+            "amount": payment.get_calculated_price(),
+            "firstname": self.request.user.first_name,
+            "email": self.request.user.email,
+            "phone": self.request.user.phone_number,
+            "lastname": self.request.user.last_name,
+            "productinfo": plan.title,
+            # "address1": "",
+            # "address2": "Test Address 2",
+            # "city": "Test city",
+            # "state": "Test state",
+            # "country": "Test country",
+            # "zipcode": 673576,
+            "txnid": str(uuid.uuid1())
         }
         payu_data = payu.transaction(**payload)
+        import hashlib
+        hash = hashlib.sha512(
+            str(f"{merchant_key}|{payload['txnid']}|{payment.get_calculated_price()}|{plan.title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|{coupon_applied}||||||||{merchant_salt}").encode(
+                "utf-8")).hexdigest()
+
         context = {'payment_id': payment.id, 'posted': payu_data}
+        context['hashh'] = hash
+        context['payment'] = payment
+        context['coupon_applied'] = coupon_applied
         return render(self.request, 'order/payment_redirect.html', context=context)
-
-    def post(self, request, *args, **kwargs):
-        print("Inside Class Based View")
-        data = {k: v[0] for k, v in dict(request.POST).items()}
-        data.pop('csrfmiddlewaretoken')
-        payu_data = payu.transaction(**data)
-        return render(request, 'order/payment_redirect.html', {"posted": payu_data})
-
-
-def payu_view(request):
-    import uuid
-    data = {'amount': 10,
-
-            'firstname': "test",
-
-            'email': 'test@gmail.com',
-
-            'phone': '1122334455', 'productinfo': 'test',
-
-            'lastname': 'test', 'address1': 'test',
-
-            'address2': 'test', 'city': 'test',
-
-            'state': 'test', 'country': 'test',
-
-            'zipcode': 'tes'
-
-            }
-
-    data.update({"txnid": "123456789"})
-
-    payu_data = payu.transaction(**data)
-    return render(request, 'order/payment_redirect.html', {"posted": payu_data})
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class PaymentResponseView(LoginRequiredMixin, View):
+class PaymentResponseView(View):
     def post(self, *args, **kwargs):
-        payment_id = self.request.POST.get('payment_id')
+        print(self.request.POST)
+        payment_id = self.request.POST.get('udf1')
+        user_id = self.request.POST.get('udf2')
+        coupon_id = self.request.POST.get('udf3')
+
         payment = Payment.objects.filter(id=int(payment_id)).last()
         print("Payment")
+        print(self.request.POST)
+        print(self.request.GET)
+
         if payment:
+            if not self.request.POST.get('status') == "success":
+                payment.payu_dict = self.request.POST
+                payment.save()
+                messages.warning(self.request, self.request.POST.get('error_Message'))
+                return redirect('home:plan-list')
             payment.paid = True
+            payment.amt_paid = self.request.POST.get('amount')
+            payment.payu_dict = self.request.POST
             payment.save()
-            user = self.request.user
-            if user.payment:
+            user = User.objects.filter(id=int(user_id)).last()
+            if coupon_id != 0:
+                coupon = Coupon.objects.filter(id=coupon_id).last()
+                if coupon:
+                    coupon.used_by.add(user)
+                    coupon.save()
+            if user and user.payment:
                 old_payment = user.payment
                 # remaining_days = user.remaining_days() - 1
                 # valid_till = payment.valid_till + timedelta(int(remaining_days))
@@ -148,4 +152,5 @@ class PaymentResponseView(LoginRequiredMixin, View):
             messages.warning(self.request, "Payment Fail!")
             return redirect('home:home')
 
-
+    def get(self, *args, **kwargs):
+        return HttpResponse(self.request.GET)

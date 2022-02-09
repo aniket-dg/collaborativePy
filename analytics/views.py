@@ -15,6 +15,7 @@ from post.models import Post, FlagInappropriate, SkeletonPost, FirstLevelCategor
 from home.models import Contact, NewsLetter
 from order.models import Plan
 from users.models import User
+from order.models import Coupon
 from home.models import TPP, Faq, Ad
 from competition.models import Competion, UserSubmission
 
@@ -717,6 +718,7 @@ class CompetitionListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 class FaqDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Faq
+    template_name = 'analytics/delete.html'
 
     def delete(self, request, *args, **kwargs):
         competition = self.get_object()
@@ -726,6 +728,9 @@ class FaqDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user.is_staff
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
 
 
 class FaqListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -820,6 +825,59 @@ class AdListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 20
     template_name = 'analytics/ad_list.html'
     ordering = ['-id']
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class CouponDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Coupon
+    template_name = 'analytics/delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        competition = self.get_object()
+        competition.delete()
+        messages.success(self.request, "Coupon deleted!")
+        return redirect('analytics:coupon-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
+class CouponListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Coupon
+    template_name = 'analytics/coupon.html'
+    ordering = ['-id']
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class CouponUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Coupon
+    fields = "__all__"
+    template_name = 'analytics/coupon_add_update.html'
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Faq updated successfully!")
+        return redirect('analytics:coupon-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+class CouponCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Coupon
+    fields = "__all__"
+    template_name = 'analytics/coupon_add_update.html'
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Coupon created successfully!")
+        return redirect('analytics:coupon-list')
 
     def test_func(self):
         return self.request.user.is_staff

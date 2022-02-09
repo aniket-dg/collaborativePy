@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+   
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Stellar | Notebook</title>
 
@@ -37,7 +37,6 @@
             resize: horizontal;
             position: relative;
             z-index: 2;
-            width: 100px;
         }
 
         .hide-mobile {
@@ -63,11 +62,14 @@
     <div class="custom-container">
         <main class="wrapper row" style="position: fixed;">
             {% if call_active %}
-            <div class="col-lg-2 p-0 h-100" id="target" style="display: none;">
+            <div class="col-lg-3 p-0 h-100" id="target" style="display: none;">
                 <style>html, body, #jaas-container { height: 100%; }</style>
 
                 <section class="video-section p-1" id="video-section">
+
+
                          <div id="jaas-container" />
+
                 </section>
             </div>
             {% endif %}
@@ -79,16 +81,16 @@
             </div>
 
             <!-- MESSAGE SECTION -->
-            <div class="col-md-5 col-lg-2 h-100">
+            <div class="col-md-4 col-lg-3 h-100">
                 <section class="message-section">
                     <div class="chat-container" id="chat-container">
                         <div class="d-flex align-items-center mt-2 pb-2">
 
                             <a href="/chat" style="color: #000;" class="px-3"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
                             <div class="profile-picture">
-                                <img src="{{receiver.profile_image.url}}" alt="Group Profile Image">
+                                <img src="{{group.profile_image.url}}" alt="Group Profile Image">
                             </div>
-                            <p class="h5">{{receiver.get_full_name}}</p>
+                            <p class="h5">{{group.group_name}}</p>
                             <button class="btn btn-primary" style="margin-left: auto;background: #5596E6;font-weight: 600;" id="join_meeting">Start Meeting</button>
 
                             <script type="text/javascript">
@@ -147,9 +149,9 @@
     {{request.user.email|json_script:"user_email"}}
     {{group_name|json_script:"group_name"}}
     {{group_name_url|json_script:"group_name_url"}}
-    {% include 'users/user_notebook_js.html' %}
     <script>
         let name_url = "{{ group.name }}";
     </script>
+    <script src="{% static 'assets/js/notebook.js' %}"></script>
 </body>
 </html>

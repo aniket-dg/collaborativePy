@@ -4,16 +4,14 @@
 
 {% block title %}
 <h2 class="has-text-centered">
-    Ads List
+    Our Coupons
 </h2>
 
-<a href="{% url 'analytics:ad-create' %}" class="button is-solid accent-button" style="margin-left: auto;">Add Advertisement</a>
+<a href="{% url 'analytics:coupon-create' %}" class="button is-solid accent-button" style="margin-left: auto;">ADD COUPON</a>
 
 {% endblock title %}
 
 {% block data %}
-
-<!-- <link rel="stylesheet" href="{% static 'social_assets/css/table_bulma.css' %}"> -->
 
 <style>
     .settings-wrapper .settings-section .settings-panel .settings-form .field-group label {
@@ -36,25 +34,25 @@
     .table td {
         padding-top: 15px;
     }
-    
+
 </style>
 
     <div style="width: 100% !important;" class="">
-        
+
             <div class="table-container">
               <table class="table is-fullwidth">
                 <thead>
                 <tr>
-                  <th>Image</th>
-                  <th>Link</th>
+                  <th>Code</th>
+                  <th>Discount</th>
+                  <th>Used By</th>
                   <!-- <th>Description</th> -->
                   <th class="has-text-centered">Update</th>
-                  <th class="has-text-centered">Detail</th>
                   <th class="has-text-centered">Delete</th>
                   <th></th>
                 </tr>
                 </thead>
-                
+
                 <tbody>
                 {% for object in object_list %}
                 <tr>
@@ -63,37 +61,35 @@
                       <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" class="is-rounded">
                     </div>
                   </td> -->
-                  <td class="is-image-cell">
-                    <div class="image" style="max-height: 3rem; max-width: 3rem;">
-                      <img src="{{object.image.url}}" class="is-rounded">
-                    </div>
-                  </td>
-                  <td data-label="link">{{object.link}}</td>
-                  
+                  <td data-label="title">{{object.code}}</td>
+                  <td data-label="cost">{{object.discount_percent}}%</td>
+                  <td data-label="duration">{{object.used_by.count}} Person</td>
+                  <!-- <td data-label="Description">{{object.description}}</td> -->
+
                   <td class="has-text-centered" data-label="Mobile">
-                    <a href="{% url 'analytics:ad-update' object.pk %}" class="button is-warning" type="button">
+                    <a href="{% url 'analytics:coupon-update' object.pk %}" class="button is-warning" type="button">
                         <span class="icon"><i class="mdi mdi-pen"></i></span>
                     </a>
                   </td>
+<!--                  <td class="has-text-centered" data-label="Mobile">-->
+<!--                    <a href="{% url 'analytics:plan-detail' object.pk %}" class="button is-primary" type="button">-->
+<!--                        <span class="icon"><i class="mdi mdi-information"></i></span>-->
+<!--                    </a>-->
+<!--                  </td>-->
                   <td class="has-text-centered" data-label="Mobile">
-                    <a href="{% url 'analytics:ad-detail' object.pk %}" class="button is-primary" type="button">
-                        <span class="icon"><i class="mdi mdi-information"></i></span>
-                    </a>
-                  </td>
-                  <td class="has-text-centered" data-label="Mobile">
-                    <a href="{% url 'analytics:ad-delete' object.pk %}" class="button is-danger jb-modal" data-target="sample-modal" type="button">
+                    <a href="{% url 'analytics:coupon-delete' object.pk %}" class="button is-danger jb-modal" data-target="sample-modal" type="button">
                         <span class="icon"><i class="mdi mdi-trash-can"></i></span>
                       </a>
                   </td>
-                  
-                  
+
+
                 </tr>
                 {% endfor %}
-                
+
                 </tbody>
               </table>
             </div>
-         
+
     </div>
 
 {% endblock data %}

@@ -244,6 +244,9 @@ class LoginView(SuccessMessageMixin, FormView):
 
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
+            if self.request.GET.get('next'):
+
+                return redirect(self.request.GET.get('next'))
             return redirect('post:post')
         return render(self.request, 'users/login.html')
 
@@ -264,6 +267,8 @@ class LoginView(SuccessMessageMixin, FormView):
                 url_redirect = self.request.POST.get('redirect', None)
                 if url_redirect:
                     return redirect(url_redirect)
+                if self.request.GET.get('next'):
+                    return redirect(self.request.GET.get('next'))
                 return redirect('home:home')
             else:
                 messages.warning(self.request,

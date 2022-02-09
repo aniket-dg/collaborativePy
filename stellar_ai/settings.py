@@ -15,9 +15,7 @@ INSTALLED_APPS = [
     # 'django.contrib.sessions', # it is replaced with user_session module
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'payu',
-    'paywix',
-
+    'django.contrib.sessions',
     # Django Apps
     'home',
     'users',
@@ -26,6 +24,7 @@ INSTALLED_APPS = [
     'analytics',
     'post',
     'competition',
+    'paywix',
 
     # Third Party Modules
     'crispy_forms',  # crispy forms
@@ -105,22 +104,23 @@ TEMPLATES = [
         },
     },
 ]
-
-# DATABASES = {
-#      'default': {
-#          'ENGINE': 'django.db.backends.sqlite3',
-#          'NAME': BASE_DIR / 'db.sqlite3',
-#      }
-#  }
+'''
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': BASE_DIR / 'db.sqlite3',
+     }
+ }
+'''
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "stellar",
-        'USER': "postgres",
+        'NAME': 'stellar',
+        'USER': 'postgres',
         'PASSWORD': 'siteguide',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': 5432,
     }
 }
 
@@ -154,7 +154,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Channel
 # TODO for production setup redis server
-WSGI_APPLICATION = 'stellar_ai.wsgi.application'
+#WSGI_APPLICATION = 'stellar_ai.wsgi.application'
 ASGI_APPLICATION = "stellar_ai.asgi.application"
 
 CHANNEL_LAYERS = {
@@ -176,11 +176,11 @@ CHANNEL_LAYERS = {
 #        "KEY_PREFIX": "example"
 #    }
 #}
-CHANNEL_LAYERS = {
-   'default': {
-       'BACKEND': 'channels.layers.InMemoryChannelLayer'
-   },
-}
+#CHANNEL_LAYERS = {
+#   'default': {
+#       'BACKEND': 'channels.layers.InMemoryChannelLayer'
+#   },
+#}
 
 #CACHES = {
 #     'default': {
@@ -249,35 +249,21 @@ USER_FIELDS = ['email', 'username']
 LOGIN_ERROR_URL = 'user:login'
 
 # WEB PUSH
-# PUSH_NOTIFICATIONS_SETTINGS = {
-#     'FCM_API_KEY': 'AAAALr-daWw:APA91bGcsbbYW18Idrw9zlo2nvnxvDn7VFKyyi8ORPdne4lKUj7Cnreb5HBAlim7TQ7p9CmHaBSMwpYlp36BDz5FI266SbsUBwVY5ocKFX7_hgnW3j969loxaTQmpZqWrNn1kfwbg7gD',
-#     'FCM_POST_URL': 'https://fcm.googleapis.com/fcm/send',
-#     'UPDATE_ON_DUPLICATE_REG_ID':True,
-# }
-
 PUSH_NOTIFICATIONS_SETTINGS = {
     'FCM_API_KEY': 'AAAAWo7t_nQ:APA91bHE2y_d4XcK74nOd70wtcMUkWI_s15qYBdYMezTbkMIW5aafXaUlJTm41JAvFukTUTkwIiooxGVL4K0S7dMwcsQ6ctV2GvCTW2IEsD91lyQRhW6rhCiGSG5pyW-mgFkgHxhYzX1',
     'FCM_POST_URL': 'https://fcm.googleapis.com/fcm/send',
     'UPDATE_ON_DUPLICATE_REG_ID':True,
 }
 
-# PAYU_CONFIG = {
-#     "merchant_key": "PIJcFM",
-#     "merchant_salt": "2Et6VAHZYmQHudFXzKqOs7WZTJ1Ktu3K",
-#     "mode": "test",
-#     "success_url": "http://127.0.0.1:8000/order/payment/response/",
-#     "failure_url": "http://127.0.0.1:8000/"
-# }
-
 PAYU_CONFIG = {
     "merchant_key": "gtKFFx",
-    "merchant_salt": "eCwWELxi",
+    "merchant_salt": "wia56q6O",
     "mode": "test",
-    "success_url": "http://127.0.0.1:8000/order/payment/response/",
-    "failure_url": "http://127.0.0.1:8000/"
+    "success_url": "https://stellar-ai.in/order/payment/response/",
+    "failure_url": "https://stellar-ai.in/order/payment/response/"
 }
 
-# PAYU_MERCHANT_KEY = "ADD_YOUR_MERCHANT_KEY"
-# PAYU_MERCHANT_SALT = "ADD_YOUR_MERCHANT_SALT"
-# # Change the PAYU_MODE to 'LIVE' for production.
-# PAYU_MODE = "TEST"
+# Change the PAYU_MODE to 'LIVE' for production.
+PAYU_MODE = "TEST"
+SESSION_COOKIE_SAMESITE = None
+SESSION_COOKIE_SECURE = False

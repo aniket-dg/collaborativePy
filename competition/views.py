@@ -147,7 +147,7 @@ class UserSubmissionView(LoginRequiredMixin, View):
             try:
                 user_df=pd.read_csv(user_file, sep=',')
                 admin_df=pd.read_csv(admin_file, sep=',')
-                col1 = 'admin solution'  # col name for admin_file
+                col1 = 'Admin Title'  # col name for admin_file
                 col2 = 'solution'  # col name for user_file
                 result = pd.concat([admin_df[col1],user_df[col2]], axis=1)
                 comparison_column = np.where(result[col1]==result[col2], 1, 0)
@@ -161,6 +161,7 @@ class UserSubmissionView(LoginRequiredMixin, View):
                 print('Submission NOT proper',e)
                 return 0, False
         else:
+            print("Not user file or admin file")
             return 0, True
     
             
