@@ -47,21 +47,26 @@ class PaymentRequestView(LoginRequiredMixin, View):
                 messages.warning(self.request, 'Coupon already used.')
                 coupon = None
             else:
-                messages.success(self.request, 'Coupon applied.')
-                coupon.used_by.add(user)
-
+                pass
+                # messages.success(self.request, 'Coupon applied.')
+                # coupon.used_by.add(user)
+        else:
+            coupon = None
         payment = Payment(plan=plan, order_id=order_id, coupon=coupon)
         payment.amt_paid = 0
-
+        if coupon:
+            payment.coupon_discount = coupon.discount_percent
         # valid till
         today = datetime.now().date()
         valid_till = today + timedelta(int(plan.duration))
         payment.valid_till = valid_till
         payment.save()
-
+        coupon_applied = 0
+        if coupon:
+            coupon_applied  = coupon.id
         import uuid
         payload = {
-            "amount": plan.get_discounted_price(),
+            "amount": payment.get_calculated_price(),
             "firstname": self.request.user.first_name,
             "email": self.request.user.email,
             "phone": self.request.user.phone_number,
@@ -77,11 +82,12 @@ class PaymentRequestView(LoginRequiredMixin, View):
         }
         payu_data = payu.transaction(**payload)
         import hashlib
-        hash = hashlib.sha512(str(f"{merchant_key}|{payload['txnid']}|{plan.get_discounted_price()}|{plan.title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|||||||||{merchant_salt}").encode("utf-8")).hexdigest()
+        hash = hashlib.sha512(str(f"{merchant_key}|{payload['txnid']}|{payment.get_calculated_price()}|{plan.title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|{coupon_applied}||||||||{merchant_salt}").encode("utf-8")).hexdigest()
 
         context = {'payment_id': payment.id, 'posted': payu_data}
         context['hashh'] = hash
         context['payment'] = payment
+        context['coupon_applied'] = coupon_applied
         return render(self.request, 'order/payment_redirect.html', context=context)
 
 
@@ -91,6 +97,8 @@ class PaymentResponseView(View):
         print(self.request.POST)
         payment_id = self.request.POST.get('udf1')
         user_id = self.request.POST.get('udf2')
+        coupon_id = self.request.POST.get('udf3')
+
 
         payment = Payment.objects.filter(id=int(payment_id)).last()
         print("Payment")
@@ -108,6 +116,11 @@ class PaymentResponseView(View):
             payment.payu_dict = self.request.POST
             payment.save()
             user = User.objects.filter(id=int(user_id)).last()
+            if coupon_id != 0:
+                coupon = Coupon.objects.filter(id=coupon_id).last()
+                if coupon:
+                    coupon.used_by.add(user)
+                    coupon.save()
             if user and user.payment:
                 old_payment = user.payment
                 # remaining_days = user.remaining_days() - 1

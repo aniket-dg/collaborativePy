@@ -15,7 +15,7 @@ INSTALLED_APPS = [
     # 'django.contrib.sessions', # it is replaced with user_session module
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'django.contrib.sessions',
     # Django Apps
     'home',
     'users',
@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'analytics',
     'post',
     'competition',
+    'paywix',
 
     # Third Party Modules
     'crispy_forms',  # crispy forms
@@ -103,25 +104,25 @@ TEMPLATES = [
         },
     },
 ]
-'''
+
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.sqlite3',
          'NAME': BASE_DIR / 'db.sqlite3',
      }
  }
-'''
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'myproject',
-        'USER': 'sgstellar',
-        'PASSWORD': 'SG@stellar101',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'myproject',
+#         'USER': 'sgstellar',
+#         'PASSWORD': 'SG@stellar101',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 AUTH_PASSWORD_VALIDATORS = [
     # {
     #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -194,7 +195,6 @@ CHANNEL_LAYERS = {
 AUTH_USER_MODEL = 'users.User'  # Custom User Model
 
 # BootStrap
-CRISPY_TEMPLATE_PACK = 'bootstrap4'  # To use Bootstrap
 
 LOGIN_URL = 'user:login'  # Login URL
 LOGOUT_URL = 'user:login'  # Logout URL
@@ -251,3 +251,16 @@ PUSH_NOTIFICATIONS_SETTINGS = {
     'FCM_POST_URL': 'https://fcm.googleapis.com/fcm/send',
     'UPDATE_ON_DUPLICATE_REG_ID':True,
 }
+
+PAYU_CONFIG = {
+    "merchant_key": "gtKFFx",
+    "merchant_salt": "wia56q6O",
+    "mode": "test",
+    "success_url": "http://127.0.0.1:8000/order/payment/response/",
+    "failure_url": "http://127.0.0.1:8000/order/payment/response/"
+}
+
+# Change the PAYU_MODE to 'LIVE' for production.
+PAYU_MODE = "TEST"
+SESSION_COOKIE_SAMESITE = None
+SESSION_COOKIE_SECURE = False
