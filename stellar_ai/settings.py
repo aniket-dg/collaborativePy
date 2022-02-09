@@ -15,6 +15,8 @@ INSTALLED_APPS = [
     # 'django.contrib.sessions', # it is replaced with user_session module
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'payu',
+    'paywix',
 
     # Django Apps
     'home',
@@ -258,3 +260,24 @@ PUSH_NOTIFICATIONS_SETTINGS = {
     'FCM_POST_URL': 'https://fcm.googleapis.com/fcm/send',
     'UPDATE_ON_DUPLICATE_REG_ID':True,
 }
+
+# PAYU_CONFIG = {
+#     "merchant_key": "PIJcFM",
+#     "merchant_salt": "2Et6VAHZYmQHudFXzKqOs7WZTJ1Ktu3K",
+#     "mode": "test",
+#     "success_url": "http://127.0.0.1:8000/order/payment/response/",
+#     "failure_url": "http://127.0.0.1:8000/"
+# }
+
+PAYU_CONFIG = {
+    "merchant_key": "gtKFFx",
+    "merchant_salt": "eCwWELxi",
+    "mode": "test",
+    "success_url": "http://127.0.0.1:8000/order/payment/response/",
+    "failure_url": "http://127.0.0.1:8000/"
+}
+
+# PAYU_MERCHANT_KEY = "ADD_YOUR_MERCHANT_KEY"
+# PAYU_MERCHANT_SALT = "ADD_YOUR_MERCHANT_SALT"
+# # Change the PAYU_MODE to 'LIVE' for production.
+# PAYU_MODE = "TEST"

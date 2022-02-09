@@ -153,7 +153,6 @@ ua-parser==0.10.0
 urllib3==1.26.7
 user-agents==2.2.0
 uvicorn==0.16.0
-uvloop==0.16.0
 waitress==2.0.0
 watchgod==0.7
 wcwidth==0.2.5

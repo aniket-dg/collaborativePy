@@ -11,6 +11,20 @@ from django.views.decorators.csrf import csrf_exempt
 from order.models import Plan, Payment, Coupon
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.conf import settings
+from paywix.payu import Payu
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
+payu_config = settings.PAYU_CONFIG
+merchant_key = payu_config.get('merchant_key')
+merchant_salt = payu_config.get('merchant_salt')
+surl = payu_config.get('success_url')
+furl = payu_config.get('failure_url')
+mode = payu_config.get('mode')
+
+payu = Payu(merchant_key, merchant_salt, surl, furl, mode)
+
 
 class PaymentRequestView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
@@ -39,8 +53,58 @@ class PaymentRequestView(LoginRequiredMixin, View):
         valid_till = today + timedelta(int(plan.duration))
         payment.valid_till = valid_till
         payment.save()
-        context = {'payment_id': payment.id}
+        import uuid
+        payload = {
+            "amount": 130,
+            "firstname": "renjith",
+            "email": "renjithsraj@live.com",
+            "phone": 9746272610,
+            "lastname": "s raj",
+            "productinfo": "Test Product",
+            "address1": "Test address 1",
+            "address2": "Test Address 2",
+            "city": "Test city",
+            "state": "Test state",
+            "country": "Test country",
+            "zipcode": 673576,
+            "txnid": uuid.uuid1()
+        }
+        payu_data = payu.transaction(**payload)
+        context = {'payment_id': payment.id, 'posted': payu_data}
         return render(self.request, 'order/payment_redirect.html', context=context)
+
+    def post(self, request, *args, **kwargs):
+        print("Inside Class Based View")
+        data = {k: v[0] for k, v in dict(request.POST).items()}
+        data.pop('csrfmiddlewaretoken')
+        payu_data = payu.transaction(**data)
+        return render(request, 'order/payment_redirect.html', {"posted": payu_data})
+
+
+def payu_view(request):
+    import uuid
+    data = {'amount': 10,
+
+            'firstname': "test",
+
+            'email': 'test@gmail.com',
+
+            'phone': '1122334455', 'productinfo': 'test',
+
+            'lastname': 'test', 'address1': 'test',
+
+            'address2': 'test', 'city': 'test',
+
+            'state': 'test', 'country': 'test',
+
+            'zipcode': 'tes'
+
+            }
+
+    data.update({"txnid": "123456789"})
+
+    payu_data = payu.transaction(**data)
+    return render(request, 'order/payment_redirect.html', {"posted": payu_data})
 
 
 @method_decorator(csrf_exempt, name='dispatch')
