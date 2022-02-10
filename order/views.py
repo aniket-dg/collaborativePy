@@ -186,5 +186,5 @@ class PaymentResponseView(View):
             messages.warning(self.request, "Payment Fail!")
             return redirect('chat:chat')
 
-    def get(self, *args, **kwargs):
-        return redirect('chat:chat')
+    # def get(self, *args, **kwargs):
+    #     return redirect('chat:chat')
