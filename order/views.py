@@ -187,4 +187,4 @@ class PaymentResponseView(View):
             return redirect('chat:chat')
 
     def get(self, *args, **kwargs):
-        return HttpResponse(self.request.GET)
+        return redirect('chat:chat')
