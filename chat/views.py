@@ -1,7 +1,7 @@
 # chat/views.py
 import json
 import re
-from datetime import datetime, timedelta 
+from datetime import datetime, timedelta
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -16,7 +16,8 @@ from django.views.generic import CreateView
 from django.core.paginator import Paginator
 from django.urls import reverse
 from chat.forms import GroupCreateForm
-from chat.models import GroupChatModel, P2pChatModel, GroupChatUnreadMessage, GroupChat, UserMedia, UploadedMedia, GroupCallHistory
+from chat.models import GroupChatModel, P2pChatModel, GroupChatUnreadMessage, GroupChat, UserMedia, UploadedMedia, \
+    GroupCallHistory
 from chat.serializers import UserModelSerializer
 from users.models import User
 from cryptography.fernet import Fernet
@@ -61,7 +62,7 @@ def arrange_users(users):
     chat_list = {}
     for user in users:
         username = user.username
-        # print(username)
+        #         # print(username)
         if username[0].upper() not in chat_list.keys():
             chat_list[username[0].upper()] = []
             chat_list[username[0].upper()].append(username)
@@ -73,7 +74,7 @@ def arrange_users(users):
     for item in chat_list_order:
         initial = [item]
         chats = [chat_list[item]]
-        print(chats)
+        # print(chats)
         accounts.append([initial, chats])
     account_dict = {}
     for item in accounts:
@@ -133,14 +134,17 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
     form_class = GroupCreateForm
 
     def form_valid(self, form):
+        print(self.request.POST)
         user = self.request.user
         plan_id = self.request.POST.get('plan_id')
         plan = None
+        plan_with_qty = None
         if not plan_id:
             if user.payment.plans.all():
                 if user.payment.plans.count() == 1:
-                    plan = user.payment.plans.last()
-                    print("Here andikdfgsfgsdfgsdfgsdfgsdf")
+                    plan = user.payment.plans.last().plan
+                    plan_with_qty = user.payment.plans.last()
+                    # print("Here andikdfgsfgsdfgsdfgsdfgsdf")
                 else:
                     messages.warning(self.request, "Sorry plan not selected! Select one of purchased plan")
                     return redirect('chat:chat')
@@ -148,7 +152,8 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
                 messages.warning(self.request, "Unexpected Error! Plan Not Found")
                 return redirect('chat:chat')
         if not plan:
-            plan = user.payment.plans.filter(id=plan_id).last()
+            plan = user.payment.plans.filter(plan__id=plan_id).last().plan
+            plan_with_qty = user.payment.plans.last()
         if not plan:
             messages.warning(self.request, "Sorry plan not purchase yet! Not Found")
             return redirect('chat:chat')
@@ -178,9 +183,10 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
                 user = User.objects.filter(id=int(id)).last()
                 user.groups.add(group)
                 user.save()
-        self.request.user.payment.plans.remove(plan)
+        self.request.user.payment.plans.remove(plan_with_qty)
         self.request.user.payment.save()
         return redirect('chat:chat')
+
 
 class GroupUpdateView(LoginRequiredMixin, IsGroupPermission, View):
     def post(self, *args, **kwargs):
@@ -413,7 +419,7 @@ class DeleteCombineGroupMessage(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         chat_id = self.kwargs.get('pk')
         chat = GroupChat.objects.filter(id=chat_id).last()
-        print(chat)
+        # print(chat)
         if chat and chat.group in self.request.user.groups.all():
             if chat.user == self.request.user:
                 chat.is_delete = True
@@ -439,12 +445,12 @@ class Upload(View):
         user_media = UserMedia(owner=self.request.user)
         user_media.save()
         data_arr = []
-        print('UPLOADED',self.request.FILES.get('files[0]'))
+        # print('UPLOADED',self.request.FILES.get('files[0]'))
         for file in file_media:
             data_arr.append(UploadedMedia.objects.create(media=file))
             # data.save()
         user_media.files.add(*data_arr)
-            # user_media.save()
+        # user_media.save()
         return JsonResponse({
             'bucket_id': user_media.id,
         })
@@ -564,6 +570,7 @@ class VideoCallView(View):
 
 fernet_key = b'YDMimaEVL722izWNn7WnnGlEMf53P-r3rAhXh967G00='
 
+
 class StartVideoCall(View):
     def post(self, *args, **kwargs):
         context = {}
@@ -595,8 +602,9 @@ class StartVideoCall(View):
         fernet = Fernet(fernet_key)
         join_url = fernet.encrypt(group_name.encode())
         context['join_url'] = join_url.decode('utf-8')
-        print(join_url, "Aniket join url")
+        # print(join_url, "Aniket join url")
         return render(self.request, 'chat/sample.html', context)
+
 
 class VideoCallReceiver(View):
     def get(self, *args, **kwargs):
@@ -607,12 +615,12 @@ class VideoCallReceiver(View):
 
         encrypted_group = bytes(encrypted_group, 'utf-8')
         group_name = fernet.decrypt(encrypted_group).decode()
-        print(group_name, "Aniket")
+        # print(group_name, "Aniket")
         try:
 
             group_id = group_name.split("_")[1]
             call_history_id = group_name.split("_")[2]
-            print(call_history_id)
+            # print(call_history_id)
             if not group_id:
                 messages.warning(self.request, "Invalid Request!")
                 return redirect('chat:chat')
@@ -636,7 +644,7 @@ class VideoCallReceiver(View):
                 return redirect('chat:chat')
 
         except Exception as e:
-            print(e)
+            # print(e)
             messages.warning(self.request, "Invalid Request")
             return redirect('chat:chat')
 
@@ -645,7 +653,7 @@ class VideoCallReceiver(View):
         context['user'] = self.request.user
         group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"
         context['group_name'] = hash(group_name)
-        print(context['group_name'])
+        # print(context['group_name'])
         fernet = Fernet(fernet_key)
         join_url = fernet.encrypt(group_name.encode())
         context['join_url'] = join_url.decode('utf-8')
@@ -737,7 +745,7 @@ class AudioCallReceiver(View):
                 messages.info(self.request, "This Call Has Been Ended By Host.")
                 return redirect('chat:chat')
         except Exception as e:
-            print(e)
+            # print(e)
             messages.warning(self.request, "Invalid Request")
             return redirect('chat:chat')
 
@@ -804,14 +812,14 @@ class LoadMoreRemainingUsers(LoginRequiredMixin, View):
             })
         result = {}
         for key, values in remaining_dict.items():
-            user_list=[]
+            user_list = []
             for user in values:
                 user_list.append({
-                    'id':user.id,
-                    'name':user.get_full_name(),
-                    'username':user.username,
-                    'profile': reverse('user:friend-profile', kwargs={'pk':user.id}),
-                    'profile_img':user.get_profile_img(),
+                    'id': user.id,
+                    'name': user.get_full_name(),
+                    'username': user.username,
+                    'profile': reverse('user:friend-profile', kwargs={'pk': user.id}),
+                    'profile_img': user.get_profile_img(),
                 })
             result[key] = user_list
         return JsonResponse({'users': result})

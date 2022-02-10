@@ -150,7 +150,7 @@
                                             <!-- <select class="form-select" aria-label="Default select example" name="plan_id">
                                                 <option selected>Open this select menu</option>
                                                 {% for item in request.user.payment.plans.all %}
-                                                <option value="{{ item.id }}">{{ item.title }}</option>
+                                                <option value="{{ item.plan.id }}">{{ item.plan.title }}</option>
                                                 {% endfor %}
                                               </select> -->
                                             <nav>
@@ -165,8 +165,8 @@
                                                                 </div>
                                                             </div> -->
                                                             <div class="col">
-                                                                <h5>{{ item.title }}&emsp;|&emsp;Max members: {{item.group_size}}</h5>
-                                                                <p>Valid till: {{request.user.payment.valid_till}}</p>
+                                                                <h5>{{ item.plan.title }}&emsp;|&emsp;Max members: {{item.plan.group_size}}</h5>
+                                                                <p>Valid till: {{item.valid_till}}</p>
                                                             </div>
                                                             <div class="col-auto">
                                                                 <div class="form-check">

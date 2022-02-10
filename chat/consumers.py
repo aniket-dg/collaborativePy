@@ -74,7 +74,8 @@ class P2pConsumer(WebsocketConsumer):
             )
             self.accept()
         except Exception as e:
-            print(e, "error in connection in p2p")
+            pass
+            # print(e, "error in connection in p2p")
 
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(
@@ -112,11 +113,12 @@ class P2pConsumer(WebsocketConsumer):
 
             return msg.id, recipient.id
         except Exception as e:
-            print(e)
+            pass
+            # print(e)
 
     def receive(self, text_data):
         data = json.loads(text_data)
-        print(data, "Anu")
+        # print(data, "Anu")
         msg_id, receiver_id = self.save_single_message(data)
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
@@ -239,11 +241,11 @@ class GroupConsumer(WebsocketConsumer):
                 'message': {'id': msg_id, 'group_id': group_id}
             }
         )
-        print(data, "Send from grp save")
+        # print(data, "Send from grp save")
         # self.commands[data['command']](self, data)
 
     def send_chat_message(self, message):
-        print(message, "send_chat_message")
+        # print(message, "send_chat_message")
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
@@ -277,15 +279,15 @@ class VideoCallConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        print("Disconnected")
+        # print("Disconnected")
 
     async def receive(self, text_data=None, bytes_data=None):
         try:
             receive_dict = json.loads(text_data)
-            print(receive_dict)
+            # print(receive_dict)
             message = receive_dict['message']
             action = receive_dict['action']
-            print(message['receiver_channel_name'], action)
+            # print(message['receiver_channel_name'], action)
             if action == "video-on" or action == "video-off" or action == 'audio-on' or action == 'audio-off':
                 receive_channel_name = receive_dict['message']['receiver_channel_name']
                 receive_channel_name = receive_dict['message']['receiver_channel_name']
@@ -318,12 +320,14 @@ class VideoCallConsumer(AsyncWebsocketConsumer):
                 }
             )
         except Exception as e:
-            print(e)
+            pass
+            # print(e)
 
     async def send_sdp(self, event):
         try:
             receive_dict = event['receive_dict']
-            print(receive_dict)
+            # print(receive_dict)
             await self.send(text_data=json.dumps(receive_dict))
         except Exception as e:
-            print("In send_sdp", e)
+            pass
+            # print("In send_sdp", e)

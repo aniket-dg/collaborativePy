@@ -178,12 +178,12 @@
                                                                 {% for item in request.user.payment.plans.all %}
                                                                 <div class="row align-items-center mb-5">
                                                                     <div class="col">
-                                                                        <h5>{{ item.title }}&emsp;|&emsp;Max members: {{item.group_size}}</h5>
-                                                                        <p>Valid till: {{request.user.payment.valid_till}}</p>
+                                                                        <h5>{{ item.plan.title }}&emsp;|&emsp;Max members: {{item.plan.group_size}}</h5>
+                                                                        <p>Valid till: {{item.valid_till}}</p>
                                                                     </div>
-                                                                    {% if todays_date > request.user.payment.valid_till|date:'Y-m-d' %}
+                                                                    {% if todays_date > item.valid_till|date:'Y-m-d' %}
                                                                     <div class="col-auto">
-                                                                        <a href="#" class="btn btn-sm btn-soft-primary w-100">Renew</a>
+                                                                        <a href="{% url 'order:payment-request' item.plan.id %}?renew=True&upgrade_id={{ item.id }}" class="btn btn-sm btn-soft-primary w-100">Renew</a>
                                                                     </div>
                                                                     {% endif %}
                                                                 </div>
@@ -191,7 +191,7 @@
                                                                 {% endfor %}
                                                             </div>
                                                             <div class="w-100 mb-3">
-                                                                <a href="{% url 'home:plan-list' %}" class="btn btn btn-primary w-100">Upgrade Plan</a>
+                                                                <a href="{% url 'home:plan-list' %}" class="btn btn btn-primary w-100">Buy New Plan</a>
                                                             </div>
                                                         </div>
                                                     </div>
