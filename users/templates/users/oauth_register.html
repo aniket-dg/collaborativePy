@@ -150,6 +150,14 @@
                                               name="bio" required placeholder="Enter a bio"></textarea>
                                 </div>
                             </div>
+
+                            <div class="field">
+<!--                            <label>Phone Number</label>-->
+                                <div class="control" style="font-size: 12px;">
+                                    <input type="checkbox" style="height: 10px;margin: 0.5em;" required> I agree all <a href="{% url 'home:terms' 'privacy-policy' %}">privacy policy</a> and <a href="{% url 'home:terms' 'terms-and-condition' %}">terms and condition</a>.
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="buttons">
