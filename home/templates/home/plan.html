@@ -219,7 +219,7 @@
                         </h4>
                     </div>
                     {% if object.cost %}
-                    <!-- <a href="{% if user.is_authenticated %}{% url 'order:payment-request' %}{% else %}{% url 'user:login' %}{% endif %}"
+                    <!-- <a href="{% if user.is_authenticated %}{% url 'order:payment-request' object.id %}{% else %}{% url 'user:login' %}{% endif %}"
                      class="c-button button is-fullwidth">
                      BUY NOW
                     </a> -->
@@ -284,7 +284,7 @@
                                     </div>
                                   </div>
                                   <!-- <button type="submit" class="c-button button is-solid accent-button is-fullwidth mt-5 mb-1"></button> -->
-                                  <a href="{% url 'order:payment-request' %}"
+                                  <a href="{% url 'order:payment-request' object.id %}"
                                       class="c-button button is-solid accent-button is-fullwidth mt-2 py-4" style="width: 90%;">
                                     Proceed &#10142;
                                   </a>
