@@ -56,7 +56,7 @@ def image_process(file):
         return None
 
 
-class PostIndex(View):
+class PostIndex(LoginRequiredMixin,View):
     """
         :param request:
                 authenticated_user, form-data,
@@ -437,7 +437,7 @@ class FlagInappropriatePost(LoginRequiredMixin, View):
         })
 
 
-class SkeletonPostListView(ListView):
+class SkeletonPostListView(LoginRequiredMixin,ListView):
     model = SkeletonPost
     paginate_by = 10
     template_name = 'post/skeleton_feed.html'
