@@ -13,21 +13,20 @@ class Plan(models.Model):
     description = models.TextField(null=True, blank=True, help_text="Short summary for whom this plan would be useful.")
     discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True,
                                               help_text="Discount percentage for the provided cost.")
+    discount_cost = models.FloatField(null=True, blank=True)
     is_recommended = models.BooleanField(default=False)
     features = RichTextField(null=True, blank=True, help_text="Specify features for plan if any in points.")
 
     # Permissions
-    group_create = models.BooleanField(default=False, help_text="Has permission to create new groups.")
-    add_people = models.BooleanField(default=False, help_text="Has permission to add people to groups.")
+    group_create = models.BooleanField(default=True, help_text="Has permission to create new groups.")
+    add_people = models.BooleanField(default=True, help_text="Has permission to add people to groups.")
     total_group_create_size = models.IntegerField(default=0,
                                                   help_text="Total number of groups that can be created under this plan.")
     group_size = models.IntegerField(default=0, help_text="Number of people that can be added per group.")
 
     def get_discounted_price(self):
         if self.discount_percentage:
-            discounted_price = decimal.Decimal(self.cost) - (
-                    decimal.Decimal(self.cost) * (self.discount_percentage / 100))
-            return discounted_price
+            return self.discount_cost
         else:
             return self.cost
 

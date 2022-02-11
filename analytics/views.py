@@ -21,11 +21,16 @@ from competition.models import Competion, UserSubmission
 
 class PlanCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Plan
-    fields = '__all__'
+    fields = ['title', 'cost','duration','description','discount_percentage','is_recommended','features','total_group_create_size','group_size']
+
     template_name = 'analytics/plan_create.html'
 
     def form_valid(self, form):
         plan = form.instance
+        if plan.discount_percentage:
+            new_cost = ((float(plan.cost)*float(plan.discount_percentage))/100)+plan.cost
+            plan.discount_cost = plan.cost
+            plan.cost = new_cost
         plan.save()
         messages.success(self.request, "Plan created successfully!")
         return redirect('analytics:plan-list')
@@ -36,11 +41,17 @@ class PlanCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class PlanUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Plan
-    fields = '__all__'
+    fields = ['title', 'cost', 'duration', 'description', 'discount_percentage', 'is_recommended', 'features',
+              'total_group_create_size', 'group_size']
+
     template_name = 'analytics/plan_create.html'
 
     def form_valid(self, form):
         plan = form.instance
+        if plan.discount_percentage:
+            new_cost = ((float(plan.cost) * float(plan.discount_percentage))/100) + plan.cost
+            plan.discount_cost = plan.cost
+            plan.cost = new_cost
         plan.save()
         messages.success(self.request, "Plan updated successfully!")
         return redirect('analytics:plan-detail', pk=self.kwargs.get('pk'))
