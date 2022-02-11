@@ -1,6 +1,7 @@
 # chat/views.py
 import json
 import re
+import uuid
 from datetime import datetime, timedelta
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -172,7 +173,9 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
         group.valid_till = valid_till
         group.save()
         group.admin.add(user)
-        group.name = re.sub(r"\s+", "", group.group_name, flags=re.UNICODE)
+        group_name = str(uuid.uuid1())
+        # group.name = re.sub(r"\s+", "", group.group_name, flags=re.UNICODE)
+        group.name = group_name
         group.save()
         group_create_user = self.request.user
         group_create_user.groups.add(group)
