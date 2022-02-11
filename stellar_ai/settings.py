@@ -114,28 +114,28 @@ DATABASES = {
 '''
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'stellar',
-        'USER': 'postgres',
-        'PASSWORD': 'siteguide',
-        'HOST': 'localhost',
-        'PORT': 5432,
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'myproject',
-#         'USER': 'sgstellar',
-#         'PASSWORD': 'SG@stellar101',
+#         'NAME': 'stellar',
+#         'USER': 'postgres',
+#         'PASSWORD': 'siteguide',
 #         'HOST': 'localhost',
-#         'PORT': '',
+#         'PORT': 5432,
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'myproject',
+        'USER': 'sgstellar',
+        'PASSWORD': 'SG@stellar101',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     # {
