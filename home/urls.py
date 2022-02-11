@@ -12,7 +12,7 @@ urlpatterns = [
     path('contact/', views.ContactView.as_view(), name='contact'),
     path('newsletter/', views.NewsLetterCreateView.as_view(), name='news-letter'),
 
-    path('about/', TemplateView.as_view(template_name="home/about.html"), name='about'),
+    # path('about/', TemplateView.as_view(template_name="home/about.html"), name='about'),
     path('contact/', TemplateView.as_view(template_name="home/contact.html"), name='contact'),
     path('social/', TemplateView.as_view(template_name="home/social_base.html"), name='social'),
 
@@ -23,7 +23,7 @@ urlpatterns = [
     path('tprofile/', TemplateView.as_view(template_name="users/profile.html"), name='tprof'),
 
     path('policy/<str:page_name>/', views.Terms.as_view(), name='terms'),
-    path('sitemap.xml/', TemplateView.as_view(template_name='home/sitemap.html'), name='sitemap'),
+    path('sitemap.xml/', TemplateView.as_view(template_name='home/sitemap.xml'), name='sitemap'),
     path('robots.txt/', TemplateView.as_view(template_name='home/robots.html'), name='robots'),
 
     path('popUp_questions/', views.PopUp.as_view(), name='pop-up'),

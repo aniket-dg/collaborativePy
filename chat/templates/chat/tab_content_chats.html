@@ -36,9 +36,9 @@
 
                                     </div>
 
-                                    {% if request.user.is_plan_valid and allow_group_creation %}
+                                    {% if request.user.is_authenticated %}
                                     <div class="mb-5">
-                                        <a onclick="$(`.nav-link[data-bs-toggle=&quot;tab&quot;]`).click()" class="btn btn-sm btn-primary w-100 py-4" >Create CodeRoom</a>
+                                        <a onclick="$('#tab-create-chat').click();" data-bs-toggle="tab" role="tab" class="btn btn-sm btn-primary w-100 py-4" >Create CodeRsoom</a>
                                     </div>
                                     {% endif %}
 

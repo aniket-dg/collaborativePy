@@ -117,7 +117,7 @@ class Faq(models.Model):
 
 
 class Ad(models.Model):
-    image = models.ImageField(upload_to='ads/', help_text='Size of 280x520 is recommended.')
+    image = models.ImageField(help_text='Size of 280x520 is recommended.')
     link = models.URLField()
 
     def __str__(self):
