@@ -33,6 +33,9 @@ class Plan(models.Model):
     def __str__(self):
         return f"{self.title}_{self.cost}"
 
+    class Meta:
+        ordering = ['cost']
+
 class PlanWithQty(models.Model):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
     # qty = models.IntegerField(default=1)
