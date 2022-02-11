@@ -91,15 +91,17 @@
 
 
             </div>
-
+{% if not user_friend %}
              <div class="page-placeholder-bookmarks about-card py-5" id="blank-post-tag">
                         <center><div class="placeholder-content">
+
                             <img class="light-image" src="{% static 'social_assets/img/illustrations/placeholders/1.svg' %}" alt="" style="width: 250px;" />
+
                             <img class="dark-image" src="{% static 'social_assets/img/illustrations/placeholders/2-dark.svg' %}" alt="" />
                             <h3 class="mt-4">You don't have any post yet.</h3>
                         </div></center>
                     </div>
-
+{% endif %}
              <!-- Load more posts -->
                     <div id="load-more-btn" class=" load-more-wrap narrow-top has-text-centered">
                         <a onclick="morePost()" id="load-more" class="load-more-button">Load More</a>
