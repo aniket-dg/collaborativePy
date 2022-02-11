@@ -114,6 +114,18 @@ DATABASES = {
 '''
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'stellar',
+#         'USER': 'postgres',
+#         'PASSWORD': 'siteguide',
+#         'HOST': 'localhost',
+#         'PORT': 5432,
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
