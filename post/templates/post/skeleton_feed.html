@@ -330,7 +330,7 @@
                         <div class="custom-ad-slider">
                             {% for ad in ads %}
                             <a href="{{ad.link}}" class="custom-ad-slider-item-wrap">
-                                <img src="https://picsum.photos/280/520/" class="custom-ad-slider-item" alt="Advertisement">
+                                <img src="{{ad.image.url}}" class="custom-ad-slider-item" alt="Advertisement">
                             </a>
                             {% endfor %}
                             <!-- <a href="#" class="custom-ad-slider-item-wrap">
