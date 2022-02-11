@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 
 from django.views.decorators.csrf import csrf_exempt
 
-from order.models import Plan, Payment, Coupon
+from order.models import Plan, Payment, Coupon, PlanWithQty
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 
@@ -35,6 +35,8 @@ class PaymentRequestView(LoginRequiredMixin, View):
         user = self.request.user
         plan_id = self.kwargs.get('plan_id')
         coupon_code = self.request.GET.get('coupon_code')
+        plan_with_qty = self.request.GET.get('renew')
+        plan_with_qty_id = self.request.GET.get('upgrade_id')
         plan = Plan.objects.filter(id=plan_id).last()
         if not plan:
             return redirect('/')
@@ -80,13 +82,18 @@ class PaymentRequestView(LoginRequiredMixin, View):
             "txnid": str(uuid.uuid1())
         }
         payu_data = payu.transaction(**payload)
+        if plan_with_qty:
+            plan_with_qty = plan_with_qty_id
+        else:
+            plan_with_qty = 0
         import hashlib
         hash = hashlib.sha512(
-            str(f"{merchant_key}|{payload['txnid']}|{payment.get_calculated_price()}|{plan.title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|{coupon_applied}||||||||{merchant_salt}").encode(
+            str(f"{merchant_key}|{payload['txnid']}|{payment.get_calculated_price()}|{plan.title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|{coupon_applied}|{plan_with_qty}|||||||{merchant_salt}").encode(
                 "utf-8")).hexdigest()
 
         context = {'payment_id': payment.id, 'posted': payu_data}
         context['hashh'] = hash
+        context['plan_with_qty'] = plan_with_qty
         context['payment'] = payment
         context['coupon_applied'] = coupon_applied
         return render(self.request, 'order/payment_redirect.html', context=context)
@@ -99,6 +106,7 @@ class PaymentResponseView(View):
         payment_id = self.request.POST.get('udf1')
         user_id = self.request.POST.get('udf2')
         coupon_id = self.request.POST.get('udf3')
+        is_upgradable_plan = self.request.POST.get('udf4')
 
         payment = Payment.objects.filter(id=int(payment_id)).last()
         print("Payment")
@@ -123,9 +131,29 @@ class PaymentResponseView(View):
                     coupon.save()
             if user and user.payment:
                 old_payment = user.payment
-                # remaining_days = user.remaining_days() - 1
-                # valid_till = payment.valid_till + timedelta(int(remaining_days))
-                # payment.valid_till = valid_till
+                new_plan = payment.plan
+                if is_upgradable_plan != 0:
+                    plan_with_qty = user.payment.plans.filter(id=is_upgradable_plan).last()
+                    if plan_with_qty:
+                        plan_with_qty.save()
+                        remaining_days = plan_with_qty.remaining_days() - 1
+                        valid_till = payment.valid_till + timedelta(int(remaining_days))
+                        plan_with_qty.valid_till = valid_till
+                        plan_with_qty.save()
+                    else:
+                        plan_with_qty = PlanWithQty(plan=payment.plan)
+                        plan_with_qty.save()
+                        today = datetime.now().date()
+                        valid_till = today + timedelta(int(payment.plan.duration))
+                        plan_with_qty.valid_till = valid_till
+                        plan_with_qty.save()
+                else:
+                    plan_with_qty = PlanWithQty(plan=payment.plan)
+                    plan_with_qty.save()
+                    today = datetime.now().date()
+                    valid_till = today + timedelta(int(payment.plan.duration))
+                    plan_with_qty.valid_till = valid_till
+                    plan_with_qty.save()
                 payment.save()
                 payment.total_group_create_size = old_payment.total_group_create_size + payment.plan.total_group_create_size
                 # payment.group_size = max(old_payment.group_size, payment.plan.group_size)
@@ -134,7 +162,7 @@ class PaymentResponseView(View):
                 for item in old_plans:
                     payment.plans.add(item)
                     payment.save()
-                payment.plans.add(payment.plan)
+                payment.plans.add(plan_with_qty)
                 payment.save()
                 user.payment = payment
                 user.save()
@@ -142,15 +170,21 @@ class PaymentResponseView(View):
                 user.payment = payment
                 payment = user.payment
                 payment.save()
-                payment.plans.add(payment.plan)
+                plan_with_qty = PlanWithQty(plan=payment.plan)
+                plan_with_qty.save()
+                today = datetime.now().date()
+                valid_till = today + timedelta(int(payment.plan.duration))
+                plan_with_qty.valid_till = valid_till
+                plan_with_qty.save()
+                payment.plans.add(plan_with_qty)
                 payment.save()
                 user.save()
             messages.success(self.request, "Payment Success!")
-            return redirect('home:home')
+            return redirect('chat:chat')
         else:
             print("Payment Fail!")
             messages.warning(self.request, "Payment Fail!")
-            return redirect('home:home')
+            return redirect('chat:chat')
 
-    def get(self, *args, **kwargs):
-        return HttpResponse(self.request.GET)
+    # def get(self, *args, **kwargs):
+    #     return redirect('chat:chat')

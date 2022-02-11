@@ -1,3 +1,4 @@
+from datetime import datetime
 from statistics import mode
 from django.db import models
 import decimal
@@ -33,6 +34,19 @@ class Plan(models.Model):
     def __str__(self):
         return f"{self.title}_{self.cost}"
 
+class PlanWithQty(models.Model):
+    plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
+    # qty = models.IntegerField(default=1)
+    valid_till = models.DateField(null=True, blank=True)
+
+    def remaining_days(self):
+        now = datetime.now().date()
+        now = datetime(day=now.day - 1, month=now.month, year=now.year).date()
+        days = (self.valid_till - now).days
+        if days >= 0:
+            return days
+        else:
+            return 0
 
 class Payment(models.Model):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, related_name='dummpy_plan_payment', blank=True, null=True)
@@ -48,7 +62,7 @@ class Payment(models.Model):
     total_group_create_size = models.IntegerField(default=0)
     group_size = models.CharField(null=True, blank=True, max_length=200)
 
-    plans = models.ManyToManyField(Plan, blank=True)
+    plans = models.ManyToManyField(PlanWithQty, blank=True)
 
     payu_dict = models.TextField(null=True, blank=True)
 
@@ -63,6 +77,12 @@ class Payment(models.Model):
             price = float(self.plan.get_discounted_price())
         return "%.2f"%price
 
+class ManyPlans(models.Model):
+    plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
+    payment = models.ForeignKey('Payment', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.id}_user_many_plans"
 
 class Coupon(models.Model):
     code = models.CharField(max_length=15, null=True, blank=True)
