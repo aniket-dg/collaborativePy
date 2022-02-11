@@ -110,6 +110,13 @@
                                     <span>Plans</span>
                                 </a>
                             </li>
+
+                            <li data-section="personal" {% if 'coupon/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:coupon-list' %}">
+                                    <i class="mdi mdi-percent" style="color: #cecece;"></i>
+                                    <span class="pl-4">Coupons</span>
+                                </a>
+                            </li>
                             
                         </ul>
                     </div>
