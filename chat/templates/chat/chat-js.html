@@ -847,7 +847,7 @@ function getMessageById(data) {
         function leaveGroup(element, groupId, pk) {
             const bol = confirm('You are about to leave a group. Do you wish to proceed?')
             if (bol){
-                $.getJSON(`remove/from/group/${groupId}/${pk}/`, function (data) {
+                $.getJSON(`leave/from/group/${groupId}/${pk}/`, function (data) {
                     console.log(data, " DATA 3")
                     setToast(data)
                     if (data['data']){

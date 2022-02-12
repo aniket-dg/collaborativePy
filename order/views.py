@@ -47,6 +47,9 @@ class PaymentRequestView(LoginRequiredMixin, View):
             if user in coupon.used_by.all():
                 messages.warning(self.request, 'Coupon already used.')
                 coupon = None
+            elif coupon.max_limit == 0:
+                messages.warning(self.request, "Coupon expired!")
+                coupon = None
             else:
                 pass
                 # messages.success(self.request, 'Coupon applied.')
@@ -128,6 +131,7 @@ class PaymentResponseView(View):
                 coupon = Coupon.objects.filter(id=coupon_id).last()
                 if coupon:
                     coupon.used_by.add(user)
+                    coupon.max_limit -= 1
                     coupon.save()
             if user and user.payment:
                 old_payment = user.payment

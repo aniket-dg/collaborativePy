@@ -118,20 +118,29 @@
                 if (memIsAdmin) {
                     html += `<li>${name} &nbsp;<strong>(Admin)</strong>&nbsp;<a onclick="deleteGroup(${groupId})" href='#'>Delete Group</a></li>`;
                 } else {
-                    html += `<li>${name} &nbsp;<a onclick="deleteMember(this,${groupId},${k})" href='#'>Remove</a></li>`;
+                    let email_from = "{{ request.user.email }}";
+                    if(email === email_from)
+                        html += `<li>${name} &nbsp;<a onclick="leaveGroup(this, ${groupId}, ${userId})" href='#'>Leave Group</a></li>`;
+                    else
+                        html += `<li>${name} &nbsp;<a onclick="deleteMember(this,${groupId},${k})" href='#'>Remove</a></li>`;
+
                 }
             }
             else{
                 if (memIsAdmin) {
                     html += `<li>${name} &nbsp;<strong>(Admin)</strong></li>`;
                 } else {
-                    html += `<li>${name} &nbsp;</li>`;
+                    let email_from = "{{ request.user.email }}";
+                    if(email === email_from)
+                        html += `<li>${name} &nbsp;<a onclick="leaveGroup(this, ${groupId}, ${userId})" href='#'>Leave Group</a></li>`;
+                    else
+                        html += `<li>${name} &nbsp;</li>`;
                 }
             }
         });
         group_list_tag.append(html);
         $('#offcanvas_group_members').append(html2);
-        
+
         function createOffcanvasGroupMembers(o) {
             html2 += `
             <div class="row align-items-center gx-5 p-3">

@@ -56,6 +56,7 @@ urlpatterns = [
 
     path('remove/from/group/<int:group_id>/<int:user_id>/', views.RemoveFromGroupView.as_view(), name='remove-from'
                                                                                                       '-group'),
+    path('leave/from/group/<int:group_id>/<int:user_id>/', views.LeaveFromGroup.as_view(), name='leave-group'),
     path('delete/group/', views.DeleteGroupView.as_view(), name='delete-group'),
     path('add/member/group/', views.AddMemberToGroupView.as_view(), name='add-member-group'),
 

@@ -77,7 +77,8 @@ class Payment(models.Model):
             price = float(self.plan.get_discounted_price()) - discount
         else:
             price = float(self.plan.get_discounted_price())
-        return "%.2f"%price
+        return "%.2f" % price
+
 
 class ManyPlans(models.Model):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
@@ -86,12 +87,14 @@ class ManyPlans(models.Model):
     def __str__(self):
         return f"{self.id}_user_many_plans"
 
+
 class Coupon(models.Model):
     code = models.CharField(max_length=15, null=True, blank=True)
-    discount_percent = models.DecimalField(('Discount Percentage (%)'), max_digits=5, decimal_places=2,
+    discount_percent = models.DecimalField('Discount Percentage (%)', max_digits=5, decimal_places=2,
                                            validators=[MinValueValidator(0), MaxValueValidator(100)])
     used_by = models.ManyToManyField('users.User', blank=True)
     is_active = models.BooleanField(default=True)
+    max_limit = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.id} Coupon"

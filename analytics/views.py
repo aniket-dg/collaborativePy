@@ -11,7 +11,8 @@ from django.views.generic import CreateView, UpdateView, DetailView, ListView, D
 from chat.forms import PostCreateForm
 from post.forms import SkeletonPostCreateForm
 from competition.forms import CompetitionCreateForm
-from post.models import Post, FlagInappropriate, SkeletonPost, FirstLevelCategory, SecondLevelCategory, ThirdLevelCategory, FourthLevelCategory, Language, Scope
+from post.models import Post, FlagInappropriate, SkeletonPost, FirstLevelCategory, SecondLevelCategory, \
+    ThirdLevelCategory, FourthLevelCategory, Language, Scope
 from home.models import Contact, NewsLetter
 from order.models import Plan
 from users.models import User
@@ -19,16 +20,18 @@ from order.models import Coupon
 from home.models import TPP, Faq, Ad
 from competition.models import Competion, UserSubmission
 
+
 class PlanCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Plan
-    fields = ['title', 'cost','duration','description','discount_percentage','is_recommended','features','total_group_create_size','group_size']
+    fields = ['title', 'cost', 'duration', 'description', 'discount_percentage', 'is_recommended', 'features',
+              'total_group_create_size', 'group_size']
 
     template_name = 'analytics/plan_create.html'
 
     def form_valid(self, form):
         plan = form.instance
         if plan.discount_percentage:
-            new_cost = ((float(plan.cost)*float(plan.discount_percentage))/100)+plan.cost
+            new_cost = ((float(plan.cost) * float(plan.discount_percentage)) / 100) + plan.cost
             plan.discount_cost = plan.cost
             plan.cost = new_cost
         plan.save()
@@ -49,7 +52,7 @@ class PlanUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         plan = form.instance
         if plan.discount_percentage:
-            new_cost = ((float(plan.cost) * float(plan.discount_percentage))/100) + plan.cost
+            new_cost = ((float(plan.cost) * float(plan.discount_percentage)) / 100) + plan.cost
             plan.discount_cost = plan.cost
             plan.cost = new_cost
         plan.save()
@@ -391,7 +394,7 @@ class FirstLevelCategoryCreateView(LoginRequiredMixin, CreateView):
 
 
 class SecondLevelCategoryCreateView(LoginRequiredMixin, CreateView):
-    model =SecondLevelCategory
+    model = SecondLevelCategory
     fields = '__all__'
     template_name = 'analytics/category_create.html'
 
@@ -433,6 +436,7 @@ class FourthLevelCategoryCreateView(LoginRequiredMixin, CreateView):
 
     def test_func(self):
         return self.request.user.is_staff
+
 
 class FirstLevelUpdateView(LoginRequiredMixin, UpdateView):
     model = FirstLevelCategory
@@ -545,17 +549,21 @@ class FourthLevelCategoryDeleteView(LoginRequiredMixin, DeleteView):
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
 
+
 class FirstLevelCategoryListView(LoginRequiredMixin, ListView):
     model = FirstLevelCategory
     template_name = 'analytics/category_list.html'
+
 
 class SecondLevelCategoryListView(LoginRequiredMixin, ListView):
     model = SecondLevelCategory
     template_name = 'analytics/secound_category_list.html'
 
+
 class ThirdLevelCategoryListView(LoginRequiredMixin, ListView):
     model = ThirdLevelCategory
     template_name = 'analytics/third_category_list.html'
+
 
 class FourthLevelCategoryListView(LoginRequiredMixin, ListView):
     model = FourthLevelCategory
@@ -608,7 +616,6 @@ class ScopeCreateView(LoginRequiredMixin, CreateView):
 
     def test_func(self):
         return self.request.user.is_staff
-
 
 
 class LanguageUpdateView(LoginRequiredMixin, UpdateView):
@@ -665,6 +672,7 @@ class ScopeDeleteView(LoginRequiredMixin, DeleteView):
 
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
+
 
 # Competitions
 
@@ -766,6 +774,7 @@ class FaqUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         return self.request.user.is_staff
 
+
 class FaqCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Faq
     fields = "__all__"
@@ -823,7 +832,7 @@ class AdDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         ad.delete()
         messages.success(self.request, "Ad deleted!")
         return redirect('analytics:ad-list')
-    
+
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
 
@@ -879,6 +888,7 @@ class CouponUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         return self.request.user.is_staff
+
 
 class CouponCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Coupon

@@ -513,6 +513,29 @@ class RemoveFromGroupView(View):
             'data': 'User removed from group',
         })
 
+class LeaveFromGroup(LoginRequiredMixin,View):
+    def get(self, *args, **kwargs):
+        group_id = self.kwargs.get('group_id')
+        user_id = self.kwargs.get('user_id')
+        group = GroupChatModel.objects.filter(id=group_id).last()
+        user = User.objects.filter(id=user_id).last()
+
+        if not group:
+            return JsonResponse({
+                'error': "Group not exist",
+            })
+        if group not in user.groups.all():
+            return JsonResponse({
+                'error': 'User doesn\'t belongs to group.',
+            })
+        user.groups.remove(group)
+        user.save()
+        group_chat = GroupChat(group=group, user=user,body=f"{user.email} left.")
+        group_chat.save()
+        return JsonResponse({
+            'data': 'User left group',
+        })
+
 
 class DeleteGroupView(View):
     def get(self, *args, **kwargs):
