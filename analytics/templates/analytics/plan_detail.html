@@ -23,7 +23,9 @@
             <div class="main-stats">
                 <div class="stat-block">
                     <h4>Cost</h4>
-                    <p>₹ {{object.cost}}</p>
+                    <p>{% if object.cost %}
+                                ₹{{ object.get_discounted_price|floatformat:1 }}
+                  {% endif %}</p>
                 </div>
                 <div style="border-right: 0;" class="stat-block is-centered">
                     <h4>Duration</h4>

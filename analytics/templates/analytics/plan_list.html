@@ -65,7 +65,9 @@
                     </div>
                   </td> -->
                   <td data-label="title">{{object.title}}</td>
-                  <td data-label="cost">{{object.cost}}</td>
+                  <td data-label="cost">{% if object.cost %}
+                                ₹{{ object.get_discounted_price|floatformat:1 }}
+                  {% endif %}</td>
                   <td data-label="duration">{{object.duration}}</td>
                   <!-- <td data-label="Description">{{object.description}}</td> -->
                   

@@ -7,7 +7,7 @@ from django.views.generic.edit import CreateView
 
 from order.models import Plan
 from .forms import NewsLetterForm, PopUpQuestionsForm
-from .models import Contact, TPP, Faq
+from .models import Contact, TPP, Faq, PopUpQuestions
 
 
 def handler403(request, *args, **kwargs):
@@ -27,9 +27,10 @@ class Home(View):
         form = PopUpQuestionsForm()
         if self.request.user.is_authenticated:
             return redirect('post:post')
+
         context = {
             'form':form,
-            'faq': Faq.objects.filter(is_active=True)
+            'faq': Faq.objects.filter(is_active=True),
         }
         # context['parent_category_list'] = ParentCategory.objects.all()
         return render(self.request, 'home/home.html', context)
@@ -93,9 +94,16 @@ class PopUp(View):
                 "Status": False,
                 'Message': "Required fields are empty!..."
             })
-        popup = form.save(commit = False)
+        popup = form.instance
+        popup.session_key = self.request.session.session_key
         popup.save()
         return JsonResponse({
             "Status": True,
             'Message': "Success..."
         })
+
+class Sample(View):
+    def get(self,*args, **kwargs):
+        context = {}
+
+        return render(self.request, 'home/sample.html',context)

@@ -14,6 +14,8 @@ from django.views.generic.edit import (
     FormView, UpdateView
 )
 from django.urls import reverse
+
+from home.models import PopUpQuestions
 from post.models import Post
 from .forms import (
     RegistrationForm, LoginForm, UserUpdateForm
@@ -263,7 +265,17 @@ class LoginView(SuccessMessageMixin, FormView):
 
         if user is not None:
             if user.is_active:
+                popup = None
+                popup_question = PopUpQuestions.objects.filter(session_key=self.request.session.session_key).last()
+                if popup_question:
+                    if popup_question.user:
+                        pass
+                    else:
+                        popup = popup_question
                 login(self.request, user)
+                if popup:
+                    popup.user = self.request.user
+                    popup.save()
                 url_redirect = self.request.POST.get('redirect', None)
                 if url_redirect:
                     return redirect(url_redirect)

@@ -449,7 +449,7 @@ i.fa.fa-chevron-down{
     }
 </style>
 <div id="custom-overlay" style="display: none"></div>
-<div id="popup-question-wrap" class="m-auto shadow radius-md" style="display: none; z-index: 999999;">
+<div id="popup-question-wrap" class="m-auto shadow radius-md" style="display: block; z-index: 999999;">
     <button class="delete d-flex align-items-center justify-content-center" 
     onclick="rmModalAndOverlay()">✖</button>
     <form action="" method="POST" onsubmit="submitPopup(event, this)" id="popup-form" class="popup-question-form container px-1 px-md-5 py-4">
@@ -592,11 +592,12 @@ i.fa.fa-chevron-down{
         </div>
     </form>
 </div>
-<!-- Popup Question Modal END -->
+    <!-- Popup Question Modal END -->
 
 <!-- Content END-->
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script>
 
-<script>
     // function closePopup() {
     //     $("#pop-up-questions").css("display", 'none');
     // }
@@ -645,7 +646,8 @@ i.fa.fa-chevron-down{
         .then(data => {
             console.log(data)
             if (data['Status']){
-                rmModalAndOverlay()
+                rmModalAndOverlay();
+                localStorage.setItem('popupSubmitted', true);
             }
         })
     }
@@ -667,5 +669,16 @@ i.fa.fa-chevron-down{
         popupQuestionWrap.style.display='none';
         localStorage.setItem('pop-shown', 'true');
     }
+
+$( document ).ready(function() {
+    let data = localStorage.getItem('popupSubmitted');
+    if(data)
+    {
+        $('#popup-question-wrap').hide();
+    }
+    else{
+        $('#popup-question-wrap').show();
+    }
+});
 </script>
 {% endblock content %}

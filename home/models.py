@@ -5,6 +5,8 @@ from multiselectfield import MultiSelectField
 from ckeditor.fields import RichTextField
 from django.urls import reverse
 
+from users.models import User
+
 
 class NewsLetter(models.Model):
     email = models.EmailField(unique=True)
@@ -101,6 +103,8 @@ class PopUpQuestions(models.Model):
     like_to_work_in = models.CharField(max_length=100, choices=LIKES_TO_WORK_IN, default=None)
     functionality_areas = MultiSelectField(choices=FUNCTIONALITY_AREAS, max_length=500)
 
+    session_key = models.CharField(max_length=100, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     def __str__(self):
         return f"{self.id}"
 

@@ -49,6 +49,9 @@ class PlanUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     template_name = 'analytics/plan_create.html'
 
+    def get_initial(self):
+        return {'cost': self.get_object().get_discounted_price }
+
     def form_valid(self, form):
         plan = form.instance
         if plan.discount_percentage:
