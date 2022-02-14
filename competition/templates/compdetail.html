@@ -616,8 +616,8 @@ li p {
                             </div>
 
                             {% if request.user.is_authenticated %}
-                                {% if  object.is_active %}
-                                <form method="POST" action="{% url 'Competion:user-submissions' competion.id %}" {% if submission_over %}style="display:none"{% endif %} enctype="multipart/form-data" id="submitForm">
+                                {% if True %}
+                                <form method="POST" action="{% url 'Competion:user-submissions' competion.id %}" {% if not object.is_active %}style="display:none"{% endif %} {% if submission_over %}style="display:none"{% endif %} enctype="multipart/form-data" id="submitForm">
                                     {% csrf_token %}
                                     <div class="drag-area">
                                         <div class="icon"><i id="upload-icon" class="fa fa-upload"></i></div>
@@ -631,7 +631,7 @@ li p {
                                         <button type="submit" id="drag-submit" class="drag-button" style="font-family: inherit;">Submit</button>
                                     </div>
                                 </form>
-                                {% if user_submissions %}
+{#                                {% if user_submissions %}#}
                                 <div class="mb-5" style="font-weight: bold;">Your Submission Details.</div>
 
                                 <div class="drag-area" style="display: none;">
@@ -668,7 +668,7 @@ li p {
                                 {% endif %}
 
                                 </div>
-                                {% endif %}
+{#                                {% endif %}#}
                                 {% endif %}
                             {% else %}
                                 <div class="drag-area" style="display: none;">

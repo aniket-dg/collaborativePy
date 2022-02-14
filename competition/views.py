@@ -92,9 +92,10 @@ class CompetionDetail(DetailView):
         all_valid_submissions = UserSubmission.objects.filter(
             competition=competition,
             submission_date__date__lte=competition.end
-        ).values('user','competition').annotate(score=Max('score')).order_by('-score')
+        ).values('user', 'competition').annotate(score=Max('score')).order_by('-score')
         for item in all_valid_submissions:
-            all_user_submissions.append(UserSubmission.objects.filter(user__id=item['user'], score=item['score']).last())
+            all_user_submissions.append(
+                UserSubmission.objects.filter(user__id=item['user'], score=item['score']).last())
         context['submissions'] = all_user_submissions
         return context
 
