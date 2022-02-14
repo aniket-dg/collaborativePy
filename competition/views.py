@@ -1,3 +1,4 @@
+from django.db.models import Max
 from django.http import request, JsonResponse
 from django.contrib.auth import forms
 from django.contrib import messages
@@ -16,10 +17,12 @@ import calendar
 import datetime
 import numpy as np
 import pandas as pd
+
+
 # Create your views here.
 
 class CompetionList(ListView):
-    model=Competion
+    model = Competion
     context_object_name = 'list'
     template_name = 'complist.html'
 
@@ -28,6 +31,11 @@ class CompetionList(ListView):
         qs = super(CompetionList, self).get_queryset()
         qs = qs.filter(start__lte=today, end__gte=today).order_by('-start')
         return qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(CompetionList, self).get_context_data(**kwargs)
+        context['closed_competition'] = Competion.objects.filter(end__lte=datetime.date.today()).order_by('-start')
+        return context
 
     def get(self, request, *args, **kwargs):
         qs = self.get_queryset()
@@ -38,7 +46,10 @@ class CompetionList(ListView):
                 current_count = int(request.GET.get('current_count'))
                 comps = None
                 if (comp_status and current_count >= 0):
-                    qs = qs.filter(status=comp_status)
+                    if comp_status == 'Closed':
+                        qs = Competion.objects.filter(end__lte=datetime.date.today()).order_by('-start')
+                    else:
+                        qs = qs.filter(status=comp_status)
                     p = Paginator(qs, 4)
                     competitions = p.get_page((current_count + 4) / 4)
                     comps = ReadOnlyCompetitionModelSerializer(competitions, many=True).data
@@ -49,26 +60,42 @@ class CompetionList(ListView):
                 print(e)
         else:
             return super(CompetionList, self).get(self, request, *args, **kwargs)
-        
 
 
 class CompetionDetail(DetailView):
     model = Competion
-    template_name ='compdetail.html'
+    template_name = 'compdetail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         competition_id = self.kwargs.get('pk', None)
         today = datetime.date.today()
-        competition = Competion.objects.filter(id=competition_id, start__lte=today, end__gte=today).last()
+        competition = Competion.objects.filter(id=competition_id).last()
         user = self.request.user
+
         if user.is_authenticated:
-            context['user_submission']  = UserSubmission.objects.filter(user=user, competition=competition).last()
+            submission_over = False
+            user_submission = None
+            user_submission_qs = UserSubmission.objects.filter(user=user, competition=competition)
+            if user_submission_qs.count() == 0:
+                user_submission = None
+            elif user_submission_qs.count() >= 5:
+                submission_over = True
+                user_submission = user_submission_qs.order_by('-score')
+            else:
+                user_submission = user_submission_qs.order_by('-score')
+            # print(user_submission, "Aniket")
+            context['user_submissions'] = user_submission
+            context['submission_over'] = submission_over
+            # a = QuerySet.objects.
+        all_user_submissions = []
         all_valid_submissions = UserSubmission.objects.filter(
-                                                        competition=competition,
-                                                        submission_date__date__lte=competition.end
-                                                        ).order_by('-score', 'submission_date')
-        context['submissions'] = all_valid_submissions
+            competition=competition,
+            submission_date__date__lte=competition.end
+        ).values('user','competition').annotate(score=Max('score')).order_by('-score')
+        for item in all_valid_submissions:
+            all_user_submissions.append(UserSubmission.objects.filter(user__id=item['user'], score=item['score']).last())
+        context['submissions'] = all_user_submissions
         return context
 
 
@@ -105,9 +132,9 @@ class UserSubmissionView(LoginRequiredMixin, View):
         competition = Competion.objects.filter(id=competition_id, start__lte=today, end__gte=today).last()
         user = self.request.user
         user_file = self.request.FILES.get('user_file', None)
-        has_submitted = UserSubmission.objects.filter(competition=competition, user=user).exists()
-        if has_submitted:
-            messages.error(self.request, 'You have already made a submission!')
+        has_submitted = UserSubmission.objects.filter(competition=competition, user=user).count()
+        if has_submitted >= 5:
+            messages.error(self.request, 'No more attempts remaining!')
             return redirect('Competion:detail', pk=competition_id)
         if not user_file:
             messages.error(self.request, 'No file uploaded!')
@@ -123,16 +150,18 @@ class UserSubmissionView(LoginRequiredMixin, View):
                 messages.error(self.request, 'Please check the demo file above and submit with proper column name.')
                 return redirect('Competion:detail', pk=competition_id)
             if (user_file and admin_file and competition and score != None):
-                user_submission = UserSubmission.objects.create(user=user, competition=competition,\
-                                                            user_file=user_file,submission_date=datetime.datetime.now(),\
-                                                            score=score)
+                user_submission = UserSubmission.objects.create(user=user, competition=competition, \
+                                                                user_file=user_file,
+                                                                submission_date=datetime.datetime.now(), \
+                                                                score=score)
                 messages.success(self.request, 'Successfully submitted.')
                 return redirect('Competion:detail', pk=competition_id)
             # if no admin file provided
             elif not admin_file:
-                user_submission = UserSubmission.objects.create(user=user, competition=competition,\
-                                                            user_file=user_file,submission_date=datetime.datetime.now(),\
-                                                            score=score)
+                user_submission = UserSubmission.objects.create(user=user, competition=competition, \
+                                                                user_file=user_file,
+                                                                submission_date=datetime.datetime.now(), \
+                                                                score=score)
                 messages.success(self.request, 'Successfully submitted.')
                 return redirect('Competion:detail', pk=competition_id)
             else:
@@ -140,17 +169,17 @@ class UserSubmissionView(LoginRequiredMixin, View):
         else:
             messages.error(self.request, 'Only participants are allowed to do submissions.')
             return redirect('Competion:detail', pk=competition_id)
-    
+
     def _get_submission_score(self, user_file, admin_file):
         """Returns score for submissions"""
         if user_file and admin_file:
             try:
-                user_df=pd.read_csv(user_file, sep=',')
-                admin_df=pd.read_csv(admin_file, sep=',')
+                user_df = pd.read_csv(user_file, sep=',')
+                admin_df = pd.read_csv(admin_file, sep=',')
                 col1 = 'Admin Title'  # col name for admin_file
                 col2 = 'solution'  # col name for user_file
-                result = pd.concat([admin_df[col1],user_df[col2]], axis=1)
-                comparison_column = np.where(result[col1]==result[col2], 1, 0)
+                result = pd.concat([admin_df[col1], user_df[col2]], axis=1)
+                comparison_column = np.where(result[col1] == result[col2], 1, 0)
                 df_comparison_column = pd.DataFrame(comparison_column, columns=['Total'])
                 final_result = pd.concat([result, df_comparison_column], axis=1)
                 print(final_result)
@@ -158,14 +187,8 @@ class UserSubmissionView(LoginRequiredMixin, View):
                 percent = correct_percent.tolist().pop()  # Convert to python native type
                 return percent, True
             except Exception as e:
-                print('Submission NOT proper',e)
+                print('Submission NOT proper', e)
                 return 0, False
         else:
             print("Not user file or admin file")
             return 0, True
-    
-            
-
-
-
-

@@ -183,7 +183,7 @@
         <div class="c-status is-active" id="all-closed">
             <h1 class="py-3" style="font-weight: 600">Closed</h1>
             <div class="c-list">
-                <!-- Competitions will be loaded dynamically here -->                
+                <!-- Competitions will be loaded dynamically here -->
             </div>
             <div class="load-more-wrap narrow-top has-text-centered py-4">
                 <a class="load-more-button" data-type="Closed">View More</a>
@@ -193,7 +193,7 @@
 </div>
 <script>
 /* Tabs Filtering */
-const optionTabs = document.querySelectorAll('.c-option-tab')
+    const optionTabs = document.querySelectorAll('.c-option-tab')
 const secEls = document.querySelectorAll('.c-status')
 optionTabs?.forEach((tab)=>{
     tab.addEventListener('click', (e)=>{
@@ -255,6 +255,7 @@ async function moreCompetitions(status, compSection) {
                 Accept: 'application/json',
             }
         })
+        console.log(res);
         const data = await res.json()
         if (data.status){
             let html = '';

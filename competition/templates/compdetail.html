@@ -121,7 +121,7 @@ li i{
      padding-top: 0px;
 }
  .compdiv{
-    padding: 3rem; 
+    padding: 3rem;
     display: block;
     box-shadow: 0 0 0px 2px #d1d1d1;
     background: white;
@@ -237,7 +237,7 @@ li i{
 }
 .limiter{
     width:90%;
-    max-width: 60rem; 
+    max-width: 60rem;
 }
 
 /* Table Stylings */
@@ -472,7 +472,7 @@ li p {
 
                             <div class="above">
                                 <label for="head" class="label1"><span id="days"></span> Days Remaining </label>
-                                
+
                                 <div style="padding: 1%;"></div>
                                 <div class="progress" style="margin-top: 0%;">
 
@@ -564,7 +564,7 @@ li p {
                             </li>
 
                         </div>
-                        {% if request.user not in competion.participants.all %}
+                        {% if request.user not in competion.participants.all and object.is_active %}
                         <form class="participate-form" method="POST" action="{% url 'Competion:participate' %}">
                             {% csrf_token %}
                             <input type="hidden" name="pk" value="{{competion.pk}}">
@@ -578,7 +578,7 @@ li p {
                     <br>
 
                     <div class="abc">
-                        {% if request.user not in competion.participants.all %}
+                        {% if request.user not in competion.participants.all and object.is_active %}
                         <center>
                             <a href="#" onclick="$('#participate-btn').click()">
                                 <button class="btn-participate">
@@ -616,8 +616,8 @@ li p {
                             </div>
 
                             {% if request.user.is_authenticated %}
-                                {% if not user_submission %}                             
-                                <form method="POST" action="{% url 'Competion:user-submissions' competion.id %}" enctype="multipart/form-data">
+                                {% if  object.is_active %}
+                                <form method="POST" action="{% url 'Competion:user-submissions' competion.id %}" {% if submission_over %}style="display:none"{% endif %} enctype="multipart/form-data" id="submitForm">
                                     {% csrf_token %}
                                     <div class="drag-area">
                                         <div class="icon"><i id="upload-icon" class="fa fa-upload"></i></div>
@@ -628,16 +628,18 @@ li p {
                                     </div>
                                     <br>
                                     <div style="display: none; justify-content: center;">
-                                        <button type="submit" id="drag-submit" class="drag-button" style="font-family: inherit;">Submit</button> 
+                                        <button type="submit" id="drag-submit" class="drag-button" style="font-family: inherit;">Submit</button>
                                     </div>
                                 </form>
-                                {% else %}
+                                {% if user_submissions %}
                                 <div class="mb-5" style="font-weight: bold;">Your Submission Details.</div>
+
                                 <div class="drag-area" style="display: none;">
                                     <button></button>
                                     <input type="file" hidden>
                                 </div>
                                 <div class="sub-table-wrapper">
+                                {% if user_submissions %}
                                     <table class="sub-table">
                                         <thead class="sub-thead">
                                             <tr class="sub-tr">
@@ -647,19 +649,26 @@ li p {
                                             </tr>
                                         </thead>
                                         <tbody class="sub-tbody">
+                                        {% for item in user_submissions %}
                                             <tr class="sub-tr">
                                                 <td class="sub-td" style="display: flex; align-items: center; justify-content: start;">
                                                     <div class="user-img-leaderboard">
-                                                        <img src="{{ user_submission.user.get_profile_img }}" data-demo-src="{{ user_submission.user.get_profile_img }}" alt="Your profile image">
+                                                        <img src="{{ item.user.get_profile_img }}" data-demo-src="{{ item.user.get_profile_img }}" alt="Your profile image">
                                                     </div>
-                                                    {{ user_submission.user.get_full_name }}
+                                                    {{ item.user.get_full_name }}
                                                 </td>
-                                                <td class="sub-td">{{ user_submission.score }}</td>
-                                                <td class="sub-td">{{ user_submission.submission_date|date:"d M Y H:i:s" }}</td>
+                                                <td class="sub-td">{{ item.score }}</td>
+                                                <td class="sub-td">{{ item.submission_date|date:"d M Y H:i:s" }}</td>
                                             </tr>
+                                        {% endfor %}
                                         </tbody>
                                     </table>
+                                {% else %}
+                                    <span>No submissions found!</span>
+                                {% endif %}
+
                                 </div>
+                                {% endif %}
                                 {% endif %}
                             {% else %}
                                 <div class="drag-area" style="display: none;">
@@ -667,7 +676,7 @@ li p {
                                     <input type="file" hidden>
                                 </div>
                                 <p>Please <a href="{% url 'user:login' %}">login</a> to view data or submit answers.</p>
-                            {% endif %}                            
+                            {% endif %}
                         </div>
 
                         <div class="tab_content tab_7">
@@ -784,7 +793,7 @@ function showFile(){
     dropArea.classList.remove("active");
     dragText.textContent = "Drag & drop to upload file.";
   }
-  
+
 }
 
 $(document).ready(function () {
