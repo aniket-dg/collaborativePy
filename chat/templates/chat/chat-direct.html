@@ -142,7 +142,7 @@
                     </li> -->
 
                     <!-- New chat -->
-                    {% if request.user.is_authenticated %}
+                    {% if request.user.is_plan_valid and allow_group_creation %}
                     <li class="nav-item">
                         <a class="nav-link py-0 py-lg-8" id="tab-create-chat" href="#tab-content-create-chat" title="Create code room" data-bs-toggle="tab" role="tab">
                             <div class="icon icon-xl">
