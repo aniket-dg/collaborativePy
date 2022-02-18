@@ -268,14 +268,14 @@ PUSH_NOTIFICATIONS_SETTINGS = {
 }
 
 PAYU_CONFIG = {
-    "merchant_key": "gtKFFx",
-    "merchant_salt": "wia56q6O",
+    "merchant_key": "PIJcFM",
+    "merchant_salt": "2Et6VAHZYmQHudFXzKqOs7WZTJ1Ktu3K",
     "mode": "test",
     "success_url": "https://stellar-ai.in/order/payment/response/",
     "failure_url": "https://stellar-ai.in/order/payment/response/"
 }
 
 # Change the PAYU_MODE to 'LIVE' for production.
-PAYU_MODE = "TEST"
+PAYU_MODE = "LIVE"
 SESSION_COOKIE_SAMESITE = None
 SESSION_COOKIE_SECURE = False
