@@ -157,7 +157,8 @@ class OpenChatNotebook(LoginRequiredMixin, View):
                 user.is_group_share = False
                 user.peer_id = request_user.id
                 user.save()
-        user_url = f"P2pVideoMeeting_{user.id}_{request_user.id}"
+        a, b = min(user.id, request_user.id), max(user.id, request_user.id)
+        user_url = f"P2pVideoMeeting_{a}_{b}"
         meeting_url = hash(user_url)
         context = {
             'receiver_id': request_user.id,
