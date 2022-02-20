@@ -104,14 +104,14 @@ TEMPLATES = [
         },
     },
 ]
-'''
+
+
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.sqlite3',
          'NAME': BASE_DIR / 'db.sqlite3',
      }
  }
-'''
 
 
 # DATABASES = {
@@ -126,16 +126,16 @@ DATABASES = {
 # }
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'myproject',
-        'USER': 'sgstellar',
-        'PASSWORD': 'SG@stellar101',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'myproject',
+#         'USER': 'sgstellar',
+#         'PASSWORD': 'SG@stellar101',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     # {
@@ -268,14 +268,14 @@ PUSH_NOTIFICATIONS_SETTINGS = {
 }
 
 PAYU_CONFIG = {
-    "merchant_key": "gtKFFx",
-    "merchant_salt": "wia56q6O",
+    "merchant_key": "PIJcFM",
+    "merchant_salt": "2Et6VAHZYmQHudFXzKqOs7WZTJ1Ktu3K",
     "mode": "test",
     "success_url": "https://stellar-ai.in/order/payment/response/",
     "failure_url": "https://stellar-ai.in/order/payment/response/"
 }
 
 # Change the PAYU_MODE to 'LIVE' for production.
-PAYU_MODE = "TEST"
+PAYU_MODE = "LIVE"
 SESSION_COOKIE_SAMESITE = None
 SESSION_COOKIE_SECURE = False

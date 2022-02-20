@@ -26,8 +26,8 @@ mode = payu_config.get('mode')
 
 payu = Payu(merchant_key, merchant_salt, surl, furl, mode)
 
-from payu.gateway import get_hash
-from uuid import uuid4
+# from payu.gateway import get_hash
+# from uuid import uuid4
 
 
 class PaymentRequestView(LoginRequiredMixin, View):
