@@ -65,7 +65,7 @@
                                             <!-- Friend -->
                                             <div class="column is-6">
                                                 <div class="friend-small-card">
-                                                    <img src="{{ user.connection_user.profile_image.url }}" data-demo-src="{{ user.connection_user.profile_image.url }}" data-user-popover="9" alt="">
+                                                    <img src="{{ user.connection_user.get_profile_img }}" data-demo-src="{{ user.connection_user.get_profile_img }}" data-user-popover="9" alt="">
                                                     <div class="meta">
                                                         <span>{{ user.connection_user.username }}</span>
                                                         <span>{{ user.connection_user.get_full_name }}</span>
