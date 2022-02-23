@@ -7,6 +7,7 @@ from django.shortcuts import redirect, render
 
 from users.models import User
 from home.models import Ad
+from users.views import RedirectProfileRegister
 from .forms import PostCreateForm, PostCommentForm, SkeletonPostCommentForm
 from .models import Post, PostComment, SkeletonPostComment, POST_CATEGORY_CHOICES, LANGUAGES_CHOICES, SCOPE_CHOICES, \
     Category, Scope, Language
@@ -56,7 +57,7 @@ def image_process(file):
         return None
 
 
-class PostIndex(LoginRequiredMixin,View):
+class PostIndex(LoginRequiredMixin,RedirectProfileRegister,View):
     """
         :param request:
                 authenticated_user, form-data,
@@ -626,7 +627,6 @@ class LoadMorePost(View):
                 'like_status': True if self.request.user in post.liked_by.all() else False, 'image1': image1,
                 'comments': PostComment.objects.filter(post=post).count(), 'image2': image2, 'image3': image3,
                 'image4': image4, 'image5': image5, 'bookmark': bookmark, 'flag': flag, 'code': post.code,'type': 'post'
-
             })
         return JsonResponse({'posts': posts})
 

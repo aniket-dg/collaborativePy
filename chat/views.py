@@ -23,6 +23,8 @@ from chat.serializers import UserModelSerializer
 from users.models import User
 from cryptography.fernet import Fernet
 
+from users.views import RedirectProfileRegister
+
 
 @csrf_exempt
 def update_session(request):
@@ -86,7 +88,7 @@ def arrange_users(users):
     return account_dict
 
 
-class ChatRoom(LoginRequiredMixin, View):
+class ChatRoom(LoginRequiredMixin,RedirectProfileRegister,View):
     def get(self, *args, **kwargs):
         context = {}
         user = self.request.user
