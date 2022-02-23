@@ -132,14 +132,14 @@
                             <div class="field">
                                 <label>Username*</label>
                                 <div class="control">
-                                    <input type="text" class="input" name="username" required placeholder="Enter your username">
+                                    <input type="text" class="input" id="username" name="username" required placeholder="Enter your username">
                                 </div>
                             </div>
 
                             <div class="field">
                                 <label>Designation*</label>
                                 <div class="control">
-                                    <input type="text" class="input" name="designation" required placeholder="Enter your designation">
+                                    <input type="text" class="input" name="designation" id="designation" required placeholder="Enter your designation">
                                 </div>
                             </div>
 
@@ -220,8 +220,23 @@
                 }
             });
         }
-        
+        $( document ).ready(function () {
+            {% if request.user.is_authenticated and request.user.profile_image %}
+
+                $('#preview_profile_image').attr('src', '{{ request.user.profile_image.url }}');
+            {% endif %}
+            {% if request.user.is_authenticated and request.user.username %}
+                $('#username').val('{{ request.user.username }}');
+            {% endif %}
+            {% if request.user.is_authenticated and request.user.designation %}
+            $('#designation').val('{{ request.user.designation }}');
+            {% endif %}
+        {% if request.user.is_authenticated and request.user.bio %}
+            $('#bio').val('{{ request.user.bio }}');
+            {% endif %}
+        });
     </script>
+
 </body>
 <!-- Mirrored from friendkit.cssninja.io/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 21 Oct 2021 14:42:32 GMT -->
 </html>
