@@ -218,7 +218,7 @@ class RedirectProfileRegister:
     def dispatch(self, request, *args, **kwargs):
         user = request.user
         if user.is_authenticated:
-            if not user.username or user.profile_user:
+            if not user.username or not user.profile_image:
                 user_social_auth = UserSocialAuth.objects.filter(user=user, provider='google-oauth2').exists()
                 if user_social_auth:
                     return render(request, 'users/oauth_register.html')
