@@ -214,6 +214,19 @@ class UserAccountActivateView(View):
             messages.error(self.request, 'Invalid activation link')
             return redirect('user:register')
 
+class RedirectProfileRegister:
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_authenticated:
+            if not user.username or user.profile_user:
+                user_social_auth = UserSocialAuth.objects.filter(user=user, provider='google-oauth2').exists()
+                if user_social_auth:
+                    return render(request, 'users/oauth_register.html')
+                else:
+                    return super().dispatch(request, *args, **kwargs)
+            else:
+                return super().dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 class GoogleOAuthSignUpView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
@@ -248,7 +261,6 @@ class LoginView(SuccessMessageMixin, FormView):
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
             if self.request.GET.get('next'):
-
                 return redirect(self.request.GET.get('next'))
             return redirect('post:post')
         return render(self.request, 'users/login.html')
@@ -401,7 +413,7 @@ class BookMarkListView(LoginRequiredMixin, ListView):
         return BookMark.objects.filter(user=user)
 
 
-class UserProfileView(LoginRequiredMixin, View):
+class UserProfileView(LoginRequiredMixin, RedirectProfileRegister,View):
     def get(self, *args, **kwargs):
         user = self.request.user
         context = {}
