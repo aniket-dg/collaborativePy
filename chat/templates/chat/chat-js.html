@@ -593,6 +593,8 @@ function getMessageById(data) {
 
     {% endfor %}
 
+    
+
         document.querySelector('#chat-message-input').onkeyup = function(e) {
             var messageInputDom = document.querySelector('#chat-message-input');
             var message = messageInputDom.value;
@@ -1063,6 +1065,95 @@ function getMessageById(data) {
         $(document).ready(()=>{
             loadMoreRemainingUsers()
         })
+
+
+
+    function setupNewWebsocket(user_id)
+    {
+        window['chatSocket_chat_'+user_id];
+        
+        loc = window.location;
+        wsStart = 'ws://';
+
+        if(loc.protocol === 'https:'){
+            wsStart = 'wss://';
+        }
+        window['chatSocket_chat_'+user_id] = new ReconnectingWebSocket(wsStart + window.location.host +
+        '/ws/chat/p/'+sender+"/"+user_id+"/");
+
+        websocket_dict["chatSocket_chat_"+user_id] = window['chatSocket_chat_'+user_id];
+
+        window['chatSocket_chat_'+user_id].onopen = function (e)
+        {
+        }
+
+       window['chatSocket_chat_'+user_id].onmessage = function (e) {
+            console.log(e['data'], 'DATA');
+            data = JSON.parse(e['data']);
+            anu = data;
+            let check = $('#chat-group').val();
+                if (check === "P2p") {
+                    if (String(data.sender_id) === String(current_receiver) || String(data.receiver_id) === String(current_receiver || !current_receiver)) {
+                        console.log("from receiver");
+                        getMessageById(e['data']);
+                    }
+                    else{
+                        showNotification(data.sender_id);
+                    }
+                }
+                else{
+                        showNotification(data.sender_id);
+                    }
+               refreshPanelPosition();
+            }
+    }
+
+    function createNewPanel(user_id,username, email, profile_img_url,user_full_name,
+    phone_number, profile_url, designation, bio, self_img_url)
+    {
+        let panel_html = ```
+        <a style="cursor:pointer;" id="receiver_${user_id}" 
+                                        onclick="setReceiver(
+                                            '${username}',
+                                            '${email}',
+                                            '${user_id}',
+                                            '${profile_img_url}',
+                                            '${self_img_url}',
+                                            '${user_full_name}',
+                                            '${phone_number}',
+                                            '${profile_url}',
+                                            '${designation}',
+                                            '${bio}')"
+                                            class="card border-0 text-reset">
+                                            <div class="card-body">
+                                                <div class="row gx-5">
+                                                    <div class="col-auto">
+                                                        <div class="avatar">
+                                                            <img src="${profile_img_url}" alt="#" style="object-fit: cover;" class="avatar-img">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                                            <div class="">
+                                                                <h5 data-search='full_name' class="me-auto mb-0">${user_full_name}</h5>
+                                                                <h6 data-search='username' class="text-muted me-auto mb-0">${username}</h6>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="d-flex align-items-center" id="chat_notification_${user_id}">
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+        ```;
+
+        $('#contact-list-left-panel').prepend(panel_html);
+    }
 </script>
 {###########################    End of Script For P2p Chat Socket   ##################}
 </body>
