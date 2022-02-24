@@ -111,7 +111,7 @@
                 <div class="process-title mt-3">
                     <h2 id="step-title-3" class="step-title">One final step</h2>
                 </div>
-                <form method="post" id="registerForm" enctype="multipart/form-data">
+                <form method="post" id="registerForm" enctype="multipart/form-data" action="{% url 'user:oauth-register' %}">
                     {% csrf_token %}
                     <div id="signup-panel-1" class="process-panel-wrap is-active is-narrow">
                         <div class="form-panel">
