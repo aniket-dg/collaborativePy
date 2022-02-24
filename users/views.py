@@ -238,6 +238,7 @@ class GoogleOAuthSignUpView(LoginRequiredMixin, View):
             return redirect('user:login')
 
     def post(self, *args, **kwargs):
+        return HttpResponse(self.request.POST)
         user = self.request.user
         user.username = self.request.POST.get('username', None)
         user.designation = self.request.POST.get('designation', None)
