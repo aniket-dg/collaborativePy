@@ -1111,7 +1111,7 @@ function getMessageById(data) {
     function createNewPanel(user_id,username, email, profile_img_url,user_full_name,
     phone_number, profile_url, designation, bio, self_img_url)
     {
-        let panel_html = ```
+        let panel_html = `
         <a style="cursor:pointer;" id="receiver_${user_id}" 
                                         onclick="setReceiver(
                                             '${username}',
@@ -1150,7 +1150,7 @@ function getMessageById(data) {
                                                 </div>
                                             </div>
                                         </a>
-        ```;
+        `;
 
         $('#contact-list-left-panel').prepend(panel_html);
     }
