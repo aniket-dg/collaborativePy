@@ -700,7 +700,10 @@ class LoadMoreFriends(LoginRequiredMixin, View):
 def save_notification_for_user(user_id):
     user = User.objects.filter(id=user_id).last()
     if user:
-        user_notification = UserNewNotification.objects.get_or_create(user=user)
+        user_notification = UserNewNotification.objects.filter(user=user).last()
+        if not user_notification:
+            user_notification = UserNewNotification(user=user)
+            user_notification.save()
         user_notification.friends.add(self.request.user)
         user_notification.save()
 
