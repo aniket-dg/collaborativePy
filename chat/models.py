@@ -135,3 +135,10 @@ SCOPE_CHOICES = (
     ('Scope 2', 'Scope 2'),
 
 )
+
+class UserNewNotification(models.Model):
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE, null=True, blank=True, related_name='user_new_notification_user')
+    friends = models.ManyToManyField('users.User', blank=True, related_name='user_new_notification_friends')
+    
+    def __str__(self):
+        return f"Notification_{user.id}"

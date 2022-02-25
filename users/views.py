@@ -558,6 +558,7 @@ class AcceptUserRequest(LoginRequiredMixin, View):
                 'url': reverse('chat:chat')
             }
             send_notification([request_user.id], f'You are now friends with {user.get_full_name()}', extra)
+            save_notification_for_user(request_user)
             return JsonResponse({
                 'status': 'success',
                 'data': 'Request accepted!'
@@ -696,14 +697,10 @@ class LoadMoreFriends(LoginRequiredMixin, View):
             })
         return JsonResponse({'friends': friends})
 
-# def create_oauth_user(backend, user, response, *args, **kwargs):
-#     print("OAUTH RAN")
-#     if backend.name == 'google_oauth2':
-#         print("OAUTH RAN")
-#         profile = User.objects.filter()
-#         if profile is None:
-#             profile = Profile(user_id=user.id)
-#         profile.gender = response.get('gender')
-#         profile.link = response.get('link')
-#         profile.timezone = response.get('timezone')
-#         profile.save()
+def save_notification_for_user(user_id):
+    user = User.objects.filter(id=user_id).last()
+    if user:
+        user_notification = UserNewNotification.objects.get_or_create(user=user)
+        user_notification.friends.add(self.request.user)
+        user_notification.save()
+

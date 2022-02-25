@@ -1108,6 +1108,39 @@ function getMessageById(data) {
             }
     }
 
+    function setupNewGroupWebsocket(group_id, group_name)
+    {
+        window['group_chatSocket_chat_'+group_id];
+        
+        wsStart = 'ws://';
+        loc = window.location;
+        if(loc.protocol === 'https:'){
+            wsStart = 'wss://';
+        }
+        window['group_chatSocket_chat_'+group_id] = new ReconnectingWebSocket(
+        wsStart + window.location.host +
+            '/ws/chat/group/' + group_name + '/'+ sender +'/');
+
+            group_websocket_dict["group_chatSocket_chat_"+group_id] = window['group_chatSocket_chat_'+group_id];
+
+        window['group_chatSocket_chat_'+group_id].onmessage = function (e)
+        {
+            console.log("Group data");
+            data = JSON.parse(e['data']);
+            console.log(data);
+            if (String(current_group) === String(data.group_id)) {
+                    getGroupMessageById(e['data']);
+                }
+
+                else{
+                    showGroupNotification(data.group_id);
+                }
+
+                refreshPanelPosition();
+
+        }
+    }
+
     function createNewPanel(user_id,username, email, profile_img_url,user_full_name,
     phone_number, profile_url, designation, bio, self_img_url)
     {
@@ -1154,6 +1187,54 @@ function getMessageById(data) {
 
         $('#contact-list-left-panel').prepend(panel_html);
     }
+
+    function createNewGroupPanel(group_name_for_socket, profile_image_url, self_img_url, group_id, group_info,
+    group_name)
+    {
+        let html_panel = `
+        <a style="cursor:pointer;background: rgba(49, 133, 252, 0.14);" id="group_receiver_{{ object.id }}"
+                                        onclick="setGroup(
+                                            '${group_name_for_socket}',
+                                            '${profile_image_url}',
+                                            '${self_img_url}',
+                                            '${group_id}',
+                                            '${group_info}','${group_name}')"
+                                            class="card border-0 text-reset">
+                                            <div class="card-body">
+                                                <div class="row gx-5">
+                                                    <div class="col-auto">
+                                                        <!-- <div class="avatar-group">
+                                                            <a href="#" class="avatar">
+                                                                <img src='${self_img_url}' alt="#"  style="object-fit: cover;" class="avatar-img">
+                                                            </a>
+                                                            <a href="#" class="avatar">
+                                                                <img src="${profile_image_url}"  alt="#"  style="object-fit: cover;" class="avatar-img">
+                                                            </a>
+                                                        </div> -->
+                                                        <div class="avatar">
+                                                            <img src="${profile_image_url}" alt="#" style="object-fit: cover;" class="avatar-img">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <div class="d-flex align-items-center mb-3">
+                                                            <div>
+                                                            <h5 data-search='groupname' class="me-auto mb-0">${group_name}</h5>
+                                                            <h6 data-search='username' class="me-auto mb-0" style="color: #68748D;font-size: 13px;">CodeRoom</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex align-items-center" id="group_notification_${group_id}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+        `;
+        $('#contact-list-left-panel').prepend(html_panel);
+    }
+
+
+    
 </script>
 {###########################    End of Script For P2p Chat Socket   ##################}
 </body>

@@ -71,4 +71,6 @@ urlpatterns = [
     path('audio/end/<str:encrypt_group_name>/', views.EndCall.as_view(), name='audio-end'),
     path('call/participant/<int:pk>/', views.CallParticpantInfo.as_view(), name='call-participant'),
     path('loadmore/remaining_users/', views.LoadMoreRemainingUsers.as_view(), name='load-more-remaining-users'),
+
+    path('get/user/notification/', views.GetNewNotification.as_view(), name='user-new-notification'),
 ]

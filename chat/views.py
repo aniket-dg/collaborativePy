@@ -18,7 +18,7 @@ from django.core.paginator import Paginator
 from django.urls import reverse
 from chat.forms import GroupCreateForm
 from chat.models import GroupChatModel, P2pChatModel, GroupChatUnreadMessage, GroupChat, UserMedia, UploadedMedia, \
-    GroupCallHistory
+    GroupCallHistory,UserNewNotification
 from chat.serializers import UserModelSerializer
 from users.models import User
 from cryptography.fernet import Fernet
@@ -851,3 +851,28 @@ class LoadMoreRemainingUsers(LoginRequiredMixin, View):
                 })
             result[key] = user_list
         return JsonResponse({'users': result})
+
+
+
+class GetNewNotification(LoginRequiredMixin,View):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        user_notification = UserNewNotification.objects.filter(user=user).last()
+        if not user_notification:
+            return JsonResponse({})
+        data = []
+        for item in user_notification.friends.all():
+            user_dict = {
+                'user_id': item.id,
+                'username': item.username,
+                'email': item.email,
+                'profile_img_url': item.get_profile_img(),
+                'user_full_name': item.get_full_name(),
+                'phone_number': item.phone_number,
+                'profile_url': reverse('user:friend-profile', kwargs={'pk':item.id}),
+                'designation': item.designation,
+                'bio': item.bio,
+                'self_img_url': user.get_profile_img()
+            }
+            data.append(user_dict)
+        return JsonResponse({'data': data})
