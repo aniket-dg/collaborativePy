@@ -876,3 +876,23 @@ class GetNewNotification(LoginRequiredMixin,View):
             }
             data.append(user_dict)
         return JsonResponse({'data': data})
+
+class DeleteNotification(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        user = self.request.user
+        email = self.request.POST.get('email')
+        user_notification = UserNewNotification.objects.filter(user=user).last()
+        if user_notification:
+            friend = user_notification.friends.filter(email=email).last()
+            if friend:
+                user_notification.friends.remove(friend)
+                user_notification.save()
+                return JsonResponse({
+                    'status': 'true'
+                })
+            return JsonResponse({
+                'status': 'false'
+            })
+        return JsonResponse({
+                'status': 'false'
+            })

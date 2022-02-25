@@ -1234,7 +1234,17 @@ function getMessageById(data) {
     }
 
 
-    
+    function get_new_notification()
+    {
+        let url = "{% url 'chat:user-new-notification' %}";
+        $.ajax({
+            url: url,
+            success: function(data){
+                console.log(data);
+            }
+
+        });
+    }
 </script>
 {###########################    End of Script For P2p Chat Socket   ##################}
 </body>
