@@ -1240,16 +1240,19 @@ function getMessageById(data) {
         $.ajax({
             url: url,
             success: function(data){
-                
+                get_loop_data(data);
             }
-
         });
     }
 
     function get_loop_data(data)
     {
         $.each(data['data'], function(e){
-            
+            user = data['data'][e];
+            createNewPanel(user['user_id'],user['username'], user['email'], user['profile_img_url'],user['user_full_name'],
+    user['phone_number'], user['profile_url'], user['designation'], user['bio'], user['self_img_url']);
+            setupNewWebsocket(user['user_id']);
+            deleteNotification(user['email']);    
         });
     }
 
