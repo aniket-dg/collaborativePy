@@ -70,7 +70,11 @@ class PaymentRequestView(LoginRequiredMixin, View):
             coupon_applied = coupon.id
         import uuid
 
-        if float(payment.get_calculated_price()) >= float(0):
+        if float(payment.get_calculated_price()) <= float(0):
+            payment_id = payment.id
+            user_id = self.request.user.id
+            coupon_id = coupon_applied
+            is_upgradable_plan = plan_with_qty
             payment.paid = True 
             payment.amt_paid = 0
             if coupon_applied:
