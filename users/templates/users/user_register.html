@@ -170,25 +170,25 @@
                         <div class="field">
                             <label>First Name</label>
                             <div class="control">
-                                <input type="text" class="input" name="first_name" onblur="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your first name">
+                                <input type="text" class="input" name="first_name" onkeyup="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your first name">
                             </div>
                         </div>
                         <div class="field">
                             <label>Last Name</label>
                             <div class="control">
-                                <input type="text" class="input" name="last_name" onblur="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your last name">
+                                <input type="text" class="input" name="last_name" onkeyup="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your last name">
                             </div>
                         </div>
                         <div class="field">
                             <label>Username</label>
                             <div class="control">
-                                <input type="text" class="input" name="username" required onblur="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your username">
+                                <input type="text" class="input" name="username" required onkeyup="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your username">
                             </div>
                         </div>
                         <div class="field">
                             <label for="email">Email*</label>
                             <div class="control">
-                                <input type="email" id="email" class="input" name="email" required onblur="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your email address">
+                                <input type="email" id="email" class="input" name="email" required onkeyup="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your email address">
                             </div>
                         </div>
 
@@ -208,7 +208,7 @@
                                 <label for="profile_image" class="upload-button">
                                     <i data-feather="plus"></i>
                                 </label>
-                                <input name="profile_image" id="profile_image" onblur="unlockNextBtn(event, this, 1, 'stepbtn1')"  type="file" accept="image/*" alt="" style="display: none;">
+                                <input name="profile_image" id="profile_image" onkeyup="unlockNextBtn(event, this, 1, 'stepbtn1')"  type="file" accept="image/*" alt="" style="display: none;">
                             </div>
                             <div class="limitation">
                                 <small>Only images with a size lower than 3MB are allowed.</small>
@@ -217,14 +217,14 @@
                         <div class="field mt-3">
                             <label>Designation*</label>
                             <div class="control">
-                                <input type="text" class="input" name="designation" required onblur="unlockNextBtn(event, this, 1, 'stepbtn1')" placeholder="Enter your designation">
+                                <input type="text" class="input" name="designation" required onkeyup="unlockNextBtn(event, this, 1, 'stepbtn1')" placeholder="Enter your designation">
                             </div>
                         </div>
                         <div class="field">
                             <label for="email">Bio*</label>
                             <div class="control">
-                                <textarea type="text" class="textarea" style="background: transparent !important; border: none;" name="bio" required 
-                                          onblur="unlockNextBtn(event, this, 1, 'stepbtn1')" placeholder="Enter a bio"></textarea>
+                                <textarea type="text" class="textarea" style="background: transparent !important; border: none;" name="bio" required
+                                          onkeyup="unlockNextBtn(event, this, 1, 'stepbtn1')" placeholder="Enter a bio"></textarea>
                             </div>
                         </div>
                     </div>
@@ -240,13 +240,13 @@
                         <div class="field">
                             <label>Password</label>
                             <div class="control">
-                                <input type="password" name="password1" onblur="unlockNextBtn(event, this, 2, 'stepbtn2')" minlength="8"  class="input" placeholder="Choose a password" required>
+                                <input type="password" name="password1" onkeyup="unlockNextBtn(event, this, 2, 'stepbtn2')" minlength="8"  class="input" placeholder="Choose a password" required>
                             </div>
                         </div>
                         <div class="field">
                             <label>Repeat Password</label>
                             <div class="control">
-                                <input type="password" name="password2" onblur="unlockNextBtn(event, this, 2, 'stepbtn2')" minlength="8"  class="input" placeholder="Repeat your password" required>
+                                <input type="password" name="password2" onkeyup="unlockNextBtn(event, this, 2, 'stepbtn2')" minlength="8"  class="input" placeholder="Repeat your password" required>
                             </div>
                         </div>
                          <div class="field">
