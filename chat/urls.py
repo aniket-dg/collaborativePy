@@ -73,4 +73,5 @@ urlpatterns = [
     path('loadmore/remaining_users/', views.LoadMoreRemainingUsers.as_view(), name='load-more-remaining-users'),
 
     path('get/user/notification/', views.GetNewNotification.as_view(), name='user-new-notification'),
+    path('delete/user/notification/', views.DeleteNotification.as_view(), name='user-delete-notification'),
 ]

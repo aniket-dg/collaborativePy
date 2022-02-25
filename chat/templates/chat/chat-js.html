@@ -1240,9 +1240,31 @@ function getMessageById(data) {
         $.ajax({
             url: url,
             success: function(data){
-                console.log(data);
+                
             }
 
+        });
+    }
+
+    function get_loop_data(data)
+    {
+        $.each(data['data'], function(e){
+            
+        });
+    }
+
+    function deleteNotification(email)
+    {
+        let url = "{% url 'chat:user-delete-notification' %}";
+        $.ajax({
+            url : url,
+            data : {
+                'email': email,
+            },
+            success: function(data)
+            {
+                console.log(data);
+            }
         });
     }
 </script>
