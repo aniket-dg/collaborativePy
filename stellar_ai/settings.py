@@ -106,12 +106,12 @@ TEMPLATES = [
 ]
 
 
-DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.sqlite3',
-         'NAME': BASE_DIR / 'db.sqlite3',
-     }
- }
+#DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # DATABASES = {
@@ -126,16 +126,16 @@ DATABASES = {
 # }
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'myproject',
-#         'USER': 'sgstellar',
-#         'PASSWORD': 'SG@stellar101',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'NAME': 'myproject',
+         'USER': 'sgstellar',
+         'PASSWORD': 'SG@stellar101',
+         'HOST': 'localhost',
+         'PORT': '5432',
+     }
+ }
 
 AUTH_PASSWORD_VALIDATORS = [
     # {
