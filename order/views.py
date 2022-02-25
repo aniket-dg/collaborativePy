@@ -69,6 +69,68 @@ class PaymentRequestView(LoginRequiredMixin, View):
         if coupon:
             coupon_applied = coupon.id
         import uuid
+
+        if float(payment.get_calculated_price()) >= float(0):
+            payment.paid = True 
+            payment.amt_paid = 0
+            if coupon_applied:
+                coupon.used_by.add(user)
+                coupon.max_limit -= 1
+                coupon.save()
+            user = self.request.user 
+            if user and user.payment:
+                old_payment = user.payment
+                new_plan = payment.plan
+                if is_upgradable_plan != 0:
+                    plan_with_qty = user.payment.plans.filter(id=is_upgradable_plan).last()
+                    if plan_with_qty:
+                        plan_with_qty.save()
+                        remaining_days = plan_with_qty.remaining_days() - 1
+                        valid_till = payment.valid_till + timedelta(int(remaining_days))
+                        plan_with_qty.valid_till = valid_till
+                        plan_with_qty.save()
+                    else:
+                        plan_with_qty = PlanWithQty(plan=payment.plan)
+                        plan_with_qty.save()
+                        today = datetime.now().date()
+                        valid_till = today + timedelta(int(payment.plan.duration))
+                        plan_with_qty.valid_till = valid_till
+                        plan_with_qty.save()
+                else:
+                    plan_with_qty = PlanWithQty(plan=payment.plan)
+                    plan_with_qty.save()
+                    today = datetime.now().date()
+                    valid_till = today + timedelta(int(payment.plan.duration))
+                    plan_with_qty.valid_till = valid_till
+                    plan_with_qty.save()
+                payment.save()
+                payment.total_group_create_size = old_payment.total_group_create_size + payment.plan.total_group_create_size
+                # payment.group_size = max(old_payment.group_size, payment.plan.group_size)
+                payment.save()
+                old_plans = old_payment.plans.all()
+                for item in old_plans:
+                    payment.plans.add(item)
+                    payment.save()
+                payment.plans.add(plan_with_qty)
+                payment.save()
+                user.payment = payment
+                user.save()
+            else:
+                user.payment = payment
+                payment = user.payment
+                payment.save()
+                plan_with_qty = PlanWithQty(plan=payment.plan)
+                plan_with_qty.save()
+                today = datetime.now().date()
+                valid_till = today + timedelta(int(payment.plan.duration))
+                plan_with_qty.valid_till = valid_till
+                plan_with_qty.save()
+                payment.plans.add(plan_with_qty)
+                payment.save()
+                user.save()
+            messages.success(self.request, "Payment Success!")
+            return redirect('chat:chat')
+
         payload = {
             "amount": payment.get_calculated_price(),
             "firstname": self.request.user.first_name,
