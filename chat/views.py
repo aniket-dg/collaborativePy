@@ -877,6 +877,8 @@ class GetNewNotification(LoginRequiredMixin,View):
             data.append(user_dict)
         return JsonResponse({'data': data})
 
+
+@method_decorator(csrf_exempt, name="dispatch")
 class DeleteNotification(LoginRequiredMixin, View):
     def post(self, *args, **kwargs):
         user = self.request.user
