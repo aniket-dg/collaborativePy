@@ -26,7 +26,7 @@ from post.models import Post, FlagInappropriate, BookMark
 from .utils import send_welcome_mail, send_email_verification_mail
 from django.contrib.auth.tokens import default_token_generator
 from social_django.models import UserSocialAuth
-from chat.models import GroupChatModel, GroupCallHistory
+from chat.models import GroupChatModel, GroupCallHistory,UserNewNotification
 
 from .api import send_notification
 
