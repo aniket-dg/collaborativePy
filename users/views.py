@@ -558,7 +558,7 @@ class AcceptUserRequest(LoginRequiredMixin, View):
                 'url': reverse('chat:chat')
             }
             send_notification([request_user.id], f'You are now friends with {user.get_full_name()}', extra)
-            save_notification_for_user(request_user)
+            save_notification_for_user(request_user, self.request.user)
             return JsonResponse({
                 'status': 'success',
                 'data': 'Request accepted!'
@@ -697,13 +697,13 @@ class LoadMoreFriends(LoginRequiredMixin, View):
             })
         return JsonResponse({'friends': friends})
 
-def save_notification_for_user(user_id):
+def save_notification_for_user(user_id, self_user):
     user = User.objects.filter(id=user_id).last()
     if user:
         user_notification = UserNewNotification.objects.filter(user=user).last()
         if not user_notification:
             user_notification = UserNewNotification(user=user)
             user_notification.save()
-        user_notification.friends.add(request.user)
+        user_notification.friends.add(self_user)
         user_notification.save()
 
