@@ -704,6 +704,6 @@ def save_notification_for_user(user_id):
         if not user_notification:
             user_notification = UserNewNotification(user=user)
             user_notification.save()
-        user_notification.friends.add(self.request.user)
+        user_notification.friends.add(request.user)
         user_notification.save()
 
