@@ -56,8 +56,9 @@ class GroupChatModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     history = models.ManyToManyField(GroupCallHistory, blank=True)
-    plan = models.ForeignKey('order.Plan',null=True, blank=True, on_delete=models.CASCADE)
+    plan = models.ForeignKey('order.Plan', null=True, blank=True, on_delete=models.CASCADE)
     valid_till = models.DateField(null=True, blank=True)
+
     def __str__(self):
         return str(self.id)
 
@@ -136,8 +137,9 @@ SCOPE_CHOICES = (
 
 )
 
-class UserNewNotification(models.Model):
-    user = models.ForeignKey('users.User', on_delete=models.CASCADE, null=True, blank=True, related_name='user_new_notification_user')
-    friends = models.ManyToManyField('users.User', blank=True, related_name='user_new_notification_friends')
 
-    
+class UserNewNotification(models.Model):
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE, null=True, blank=True,
+                             related_name='user_new_notification_user')
+    friends = models.ManyToManyField('users.User', blank=True, related_name='user_new_notification_friends')
+    groups = models.ManyToManyField(GroupChatModel, blank=True, related_name='user_new_notification_groups')
