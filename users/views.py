@@ -698,7 +698,7 @@ class LoadMoreFriends(LoginRequiredMixin, View):
         return JsonResponse({'friends': friends})
 
 def save_notification_for_user(user_id, self_user):
-    user = User.objects.filter(id=user_id).last()
+    user = User.objects.filter(email=user_id).last()
     if user:
         user_notification = UserNewNotification.objects.filter(user=user).last()
         if not user_notification:
