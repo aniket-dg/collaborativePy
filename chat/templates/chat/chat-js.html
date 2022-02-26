@@ -1271,6 +1271,11 @@ function getMessageById(data) {
             }
         });
     }
+    $(document).ready(function(){
+        const interval = setInterval(function() {
+            get_new_notification();
+        }, 10000);
+    });
 </script>
 {###########################    End of Script For P2p Chat Socket   ##################}
 </body>
