@@ -43,13 +43,13 @@
 <!--                                    </div>-->
 <!--                                    {% endif %}-->
 
-                                    {% if group_list == null %}
+
                                     {% if request.user.is_plan_valid and allow_group_creation %}
                                     <div class="mb-5">
                                         <a  onclick="$('#tab-content-create-chat').addClass('active show');" class="btn btn-sm btn-primary w-100 py-4" >Create CodeRoom</a>
                                     </div>
                                     {% endif %}
-                                    {% endif %}
+
 
                                     <!-- Chats -->
                                     <div class="card-list" id="contact-list-left-panel">
