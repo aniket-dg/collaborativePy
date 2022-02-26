@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Stellar | Notebook</title>
 
@@ -54,11 +54,98 @@
             display: block;
           }
         }
+        .modal {
+  display: block; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 30px;
+  border: 1px solid #888;
+  max-width: 600px;
+}
+
+/* The Close Button */
+
+
+.close:hover,
+.close:focus {
+  text-decoration: none;
+  cursor: pointer;
+}
 
     </style>
 
+
 </head>
 <body>
+
+<!--<button id="myBtn">Open Modal</button>-->
+
+<!-- The Modal -->
+<div id="myModal" class="modal" style="display:none">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+<!--      <p align="right"><span class="close">&times;</span></p>-->
+    <h4 class="pb-3" style="font-weight: 500;line-height: 1.5;">Code room is exclusive functionality of Stellar AI
+
+All rights for  development of Stellar AI code room reserve to Stellar AI and Helping libraries.
+
+It is prohibited to use code room for any illegal, abusive or volient activity</h4>
+
+      <button class="w-100 btn btn-primary p-2 close" id="agreeBtn" style="font-size: 14px;">I agreed and continue &nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right" style="font-weight: 100;font-size: 10px;"></i></button>
+
+  </div>
+
+</div>
+
+<script>
+{#// Get the modal#}
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+notebookModal = localStorage.getItem('agreeCodeRoom');
+if(notebookModal !== 'true')
+{
+    $('#myModal').show();
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+
+if($('#agreeBtn')[0] !== undefined) {
+    $('#agreeBtn').click(function () {
+        localStorage.setItem('agreeCodeRoom', 'true');
+    });
+}
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+
+  }
+}
+</script>
     <div class="custom-container">
         <main class="wrapper row" style="position: fixed;">
             {% if call_active %}

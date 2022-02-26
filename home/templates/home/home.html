@@ -4,9 +4,7 @@
 {% block content %}
 
 <style>
-/* .full-height {
-  height: 100%;
-} */
+
 #myVideo {
     /* right: 0;
     bottom: 0; */
@@ -139,11 +137,14 @@ i.fa.fa-chevron-down{
 </div>
     {% endfor %}
     {% endif %}#} -->
+
+
+
 <div class="page-content bg-white" style="padding-bottom: 0em;">
     <!-- Slider Banner -->
 
-    <div class="" style="background: black;height: 500px;">
-        <center><video id="myVideo" autoplay muted loop style="height: 500px;width: auto;">
+    <div class="" style="background: black;max-height: 500px;margin-top: -2em;">
+        <center><video id="myVideo" autoplay muted loop style="max-height: 500px;max-width: 100%;padding-top: 1em;">
           <source src="{% static 'video/dark.mp4' %}" type="video/mp4">
           <source src="{% static 'video/dark.mp4' %}" type="video/ogg">
         </video></center>
@@ -458,14 +459,14 @@ i.fa.fa-chevron-down{
 </style>
 <div id="custom-overlay" style="display: none"></div>
 <div id="popup-question-wrap" class="m-auto shadow radius-md" style="display: block; z-index: 999999;">
-    <button class="delete d-flex align-items-center justify-content-center" 
+    <button class="delete d-flex align-items-center justify-content-center"
     onclick="rmModalAndOverlay()">✖</button>
     <form action="" method="POST" onsubmit="submitPopup(event, this)" id="popup-form" class="popup-question-form container px-1 px-md-5 py-4">
         {% csrf_token %}
         <div class="row">
             <div class="col-12">
                 <div class="question-block radius-md m-2" style="padding: 1rem 1rem;">
-                    <h4 for="id_age" class="mb-1">Please answer the following questions, so that we can get to know you better.</h4>
+                    <h4 for="id_age" class="mb-1">Please answer the following questions<br> These answers will help the backend Stellar AI Algorithm for a better user experience.</h4>
                     <hr class="my-3">
                     {% if user.is_authenticated %}
                         <p class="mb-2">Logged In as <span class="font-weight-bold">{{request.user.email}}</span></p>
