@@ -74,4 +74,5 @@ urlpatterns = [
 
     path('get/user/notification/', views.GetNewNotification.as_view(), name='user-new-notification'),
     path('delete/user/notification/', views.DeleteNotification.as_view(), name='user-delete-notification'),
+    path('delete/group/notification/', views.DeleteGroupNotification.as_view(), name='user-delete-group-notification'),
 ]

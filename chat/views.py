@@ -581,6 +581,12 @@ class AddMemberToGroupView(View):
             if plan.group_size > (group.user_set.count() - 1):
                 user.groups.add(group)
                 user.save()
+                user_notification = UserNewNotification.objects.filter(user=user).last()
+                if not user_notification:
+                    user_notification = UserNewNotification(user=user)
+                    user_notification.save()
+                user_notification.groups.add(group)
+                user_notification.save()
             else:
                 return JsonResponse({
                     'data': f'Failed to add few member(s). Group size of {plan.group_size} exceeded!'
@@ -863,6 +869,7 @@ class GetNewNotification(LoginRequiredMixin,View):
         data = []
         for item in user_notification.friends.all():
             user_dict = {
+                'type': 'p2p',
                 'user_id': item.id,
                 'username': item.username,
                 'email': item.email,
@@ -875,6 +882,16 @@ class GetNewNotification(LoginRequiredMixin,View):
                 'self_img_url': user.get_profile_img()
             }
             data.append(user_dict)
+        for item in user_notification.groups.all():
+            group_dict = {
+                'type': 'group',
+                'group_name_for_socket': item.name,
+                'profile_image_url': item.profile_image.url if item.profile_image else None,
+                'group_id': item.id,
+                'group_info': item.group_info,
+                'group_name': item.group_name
+            }
+            data.append(group_dict)
         return JsonResponse({'data': data})
 
 
@@ -888,6 +905,27 @@ class DeleteNotification(LoginRequiredMixin, View):
             friend = user_notification.friends.filter(email=email).last()
             if friend:
                 user_notification.friends.remove(friend)
+                user_notification.save()
+                return JsonResponse({
+                    'status': 'true'
+                })
+            return JsonResponse({
+                'status': 'false'
+            })
+        return JsonResponse({
+                'status': 'false'
+            })
+
+@method_decorator(csrf_exempt, name="dispatch")
+class DeleteGroupNotification(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        user = self.request.user
+        group_name = self.request.POST.get('group_name')
+        user_notification = UserNewNotification.objects.filter(user=user).last()
+        if user_notification:
+            friend = user_notification.groups.filter(name=group_name).last()
+            if friend:
+                user_notification.groups.remove(friend)
                 user_notification.save()
                 return JsonResponse({
                     'status': 'true'
