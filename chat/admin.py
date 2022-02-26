@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Message, P2pChatModel, GroupChatModel, GroupChat, GroupChatUnreadMessage, UploadedMedia, UserMedia
+from .models import Message, P2pChatModel, GroupChatModel, GroupChat, GroupChatUnreadMessage, UploadedMedia, UserMedia, UserNewNotification
 # Register your models here.
 from .models import GroupCallHistory
 class P2pChatModelAdmin(admin.ModelAdmin):
@@ -16,3 +16,4 @@ admin.site.register(P2pChatModel, P2pChatModelAdmin)
 admin.site.register(UploadedMedia)
 admin.site.register(UserMedia)
 admin.site.register(GroupCallHistory)
+admin.site.register(UserNewNotification)
