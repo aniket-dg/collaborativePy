@@ -57,7 +57,7 @@
                                         <img id="user-avatar-minimal" style="object-fit: cover;" src="{{ profile_user.get_profile_img }}" data-demo-src="{{ profile_user.get_profile_img }}" alt="">
                                     </div>
                                     {% if request.user == profile_user %}
-                                    <a class="button modal-trigger mx-auto update-btn" data-modal="change-profile-pic-modal">
+                                    <a class="button modal-trigger mx-auto update-btn" data-modal="upload-crop-profile-modal">
                                         <i data-feather="camera"></i>
                                         <span>&nbsp;&nbsp;Update Profile</span>
                                     </a>
@@ -381,7 +381,7 @@
                                     <img src="{% static 'social_assets/img/illustrations/profile/add-profile.svg' %}" id="update-preview-image" style="object-fit: cover; object-position: center; width: 100%; height: 100%;" alt="">
                                     <input type="file" name="profile_image" id="upload-profile-picture" accept="image/*">
                             </label>
-                            <div class="d-block ml-auto mr-auto my-2">Click above to upload a profile picture.</div>
+                            <div class="d-block ml-auto mr-auto my-2">Click above to upload your profile picture.</div>
 
                             <!-- <div class="upload-demo-wrap is-hidden">
                                 <div id="upload-profile">

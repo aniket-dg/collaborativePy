@@ -1492,7 +1492,8 @@
                 } else {
                     var profile = window.location.origin + data.user_profile;
                 }
-                document.getElementById('comment-body' + data.post_id).innerHTML +=
+                let comment_div = $('#comment-body'+data.post_id);
+                comment_div.prepend(
                     `
                             <div class="media is-comment">
                             <div class="media-left">
@@ -1551,7 +1552,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>`;
+                        </div>`);
         }
         );
             },
@@ -1637,7 +1638,7 @@
             display: "none"
         });
         $('#comments-wrap' + post_id).removeClass('is-hidden');
-        $('#content-wrap' + post_id).addClass('is-hidden');
+        {#$('#content-wrap' + post_id).addClass('is-hidden');#}
 
         currentComments = $(`#comment-body${post_id} .is-comment`).length;
         $.ajax({

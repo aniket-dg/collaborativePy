@@ -853,6 +853,7 @@
 
                     $(`#comment-counter${id}`).text(current + 1);
 		    getSingleComment(id);
+
                 },
                 error: function (response) {
                     alert(response['Message']);
@@ -1013,7 +1014,7 @@
             display: "none"
         });
         $('#comments-wrap' + post_id).removeClass('is-hidden');
-        $('#content-wrap' + post_id).addClass('is-hidden');
+        {#$('#content-wrap' + post_id).addClass('is-hidden');#}
 
         currentComments = $(`#comment-body${post_id} .is-comment`).length;
         $.ajax({

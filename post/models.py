@@ -164,7 +164,7 @@ class PostComment(models.Model):
         return f"{self.id}"
 
     class Meta:
-        ordering = ['-timestamp']
+        ordering = ['-id']
 
 
 class SkeletonPostComment(models.Model):
@@ -175,3 +175,6 @@ class SkeletonPostComment(models.Model):
 
     def __str__(self):
         return f"{self.id}"
+
+    class Meta:
+        ordering = ['-timestamp']

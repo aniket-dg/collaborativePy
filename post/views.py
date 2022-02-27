@@ -751,7 +751,7 @@ class GetComment(View):
                 'id': item.id,
                 'post_id': item.post.id,
                 'comment': item.comment,
-                'timestamp': item.timestamp,
+                'timestamp': item.timestamp.strftime("%d %b, %Y"),
                 'post_user_id': item.user.id,
                 'user': item.user.username,
                 'post_user': item.user.get_full_name(),
@@ -768,7 +768,7 @@ class GetSkeletonComment(View):
     def get(self, *args, **kwargs):
         post_id = self.request.GET.get('post_id')
         post = SkeletonPost.objects.filter(id=post_id).last()
-        comment_list = SkeletonPostComment.objects.filter(post=post).last()
+        comment_list = SkeletonPostComment.objects.filter(post=post).first()
         comment_list = [comment_list]
         comments = []
         print(comment_list)
@@ -776,7 +776,8 @@ class GetSkeletonComment(View):
             if item is None:
                 continue
             elif not item.user.profile_image:
-                profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
+                profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar" \
+                          "-profile-heroes-black.png "
             else:
                 profile = item.post.user.profile_image.url
             comments.append({
