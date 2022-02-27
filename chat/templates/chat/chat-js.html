@@ -900,7 +900,7 @@ function getMessageById(data) {
             }).then(response => {
                 return response.json()
             }).then(data => {
-                setToast(data)
+                setToast(data);
                 if (data['data'] && reload ){
                     location.reload()
                 }
@@ -1009,12 +1009,8 @@ function getMessageById(data) {
                                     </li>
                                     {% comment %} <li><a class="dropdown-item" href="#">Edit contact</a> {% endcomment %}
                                     </li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item text-danger" href="#">Block user</a>
-                                    </li>
+
+
                                 </ul>
                             </div>
                         </div>

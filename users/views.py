@@ -672,7 +672,10 @@ class UsersAndPostsSearchView(LoginRequiredMixin, View):
 
 class LoadMoreFriends(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
-        user = self.request.user
+        user_type = self.request.GET.get('profile_user_id')
+        user = User.objects.filter(id=int(user_type)).last()
+        if not user:
+            user = self.request.user
         connected_users = user.get_user_connected_users()
         p = Paginator(connected_users, 10)
         current_status = int(self.request.GET['current_friends'])

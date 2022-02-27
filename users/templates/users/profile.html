@@ -18,7 +18,7 @@
             margin-top: 6rem;
         }
         .custom-username{
-            color:#A2A5B9; 
+            color:#A2A5B9;
             font-size: 1rem;
             margin-top: .6rem;
             display: flex;
@@ -52,7 +52,7 @@
                         <div class="column pb-5" style="background: #fff; margin: 1rem .75rem;">
                             <div class="profile-info">
                                 <div class="left">
-                                    <div class="profile-avatar custom-profile-avatar modal-trigger" 
+                                    <div class="profile-avatar custom-profile-avatar modal-trigger"
                                          {% if request.user == profile_user %} data-modal="change-profile-pic-modal"{% endif %}>
                                         <img id="user-avatar-minimal" style="object-fit: cover;" src="{{ profile_user.get_profile_img }}" data-demo-src="{{ profile_user.get_profile_img }}" alt="">
                                     </div>
@@ -63,7 +63,7 @@
                                     </a>
                                     {% endif %}
                                 </div>
-                                    
+
                                 <div class="right pl-0 pr-lg-3 pr-0">
                                     <div class="head custom-head">
                                         <h2>
@@ -97,7 +97,7 @@
                                             &nbsp;Friends
                                         </span>
                                         <span class="is-inline-flex is-align-items-center">
-                                            <i class="mdi mdi-bag-checked"></i> 
+                                            <i class="mdi mdi-bag-checked"></i>
                                             &nbsp;{{form.designation.value}}
                                         </span>
                                     </div>
@@ -133,10 +133,10 @@
                                 </div>
                                 <div class="cover-overlay"></div>
                             </div>
-    
+
                             <div class="profile-menu is-hidden-mobile">
                             </div>
-    
+
                             <div class="profile-subheader">
                                 <div class="subheader-start is-hidden-mobile" style="float: right;">
                                     <a class="button has-icon is-solid accent-button is-bold">
@@ -150,7 +150,7 @@
                                     <span>{{profile_user.username}}</span>
                                 </div>
                                 <div class="subheader-end is-hidden-mobile" style="display: flex; justify-content: end;">
-    
+
                                     {% if profile_user == request.user %}
                                     {% elif profile_user in request.user.get_user_connected_users %}
                                     <a href="{% url 'chat:chat' %}" class="button has-icon is-bold menu-item" style="min-width: 130px;background: #5596e6;color: #fff;" data-content="education-content">
@@ -159,7 +159,7 @@
                                     </a>
                                     {% elif request_already_sent %}
                                     <button class="button has-icon is-bold">&#10003;&nbsp;&nbsp; Request Sent</button>
-                                    
+
                                     {% elif profile_user not in request.user.get_user_connected_users %}
                                     <form method="POST" onsubmit="sendFriendRequest(event);$(this).next().show();$(this).hide();">
                                         {% csrf_token %}
@@ -170,9 +170,9 @@
                                         </button>
                                     </form>
                                     <button style="display: none;" class="button has-icon is-bold">&#10003;&nbsp;&nbsp; Request Sent</button>
-    
+
                                     {% endif %}
-    
+
                                     {% if form.designation.value %}
                                     <a class="button has-icon is-bold menu-item" style="min-width: 130px; margin-left: 20px;" data-content="education-content">
                                         <i class="mdi mdi-progress-check"></i>
@@ -354,7 +354,7 @@
 
             </div>
         </div>
-        
+
                 </div>
 
             </div>
@@ -398,7 +398,7 @@
                 </form>
             </div>
         </div>
-        
+
     </div>
 
 
