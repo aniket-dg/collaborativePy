@@ -1170,7 +1170,7 @@ function getSingleComment(id)
             display: "none"
         });
         $('#comments-wrap' + post_id).removeClass('is-hidden');
-        $('#content-wrap' + post_id).addClass('is-hidden');
+        {#$('#content-wrap' + post_id).addClass('is-hidden');#}
 
         currentComments = $(`#comment-body${post_id} .is-comment`).length;
         $.ajax({

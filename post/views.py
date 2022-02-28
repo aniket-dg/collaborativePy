@@ -673,10 +673,10 @@ class LoadMoreComments(View):
         new_comments = list(p.get_page((current_status + 2) // 2))
         comments = []
         for item in new_comments:
-            if not item.user.profile_image:
+            if not item.user.get_profile_img():
                 profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
             else:
-                profile = post.user.profile_image.url
+                profile = item.user.get_profile_img()
             comments.append({
                 'id': item.id,
                 'post_id': item.post.id,
@@ -712,10 +712,10 @@ class LoadMoreSkeletonComments(View):
         new_comments = list(p.get_page((current_status + 2) / 2))
         comments = []
         for item in new_comments:
-            if not item.user.profile_image:
+            if not item.user.get_profile_img():
                 profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
             else:
-                profile = post.user.profile_image.url
+                profile = item.user.get_profile_img()
             comments.append({
                 'id': item.id,
                 'post_id': item.post.id,
@@ -743,10 +743,10 @@ class GetComment(View):
 
         for item in comment_list:
 
-            if not item.user.profile_image:
+            if not item.user.get_profile_img():
                 profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar-profile-heroes-black.png"
             else:
-                profile = item.post.user.profile_image.url
+                profile = item.user.get_profile_img()
             comments.append({
                 'id': item.id,
                 'post_id': item.post.id,
@@ -775,11 +775,11 @@ class GetSkeletonComment(View):
         for item in comment_list:
             if item is None:
                 continue
-            elif not item.user.profile_image:
+            elif not item.user.get_profile_img():
                 profile = "https://e7.pngegg.com/pngimages/798/436/png-clipart-computer-icons-user-profile-avatar" \
                           "-profile-heroes-black.png "
             else:
-                profile = item.post.user.profile_image.url
+                profile = item.user.get_profile_img()
             comments.append({
                 'id': item.id,
                 'post_id': item.post.id,
