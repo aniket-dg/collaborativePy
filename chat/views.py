@@ -136,6 +136,9 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
     model = GroupChatModel
     form_class = GroupCreateForm
 
+    def get(self, *args, **kwargs):
+        return redirect("chat:chat")
+
     def form_valid(self, form):
         print(self.request.POST)
         user = self.request.user
@@ -302,6 +305,8 @@ class DeleteSenderGroupChatMessage(LoginRequiredMixin, View):
             'status': True,
             'error': 'Message not found!'
         })
+
+
 
 
 class DeleteSenderGroupChatMessageSelf(LoginRequiredMixin, View):
