@@ -4,7 +4,9 @@
 {% block content %}
 
 <style>
-
+/* .full-height {
+  height: 100%;
+} */
 #myVideo {
     /* right: 0;
     bottom: 0; */
@@ -31,6 +33,13 @@ i.fa.fa-chevron-down{
 .collapsed.faq-header{
     color: #717171;
 }
+
+.grad-h1{
+  background: -webkit-linear-gradient(#5596e6, #fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 </style>
 <!-- Content -->
 
@@ -137,17 +146,25 @@ i.fa.fa-chevron-down{
 </div>
     {% endfor %}
     {% endif %}#} -->
-
-
-
-<div class="page-content bg-white" style="padding-bottom: 0em;">
+<div class="page-content bg-black" style="padding-bottom: 0em;">
     <!-- Slider Banner -->
+    <div class="row">
+        <div class="col-lg-6" style="padding:8em 2em 4em 12%;background-color:black;">
+             <h5 style="color:#FCB900;" class="pb-2">CODE | CONNECT | COLLABORATE</h5>
 
-    <div class="" style="background: black;max-height: 500px;margin-top: -2em;">
-        <center><video id="myVideo" autoplay muted loop controls style="max-height: 500px;max-width: 100%;padding-top: 1em;">
-          <source src="{% static 'video/dark.mp4' %}" type="video/mp4">
-          <source src="{% static 'video/dark.mp4' %}" type="video/ogg">
-        </video></center>
+
+             <h1 style="color:#fff;font-size:3em;line-height:1em;" class="pb-2 grad-h1">An <span style="color:#5596e6;"> Artificial Intelligence</span> community website</h1>
+
+            <a href="{% url 'user:register' %}"  class="btn radius-xl btn-sign btn-aware">Start Coding <span></span></a>
+        </div>
+
+        <div class="col-lg-6" style="background: black;height: 500px;">
+            <center><video id="myVideo" autoplay muted loop style="height: 500px;width: 100%;">
+<!--                https://stellar-ai.in/static/video/dark.mp4-->
+              <source src="{% static 'video/dark.mp4' %}" type="video/mp4">
+              <source src="{% static 'video/dark.mp4' %}" type="video/ogg">
+            </video></center>
+        </div>
     </div>
 
 
@@ -161,45 +178,60 @@ i.fa.fa-chevron-down{
     </div> -->
     <!-- Slider Banner -->
     <!-- <br><br><br><br><br> -->
-    <div class="content-block mt-5">
+
+    <div class="content-block mt-5 bg-black">
         <!-- featured box -->
-        <div class="section-full bg-white text-center">
+        <div class="section-full bg-black text-center">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-12 m-b30 wow fadeInUp " data-wow-delay="0.2s">
-                        <div class="icon-bx-wraper featured-box style1 shadow radius-md zigzag">
-                            <div class="icon-xl m-b20">
-                                <a href="javascript:void(0);" class="icon-cell"><img
-                                        src="{% static 'images/icon/icon1.png' %}" alt=""></a>
-                            </div>
-                            <div class="icon-content">
-                                <h2 class="dlab-tilte">Stellar AI</h2>
-                                    <p>A website working on Artificial Intelligence algorithms and down the pike planning to model more Artificial Intelligent algorithms in its skeleton for the users.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 m-b30 wow fadeInUp" data-wow-delay="0.4s">
-                        <div class="icon-bx-wraper m-t60 featured-box style1 shadow radius-md">
-                            <div class="icon-xl m-b20">
-                                <a href="javascript:void(0);" class="icon-cell"><img
-                                        src="{% static 'images/icon/icon2.png' %}" alt=""></a>
-                            </div>
-                            <div class="icon-content">
-                                <h2 class="dlab-tilte">Stellar AI</h2>
-                                    <p>An Artificial Intelligence community website </p>
+                    <div class="col-lg-3 col-md-6 col-sm-12 m-b30 wow fadeInUp " data-wow-delay="0.2s">
+                        <div class="icon-bx-wraper featured-box style1 shadow radius-md zigzag" style="background-color:#FCB900;padding:2em 3em;height:8.5em;">
+<!--                            <div class="icon-xl m-b20">-->
+<!--                                <a href="javascript:void(0);" class="icon-cell"><img-->
+<!--                                        src="{% static 'images/icon/icon1.png' %}" alt=""></a>-->
+<!--                            </div>-->
+                            <div>
+                                <a href="#code">
+                                    <div  style="color:#fff;font-weight: 600;font-weight: revert;margin:0;font-size:1.5em;">AI CODE ROOM</div>
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 m-b30 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="icon-bx-wraper featured-box style1 shadow radius-md">
-                            <div class="icon-xl m-b20">
-                                <a href="javascript:void(0);" class="icon-cell"><img
-                                        src="{% static 'images/icon/icon3.png' %}" alt=""></a>
+                    <div class="col-lg-3 col-md-6 col-sm-12 m-b30 wow fadeInUp " data-wow-delay="0.2s">
+                        <div class="icon-bx-wraper featured-box style1 shadow radius-md zigzag" style="background-color:#FCB900;padding:2em 3em;height:8.5em;">
+<!--                            <div class="icon-xl m-b20">-->
+<!--                                <a href="javascript:void(0);" class="icon-cell"><img-->
+<!--                                        src="{% static 'images/icon/icon1.png' %}" alt=""></a>-->
+<!--                            </div>-->
+                            <div>
+                                <a href="#forums">
+                                    <div  style="color:#fff;font-weight: 600;font-weight: revert;margin:0;font-size:1.5em;">AI COMMUNITY</div>
+                                </a>
                             </div>
-                            <div class="icon-content">
-                                <h2 class="dlab-tilte">Stellar AI</h2>
-                                <p>An environment which promotes a camaraderie and a cross-cultural  alliance to connect and grow in Coding / Machine Learning / Deep Learning / Artificial Intelligence.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12 m-b30 wow fadeInUp " data-wow-delay="0.2s">
+                        <div class="icon-bx-wraper featured-box style1 shadow radius-md zigzag" style="background-color:#FCB900;padding:2em 1em;height:8.5em;">
+<!--                            <div class="icon-xl m-b20">-->
+<!--                                <a href="javascript:void(0);" class="icon-cell"><img-->
+<!--                                        src="{% static 'images/icon/icon1.png' %}" alt=""></a>-->
+<!--                            </div>-->
+                            <div>
+                                <a href="#sc">
+                                <div  style="color:#fff;font-weight: 600;font-weight: revert;margin:0;font-size:1.5em;">AI SKELETON CODES</div>
+                                </a>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12 m-b30 wow fadeInUp " data-wow-delay="0.2s">
+                        <div class=" icon-bx-wraper featured-box style1 shadow radius-md zigzag" style="background-color:#FCB900;padding:2em 2em;height:8.5em;width:100%">
+<!--                            <div class="icon-xl m-b20">-->
+<!--                                <a href="javascript:void(0);" class="icon-cell"><img-->
+<!--                                        src="{% static 'images/icon/icon1.png' %}" alt=""></a>-->
+<!--                            </div>-->
+                            <a href="#comp">
+                                <div  style="color:#fff;font-weight: 600;font-weight: revert;margin:0;font-size:1.5em;">AI COMPETITIONS</div >
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -207,7 +239,7 @@ i.fa.fa-chevron-down{
         </div>
         <!-- featured box End -->
         <!-- about us -->
-        <div class="section-full bg-white content-inner">
+        <div class="section-full bg-black content-inner" id="code">
             <div class="container">
                 <div class="row align-items-center about-bx1">
                     <div class="col-lg-6 col-md-6 m-b30 wow fadeInLeft" data-wow-delay="0.3s">
@@ -215,21 +247,34 @@ i.fa.fa-chevron-down{
                             <img src="{% static 'images/illustrator/chat.svg' %}" alt="">
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 m-b30 wow fadeInRight" data-wow-delay="0.6s">
+                    <div class="col-lg-6 col-md-6 m-b30 wow fadeInRight" data-wow-delay="0.6s" >
                         <div class="about-content">
-                            <span class="sub-title text-primary">Collaborative coding solutions<img
+                            <span class="sub-title" style="color:#FCB900">Collaborative coding solutions<img
                                     src="{% static 'images/background/bg6.png' %}" alt="" /></span>
-                            <h2 class="title">AI CODE ROOMS</h2>
+                            <h2 class="title text-primary">AI CODE ROOMS</h2>
 <!--                            <p>An environment which helps to connect people that are looking for AI/Coding solutions, people with no previous communication can connect through a Stellar AI Id which leads to a code room which includes important features like chats, voice calls and video calls.</p>-->
 <!--                            <p>AI/Coding personal tutors, E-learning Institutions , Companies, students can use such affordable AI Code rooms for personal growth.</p>-->
-                               <p>1)	Live Audio for users inside the AI code-room / meeting.<br>
-2)	Live Video for users inside the AI code-room / meeting.<br>
-3)	Live Coding Interface where live coding can happen where one user can see another user coding live , all the different Machine Learning / Deep Learning / Artificial Intelligence Libraries are provided in the Coding Interface.
-4)	Python coders/students/developers/employees/companies anyone can come and use this unique code-room for growth.<br>
-5)	Live Chatting for users inside the code-room/meeting.<br>
-6)	Every Code-room has a host/admin who can add ‘n’ number of people in the group according to the plan he buys.<br>
-7)	Every Code-room has a host/admin who has the power to add/remove any user he/she wants.<br>
-8)	In the absence of the host/admin still all the code-room members can code and run algorithms on the coding interface.</p>
+                               <ul style="color:#fff">
+                                   <li>Live Audio and Video for users inside the AI code-room / meeting.</li>
+                                   <li>Live Coding Interface where live coding can happen where one user can see another user coding live , all the different Machine Learning / Deep Learning / Artificial Intelligence Libraries are provided in the Coding Interface</li>
+                                   <li>Python coders/students/developers/employees/companies anyone can come and use this unique code-room for growth.</li>
+                                   <li>Live Chatting for users inside the code-room/meeting.</li>
+<!--                                   <li>Every Code-room has a host/admin who can add ‘n’ number of people in the group according to the plan he buys.</li>-->
+<!--                                   <li>Every Code-room has a host/admin who has the power to add/remove any user he/she wants.</li>-->
+<!--                                   <li>	In the absence of the host/admin still all the code-room members can code and run algorithms on the coding interface.</li>-->
+                               </ul>
+                                        <a href="{% url 'user:register' %}"  class="btn radius-xl btn-sign btn-aware">Start Coding <span></span></a>
+
+
+
+<!--                                   1)	Live Audio for users inside the AI code-room / meeting.<br>-->
+<!--2)	Live Video for users inside the AI code-room / meeting.<br>-->
+<!--3)	Live Coding Interface where live coding can happen where one user can see another user coding live , all the different Machine Learning / Deep Learning / Artificial Intelligence Libraries are provided in the Coding Interface.-->
+<!--4)	Python coders/students/developers/employees/companies anyone can come and use this unique code-room for growth.<br>-->
+<!--5)	Live Chatting for users inside the code-room/meeting.<br>-->
+<!--6)	Every Code-room has a host/admin who can add ‘n’ number of people in the group according to the plan he buys.<br>-->
+<!--7)	Every Code-room has a host/admin who has the power to add/remove any user he/she wants.<br>-->
+<!--8)	In the absence of the host/admin still all the code-room members can code and run algorithms on the coding interface.</p>-->
                         </div>
                     </div>
                 </div>
@@ -238,17 +283,19 @@ i.fa.fa-chevron-down{
 
         <!-- customer box end -->
         <!-- overview box -->
-        <div class="section-full bg-white content-inner-1">
+        <div class="section-full bg-black content-inner-1" id="forums">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="overview-box style1">
                             <div class="overview-info wow fadeInLeft" data-wow-delay="0.3s">
-                                <span class="sub-title text-primary">Community</span>
-                                <h2 class="title"><a href="#">AI FORUMS</a></h2>
-                                <p>A place where anyone can post their particular doubts , questions , errors, discussions and expect instant solutions/help from anyone in the community.</p>
-                                <p>AI Algorithms like Recommendation System , Clustering are used here in the backend for a better and more efficient user experience that connects like-minded and similar background people together.</p>
+                                <span class="sub-title " style="color:#FCB900">Forums</span>
+                                <h2 class="title text-primary">AI COMMUNITY</h2>
+                                <p style="color:#fff">A place where anyone can post their particular doubts , questions , errors, discussions and expect instant solutions/help from anyone in the community.</p>
+                                <p style="color:#fff">AI Algorithms like Recommendation System , Clustering are used here in the backend for a better and more efficient user experience that connects like-minded and similar background people together.</p>
                                 <!--                                <a href="#" class="btn btn-gradient btn-md radius-xl">Explor More</a>-->
+                                        <a href="{% url 'user:register' %}"  class="btn radius-xl btn-sign btn-aware">Start Coding <span></span></a>
+
                             </div>
                             <div class="overview-media wow fadeInRight img-move" data-wow-delay="0.6s">
                                 <img src="{% static 'images/illustrator/forums.svg' %}" alt="">
@@ -260,7 +307,7 @@ i.fa.fa-chevron-down{
         </div>
         <!-- overview box end -->
         <!-- overview box -->
-        <div class="section-full bg-white content-inner-1">
+        <div class="section-full bg-black content-inner-1" id="sc">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -269,10 +316,12 @@ i.fa.fa-chevron-down{
                                 <img src="{% static 'images/illustrator/skeleton.svg' %}" alt="">
                             </div>
                             <div class="overview-info wow fadeInRight" data-wow-delay="0.6s">
-                                <span class="sub-title text-primary">Rich coding templates</span>
-                                <h2 class="title"><a href="#">AI SKELETON CODES</a>
+                                <span class="sub-title " style="color:#FCB900">Rich coding templates</span>
+                                <h2 class="title text-primary">AI SKELETON CODES
                                 </h2>
-                                <p>An environment where Machine Learning and Deep Learning professionals/students can directly use filters and get the basic skeleton code and then edit it further for the project requirement</p>
+                                <p style="color:#fff">An environment where Machine Learning and Deep Learning professionals/students can directly use filters and get the basic skeleton code and then edit it further for the project requirement</p>
+                                       <a href="{% url 'user:register' %}"  class="btn radius-xl btn-sign btn-aware">Start Coding <span></span></a>
+
                             </div>
                         </div>
                     </div>
@@ -280,17 +329,19 @@ i.fa.fa-chevron-down{
             </div>
         </div>
 
-         <div class="section-full bg-white content-inner-1">
+         <div class="section-full bg-black content-inner-1" id="comp">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="overview-box style1">
                             <div class="overview-info wow fadeInLeft" data-wow-delay="0.3s">
-                                <span class="sub-title text-primary">Compete</span>
-                                <h2 class="title"><a href="#">AI COMPETITIONS</a></h2>
-                                <p>An ecosystem where different types of Machine Learning, Deep Learning and AI competitions will be hosted here for a more competitive experience.
+                                <span class="sub-title " style="color:#FCB900">Compete</span>
+                                <h2 class="title text-primary">AI COMPETITIONS </h2>
+                                <p style="color:#fff">An ecosystem where different types of Machine Learning, Deep Learning and AI competitions will be hosted here for a more competitive experience.
                                 </p>
-                                <p>Any Institution, Company, Organization with a  Business Problem on AI  can host the particular Dataset on our ecosystem</p>
+                                <p style="color:#fff">Any Institution, Company, Organization with a  Business Problem on AI  can host the particular Dataset on our ecosystem</p>
+                                       <a href="{% url 'user:register' %}"  class="btn radius-xl btn-sign btn-aware">Start Coding <span></span></a>
+
                             </div>
                             <div class="overview-media wow fadeInRight img-move" data-wow-delay="0.6s">
                                 <img src="{% static 'images/illustrator/comp.svg' %}" alt="">
@@ -302,7 +353,7 @@ i.fa.fa-chevron-down{
         </div>
 
 
-<div class="section-full bg-white content-inner-1">
+<div class="section-full bg-black content-inner-1">
 
 
 <!--        <div class="section-full bg-white content-inner-1">-->
@@ -332,27 +383,27 @@ i.fa.fa-chevron-down{
 <!--            </div>-->
 <!--        </div>-->
 
-        <div class="section-full bg-white content-inner-1 my-5 py-5">
+        <div class="section-full bg-black content-inner-1 my-5 py-5">
             <div class="container">
                 <div class="overview-box style1">
                     <!-- <div class="overview-media wow fadeInLeft img-move2" data-wow-delay="0.3s">
                         <img src="{% static 'images/illustrator/skeleton.svg' %}" alt="">
                     </div> -->
                     <div class="w-100">
-                        <h2 class="title text-center mb-5 pb-5">Frequently Asked Questions</h2>
+                        <h2 class="title text-center mb-5 pb-5" style="color:#fff">Frequently Asked Questions</h2>
                         <div class="accordion mb-2">
                             <div class="row">
                                 {% for f in faq %}
                                 <div class="col-lg-6">
-                                    <div class="card" style="border:none; border-bottom: 1px solid rgba(0, 0, 0, .125);" >
+                                    <div class="card bg-black" style="border:none; border-bottom: 1px solid #fff;" >
                                         <div class="card-header faq-header collapsed" data-toggle="collapse" data-target="#collapseFAQ{{f.id}}" aria-expanded="false" aria-controls="collapseFAQ{{f.id}}">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span>{{f.question}}</span>
+                                                <span class="text-primary">{{f.question}}</span>
                                                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
                                             </div>
                                         </div>
                                         <div id="collapseFAQ{{f.id}}" class="collapse">
-                                            <div class="card-body">
+                                            <div class="card-body" style="color:#fff">
                                                 {{f.answer}}
                                             </div>
                                         </div>
@@ -371,10 +422,10 @@ i.fa.fa-chevron-down{
 
 
         <!-- contact form -->
-        <div class="section-full bg-white content-inner"
-            style="background-image: url({% static 'images/background/bg1.jpg' %}); background-size: cover;">
+        <div class="section-full bg-black content-inner">
+<!--            style="background-image: url({% static 'images/background/bg1.jpg' %}); background-size: cover;">-->
             <div class="container">
-                <div class="row align-items-center">
+                <div class="row align-items-center" style="padding-bottom:8em;">
                     <div class="col-lg-5 col-md-5 m-b30 wow fadeInLeft" data-wow-delay="0.3s">
                         <img src="{% static 'images/about/about-3.png' %}" class="img-move2" alt="">
                     </div>
@@ -458,15 +509,15 @@ i.fa.fa-chevron-down{
     }
 </style>
 <div id="custom-overlay" style="display: none"></div>
-<div id="popup-question-wrap" class="m-auto shadow radius-md" style="display: block; z-index: 999999;">
+<div id="popup-question-wrap" class="bg-black m-auto shadow radius-md" style="display: block; z-index: 999999;">
     <button class="delete d-flex align-items-center justify-content-center"
     onclick="rmModalAndOverlay()">✖</button>
-    <form action="" method="POST" onsubmit="submitPopup(event, this)" id="popup-form" class="popup-question-form container px-1 px-md-5 py-4">
+    <form action="" method="POST" onsubmit="submitPopup(event, this)" id="popup-form" class="popup-question-form container px-1 px-md-5 py-4" style="background:#292929">
         {% csrf_token %}
         <div class="row">
             <div class="col-12">
                 <div class="question-block radius-md m-2" style="padding: 1rem 1rem;">
-                    <h4 for="id_age" class="mb-1">Please answer the following questions<br> These answers will help the backend Stellar AI Algorithm for a better user experience.</h4>
+                    <h4 for="id_age" class="mb-1">Please answer the following questions, so that we can get to know you better.</h4>
                     <hr class="my-3">
                     {% if user.is_authenticated %}
                         <p class="mb-2">Logged In as <span class="font-weight-bold">{{request.user.email}}</span></p>
@@ -574,7 +625,7 @@ i.fa.fa-chevron-down{
                     </div>
                 </div>
             </div>
-            <!-- Finance and accounts 
+            <!-- Finance and accounts
             Sales and marketing
             Office operation /Hr
             Production/Maintainance /Quality
@@ -691,3 +742,4 @@ $( document ).ready(function() {
 });
 </script>
 {% endblock content %}
+</div>
