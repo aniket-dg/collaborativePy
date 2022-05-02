@@ -153,16 +153,16 @@
                                 <div class="nav-drop-body is-friend-requests" style="overflow-x: hidden;">
                                     <!-- Message -->
                                     {% for p2pchat in p2p_unread_messages %}
-                                    <div class="media" onclick="location={% url 'chat:chat' %}" style="cursor: pointer;">
+                                    <div class="media" onclick="location='{{ p2pchat.1 }}?username={{ p2pchat.0.user.username }}&email={{ p2pchat.0.user.email }}&id={{ p2pchat.0.user.id }}&user_img_url={{ p2pchat.0.recipient.get_profile_img }}&img_url={{ p2pchat.0.user.get_profile_img }}&full_name={{ p2pchat.0.recipient.get_full_name }}&phone_number={{ p2pchat.0.recipient.phone_number }}&profile_url={% url 'user:friend-profile' p2pchat.0.recipient.id %}&designation={{ p2pchat.0.recipient.designation }}&bio={{ p2pchat.0.recipient.bio }}'" style="cursor: pointer;">
                                         <figure class="media-left">
                                             <p class="image">
-                                                <img src="{{p2pchat.user.get_profile_img}}" alt="">
+                                                <img src="{{p2pchat.0.user.get_profile_img}}" alt="">
                                             </p>
                                         </figure>
                                         <div class="media-content" style="width: 60%;">
-                                            <a>{{p2pchat.user.get_full_name}}</a>
-                                            <span style="white-space:nowrap; text-overflow: ellipsis; overflow-x: hidden;">{{p2pchat.body|default:'Received &#10064 media files.'}}</span>
-                                            <span class="time">{{p2pchat.timestamp|date:'F j, Y: f A'}}</span>
+                                            <a>{{p2pchat.0.user.get_full_name}}</a>
+                                            <span style="white-space:nowrap; text-overflow: ellipsis; overflow-x: hidden;">{{p2pchat.0.body|default:'Received &#10064 media files.'}}</span>
+                                            <span class="time">{{p2pchat.0.timestamp|date:'F j, Y: f A'}}</span>
                                         </div>
                                         <div class="media-right is-centered">
                                             <div class="added-icon">
@@ -173,16 +173,19 @@
                                     {% endfor %}
                                     <!-- Message -->
                                     {% for groupchat in group_unread_messages %}
-                                    <div class="media" onclick="location={% url 'chat:chat' %}" style="cursor: pointer;">
+                                    <h1>{{ groupchat }}</h1>
+{#    <h1>?groupName={{ groupchat.0.group.name }}&user_img_url={{ groupchat.0.group.get_profile_img }}&img_url={{ request.user.get_profile_img }}&groupId={{ groupchat.0.group.id }}&groupInfo={{ groupchat.0.group.group_info }}&groupTitleName={{ groupchat.0.group.group_name }}</h1>#}
+
+                                    <div class="media" onclick="location='{{ groupchat.1 }}?groupName={{ groupchat.0.group.name }}&user_img_url={{ groupchat.0.group.get_profile_img }}&img_url={{ request.user.get_profile_img }}&groupId={{ groupchat.0.group.id }}&groupInfo={{ groupchat.0.group.group_info }}&groupTitleName={{ groupchat.0.group.group_name }}'" style="cursor: pointer;">
                                         <figure class="media-left">
                                             <p class="image">
-                                                <img src="{{groupchat.group.profile_image.url}}" alt="">
+                                                <img src="{{groupchat.0.group.profile_image.url}}" alt="">
                                             </p>
                                         </figure>
                                         <div class="media-content" style="width: 60%;">
-                                            <a>{{groupchat.group.group_name}}</a>
-                                            <span style="white-space:nowrap; text-overflow: ellipsis; overflow-x: hidden;">{{groupchat.body|default:'Received &#10064 media files.'}}</span>
-                                            <span class="time">{{groupchat.timestamp|date:'F j, Y: f A'}}</span>
+                                            <a>{{groupchat.0.group.group_name}}</a>
+                                            <span style="white-space:nowrap; text-overflow: ellipsis; overflow-x: hidden;">{{groupchat.0.body|default:'Received &#10064 media files.'}}</span>
+                                            <span class="time">{{groupchat.0.timestamp|date:'F j, Y: f A'}}</span>
                                         </div>
                                         <div class="media-right is-centered">
                                             <div class="added-icon">
@@ -669,7 +672,7 @@
                     <a class="icon-link" href="javascript:void(0);">
                     {% endif %}
 {#                        <i data-feather="mail"></i>#}
-                        <i class="fa-solid fa-users-line"></i>
+                        <i data-feather="fa-solid fa-users-line"></i>
                         {% if total_message_count > 0 %}
                         <div class="custom-indicator red">
                             {{total_message_count}}

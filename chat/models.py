@@ -62,6 +62,11 @@ class GroupChatModel(models.Model):
     def __str__(self):
         return str(self.id)
 
+    def get_profile_img(self):
+        if self.profile_image:
+            return self.profile_image.url
+        return None
+
 
 class GroupChatUnreadMessage(models.Model):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE, verbose_name='grp_user',

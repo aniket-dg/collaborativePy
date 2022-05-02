@@ -1293,7 +1293,56 @@ function getMessageById(data) {
             }
         });
     }
+
+    function setChatSystem()
+    {
+        let url = new URL(document.location.href);
+        let username = url.searchParams.get('username');
+        let email = url.searchParams.get('email');
+        let id = url.searchParams.get('id');
+        let user_img_url = url.searchParams.get('user_img_url');
+        let img_url = url.searchParams.get('img_url');
+        let full_name = url.searchParams.get('full_name');
+        let phone_number = url.searchParams.get('phone_number');
+        let profile_url = url.searchParams.get('profile_url');
+        let designation = url.searchParams.get('designation');
+        let bio = url.searchParams.get('bio');
+        if(username!=null && email!=null && id!=null && user_img_url!=null && img_url!=null && full_name!=null && phone_number!=null && profile_url!=null && designation!=null && bio!=null)
+        {
+            setReceiver(username, email, id, user_img_url, img_url, full_name, phone_number, profile_url, designation, bio);
+        }
+
+
+        else{
+            setGroupSystem();
+        }
+    }
+
+
+    function setGroupSystem()
+    {
+        let url = new URL(document.location.href);
+        let groupName = url.searchParams.get('groupName');
+        let user_img_url = url.searchParams.get('user_img_url');
+        let img_url = url.searchParams.get('img_url');
+        let groupId = url.searchParams.get('groupId');
+        let groupInfo = url.searchParams.get('groupInfo');
+        let groupTitleName = url.searchParams.get('groupTitleName');
+        if(groupName!=null && user_img_url!=null && img_url!=null && groupId!=null && groupInfo!=null && groupTitleName!=null)
+        {
+            setGroup(groupName, user_img_url, img_url, groupId, groupInfo, groupTitleName);
+        }
+
+
+        else{
+            console.log("All not deifined");
+        }
+    }
+
     $(document).ready(function(){
+
+        setChatSystem();
+
         const interval = setInterval(function() {
             get_new_notification();
         }, 10000);
