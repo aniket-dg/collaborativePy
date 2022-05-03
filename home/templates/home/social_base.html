@@ -133,10 +133,11 @@
                     {% endif %}
                         {% if p2p_unread_messages|length > 0 or group_unread_messages|length > 0 %}
                         <a class="icon-link is-active" href="javascript:void(0);">
+
                         {% else %}
                         <a class="icon-link" href="javascript:void(0);">
                         {% endif %}
-                            <i class="fa-solid fa-users-line"></i>
+                            <i class="fa fa-users" aria-hidden="true"></i>
                             {% if total_message_count > 0 %}
                             <div class="custom-indicator red">
                                 {{total_message_count}}
@@ -672,7 +673,7 @@
                     <a class="icon-link" href="javascript:void(0);">
                     {% endif %}
 {#                        <i data-feather="mail"></i>#}
-                        <i data-feather="fa-solid fa-users-line"></i>
+                        <i class="fa fa-users" aria-hidden="true"></i>
                         {% if total_message_count > 0 %}
                         <div class="custom-indicator red">
                             {{total_message_count}}
