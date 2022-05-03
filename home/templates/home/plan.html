@@ -7,7 +7,7 @@
     box-sizing:border-box;
 }
 .pricing-table{
-  background-color: #eee;
+  {#background-color: #eee;#}
   font-family: 'Montserrat', sans-serif;
   padding-top: 5rem;
 }
@@ -281,17 +281,17 @@ th{
                 <tr>
                   <th scope="row" style="text-align: left;"></th>
                   <th></th>
-                    {% for item in object_list %}
-                  <th><div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{item.id}}" onclick="window.location.href = '{% url "order:payment-request" item.id %}'" style="margin: 0em;">
+{#                    {% for item in object_list %}#}
+                  <th><div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{item.id}}" onclick="window.location.href = '{% url "order:payment-request" 1 %}'" style="margin: 0em;">
                                  Buy Now
                                 </div></th>
-                    {% endfor %}
-{#                  <th><div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}" style="margin: 0em;">#}
-{#                                 Buy Now#}
-{#                                </div></th>#}
-{#                  <th><div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}" style="margin: 0em;">#}
-{#                                 Buy Now#}
-{#                                </div></th>#}
+{#                    {% endfor %}#}
+                  <th><div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}" onclick="window.location.href = '{% url "order:payment-request" 2 %}'" style="margin: 0em;">
+                                 Buy Now
+                                </div></th>
+                  <th><div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}" onclick="window.location.href = '{% url "order:payment-request" 4 %}'" style="margin: 0em;">
+                                 Buy Now
+                                </div></th>
                 </tr>
 
 
