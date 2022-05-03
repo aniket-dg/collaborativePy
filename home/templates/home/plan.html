@@ -12,6 +12,7 @@
   padding-top: 5rem;
 }
 
+
 .pricing-table .block-heading {
   padding-top: 50px;
   margin-bottom: 40px;
@@ -280,15 +281,17 @@ th{
                 <tr>
                   <th scope="row" style="text-align: left;"></th>
                   <th></th>
-                  <th><div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}" style="margin: 0em;">
+                    {% for item in object_list %}
+                  <th><div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{item.id}}" onclick="window.location.href = '{% url "order:payment-request" item.id %}'" style="margin: 0em;">
                                  Buy Now
                                 </div></th>
-                  <th><div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}" style="margin: 0em;">
-                                 Buy Now
-                                </div></th>
-                  <th><div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}" style="margin: 0em;">
-                                 Buy Now
-                                </div></th>
+                    {% endfor %}
+{#                  <th><div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}" style="margin: 0em;">#}
+{#                                 Buy Now#}
+{#                                </div></th>#}
+{#                  <th><div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}" style="margin: 0em;">#}
+{#                                 Buy Now#}
+{#                                </div></th>#}
                 </tr>
 
 
