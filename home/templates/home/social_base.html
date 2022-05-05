@@ -174,7 +174,7 @@
                                     {% endfor %}
                                     <!-- Message -->
                                     {% for groupchat in group_unread_messages %}
-                                    <h1>{{ groupchat }}</h1>
+{#                                    <h1>{{ groupchat }}</h1>#}
 {#    <h1>?groupName={{ groupchat.0.group.name }}&user_img_url={{ groupchat.0.group.get_profile_img }}&img_url={{ request.user.get_profile_img }}&groupId={{ groupchat.0.group.id }}&groupInfo={{ groupchat.0.group.group_info }}&groupTitleName={{ groupchat.0.group.group_name }}</h1>#}
 
                                     <div class="media" onclick="location='{{ groupchat.1 }}?groupName={{ groupchat.0.group.name }}&user_img_url={{ groupchat.0.group.get_profile_img }}&img_url={{ request.user.get_profile_img }}&groupId={{ groupchat.0.group.id }}&groupInfo={{ groupchat.0.group.group_info }}&groupTitleName={{ groupchat.0.group.group_name }}'" style="cursor: pointer;">
