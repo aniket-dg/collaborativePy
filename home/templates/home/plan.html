@@ -123,10 +123,10 @@
     font-size: .8rem;
     padding: 5px 10px;
     border-radius: 10rem;
-    color: white;
+    color: yellow;
     background-color: #5596E6;
     text-transform: uppercase;
-    white-space: nowrap;
+    yellow-space: nowrap;
 }
 .original-price{
     transform: translateY(-5px);
@@ -142,9 +142,8 @@
 }
 .c-button:hover{
     background-color: #5596E6;
-    color: white;
+    color: yellow;
 }
-
 .c-button::before{
     content: '';
     pointer-events: none;
@@ -199,7 +198,7 @@ th{
 }
 </style>
 <section class="pricing-table">
-    <div class="container bg-white">
+    <div class="container bg-yellow">
 
         <center>
             <h6 style="color:#000;font-size:1.7em;"> Plans & Features</h6>
@@ -216,13 +215,20 @@ th{
                   <th scope="col" style="background: #103783;color: #fff;width: 17.5%;">Enterprice</th>
                 </tr>
 
+                <tr>
+                  <th scope="row" style="text-align: left;">Admin Access</th>
+                    <td><i class="fa fa-close" style="color: yellow;"></i></td>
+                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                </tr>
 
                 <tr>
                   <th scope="row" style="text-align: left;">Users</th>
-                  <td>2</td>
-                  <td>10</td>
-                  <td>20-50</td>
-                  <td>50-100</td>
+                  <td>Max 2</td>
+                  <td>Max 10</td>
+                  <td>Max 50</td>
+                  <td>Max 100</td>
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: left;">Coding Interface</th>
@@ -265,14 +271,14 @@ th{
               <tr>
                   <th scope="row" style="text-align: left;">24/7 Support Discord Server Access</th>
                   <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-close" style="color: yellow;"></i></td>
+                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
                   <td><i class="fa fa-check" style="color: yellow;"></i></td>
                   <td><i class="fa fa-check" style="color: yellow;"></i></td>
                 </tr>
 
                 <tr>
                   <th scope="row" style="text-align: left;"></th>
-                  <th></th>
+                  <th>Free</th>
                   <th>₹250/month</th>
                   <th>₹500/month</th>
                   <th>₹1000/month</th>
@@ -309,7 +315,7 @@ th{
                                             </p>
                                             <p class="c-field">
                                               Cost<br>
-                                              <span>₹{{object.get_discounted_price}} /month</span>
+                                              <span>₹{{object.cost}}</span>
                                             </p>
                                             <p class="c-field">
                                               Duration<br>
