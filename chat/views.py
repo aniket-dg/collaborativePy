@@ -590,6 +590,9 @@ class AddMemberToGroupView(View):
                     user_notification.save()
                 user_notification.groups.add(group)
                 user_notification.save()
+                return JsonResponse({
+                    'data': 'Member(s) added to Group.'
+                })
             else:
                 return JsonResponse({
                     'data': f'Failed to add few member(s). Group size of {plan.group_size} exceeded!'
