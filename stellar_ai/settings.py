@@ -5,7 +5,8 @@ from django.contrib.messages import constants as message_constants
 import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-a1&)8f(wb1h-3)5)grmf^kp*3-7^@7$22&pj27cx92bybn_o0-'
-DEBUG = True
+DEBUG = False
+#DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -198,10 +199,11 @@ LOGOUT_REDIRECT_URL = 'user:login'
 
 # Basic Static and Media Files settings
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = '/home/sgstellar/Steller-Ai/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/home/sgstellar/Steller-Ai/media/'
 # Email sending settings
 DEFAULT_FROM_EMAIL='info@stellar-ai.in'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
