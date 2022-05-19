@@ -67,29 +67,6 @@
 
 
 
-    {#   Method for deleting msg from both side   #}
-
-    {#function deleteSenderMessage(id,receiver_id)#}
-    {#{#}
-    {#    let msgText = $(`#chat_line_${id} div .message-text p`)[0];#}
-    {#    if(msgText) {#}
-    {#        msgText.textContent = "This message was deleted";#}
-    {#    }#}
-    {#    $.getJSON(`/chat/api/sender/msg/delete/${id}/`, function (data) {#}
-    {#    });#}
-    {##}
-    {#    let receiver_for_msg_send = receiver_id;#}
-    {#    let chatsocket = 'chatSocket_chat_'+receiver_for_msg_send;#}
-    {#    let socket = websocket_dict[chatsocket];#}
-    {#    if(socket) {#}
-    {#        socket.send(JSON.stringify({#}
-    {#            'receiver_id': receiver,#}
-    {#            'command': 'notification',#}
-    {#            'msg_id': id,#}
-    {#        }));#}
-    {#    }#}
-    {#}#}
-
     function deleteSenderMsgforSelf(id)
     {
         let msgText = $(`#chat_line_${id}`)[0];
@@ -303,6 +280,23 @@
             async: false,
             success: function(data)
             {
+                my_data = data;
+
+            }
+        });
+        return my_data;
+    }
+
+    function checkGroupValid(id){
+        let my_data = null;
+        $.ajax(
+        {
+            url: `/chat/check/group/valid/${id}/`,
+            dataType: "json",
+            async: false,
+            success: function(data)
+            {
+                {#console.log(data);#}
                 my_data = data;
 
             }
@@ -655,7 +649,9 @@ function getMessageById(data) {
         }));
 
         document.querySelector('#chat-message-submit').onclick = function(e) {
-            e.preventDefault()
+            e.preventDefault();
+            if(checkGroupValid(current_group) === false)
+                {
             var messageInputDom = document.querySelector('#chat-message-input');
             var message = messageInputDom.value;
             let value = message.replace(/\n/g, "");
@@ -702,6 +698,10 @@ function getMessageById(data) {
             }
             // Textarea back to normal size
             messageInputDom.style.height = '46px';
+            }
+            else{
+                console.log("Group is expired");
+            }
         };
 
         // Scrolls chat messages to end.

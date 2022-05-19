@@ -18,7 +18,7 @@ from django.core.paginator import Paginator
 from django.urls import reverse
 from chat.forms import GroupCreateForm
 from chat.models import GroupChatModel, P2pChatModel, GroupChatUnreadMessage, GroupChat, UserMedia, UploadedMedia, \
-    GroupCallHistory,UserNewNotification
+    GroupCallHistory, UserNewNotification
 from chat.serializers import UserModelSerializer
 from users.models import User
 from cryptography.fernet import Fernet
@@ -88,7 +88,7 @@ def arrange_users(users):
     return account_dict
 
 
-class ChatRoom(LoginRequiredMixin,RedirectProfileRegister,View):
+class ChatRoom(LoginRequiredMixin, RedirectProfileRegister, View):
     def get(self, *args, **kwargs):
         context = {}
         user = self.request.user
@@ -307,8 +307,6 @@ class DeleteSenderGroupChatMessage(LoginRequiredMixin, View):
         })
 
 
-
-
 class DeleteSenderGroupChatMessageSelf(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         chat_id = self.kwargs.get('pk')
@@ -520,7 +518,8 @@ class RemoveFromGroupView(View):
             'data': 'User removed from group',
         })
 
-class LeaveFromGroup(LoginRequiredMixin,View):
+
+class LeaveFromGroup(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         group_id = self.kwargs.get('group_id')
         user_id = self.kwargs.get('user_id')
@@ -537,7 +536,7 @@ class LeaveFromGroup(LoginRequiredMixin,View):
             })
         user.groups.remove(group)
         user.save()
-        group_chat = GroupChat(group=group, user=user,body=f"{user.email} left.")
+        group_chat = GroupChat(group=group, user=user, body=f"{user.email} left.")
         group_chat.save()
         return JsonResponse({
             'data': 'User left group',
@@ -572,12 +571,11 @@ class AddMemberToGroupView(View):
             return JsonResponse({
                 'error': 'Only admin can add member to group',
             })
-        # user_id = self.request.GET.get('user_id')
-        # user = User.objects.filter(id=user_id).last()
-        # if not user:
-        #     return JsonResponse({
-        #         'error': 'User not exist!',
-        #     })
+        if not group.is_valid():
+            return JsonResponse({
+                'error': 'Code Room is expired! Contact group admin to renew plan',
+            })
+
         user_ids = self.request.GET.getlist('user_ids[]')
         users = User.objects.filter(id__in=user_ids)
         plan = group.plan
@@ -864,8 +862,7 @@ class LoadMoreRemainingUsers(LoginRequiredMixin, View):
         return JsonResponse({'users': result})
 
 
-
-class GetNewNotification(LoginRequiredMixin,View):
+class GetNewNotification(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         user = self.request.user
         user_notification = UserNewNotification.objects.filter(user=user).last()
@@ -881,7 +878,7 @@ class GetNewNotification(LoginRequiredMixin,View):
                 'profile_img_url': item.get_profile_img(),
                 'user_full_name': item.get_full_name(),
                 'phone_number': item.phone_number,
-                'profile_url': reverse('user:friend-profile', kwargs={'pk':item.id}),
+                'profile_url': reverse('user:friend-profile', kwargs={'pk': item.id}),
                 'designation': item.designation,
                 'bio': item.bio,
                 'self_img_url': user.get_profile_img()
@@ -918,8 +915,9 @@ class DeleteNotification(LoginRequiredMixin, View):
                 'status': 'false'
             })
         return JsonResponse({
-                'status': 'false'
-            })
+            'status': 'false'
+        })
+
 
 @method_decorator(csrf_exempt, name="dispatch")
 class DeleteGroupNotification(LoginRequiredMixin, View):
@@ -939,5 +937,23 @@ class DeleteGroupNotification(LoginRequiredMixin, View):
                 'status': 'false'
             })
         return JsonResponse({
-                'status': 'false'
+            'status': 'false'
+        })
+
+
+class CheckGroupIsValid(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        id = self.kwargs.get('pk')
+        if not id:
+            return JsonResponse({
+                'status': False
             })
+        group = GroupChatModel.objects.filter(id=int(id)).last()
+        if group and group in self.request.user.groups.all():
+            if group.is_valid():
+                return JsonResponse({
+                    'status': True
+                })
+        return JsonResponse({
+            'status': False
+        })
