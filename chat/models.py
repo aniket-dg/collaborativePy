@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 
@@ -66,6 +68,10 @@ class GroupChatModel(models.Model):
         if self.profile_image:
             return self.profile_image.url
         return None
+
+    def is_valid(self):
+        now = datetime.datetime.now().date()
+        return now < self.valid_till
 
 
 class GroupChatUnreadMessage(models.Model):
