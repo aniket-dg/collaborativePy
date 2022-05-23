@@ -60,6 +60,10 @@
         $('.open-notebook').attr('onclick', `redirectNotebook()`);
         groupInitialize(groupId);
 
+        let is_valid = checkGroupValid(current_group);
+        if(is_valid === false) {
+            $('#show-buy-plan-btn').show();
+        }
         // For mobiles
         document.querySelector('main.main').classList.add('is-visible')
     }
