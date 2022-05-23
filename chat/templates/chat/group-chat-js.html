@@ -60,7 +60,7 @@
         $('.open-notebook').attr('onclick', `redirectNotebook()`);
         groupInitialize(groupId);
 
-        let is_valid = checkGroupValid(current_group);
+        let is_valid = checkGroupValid(current_group)['status'];
         if(is_valid === false) {
             $('#show-buy-plan-btn').show();
         }
