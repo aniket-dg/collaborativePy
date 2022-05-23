@@ -1035,6 +1035,37 @@ function getMessageById(data) {
 
 
         }
+
+        function get_plan_id()
+    {
+        let url = "{% url 'chat:get-plan-id' %}";
+        let status = '';
+        $.ajax({
+            url: url,
+            success: function(data){
+                {#console.log(data);#}
+                status = data['status'];
+                return buyNewPlan(status);
+                {#console.log(status);#}
+                return status;
+            }
+        });
+        return status;
+
+    }
+
+        function buyNewPlan(id)
+        {
+
+            let origin = document.location.origin;
+            if(id !== undefined || id !== "")
+            {
+                let url = origin + `/order/payment/request/${id}/` + `?renew=true&upgrade_id=${id}`;
+                window.location.href = url;
+
+
+            }
+        }
         function redirectPeerNotebook(user_id){
             let logout_url = 'https://jupyter.stellar-ai.in/jupyter/hub/logout';
             $.ajax({
@@ -1240,6 +1271,8 @@ function getMessageById(data) {
             }
         });
     }
+
+
 
     function get_loop_data(data)
     {

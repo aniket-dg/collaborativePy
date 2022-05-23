@@ -575,7 +575,6 @@ class AddMemberToGroupView(View):
             return JsonResponse({
                 'error': 'Code Room is expired! Contact group admin to renew plan',
             })
-
         user_ids = self.request.GET.getlist('user_ids[]')
         users = User.objects.filter(id__in=user_ids)
         plan = group.plan
@@ -957,6 +956,19 @@ class CheckGroupIsValid(LoginRequiredMixin, View):
                 return JsonResponse({
                     'status': True
                 })
+        messages.warning(self.request, "CodeRoom is expired")
         return JsonResponse({
             'status': False
+        })
+
+
+class GetPlanId(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        if user.payment and user.payment.plan:
+            return JsonResponse({
+                'status': user.payment.plan.id,
+            })
+        return JsonResponse({
+            'status': None
         })
