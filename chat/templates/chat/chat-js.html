@@ -650,7 +650,7 @@ function getMessageById(data) {
 
         document.querySelector('#chat-message-submit').onclick = function(e) {
             e.preventDefault();
-            if(checkGroupValid(current_group) === false)
+            if(checkGroupValid(current_group)['status'] === false)
                 {
             var messageInputDom = document.querySelector('#chat-message-input');
             var message = messageInputDom.value;
