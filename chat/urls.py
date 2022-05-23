@@ -77,4 +77,6 @@ urlpatterns = [
     path('delete/group/notification/', views.DeleteGroupNotification.as_view(), name='user-delete-group-notification'),
 
     path('check/group/valid/<int:pk>/', views.CheckGroupIsValid.as_view(), name='check-group-valid'),
+
+    path('get/plan/id/', views.GetPlanId.as_view(), name='get-plan-id'),
 ]
