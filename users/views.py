@@ -102,10 +102,14 @@ class SaveSessionForNotebook(LoginRequiredMixin, View):
 
 class OpenNotebook(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
+
         group_id = int(self.request.GET.get('group_id'))
         group_share = self.request.GET.get('group_share')
         user = self.request.user
         group = GroupChatModel.objects.get(id=group_id)
+        if group and group in self.request.user.groups.all():
+            if not group.is_valid():
+                return redirect('chat:chat')
         group_name_url = None
         call_active = False
         if group_id and group_share:

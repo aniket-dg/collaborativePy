@@ -62,6 +62,7 @@
 
         let is_valid = checkGroupValid(current_group)['status'];
         if(is_valid === false) {
+            $('#show-expired-quote').show();
             $('#show-buy-plan-btn').show();
         }
         // For mobiles
