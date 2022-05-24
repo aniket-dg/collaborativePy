@@ -93,6 +93,7 @@ class Coupon(models.Model):
     discount_percent = models.DecimalField('Discount Percentage (%)', max_digits=5, decimal_places=2,
                                            validators=[MinValueValidator(0), MaxValueValidator(100)])
     used_by = models.ManyToManyField('users.User', blank=True)
+    plan_type = models.ForeignKey(Plan, on_delete=models.CASCADE, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     max_limit = models.IntegerField(default=0)
 

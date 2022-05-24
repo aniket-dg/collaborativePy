@@ -42,7 +42,7 @@ class PaymentRequestView(LoginRequiredMixin, View):
             return redirect('/')
         order_id = f"{datetime.now()}_{user.id}"
 
-        coupon = Coupon.objects.filter(code=coupon_code, is_active=True).last()
+        coupon = Coupon.objects.filter(code=coupon_code, is_active=True, plan_type=plan).last()
         if coupon:
             if user in coupon.used_by.all():
                 messages.warning(self.request, 'Coupon already used.')
