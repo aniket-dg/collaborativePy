@@ -712,11 +712,11 @@
                                                         </a>
                                                     </div>
                                                 </div>
-
                                                 <div class="col overflow-hidden">
                                                     <h5 class="text-truncate" id="chatPanel-username" style="cursor: pointer;" onclick="showUserProfile()"></h5>
 {#                                                  <p class="text-truncate">is typing<span class='typing-dots'><span>.</span><span>.</span><span>.</span></span></p>#}
                                                 </div>
+
                                             </div>
                                         </div>
                                         <!-- Title -->
@@ -735,14 +735,10 @@
                                                 </div>
                                                 
 
-                                                <div class="col-auto d-none">
-                                                    <form id="audio_call_form" method="post" action="{% url 'chat:audio-call' %}">
-                                                        <input type="hidden" name="group_id" value="" id="set_group_id_for_audio">
-                                                        {% csrf_token %}
-                                                        <button type="submit" class="btn btn-sm btn-primary py-3 px-4" title="Start Audio Call">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                                <div class="col-auto" id="show_left_days_div" style="display: none">
+                                                        <button type="button" disabled class="btn btn-sm btn-primary py-3 px-4" title="Days Left">
+                                                        <span id="days_left"></span>
                                                         </button>
-                                                    </form>
                                                 </div>
 
                                                 <div class="col-auto open-notebook" title="Open Code Room" onclick="redirectNotebook()">
@@ -1004,7 +1000,8 @@
                                 </div>
                             </div>
 
-                            <h1 style="text-align: center; display: none" id="show-expired-quote">Coderoom is expired!</h1>
+                            <h1 style="text-align: center; display: none" id="chatPanel-username">Coderoom is expired!</h1>
+
                         </div>
                         <!-- Chat: Content -->
 

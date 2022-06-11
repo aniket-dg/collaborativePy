@@ -102,7 +102,7 @@
                                             `{{ object.profile_image.url|default_if_none:''|escapejs }}`,
                                             `{{ request.user.get_profile_img|default_if_none:''|escapejs }}`,
                                             `{{ object.id }}`,
-                                            `{{ object.group_info }}`,`{{ object.group_name }}`)"
+                                            `{{ object.group_info }}`,`{{ object.group_name }}`, `{{ object.get_remaining_days }}`)"
                                             class="card border-0 text-reset">
                                             <div class="card-body">
                                                 <div class="row gx-5">
