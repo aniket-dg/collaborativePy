@@ -73,6 +73,11 @@ class GroupChatModel(models.Model):
         now = datetime.datetime.now().date()
         return now < self.valid_till
 
+    def get_remaining_days(self):
+        now = datetime.datetime.now().date()
+        days = (self.valid_till - now).days
+        return days if days > 0 else 0
+
 
 class GroupChatUnreadMessage(models.Model):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE, verbose_name='grp_user',

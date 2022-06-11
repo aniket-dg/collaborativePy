@@ -8,7 +8,7 @@
 <script>
     let current_group;
 
-    function setGroup(groupName,user_img_url, img_url,groupId=null,groupInfo=null, groupTitleName=null)
+    function setGroup(groupName,user_img_url, img_url,groupId=null,groupInfo=null, groupTitleName=null, daysRemaining=null)
     {
         if($('#chat-panel-show-id').is(":hidden"))
             $('#chat-panel-show-id').show();
@@ -17,7 +17,8 @@
         $('#receiver_img_preview_id').prop("src",img_url);
         $('#sender_img_preview_id').prop("src",user_img_url);
         $('#chatPanel-username').text(groupTitleName);
-
+        $('#show_left_days_div').show();
+        $('#days_left').text(`${daysRemaining} days remaining`);
         {# Modal Body#}
         $('#receiver_group_image_url').prop("src", user_img_url);
         $('#receiver_group_name').text(groupTitleName);
