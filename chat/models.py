@@ -74,9 +74,11 @@ class GroupChatModel(models.Model):
         return now < self.valid_till
 
     def get_remaining_days(self):
-        now = datetime.datetime.now().date()
-        days = (self.valid_till - now).days
-        return f"{days if days > 0 else 0}/{self.plan.duration}"
+        if self.valid_till:
+            now = datetime.datetime.now().date()
+            days = (self.valid_till - now).days
+            return f"{days if days > 0 else 0}/{self.plan.duration}"
+        return ""
 
 
 class GroupChatUnreadMessage(models.Model):
