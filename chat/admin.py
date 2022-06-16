@@ -8,9 +8,12 @@ class P2pChatModelAdmin(admin.ModelAdmin):
 class GroupChatModelAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'group', 'body', 'timestamp']
 
+class GroupChatModelGroupAdmin(admin.ModelAdmin):
+    list_display = ['id', 'group_name', 'name']
+
 admin.site.register(Message)
 admin.site.register(GroupChatUnreadMessage)
-admin.site.register(GroupChatModel)
+admin.site.register(GroupChatModel, GroupChatModelGroupAdmin)
 admin.site.register(GroupChat, GroupChatModelAdmin)
 admin.site.register(P2pChatModel, P2pChatModelAdmin)
 admin.site.register(UploadedMedia)
