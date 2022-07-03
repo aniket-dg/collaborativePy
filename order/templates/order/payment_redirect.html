@@ -6,7 +6,8 @@
 
     <body onload="document.payuForm.submit()">
 
-    <form action="https://secure.payu.in/_payment" method="post" name="payuForm">
+    <form action="https://test.payu.in/_payment" method="post" name="payuForm">
+{#    <form action="https://secure.payu.in/_payment" method="post" name="payuForm">#}
             {% csrf_token %}
             <input type="hidden" name="key" value="{{posted.key}}" />
             <input type="hidden" name="hash_string" value="" />
