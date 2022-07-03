@@ -107,15 +107,35 @@ TEMPLATES = [
 
 
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'myproject',
-         'USER': 'sgstellar',
-         'PASSWORD': 'SG@stellar101',
-         'HOST': 'localhost',
-         'PORT': '5432',
-     }
- }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'stellar',
+#         'USER': 'postgres',
+#         'PASSWORD': 'siteguide',
+#         'HOST': 'localhost',
+#         'PORT': 5432,
+#     }
+# }
+
+
+# DATABASES = {
+#      'default': {
+#          'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#          'NAME': 'myproject',
+#          'USER': 'sgstellar',
+#          'PASSWORD': 'SG@stellar101',
+#          'HOST': 'localhost',
+#          'PORT': '5432',
+#      }
+#  }
 
 AUTH_PASSWORD_VALIDATORS = [
     # {
@@ -203,13 +223,28 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Email sending settings
-DEFAULT_FROM_EMAIL='info@stellar-ai.in'
+# DEFAULT_FROM_EMAIL='info@stellar-ai.in'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtpout.secureserver.net'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'info@stellar-ai.in'
+# EMAIL_HOST_USER = 'calltank.sg@gmail.com'
+# EMAIL_HOST_PASSWORD = 'Test@321'
+# EMAIL_HOST_PASSWORD = 'Stellar.AI@101'
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtpout.secureserver.net'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'info@stellar-ai.in'
+DEFAULT_FROM_EMAIL = 'info@stellar-ai.in'
+SERVER_EMAIL = 'info@stellar-ai.in'
 EMAIL_HOST_PASSWORD = 'Stellar.AI@101'
+EMAIL_PORT = 80
+EMAIL_USE_SSL = False
+EMAIL_USE_TLS = True
+
+
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
