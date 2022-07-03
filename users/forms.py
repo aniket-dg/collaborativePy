@@ -19,20 +19,21 @@ class EmailForm(forms.Form):
 class RegistrationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('email', 'first_name', 'last_name', 'username', 'profile_image', 'bio', 'designation', 'password1', 'password2')
+        fields = (
+            'email', 'first_name', 'last_name', 'username', 'profile_image', 'bio', 'designation', 'password1',
+            'password2')
 
-    # def clean(self):
-    #     super(RegistrationForm, self).clean()
-    #     phone_number = self.cleaned_data.get('phone_number')
-    #     if len(str(phone_number)) != 10:
-    #         raise ValidationError(
-    #             _(f'{phone_number} is not an valid mobile number'))
+    def clean(self):
+        super(RegistrationForm, self).clean()
+        username = self.cleaned_data.get('username')
+        if len(username.split(" ")) > 1:
+            self.add_error('username', "Username must not contain any space.")
 
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('email', 'first_name' ,'last_name', 'bio', 'designation')
+        fields = ('email', 'first_name', 'last_name', 'bio', 'designation')
 
     def clean_email(self):
         email = self.cleaned_data['email']
