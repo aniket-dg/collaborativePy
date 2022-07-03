@@ -650,7 +650,7 @@ function getMessageById(data) {
 
         document.querySelector('#chat-message-submit').onclick = function(e) {
             e.preventDefault();
-            if(checkGroupValid(current_group)['status'] === true)
+            if(current_group && checkGroupValid(current_group)['status'] === true)
                 {
             var messageInputDom = document.querySelector('#chat-message-input');
             var message = messageInputDom.value;
@@ -661,7 +661,8 @@ function getMessageById(data) {
                     drop_zone.processQueue();
                 }
                 // $('#modalForUploadingData').modal('show');
-            } else {
+            }
+            else {
                 if (value.length > 0) {
                     console.log("Sending messgae");
                     let check = $('#chat-group').val();
