@@ -190,8 +190,9 @@ class SignUpView(View):
         register_form = RegistrationForm(self.request.POST, self.request.FILES)
         if register_form.is_valid():
             user = register_form.save()
-
-            # user activation
+            if len(user.username.split(" ")) > 1:
+                user.username = user.username.replace(" ", "")
+            user.save()
             send_email_verification_mail(self.request, user)
             messages.success(self.request,
                              'Thank you for registering with us. We have mailed you a verification link to activate your account.')

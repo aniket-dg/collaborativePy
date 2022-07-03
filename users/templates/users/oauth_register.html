@@ -134,6 +134,7 @@
                                 <div class="control">
                                     <input type="text" class="input" id="username" name="username" required placeholder="Enter your username">
                                 </div>
+                                <label id="username_warning" style="display: none; color: red"></label>
                             </div>
 
                             <div class="field">
@@ -240,10 +241,13 @@
             e.preventDefault();
             let username = $('#username').val();
             if(username.split(" ").length > 1){
-                alert("Username must not contain space");
+                $('#username_warning').text("Username must not contain any space");
+                    $('#username_warning').show();
             }
             else {
+                $('#username_warning').hide();
                 $('#registerForm').submit();
+
             }
         });
 
