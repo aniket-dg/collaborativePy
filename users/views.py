@@ -1,4 +1,5 @@
 import json
+from django.core.mail import EmailMessage
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -17,6 +18,7 @@ from django.urls import reverse
 
 from home.models import PopUpQuestions
 from post.models import Post
+from stellar_ai import settings
 from .forms import (
     RegistrationForm, LoginForm, UserUpdateForm
 )
@@ -26,7 +28,7 @@ from post.models import Post, FlagInappropriate, BookMark
 from .utils import send_welcome_mail, send_email_verification_mail
 from django.contrib.auth.tokens import default_token_generator
 from social_django.models import UserSocialAuth
-from chat.models import GroupChatModel, GroupCallHistory,UserNewNotification
+from chat.models import GroupChatModel, GroupCallHistory, UserNewNotification
 
 from .api import send_notification
 
@@ -218,6 +220,7 @@ class UserAccountActivateView(View):
             messages.error(self.request, 'Invalid activation link')
             return redirect('user:register')
 
+
 class RedirectProfileRegister:
     def dispatch(self, request, *args, **kwargs):
         user = request.user
@@ -231,6 +234,7 @@ class RedirectProfileRegister:
             else:
                 return super().dispatch(request, *args, **kwargs)
         return super().dispatch(request, *args, **kwargs)
+
 
 class GoogleOAuthSignUpView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
@@ -418,7 +422,7 @@ class BookMarkListView(LoginRequiredMixin, ListView):
         return BookMark.objects.filter(user=user)
 
 
-class UserProfileView(LoginRequiredMixin, RedirectProfileRegister,View):
+class UserProfileView(LoginRequiredMixin, RedirectProfileRegister, View):
     def get(self, *args, **kwargs):
         user = self.request.user
         context = {}
@@ -704,6 +708,7 @@ class LoadMoreFriends(LoginRequiredMixin, View):
             })
         return JsonResponse({'friends': friends})
 
+
 def save_notification_for_user(user_id, self_user):
     user = User.objects.filter(email=user_id).last()
     if user:
@@ -714,3 +719,20 @@ def save_notification_for_user(user_id, self_user):
         user_notification.friends.add(self_user)
         user_notification.save()
 
+
+def send_mail(request, user, message):
+    email = EmailMessage(
+        f'Status',
+        message,
+        settings.EMAIL_HOST_USER,
+        [user.email],
+    )
+    email.content_subtype = "html"
+    email.send(fail_silently=False)
+
+
+class SendTempMail(View):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        send_mail(self.request, user, "Test Message")
+        return HttpResponse("Message sent")

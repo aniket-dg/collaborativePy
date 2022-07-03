@@ -15,6 +15,7 @@ from django.contrib.auth import get_user_model
 from social_core.pipeline.user import get_username as social_get_username
 import uuid
 
+
 def send_welcome_mail(request, message, user):
     email_subject = 'Welcome to Company Name'
     email_body = 'Hi ' + user.first_name + ', '
@@ -28,11 +29,12 @@ def send_welcome_mail(request, message, user):
     email.send(fail_silently=False)
     messages.success(request, message)
 
+
 def send_email_verification_mail(request, user):
     current_site = get_current_site(request)
     mail_subject = 'Please activate your account.'
     activation_link = reverse_lazy('user:activate', kwargs={
-        'uidb64':urlsafe_base64_encode(force_bytes(user.pk)),
+        'uidb64': urlsafe_base64_encode(force_bytes(user.pk)),
         'token': default_token_generator.make_token(user)
     })
     user_link = f'http://{current_site}{activation_link}'
@@ -46,12 +48,14 @@ def send_email_verification_mail(request, user):
     send_email.content_subtype = 'html'
     send_email.send()
 
+
 def pipeline_send_verification_email(strategy, details, user=None, is_new=False, *args, **kwargs):
     if user:
         # acitvate if user from social authenticated
-        user.is_active=True
+        user.is_active = True
         # send_email_verification_mail(strategy.request, user)
     return
+
 
 def get_username(strategy, details, user=None, is_new=False, *args, **kwargs):
     result = social_get_username(strategy, details, user=user, *args, **kwargs)

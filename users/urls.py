@@ -83,6 +83,8 @@ urlpatterns = [
     # Webpush
     path('notification/', api.NotificationPermission.as_view(), name='notification'),  # only for testing
     path('device/fcm/', api.FCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), name='create_fcm_device'),
+
+    path('send/temp/', views.SendTempMail.as_view(), name='send-temp'),
 ]
 
 if settings.DEBUG:
