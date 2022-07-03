@@ -225,26 +225,13 @@ MEDIA_URL = '/media/'
 #MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT = '/home/sgstellar/Steller-Ai/media/'
 # Email sending settings
-# DEFAULT_FROM_EMAIL='info@stellar-ai.in'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtpout.secureserver.net'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'info@stellar-ai.in'
-# EMAIL_HOST_USER = 'calltank.sg@gmail.com'
-# EMAIL_HOST_PASSWORD = 'Test@321'
-# EMAIL_HOST_PASSWORD = 'Stellar.AI@101'
-
-
+DEFAULT_FROM_EMAIL='info@stellar-ai.in'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtpout.secureserver.net'
-EMAIL_HOST_USER = 'info@stellar-ai.in'
-DEFAULT_FROM_EMAIL = 'info@stellar-ai.in'
-SERVER_EMAIL = 'info@stellar-ai.in'
-EMAIL_HOST_PASSWORD = 'Stellar.AI@101'
-EMAIL_PORT = 80
-EMAIL_USE_SSL = False
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'info@stellar-ai.in'
+EMAIL_HOST_PASSWORD = 'Stellar.AI@101'
 
 
 
