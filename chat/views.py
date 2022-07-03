@@ -158,7 +158,7 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
                 messages.warning(self.request, "Unexpected Error! Plan Not Found")
                 return redirect('chat:chat')
         if not plan:
-            plan = user.payment.plans.filter(plan__id=plan_id).last().plan
+            plan = user.payment.plans.filter(id=plan_id).last().plan
             plan_with_qty = user.payment.plans.last()
         if not plan:
             messages.warning(self.request, "Sorry plan not purchase yet! Not Found")
