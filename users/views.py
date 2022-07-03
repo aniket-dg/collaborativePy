@@ -249,6 +249,8 @@ class GoogleOAuthSignUpView(LoginRequiredMixin, View):
         # return HttpResponse(self.request.POST)
         user = self.request.user
         user.username = self.request.POST.get('username', None)
+        if user.username:
+            user.username = user.username.replace(" ", "")
         user.designation = self.request.POST.get('designation', None)
         user.bio = self.request.POST.get('bio', None)
         user.profile_image = self.request.FILES.get('profile_image', None)
