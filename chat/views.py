@@ -841,7 +841,7 @@ class LoadMoreRemainingUsers(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         user = self.request.user
         remaining_users = user.get_remaining_users().order_by('username')
-        p = Paginator(remaining_users, 10)
+        p = Paginator(remaining_users, 1000)
         current_status = int(self.request.GET['current_users'])
         remaining_dict = arrange_users(p.get_page((current_status + 10) / 10))
         if p.count <= current_status:
