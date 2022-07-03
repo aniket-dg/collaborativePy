@@ -235,8 +235,19 @@
             $('#bio').val('{{ request.user.bio }}');
             {% endif %}
         });
+
+        $('#registerForm').on('submit', function (e){
+            e.preventDefault();
+            let username = $('#username').val();
+            if(username.split(" ").length > 1){
+                alert("Username must not contain space");
+            }
+            else {
+                $('#registerForm').submit();
+            }
+        });
+
     </script>
 
 </body>
-<!-- Mirrored from friendkit.cssninja.io/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 21 Oct 2021 14:42:32 GMT -->
 </html>
