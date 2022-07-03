@@ -182,7 +182,8 @@
                         <div class="field">
                             <label>Username</label>
                             <div class="control">
-                                <input type="text" class="input" name="username" required onkeyup="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your username">
+                                <input type="text" class="input" name="username" id="username" required onkeyup="unlockNextBtn(event, this, 0, 'stepbtn0')" placeholder="Enter your username">
+                                <label id="username_warning" style="display: none; color: red"></label>
                             </div>
                         </div>
                         <div class="field">
@@ -419,8 +420,17 @@
                     document.getElementById(nextBtnId).setAttribute('disabled', true);
                     return
                 }
+                let user = $('#username').val();
+                if(user.split(" ").length > 1){
+                    document.getElementById(nextBtnId).setAttribute('disabled', true);
+                    $('#username_warning').text("Username must not contain any space");
+                    $('#username_warning').show();
+                    return
+                }
             }
             document.getElementById(nextBtnId).removeAttribute('disabled');
+            $('#username_warning').hide();
+
         }
     }
     </script>
