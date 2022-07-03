@@ -289,6 +289,8 @@
 
     function checkGroupValid(id){
         let my_data = null;
+        if(id === '')
+            return {"status": true}
         $.ajax(
         {
             url: `/chat/check/group/valid/${id}/`,
@@ -650,7 +652,7 @@ function getMessageById(data) {
 
         document.querySelector('#chat-message-submit').onclick = function(e) {
             e.preventDefault();
-            if(current_group && checkGroupValid(current_group)['status'] === true)
+            if(checkGroupValid(current_group)['status'] === true)
                 {
             var messageInputDom = document.querySelector('#chat-message-input');
             var message = messageInputDom.value;
