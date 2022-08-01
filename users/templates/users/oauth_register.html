@@ -246,7 +246,7 @@
             }
             else {
                 $('#username_warning').hide();
-                $('#registerForm').submit();
+                $('#registerForm').unbind('submit').submit();
 
             }
         });
