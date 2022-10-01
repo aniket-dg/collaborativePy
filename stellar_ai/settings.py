@@ -274,15 +274,27 @@ PUSH_NOTIFICATIONS_SETTINGS = {
     'UPDATE_ON_DUPLICATE_REG_ID':True,
 }
 
+#PAYU_CONFIG = {
+#    "merchant_key": "PIJcFM",
+#    "merchant_salt": "2Et6VAHZYmQHudFXzKqOs7WZTJ1Ktu3K",
+#    "mode": "test",
+#    "success_url": "https://stellar-ai.in/order/payment/response/",
+#    "failure_url": "https://stellar-ai.in/order/payment/response/"
+#}
+
+# Change the PAYU_MODE to 'LIVE' for production.
+#PAYU_MODE = "LIVE"
+
 PAYU_CONFIG = {
-    "merchant_key": "PIJcFM",
-    "merchant_salt": "2Et6VAHZYmQHudFXzKqOs7WZTJ1Ktu3K",
+    "merchant_key": "gtKFFx",
+    "merchant_salt": "wia56q6O",
     "mode": "test",
     "success_url": "https://stellar-ai.in/order/payment/response/",
     "failure_url": "https://stellar-ai.in/order/payment/response/"
 }
 
 # Change the PAYU_MODE to 'LIVE' for production.
-PAYU_MODE = "LIVE"
+PAYU_MODE = "TEST"
+
 SESSION_COOKIE_SAMESITE = None
 SESSION_COOKIE_SECURE = False
