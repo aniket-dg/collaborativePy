@@ -17,6 +17,12 @@ from django.utils import timezone
 
 from home.signals import process_files
 
+USER_TYPE_CHOICES = (
+    ('User', 'User'),
+    ('Company_User', 'Company_User')
+)
+
+
 @process_files(['profile_image'])
 class User(AbstractBaseUser, PermissionsMixin):
     # Required
@@ -35,7 +41,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     payment = models.ForeignKey('order.Payment', on_delete=models.SET_NULL, null=True, blank=True)
     connections = models.ManyToManyField('users.Connection', blank=True)
-    pending_connections = models.ManyToManyField('users.Connection', blank=True, related_name='pending_user_connections')
+    pending_connections = models.ManyToManyField('users.Connection', blank=True,
+                                                 related_name='pending_user_connections')
     groups = models.ManyToManyField('chat.GroupChatModel', blank=True)
     # Django
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
@@ -46,6 +53,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_group_share = models.BooleanField(default=False)
     group_id_share = models.IntegerField(null=True, blank=True)
 
+    user_type = models.CharField(choices=USER_TYPE_CHOICES, max_length=100, default='User')
+    company = models.ForeignKey('company.Company', on_delete=models.SET_NULL, null=True, blank=True)
+    is_company_admin = models.BooleanField(default=False)
     is_peer_share = models.BooleanField(default=False)
     peer_id = models.IntegerField(null=True, blank=True)
     objects = UserManager()
@@ -123,20 +133,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         users = User.objects.exclude(email=self.email).filter(email__in=emails)
         return users
 
-
     def get_user_requested_users(self):
         users = self.connections.filter(request=True, send_request="Process")
         return users
-
 
     def get_user_received_users(self):
         users = self.pending_connections.filter(request=True, send_request="Process")
         return users
 
-
     def get_remaining_users(self):
         emails = [user.connection_user.email for user in self.connections.filter(send_request="Accepted")]
-        pending_emails = [user.connection_user.email for user in self.pending_connections.filter(send_request="Accepted")]
+        pending_emails = [user.connection_user.email for user in
+                          self.pending_connections.filter(send_request="Accepted")]
         emails = emails + pending_emails
         users = User.objects.exclude(email=self.email).exclude(email__in=emails)
         return users
@@ -146,6 +154,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             return self.profile_image.url
         else:
             return '/static/images/icon/user.png'
+
 
 REQUEST_CHOICES = (
     ('Process', 'Process'),
@@ -161,5 +170,3 @@ class Connection(models.Model):
 
     def __str__(self):
         return self.connection_user.username
-
-

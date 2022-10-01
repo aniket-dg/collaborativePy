@@ -46,7 +46,7 @@ def send_email_verification_mail(request, user):
     to_email = user.email
     send_email = EmailMessage(mail_subject, html_message, to=[to_email])
     send_email.content_subtype = 'html'
-    send_email.send()
+    send_email.send(fail_silently=True)
 
 
 def pipeline_send_verification_email(strategy, details, user=None, is_new=False, *args, **kwargs):

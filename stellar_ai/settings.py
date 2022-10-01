@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'analytics',
     'post',
     'competition',
+    'company',
     'paywix',
 
     # Third Party Modules
@@ -111,8 +112,8 @@ DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.postgresql_psycopg2',
          'NAME': 'myproject',
-         'USER': 'sgstellar',
-         'PASSWORD': 'SG@stellar101',
+         'USER': 'postgres',
+         'PASSWORD': 'maya',
          'HOST': 'localhost',
          'PORT': '5432',
      }
@@ -222,11 +223,11 @@ LOGOUT_REDIRECT_URL = 'user:login'
 
 # Basic Static and Media Files settings
 STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_ROOT = '/home/sgstellar/Steller-Ai/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = '/home/sgstellar/Steller-Ai/static/'
 MEDIA_URL = '/media/'
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_ROOT = '/home/sgstellar/Steller-Ai/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = '/home/sgstellar/Steller-Ai/media/'
 # Email sending settings
 DEFAULT_FROM_EMAIL='info@stellar-ai.in'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

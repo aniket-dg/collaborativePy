@@ -18,6 +18,7 @@ urlpatterns = [
     # Login and Register
     path('login/', views.LoginView.as_view(), name='login'),
     path('register/', views.SignUpView.as_view(), name='register'),
+    path('company/register/', views.CompanySignUpView.as_view(), name='company-register'),
     path('activate/<uidb64>/<token>/', views.UserAccountActivateView.as_view(), name='activate'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
 

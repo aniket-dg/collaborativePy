@@ -15,6 +15,7 @@ urlpatterns = [
     path('post/', include('post.urls')),
     path('competition/', include('competition.urls')),
     path('analytics/', include('analytics.urls')),
+    path('company/', include('company.urls')),
     path('', include('home.urls')),
 
     # Oauth

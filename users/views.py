@@ -202,6 +202,34 @@ class SignUpView(View):
         return redirect('user:register')
 
 
+class CompanySignUpView(View):
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('')
+        register_form = RegistrationForm()
+        context = {
+            'register_form': register_form,
+        }
+        return render(self.request, 'users/user_register.html', context)
+
+    def post(self, *args, **kwargs):
+        register_form = RegistrationForm(self.request.POST, self.request.FILES)
+        if register_form.is_valid():
+            user = register_form.save()
+            if len(user.username.split(" ")) > 1:
+                user.username = user.username.replace(" ", "")
+            user.is_company_admin = True
+            user.user_type = 'Company_User'
+            user.save()
+            send_email_verification_mail(self.request, user)
+            messages.success(self.request,
+                             'Thank you for registering with us. We have mailed you a verification link to activate '
+                             'your account.')
+            return redirect('user:login')
+
+        messages.warning(self.request, 'Invalid registration information.')
+        return redirect('user:register')
+
 class UserAccountActivateView(View):
     def get(self, *args, **kwargs):
         try:
@@ -274,6 +302,8 @@ class LoginView(SuccessMessageMixin, FormView):
         if self.request.user.is_authenticated:
             if self.request.GET.get('next'):
                 return redirect(self.request.GET.get('next'))
+            if self.request.user.user_type == 'Company_User':
+                return redirect('company:home')
             return redirect('post:post')
         return render(self.request, 'users/login.html')
 
@@ -306,6 +336,8 @@ class LoginView(SuccessMessageMixin, FormView):
                     return redirect(url_redirect)
                 if self.request.GET.get('next'):
                     return redirect(self.request.GET.get('next'))
+                if self.request.user.user_type == 'Company_User':
+                    return redirect('company:home')
                 return redirect('home:home')
             else:
                 messages.warning(self.request,
