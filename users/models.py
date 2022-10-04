@@ -64,6 +64,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['phone_number']
 
+    def is_company_user(self):
+        return  self.user_type == 'Company_User'
+
+    def get_company_users(self):
+        return User.objects.filter(user_type='Company_User', company=self.company).exclude(email=self.email)
+
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
@@ -99,6 +105,12 @@ class User(AbstractBaseUser, PermissionsMixin):
                 return True
         return False
 
+    def is_company_plan_valid(self):
+        if self.payment:
+            if self.payment.paid and self.payment.plan.is_company_plan:
+                return True
+        return False
+
     def has_group_create_permission(self):
         plan = self.payment.plan
         if plan.group_create:
@@ -126,27 +138,32 @@ class User(AbstractBaseUser, PermissionsMixin):
         return 0
 
     def get_user_connected_users(self):
+        if self.is_company_user():
+            return User.objects.filter(company=self.company, user_type='Company_User').exclude(email=self.email)
         emails = [user.connection_user.email for user in self.connections.filter(send_request="Accepted")]
         pending_emails = [user.connection_user.email for user in
                           self.pending_connections.filter(send_request="Accepted")]
         emails = emails + pending_emails
-        users = User.objects.exclude(email=self.email).filter(email__in=emails)
+        users = User.objects.exclude(email=self.email).exclude(user_type='Company_User').filter(email__in=emails)
         return users
 
     def get_user_requested_users(self):
-        users = self.connections.filter(request=True, send_request="Process")
+        users = self.connections.filter(request=True, send_request="Process",connection_user__user_type='Company_User')
         return users
 
     def get_user_received_users(self):
-        users = self.pending_connections.filter(request=True, send_request="Process")
+        users = self.pending_connections.filter(request=True, send_request="Process",connection_user__user_type='Company_User')
         return users
 
     def get_remaining_users(self):
+        if self.is_company_user():
+            return User.objects.filter(company=self.company, user_type='Company_User').exclude(email=self.email)
         emails = [user.connection_user.email for user in self.connections.filter(send_request="Accepted")]
         pending_emails = [user.connection_user.email for user in
                           self.pending_connections.filter(send_request="Accepted")]
         emails = emails + pending_emails
-        users = User.objects.exclude(email=self.email).exclude(email__in=emails)
+        users = User.objects.exclude(email=self.email).exclude(email__in=emails).exclude(user_type='Company_User')
+        print(users, "Aniket")
         return users
 
     def get_profile_img(self):

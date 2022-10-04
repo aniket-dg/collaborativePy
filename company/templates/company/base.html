@@ -1,0 +1,239 @@
+{% extends "home/social_base.html" %}
+{% load static %}
+{% block content %}
+{% load widget_tweaks %}
+<!-- <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script> -->
+
+<div class="view-wrapper is-full">
+
+    <!-- /partials/settings/settings-sidebar.html -->
+    <div class="settings-sidebar is-active">
+        <div class="settings-sidebar-inner">
+            <div class="user-block">
+                <a class="close-settings-sidebar is-hidden">
+                    <i data-feather="x"></i>
+                </a>
+                <div class="avatar-wrap">
+                    <img src="https://via.placeholder.com/150x150" data-demo-src="{{request.user.get_profile_img}}" data-user-popover="0" alt="">
+                    {% if request.user.is_verified %}
+                    <div class="badge">
+                        <i data-feather="check"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <h4>{{request.user.get_full_name}}</h4>
+                <p>{{ request.user.username }}</p>
+            </div>
+            <div class="user-menu">
+                <div class="user-menu-inner has-slimscroll">
+                    <div class="menu-block">
+                        <ul>
+                            <li data-section="general" {% if 'user/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:user-list' %}">
+                                    <i data-feather="user"></i>
+                                    <span>Users</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="menu-block">
+                        <ul>
+
+                            <li data-section="security" {% if 'post/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:post-list' %}">
+                                    <i data-feather="book"></i>
+                                    <span>Posts</span>
+                                </a>
+                            </li>
+
+                            <li data-section="security" {% if 'skeleton/post/list/' == request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:skeleton-post-list' %}">
+                                    <i data-feather="book"></i>
+                                    <span>Skeleton Posts</span>
+                                </a>
+                            </li>
+
+                            <li data-section="personal" {% if 'flag/inappropriate/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:flag_inappropriate-list' %}">
+                                    <i data-feather="flag"></i>
+                                    <span>Flagged Posts</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="menu-block">
+                        <ul>
+                            <li data-section="personal" {% if 'language/' in request.path or 'scope/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:language-list' %}">
+
+                                    <i data-feather="info"></i>
+                                    <span>Language And Scope</span>
+                                </a>
+                            </li>
+
+                            <li data-section="personal" {% if 'category/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:first-level-category-list' %}">
+
+                                    <i data-feather="info"></i>
+                                    <span>Skeleton Category</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="menu-block">
+                        <ul>
+                            <li data-section="personal" {% if 'competition/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:competition-list' %}">
+                                    <i data-feather="award"></i>
+                                    <span>Competitions</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="separator"></div>
+
+                    <div class="menu-block">
+                        <ul>
+
+                            <li data-section="personal" {% if 'plan/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:plan-list' %}">
+                                    <i data-feather="clipboard"></i>
+                                    <span>Plans</span>
+                                </a>
+                            </li>
+
+                            <li data-section="personal" {% if 'coupon/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:coupon-list' %}">
+                                    <i class="mdi mdi-percent" style="color: #cecece;"></i>
+                                    <span class="pl-4">Coupons</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="menu-block">
+                        <ul>
+
+                            <li data-section="personal" {% if 'faq/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:faq-list' %}">
+                                    <i data-feather="faq"></i>
+                                    <span>Faq</span>
+                                </a>
+                            </li>
+
+                            <li data-section="personal" {% if 'ad/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:ad-list' %}">
+                                    <i data-feather="image"></i>
+                                    <span>Ads</span>
+                                </a>
+                            </li>
+
+                            <li data-section="personal" {% if 'contact/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:contact-list' %}">
+                                    <i data-feather="mail"></i>
+                                    <span>Contacts</span>
+                                </a>
+                            </li>
+
+                            <li data-section="personal" {% if 'newsletter/list/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:newsletter-list' %}">
+                                    <i data-feather="mail"></i>
+                                    <span>Newsletter List</span>
+                                </a>
+                            </li>
+
+                            <li data-section="personal" {% if 'terms/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:terms-update' 1 %}">
+                                    <i data-feather="info"></i>
+                                    <span>Terms</span>
+                                </a>
+                            </li>
+
+                            <div class="separator"></div>
+                    <div class="menu-block">
+                        <ul>
+                            <li data-section="personal">
+                                <a href="https://pictogrammers.github.io/@mdi/font/2.0.46/">
+                                    <i data-feather="faq"></i>
+                                    <span>MDI Icons</span>
+                                </a>
+                            </li>
+
+                            <li data-section="personal">
+                                <a href="https://fontawesome.com/v4/icons/">
+                                    <i data-feather="faq"></i>
+                                    <span>Font Awesome Icons</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="settings-wrapper">
+
+        <!-- /partials/settings/sections/general-settings.html -->
+        <div id="general-settings" class="settings-section is-active">
+            <div class="settings-panel">
+
+                <div class="title-wrap">
+                    <a class="mobile-sidebar-trigger">
+                        <i data-feather="menu"></i>
+                    </a>
+                    {% block title %}
+                    {% endblock title %}
+
+                </div>
+
+                <hr>
+
+                <style>
+                    .settings-wrapper .settings-section .settings-panel .settings-form {
+                        max-width: fit-content;
+                    }
+
+                    .mdi {
+                        font-size: 18px;
+                    }
+
+                    .table td,.table th {
+                        vertical-align: middle !important;
+                    }
+
+                    .select {
+                        width: 100% !important;
+                        max-width: 100% !important;
+                    }
+                </style>
+
+
+                    {% block data %}
+                    {% endblock data %}
+
+
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}

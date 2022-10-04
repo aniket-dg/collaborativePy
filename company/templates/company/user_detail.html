@@ -1,0 +1,117 @@
+{% extends 'company/base.html' %}
+{% load crispy_forms_tags %} 
+{% load static %} 
+
+{% block title %}
+<h2 class="has-text-centered">
+    {{object.username}}
+</h2>
+{% endblock title %}
+
+{% block data %}
+
+
+<div class="column is-12">
+    <!-- user stats -->
+    <div class="stats-wrapper">
+        <div class="stats-header">
+            <div class="avatar-wrapper">
+                <img class="avatar" src="{% if object.profile_image %}{{ object.profile_image.url }}{% endif %}" data-demo-src="{% if object.profile_image %}{{ object.profile_image.url }}{% endif %}" data-user-popover="0" alt="">
+                <div class="badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+            </div>
+            <div class="user-info">
+                <h4>{{object.first_name}} {{object.last_name}}</h4>
+                <p>{{object.designation}} | {{object.bio}}</p>
+
+                <!-- <a class="button is-follow"></a> -->
+            </div>
+            <div class="main-stats">
+<!--                <div class="stat-block">-->
+<!--                    <h4>Questions</h4>-->
+<!--                    <p>1337</p>-->
+<!--                </div>-->
+<!--                <div style="border-right: 0;" class="stat-block is-centered">-->
+<!--                    <h4>Posts</h4>-->
+<!--                    <p>618</p>-->
+<!--                </div>-->
+                
+                
+            </div>
+        </div>
+
+        
+
+        <div class="quick-activity mt-5">
+            <div class="header">
+                <h3 class="ml-2">User Details</h3>
+            </div>
+
+            <div style="padding-left:0 ;" class="activity-list">
+                <div class="columns">
+                    <div class="activity-item is-best column">
+                        <div class="meta">
+                            <span>Email</span>
+                            <span>{{object.email}}</span>
+                            
+                        </div>
+                    </div>
+
+                    <div class="activity-item is-best column">
+                        <div class="meta">
+                            <span>Phone Number</span>
+                            <span>{{object.phone_number}}</span>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="columns">
+                    <div class="activity-item is-best column">
+                    
+                        <div class="meta">
+                            <span>Bio</span>
+                            <span>{{object.bio}}</span>
+                            
+                        </div>
+                    </div>
+<!--                    <div class="activity-item is-best column">-->
+<!--                        -->
+<!--                        <div class="meta">-->
+<!--                            <span>Account Type</span>-->
+<!--                            <span>{{object.account_type}}</span>-->
+<!--                            -->
+<!--                        </div>-->
+<!--                    </div>-->
+                <div class="activity-item is-best column">
+
+                        <div class="meta">
+                            <span>Update Account Status</span>
+                            {% if not object.is_verified %}
+                            <a href="{% url 'company:user-approve' object.id  %}" style="background-color:green !important; color: white !important;" class="load-more-button mt-3">Approve</a>
+                            {% else %}
+                                <a href="{% url 'company:user-disapprove' object.id  %}" style="background-color:red !important; color: white !important;" class="load-more-button mt-3" >Disapprove</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+
+                
+                
+            </div>
+            {% if plan_exist %}<br>{% endif %}
+
+            <!-- Load more -->
+            <div class=" load-more-wrap has-text-centered">
+                <a href="{% url 'user:friend-profile' object.id  %}" class="load-more-button">See Profile</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock data %}
+
+

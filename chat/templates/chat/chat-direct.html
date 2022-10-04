@@ -153,6 +153,7 @@
 {#                    {% endif %}#}
 
                     <!-- Friends -->
+                    {% if not request.user.is_company_user %}
                     <li class="nav-item">
                         <a class="nav-link py-0 py-lg-8" id="tab-friends" href="#tab-content-friends" title="Users" data-bs-toggle="tab" role="tab">
                             <div class="icon icon-xl">
@@ -160,6 +161,7 @@
                             </div>
                         </a>
                     </li>
+                    {% endif %}
 
                     <!-- Chats -->
                     <li class="nav-item">

@@ -1,0 +1,95 @@
+{% extends 'company/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+<h2 class="has-text-centered">
+    {{object.username}}
+</h2>
+{% endblock title %}
+
+{% block data %}
+
+
+<div class="column is-12">
+    <!-- user stats -->
+    <div class="stats-wrapper">
+        <div class="stats-header">
+{#            <div class="avatar-wrapper">#}
+{#                <img class="avatar" src="{% if object.profile_image %}{{ object.profile_image.url }}{% endif %}" data-demo-src="{% if object.profile_image %}{{ object.profile_image.url }}{% endif %}" data-user-popover="0" alt="">#}
+{#                <div class="badge">#}
+{#                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>#}
+{#                </div>#}
+{#            </div>#}
+            <div class="user-info" style="text-align: center">
+                <h4>{{object.name}}</h4>
+
+                <!-- <a class="button is-follow"></a> -->
+            </div>
+            <div class="main-stats">
+<!--                <div class="stat-block">-->
+<!--                    <h4>Questions</h4>-->
+<!--                    <p>1337</p>-->
+<!--                </div>-->
+<!--                <div style="border-right: 0;" class="stat-block is-centered">-->
+<!--                    <h4>Posts</h4>-->
+<!--                    <p>618</p>-->
+<!--                </div>-->
+
+
+            </div>
+        </div>
+
+
+
+        <div class="quick-activity mt-5">
+            <div class="header">
+                <h3 class="ml-2">Company Details</h3>
+            </div>
+
+            <div style="padding-left:0 ;" class="activity-list">
+                <div class="columns">
+                    <div class="activity-item is-best column">
+                        <div class="meta">
+                            <span>Name</span>
+                            <span>{{object.name}}</span>
+
+                        </div>
+                    </div>
+
+                    <div class="activity-item is-best column">
+                        <div class="meta">
+                            <span>Website Url</span>
+                            <span>{{object.website_url}}</span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="activity-item is-best column">
+
+                        <div class="meta">
+                            <span>Unique Link</span>
+                            <span>{{object.share_link}}</span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+
+
+            <!-- Load more -->
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock data %}
+
+

@@ -159,7 +159,8 @@ class PaymentRequestView(LoginRequiredMixin, View):
         hash = hashlib.sha512(
             str(f"{merchant_key}|{payload['txnid']}|{payment.get_calculated_price()}|{plan.title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|{coupon_applied}|{plan_with_qty}|||||||{merchant_salt}").encode(
                 "utf-8")).hexdigest()
-
+        print(str(f"{merchant_key}|{payload['txnid']}|{payment.get_calculated_price()}|{plan.title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|{coupon_applied}|{plan_with_qty}|||||||{merchant_salt}").encode(
+                "utf-8"),"hash value")
         context = {'payment_id': payment.id, 'posted': payu_data}
         context['hashh'] = hash
         context['plan_with_qty'] = plan_with_qty
@@ -250,6 +251,8 @@ class PaymentResponseView(View):
                 payment.save()
                 user.save()
             messages.success(self.request, "Payment Success!")
+            if payment.plan.is_company_plan:
+                return redirect('company:home')
             return redirect('chat:chat')
         else:
             print("Payment Fail!")

@@ -24,6 +24,8 @@ class Plan(models.Model):
                                                   help_text="Total number of groups that can be created under this plan.")
     group_size = models.IntegerField(default=0, help_text="Number of people that can be added per group.")
 
+    is_company_plan = models.BooleanField(default=False)
+
     def get_discounted_price(self):
         if self.discount_percentage:
             return self.discount_cost

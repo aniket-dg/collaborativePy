@@ -61,6 +61,7 @@ MIDDLEWARE = [
     'django_user_agents.middleware.UserAgentMiddleware',
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'home.middleware.MyMiddleware',
 ]
 X_FRAME_OPTIONS = 'ALLOWALL'
 XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
@@ -275,23 +276,23 @@ PUSH_NOTIFICATIONS_SETTINGS = {
     'UPDATE_ON_DUPLICATE_REG_ID':True,
 }
 
-#PAYU_CONFIG = {
+# PAYU_CONFIG = {
 #    "merchant_key": "PIJcFM",
 #    "merchant_salt": "2Et6VAHZYmQHudFXzKqOs7WZTJ1Ktu3K",
 #    "mode": "test",
 #    "success_url": "https://stellar-ai.in/order/payment/response/",
 #    "failure_url": "https://stellar-ai.in/order/payment/response/"
-#}
-
-# Change the PAYU_MODE to 'LIVE' for production.
-#PAYU_MODE = "LIVE"
+# }
+#
+# # Change the PAYU_MODE to 'LIVE' for production.
+# PAYU_MODE = "LIVE"
 
 PAYU_CONFIG = {
     "merchant_key": "gtKFFx",
-    "merchant_salt": "wia56q6O",
+    "merchant_salt": "4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW",
     "mode": "test",
-    "success_url": "https://stellar-ai.in/order/payment/response/",
-    "failure_url": "https://stellar-ai.in/order/payment/response/"
+    "success_url": "http://127.0.0.1:8000/order/payment/response/",
+    "failure_url": "http://127.0.0.1:8000/order/payment/response/"
 }
 
 # Change the PAYU_MODE to 'LIVE' for production.

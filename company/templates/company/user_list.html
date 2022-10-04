@@ -1,0 +1,85 @@
+{% extends 'company/base.html' %}
+{% load crispy_forms_tags %} 
+{% load static %} 
+
+{% block title %}
+<h2 class="has-text-centered">
+    Users List
+</h2>
+{% endblock title %}
+
+{% block data %}
+
+<!-- <link rel="stylesheet" href="{% static 'social_assets/css/table_bulma.css' %}"> -->
+
+<style>
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group label {
+        font-size: 0.8em;
+    }
+
+    .settings-wrapper .settings-section .settings-panel .settings-form .field-group {
+        padding: 0.8em;
+    }
+
+    .table thead th {
+        font-weight: 500;
+        color: rgb(146, 146, 146);
+        font-size: 0.9em;
+    }
+    .table thead td, .table thead th {
+        border-width: 0 0 0.5px;
+        padding-bottom: 15px;
+    }
+    .table td {
+        padding-top: 15px;
+    }
+    
+</style>
+
+    <div style="width: 100% !important;" class="">
+        
+            <div class="table-container">
+              <table class="table is-fullwidth">
+                <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Username</th>
+                  <th>Email</th>
+<!--                  <th>Account Type</th>-->
+
+                  <th class="has-text-centered">Details</th>
+
+                </tr>
+                </thead>
+                
+                <tbody>
+                {% for object in object_list %}
+                <tr>
+                  <td class="is-image-cell">
+                    <div class="image">
+                      <img style="width:60px; height:60px;"  src="{{object.get_profile_img}}" class="is-rounded">
+                    </div>
+                  </td>
+                  <td data-label="username">{{object.username}}</td>
+                  <td data-label="language">{{object.email}}</td>
+<!--                  <td data-label="scope_of_work">{{object.account_type}}</td>                  -->
+                  
+                  
+                  <td class="has-text-centered" data-label="Mobile">
+                    <a href="{% url 'company:user-detail' object.pk %}" class="button is-primary" type="button">
+                        <span class="icon"><i class="mdi mdi-information"></i></span>
+                    </a>
+                  </td>
+                  
+                  
+                  
+                </tr>
+                {% endfor %}
+                
+                </tbody>
+              </table>
+            </div>
+         
+    </div>
+
+{% endblock data %}

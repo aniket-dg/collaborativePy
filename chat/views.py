@@ -92,7 +92,6 @@ class ChatRoom(LoginRequiredMixin, RedirectProfileRegister, View):
     def get(self, *args, **kwargs):
         context = {}
         user = self.request.user
-
         users = user.get_user_connected_users()
         context['chat_list_user'] = users
         context['contact_list'] = users
@@ -140,29 +139,33 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
         return redirect("chat:chat")
 
     def form_valid(self, form):
-        print(self.request.POST)
         user = self.request.user
-        plan_id = self.request.POST.get('plan_id')
-        plan = None
-        plan_with_qty = None
-        if not plan_id:
-            if user.payment.plans.all():
-                if user.payment.plans.count() == 1:
-                    plan = user.payment.plans.last().plan
-                    plan_with_qty = user.payment.plans.last()
-                    # print("Here andikdfgsfgsdfgsdfgsdfgsdf")
-                else:
-                    messages.warning(self.request, "Sorry plan not selected! Select one of purchased plan")
-                    return redirect('chat:chat')
-            else:
-                messages.warning(self.request, "Unexpected Error! Plan Not Found")
+        if user.is_company_user():
+            plan = user.company.get_plan()
+            if not plan:
+                messages.warning(self.request, "Company does not have any valid plan! Ask Company Superuser to buy new plan!")
                 return redirect('chat:chat')
-        if not plan:
-            plan = user.payment.plans.filter(id=plan_id).last().plan
-            plan_with_qty = user.payment.plans.last()
-        if not plan:
-            messages.warning(self.request, "Sorry plan not purchase yet! Not Found")
-            return redirect('chat:chat')
+        else:
+            plan_id = self.request.POST.get('plan_id')
+            plan = None
+            plan_with_qty = None
+            if not plan_id:
+                if user.payment.plans.all():
+                    if user.payment.plans.count() == 1:
+                        plan = user.payment.plans.last().plan
+                        plan_with_qty = user.payment.plans.last()
+                    else:
+                        messages.warning(self.request, "Sorry plan not selected! Select one of purchased plan")
+                        return redirect('chat:chat')
+                else:
+                    messages.warning(self.request, "Unexpected Error! Plan Not Found")
+                    return redirect('chat:chat')
+            if not plan:
+                plan = user.payment.plans.filter(id=plan_id).last().plan
+                plan_with_qty = user.payment.plans.last()
+            if not plan:
+                messages.warning(self.request, "Sorry plan not purchase yet! Not Found")
+                return redirect('chat:chat')
 
         users = self.request.POST.getlist('groupMember[]')
         if len(users) > plan.group_size:
@@ -179,20 +182,29 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
         group.save()
         group.admin.add(user)
         group_name = str(uuid.uuid1())
-        # group.name = re.sub(r"\s+", "", group.group_name, flags=re.UNICODE)
         group.name = group_name
         group.save()
         group_create_user = self.request.user
         group_create_user.groups.add(group)
         group_create_user.save()
         users = self.request.POST.getlist('groupMember[]')
-        if users:
-            for id in users:
-                user = User.objects.filter(id=int(id)).last()
-                user.groups.add(group)
-                user.save()
-        self.request.user.payment.plans.remove(plan_with_qty)
-        self.request.user.payment.save()
+        if user.is_company_user():
+            if users:
+                for id in users:
+                    userG = User.objects.filter(id=int(id), user_type='Company_User', company=user.company).last()
+                    if userG:
+                        userG.groups.add(group)
+                        userG.save()
+            messages.success(self.request, "Group Created!")
+            return redirect('chat:chat')
+        else:
+            if users:
+                for id in users:
+                    user = User.objects.filter(id=int(id)).last()
+                    user.groups.add(group)
+                    user.save()
+            self.request.user.payment.plans.remove(plan_with_qty)
+            self.request.user.payment.save()
         return redirect('chat:chat')
 
 

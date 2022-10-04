@@ -6,5 +6,12 @@
 </head>
 <body>
 <h1>Company Home page</h1>
+
+{% for item in plans %}
+<a type="btn btn-primary" href="{% url 'order:payment-request' item.id %}">Buy Company Space</a>
+{% endfor %}
+<h1>{{ request.user }}</h1>
+<h2><a href="{{ redirect_url }}">{{ redirect_url }}</a></h2>
+<h3>{{ redirect_url }}</h3>
 </body>
 </html>

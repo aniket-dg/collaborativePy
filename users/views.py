@@ -16,6 +16,7 @@ from django.views.generic.edit import (
 )
 from django.urls import reverse
 
+from company.utils import decrypt_string
 from home.models import PopUpQuestions
 from post.models import Post
 from stellar_ai import settings
@@ -218,15 +219,25 @@ class CompanySignUpView(View):
             user = register_form.save()
             if len(user.username.split(" ")) > 1:
                 user.username = user.username.replace(" ", "")
-            user.is_company_admin = True
-            user.user_type = 'Company_User'
-            user.save()
-            send_email_verification_mail(self.request, user)
-            messages.success(self.request,
-                             'Thank you for registering with us. We have mailed you a verification link to activate '
-                             'your account.')
+            if self.request.GET.get('code'):
+                enc_link = self.request.GET.get('code')
+                dec_link = decrypt_string(enc_link)
+                user_id = dec_link.split("_")[1] if len(dec_link.split("_")) > 1 else None
+                company_user = User.objects.filter(id=int(user_id)).last()
+                if user_id and company_user:
+                    user.user_type = "Company_User"
+                    user.company = company_user.company
+                    user.save()
+                else:
+                    messages.warning(self.request, "Invalid registration Link, Contact to your Company's Superuser")
+                    return redirect('user:login')
+            else:
+                send_email_verification_mail(self.request, user)
+                messages.success(self.request,
+                             'Thank you for registering with us. We have mailed you a verification link to activate your account.')
             return redirect('user:login')
-
+        print(register_form.errors)
+        print(register_form.errors.as_json())
         messages.warning(self.request, 'Invalid registration information.')
         return redirect('user:register')
 
