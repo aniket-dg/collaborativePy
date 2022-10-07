@@ -95,7 +95,7 @@ class ChatRoom(LoginRequiredMixin, RedirectProfileRegister, View):
         users = user.get_user_connected_users()
         context['chat_list_user'] = users
         context['contact_list'] = users
-        context['group_list'] = self.request.user.groups.all()
+        context['group_list'] = user.get_user_group()
         account_dict = arrange_users(users)
         # remaining_users = user.get_remaining_users()
         # remaining_dict = arrange_users(remaining_users)
@@ -109,6 +109,8 @@ class ChatRoom(LoginRequiredMixin, RedirectProfileRegister, View):
             context['allow_group_creation'] = False
         else:
             context['allow_group_creation'] = user.payment.plans.count() > 0
+        if not self.request.user.is_verified:
+            return render(self.request, 'chat/chat-direct.html', {})
         return render(self.request, 'chat/chat-direct.html', context)
 
 
@@ -127,6 +129,8 @@ class IsGroupPermission:
             else:
                 messages.warning(self.request, "Sorry, you don't have permission to create groups")
                 return redirect('chat:chat')
+        elif user.is_company_user() and user.company.get_plan():
+            return super().dispatch(request, *args, **kwargs)
         messages.warning(self.request, "You don't have any active plan to create group.")
         return redirect('home:home')
 
@@ -189,12 +193,15 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
         group_create_user.save()
         users = self.request.POST.getlist('groupMember[]')
         if user.is_company_user():
+            group.company = user.company
+            group.save()
             if users:
                 for id in users:
                     userG = User.objects.filter(id=int(id), user_type='Company_User', company=user.company).last()
                     if userG:
                         userG.groups.add(group)
                         userG.save()
+
             messages.success(self.request, "Group Created!")
             return redirect('chat:chat')
         else:
@@ -479,7 +486,7 @@ class Upload(View):
 class GroupMemberListView(View):
     def get(self, *args, **kwargs):
         group = GroupChatModel.objects.filter(id=self.kwargs.get('pk')).last()
-        if group and group in self.request.user.groups.all():
+        if group and group in self.request.user.get_user_group():
             if group:
                 users = User.objects.filter(groups__in=[group])
                 user_list = {}
@@ -502,6 +509,35 @@ class GroupMemberListView(View):
         return JsonResponse({
             "error": "Group not exist."
         })
+
+
+class GroupPendingMemberListView(View):
+    def get(self, *args, **kwargs):
+        group = GroupChatModel.objects.filter(id=self.kwargs.get('pk')).last()
+        if group and group in self.request.user.get_user_group():
+            if group:
+                users = group.pending_connections.all()
+                user_list = {}
+                for user in users:
+                    if user in group.admin.all():
+                        user_list[user.id] = f"{user.first_name} {user.last_name},{user.email},true,{user.username}"
+                    else:
+                        user_list[user.id] = f"{user.first_name} {user.last_name},{user.email},false,{user.username}"
+
+                return JsonResponse({
+                    'member_list': user_list,
+                    'group_id': group.id,
+                    'created_by': f"{group.created_by.first_name} {group.created_by.last_name},{group.created_by.email},true",
+                    'info': group.group_info,
+                    'created_at': f"{group.created_at.date()},{group.created_at.time()}",
+                })
+            return JsonResponse({
+                "error": "Group not found."
+            })
+        return JsonResponse({
+            "error": "Group not exist."
+        })
+
 
 
 class RemoveFromGroupView(View):
@@ -963,12 +999,28 @@ class CheckGroupIsValid(LoginRequiredMixin, View):
                 'status': False
             })
         group = GroupChatModel.objects.filter(id=int(id)).last()
-        if group and group in self.request.user.groups.all():
+        if group and group in self.request.user.get_user_group():
             if group.is_valid():
                 return JsonResponse({
                     'status': True
                 })
         messages.warning(self.request, "CodeRoom is expired")
+        return JsonResponse({
+            'status': False
+        })
+
+class CheckGroupCompanyValid(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        id = self.kwargs.get('pk')
+        if not id:
+            return JsonResponse({
+                'status': False
+            })
+        group = GroupChatModel.objects.filter(id=int(id)).last()
+        if group and group in self.request.user.groups.all():
+            return JsonResponse({
+                'status': True
+            })
         return JsonResponse({
             'status': False
         })
@@ -983,4 +1035,98 @@ class GetPlanId(LoginRequiredMixin, View):
             })
         return JsonResponse({
             'status': None
+        })
+
+class SendRequestToGroup(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        id = self.kwargs.get('pk')
+        if not user.is_company_user():
+            messages.warning(self.request, "User should be Company User")
+            return JsonResponse({
+                'status': False,
+                'msg': 'User should be Company User'
+            })
+        if not id:
+            messages.warning(self.request, "Request could not be completed!")
+            return JsonResponse({
+                'status': False,
+                'msg': "group id : id is required"
+            })
+
+        group = GroupChatModel.objects.filter(id=int(id)).last()
+        if not group:
+            messages.warning(self.request, "Group not Found")
+            return JsonResponse({
+                'status': False,
+                'msg': 'Group not exist'
+            })
+
+        if not group.company == user.company:
+            messages.warning(self.request, "User not belongs to the company")
+            return JsonResponse({
+                'status': False,
+                'msg': "User not belongs to the company"
+            })
+
+        if group in user.groups.all():
+            messages.warning(self.request, "User is already a member of the group")
+            return JsonResponse({
+                'status': False,
+                'msg': "User is already a member of the group"
+            })
+
+        if user in group.pending_connections.all():
+            messages.warning(self.request, "Request already sent to the group")
+            return JsonResponse({
+               'status': False,
+               'msg': "Request already sent to the group"
+           })
+
+
+
+        group.pending_connections.add(user)
+        group.save()
+        messages.success(self.request, "Request sent successfully")
+        return JsonResponse({
+            'status': True,
+        })
+
+class ApproveCompanyUserToCodeRoom(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        groupId = self.kwargs.get('groupId')
+        userId = self.kwargs.get('userId')
+        group = GroupChatModel.objects.filter(id=int(groupId)).last()
+        if not group:
+            return JsonResponse({
+                'status': False,
+                'msg': 'Group not exist'
+            })
+        companyUser = User.objects.filter(id=userId).last()
+        if not companyUser or not companyUser.is_company_user():
+            return JsonResponse({
+                'status': False,
+                'msg': "User is not found"
+            })
+
+        if not user in group.admin.all():
+            return JsonResponse({
+                "status": False,
+                "msg": "Only admin can approve the member"
+            })
+
+        if not companyUser in group.pending_connections.all():
+            return JsonResponse({
+                "status": False,
+                "msg": "Admit Request not found!"
+            })
+
+        group.pending_connections.remove(companyUser)
+        group.save()
+        companyUser.groups.add(group)
+        companyUser.save()
+        return JsonResponse({
+            "status": True,
+            "msg": "User admitted to group!"
         })

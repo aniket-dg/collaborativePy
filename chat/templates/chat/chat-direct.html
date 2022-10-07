@@ -217,6 +217,8 @@
             <!-- Sidebar -->
             <aside class="sidebar bg-light">
                 <div class="tab-content h-100" role="tablist">
+
+                    {% if request.user.is_verified %}
                 {% include 'chat/tab_content_create_chat.html' %}
 
                     <!-- Friends -->
@@ -224,7 +226,9 @@
 
                     <!-- Chats -->
                 {% include 'chat/tab_content_chats.html' %}
-
+                {% else %}
+                        {% include 'chat/tab_content_unverified.html' %}
+                    {% endif %}
                     <!-- Notifications - Notices -->
                     <div class="tab-pane fade h-100" id="tab-content-notifications" role="tabpanel">
                         <div class="d-flex flex-column h-100">
@@ -1052,9 +1056,14 @@
 
                 </div>
                 <div class="chat-placeholder">
+                    {% if request.user.is_verified %}
                     <img src="{% static 'chat/img/chat-placeholder.svg' %}">
-                    <h3>Chat with your friends!</h3>
                     <p>Find users, create groups, share files and much more.</p>
+                    {% else %}
+{#                    <img src="{% static 'chat/img/chat-placeholder.svg' %}" style="margin-left: -281px;#}
+{#    margin-top: 139px;">#}
+                    <p style="margin-right: 21rem;">Your account is not verified yet! Contact to your Company Admin...</p>
+                    {% endif %}
                 </div>
             </main>
             <!-- Chat -->

@@ -30,7 +30,7 @@
                     <div class="menu-block">
                         <ul>
                             <li data-section="general" {% if 'user/list/' in request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:user-list' %}">
+                                <a href="{% url 'company:user-list' %}">
                                     <i data-feather="user"></i>
                                     <span>Users</span>
                                 </a>
@@ -41,17 +41,16 @@
                     <div class="menu-block">
                         <ul>
 
-                            <li data-section="security" {% if 'post/list/' in request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:post-list' %}">
+                            <li data-section="security" {% if '/company/home/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'company:home' %}">
                                     <i data-feather="book"></i>
-                                    <span>Posts</span>
+                                    <span>Company Info</span>
                                 </a>
                             </li>
-
-                            <li data-section="security" {% if 'skeleton/post/list/' == request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:skeleton-post-list' %}">
+                            <li data-section="security" {% if '/company/update/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% if request.user.company %}{% url 'company:info-update' request.user.company.id %}{% endif %}">
                                     <i data-feather="book"></i>
-                                    <span>Skeleton Posts</span>
+                                    <span>Company Update</span>
                                 </a>
                             </li>
 

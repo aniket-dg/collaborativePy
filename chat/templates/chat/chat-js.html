@@ -306,6 +306,24 @@
         return my_data;
     }
 
+
+
+    function checkCompanyGroupValid(id){
+        let my_data = null;
+
+        $.ajax(
+        {
+            url: `/chat/check/company/group/valid/${id}/`,
+            dataType: "json",
+            async: false,
+            success: function(data)
+            {
+                my_data = data;
+            }
+        });
+        return my_data['status'];
+    }
+
 {######################                           ###############################}
 </script>
 

@@ -53,6 +53,7 @@ urlpatterns = [
     path('upload/', views.Upload.as_view(), name='upload-data'),
 
     path('group/member/list/<int:pk>/', views.GroupMemberListView.as_view(), name='group-member-list'),
+    path('group/pending/member/list/<int:pk>/', views.GroupPendingMemberListView.as_view(), name='group-pending-member-list'),
 
     path('remove/from/group/<int:group_id>/<int:user_id>/', views.RemoveFromGroupView.as_view(), name='remove-from'
                                                                                                       '-group'),
@@ -77,6 +78,10 @@ urlpatterns = [
     path('delete/group/notification/', views.DeleteGroupNotification.as_view(), name='user-delete-group-notification'),
 
     path('check/group/valid/<int:pk>/', views.CheckGroupIsValid.as_view(), name='check-group-valid'),
+    path('check/company/group/valid/<int:pk>/', views.CheckGroupCompanyValid.as_view(), name='check-company-group-valid'),
+    path('send/request/group/company/<int:pk>/', views.SendRequestToGroup.as_view(), name='send-request-group-company'),
 
     path('get/plan/id/', views.GetPlanId.as_view(), name='get-plan-id'),
+    path('add/company/group/member/<int:groupId>/<int:userId>/', views.ApproveCompanyUserToCodeRoom.as_view(), name='add-member-to-company-group'),
+
 ]

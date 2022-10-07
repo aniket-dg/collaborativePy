@@ -44,7 +44,7 @@
 <!--                                    {% endif %}-->
 
 
-                                    {% if request.user.is_plan_valid and allow_group_creation %}
+                                    {% if request.user.is_plan_valid and allow_group_creation or request.user.is_company_user and request.user.normal_company_plan_valid %}
                                     <div class="mb-5">
                                         <a  onclick="$('#tab-content-create-chat').addClass('active show');" class="btn btn-sm btn-primary w-100 py-4" >Create CodeRoom</a>
                                     </div>
@@ -107,17 +107,8 @@
                                             <div class="card-body">
                                                 <div class="row gx-5">
                                                     <div class="col-auto">
-                                                        <!-- <div class="avatar-group">
-                                                            <a href="#" class="avatar">
-                                                                <img src="{{ request.user.get_profile_img }}" alt="#"  style="object-fit: cover;" class="avatar-img">
-                                                            </a>
-                                                            <a href="#" class="avatar">
-                                                                <img {% if object.profile_image %}src="{{ object.profile_image.url }}"{% endif %}  alt="#"  style="object-fit: cover;" class="avatar-img">
-                                                            </a>
-                                                        </div> -->
+
                                                         <div class="avatar">
-<!--                                                            <img src="{{ request.user.profile_image.url }}" alt="#"  style="object-fit: cover;" class="avatar-img">-->
-<!--                                                            <img {% if object.profile_image %}src="{{ object.profile_image.url }}"{% endif %}  alt="#"  style="object-fit: cover; margin-left: -2rem;" class="avatar-img">-->
                                                             <img src="{{ object.profile_image.url }}" alt="#" style="object-fit: cover;" class="avatar-img">
                                                         </div>
                                                     </div>
@@ -127,9 +118,17 @@
                                                             <div>
                                                             <h5 data-search='groupname' class="me-auto mb-0">{{ object.group_name }}</h5>
                                                             <h6 data-search='username' class="me-auto mb-0" style="color: #68748D;font-size: 13px;">CodeRoom</h6>
-<!--                                                            <span class="text-muted extra-small ms-2">08:35 PM</span>-->
+                                                                {% if request.user.is_company_user %}
+                                                            <h6 data-search='username' class="me-auto mb-0" style="color: #68748D;font-size: 13px;">{{ object.created_by.first_name }} {{ object.created_by.last_name }}</h6>
+                                                                {% endif %}
+
                                                             </div>
+
+
+
+{#######################################################################################################################}
                                                         </div>
+
 
 {#                                                        <div class="d-flex align-items-center">#}
 {#                                                            <div class="line-clamp me-auto">#}
@@ -146,6 +145,26 @@
 {#                                                            </div>#}
                                                         </div>
                                                     </div>
+
+{#                                             ############### this line sploil css of the group   #}
+                                                    <div class="col-auto">
+                                                            <!-- Dropdown -->
+                                                            <div class="dropdown">
+                                                                <a class="icon text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                                                                </a>
+
+                                                                <ul class="dropdown-menu">
+                                                                    <li>
+                                                                        <a class="dropdown-item" href="#" onclick="sendCompanyGroupRequest({{ object.id }})">Send Admit Request</a>
+                                                                    </li>
+                                                                    {% comment %} <li><a class="dropdown-item" href="#">Edit contact</a> {% endcomment %}
+                                                                    </li>
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+{#                                             ############### this line sploil css of the group   #}
                                                 </div>
                                             </div><!-- .card-body -->
                                         </a>

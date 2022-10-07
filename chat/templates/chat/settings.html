@@ -156,6 +156,8 @@
                                             </div>
                                         </div>
 
+                                        {% if request.user.is_verified and not request.user.is_company_user %}
+
                                         <div class="d-flex align-items-center my-4 px-6">
                                             <small class="text-muted me-auto">Plans</small>
                                         </div>
@@ -198,6 +200,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    {% endif %}
                                     </div>
                                     <!-- Account -->
 

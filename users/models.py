@@ -92,6 +92,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+    def get_user_group(self):
+        if self.is_company_user:
+            return GroupChatModel.objects.filter(company=self.company)
+        return self.groups.all()
+
     def is_plan_available(self):
         if self.payment:
             if not self.payment.paid:
@@ -106,11 +111,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         return False
 
     def is_company_plan_valid(self):
-        if self.payment:
+        if self.company:
             if self.payment.paid and self.payment.plan.is_company_plan:
                 return True
         return False
 
+    def normal_company_plan_valid(self):
+        if self.company and self.company.get_plan():
+            return True
+        return False
     def has_group_create_permission(self):
         plan = self.payment.plan
         if plan.group_create:

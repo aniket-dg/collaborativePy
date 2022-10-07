@@ -61,6 +61,10 @@ class GroupChatModel(models.Model):
     plan = models.ForeignKey('order.Plan', null=True, blank=True, on_delete=models.CASCADE)
     valid_till = models.DateField(null=True, blank=True)
 
+    company = models.ForeignKey('company.Company', null=True, blank=True, on_delete=models.CASCADE)
+
+    pending_connections = models.ManyToManyField('users.User', related_name='group_pending_connections')
+    current_size = models.CharField(max_length=300, null=True, blank=True)
     def __str__(self):
         return str(self.id)
 

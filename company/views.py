@@ -20,6 +20,11 @@ class IsCompanyPresent(View):
             return redirect('company:company-create')
         return super().dispatch(self.request, *args, **kwargs)
 
+class IsNormalCompanyUser(View):
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_company_admin:
+            return redirect('chat:chat')
+        return super(IsNormalCompanyUser, self).dispatch(self.request, *args, **kwargs)
 class IsCompanyUser(View):
     def dispatch(self, request, *args, **kwargs):
         company_user = User.objects.filter(id=self.kwargs.get('pk')).last()
@@ -28,7 +33,7 @@ class IsCompanyUser(View):
             return redirect('company:home')
         return super().dispatch(self.request, *args, **kwargs)
 
-class HomeView(LoginRequiredMixin,IsCompanyPresent):
+class HomeView(LoginRequiredMixin,IsCompanyPresent, IsNormalCompanyUser):
     def get(self, *args, **kwargs):
         context = {}
         user = self.request.user
@@ -47,8 +52,11 @@ class HomeView(LoginRequiredMixin,IsCompanyPresent):
         return render(self.request, 'company/company.html', context)
 
 
-class CompanyCreateView(View):
+class CompanyCreateView(IsCompanyUser,IsNormalCompanyUser ,View):
     def get(self, *args, **kwargs):
+        user = self.request.user
+        if user.company:
+            return redirect('company:home')
         context = {}
         company_form = CompanyForm(data=None)
         context['form'] = company_form
@@ -67,7 +75,7 @@ class CompanyCreateView(View):
         messages.success(self.request, "Company Info saved successfully!")
         return redirect('company:home')
 
-class CompanyUpdateView(LoginRequiredMixin, UpdateView):
+class CompanyUpdateView(LoginRequiredMixin,IsNormalCompanyUser ,UpdateView):
     model = Company
     form_class = CompanyForm
     template_name = 'company/company_info.html'
@@ -79,14 +87,15 @@ class CompanyUserView(View):
     def get(self, *args, **kwargs):
         return HttpResponse("Company User view")
 
-class UserListView(LoginRequiredMixin, ListView):
+
+class UserListView(LoginRequiredMixin, IsNormalCompanyUser, ListView):
     model = User
     paginate_by = 30
     template_name = 'company/user_list.html'
     def get_queryset(self):
         return User.objects.filter(user_type='Company_User', company=self.request.user.company).exclude(email=self.request.user.email)
 
-class UserDetailView(LoginRequiredMixin, View):
+class UserDetailView(LoginRequiredMixin, IsNormalCompanyUser, View):
     def get(self, *args, **kwargs):
         context = {}
         user = self.request.user
@@ -98,7 +107,7 @@ class UserDetailView(LoginRequiredMixin, View):
         context['object'] = company_user
         return render(self.request, 'company/user_detail.html', context)
 
-class ApproveUserView(LoginRequiredMixin, IsCompanyUser,View):
+class ApproveUserView(LoginRequiredMixin,IsNormalCompanyUser, IsCompanyUser,View):
     def get(self, *args, **kwargs):
         context = {}
         user = self.request.user
@@ -108,7 +117,7 @@ class ApproveUserView(LoginRequiredMixin, IsCompanyUser,View):
         messages.success(self.request, "Company user approved!")
         return redirect('company:user-list')
 
-class DisapproveUserView(LoginRequiredMixin, IsCompanyUser,View):
+class DisapproveUserView(LoginRequiredMixin,IsNormalCompanyUser, IsCompanyUser,View):
     def get(self, *args, **kwargs):
         context = {}
         user = self.request.user
