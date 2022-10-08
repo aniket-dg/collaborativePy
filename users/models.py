@@ -126,7 +126,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def is_company_plan_valid(self):
         if self.company:
-            if self.payment.paid and self.payment.plan.is_company_plan:
+            if self.payment and self.payment.paid and self.payment.plan.is_company_plan:
                 return True
         return False
 
