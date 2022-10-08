@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+import glob
+import os
 from datetime import datetime
 
 from django.core.mail import send_mail
@@ -22,6 +24,18 @@ USER_TYPE_CHOICES = (
     ('Company_User', 'Company_User')
 )
 
+
+def get_file_size(start_path):
+    total_size = 0
+    files = glob.glob(os.path.join(start_path, '*'))
+    for item in files:
+        total_size += os.path.getsize(item)
+    print(total_size)
+    kbyte_size = total_size/1000
+    mb_size = kbyte_size / 1000
+    gb_size = mb_size / 1000
+    print(gb_size)
+    return gb_size
 
 @process_files(['profile_image'])
 class User(AbstractBaseUser, PermissionsMixin):
@@ -196,3 +210,28 @@ class Connection(models.Model):
 
     def __str__(self):
         return self.connection_user.username
+
+class CodeRoomSize(models.Model):
+    group_name = models.CharField(max_length=300, null=True, blank=True)
+    current_size = models.CharField(max_length=300, default=0)
+    room_size = models.CharField(max_length=300, default=0)
+    first_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='user_first')
+    second_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='user_second')
+    def get_available_size(self):
+        return int(self.room_size) - int(self.current_size)
+
+    def save(self, *args, **kwargs):
+        if self.second_user:
+            x = self.first_user if self.first_user.id > self.second_user.id else self.second_user
+            y = self.second_user if self.second_user.id < self.first_user.id else self.first_user
+
+            self.group_name = f"coderoom_{x.id}_{y.id}"
+        else:
+            self.group_name = f"coderoom_{self.first_user.id}"
+        super(CodeRoomSize, self).save(*args, **kwargs)
+
+    def get_size(self):
+        location = f"/home/jupyter-{self.group_name}/"
+        self.room_size = get_file_size(location)
+        self.save()
+        return self.room_size

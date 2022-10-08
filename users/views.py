@@ -1,3 +1,4 @@
+import glob
 import json
 from django.core.mail import EmailMessage
 
@@ -24,7 +25,7 @@ from .forms import (
     RegistrationForm, LoginForm, UserUpdateForm
 )
 from django.utils.http import urlsafe_base64_decode
-from .models import User, Connection
+from .models import User, Connection, CodeRoomSize
 from post.models import Post, FlagInappropriate, BookMark
 from .utils import send_welcome_mail, send_email_verification_mail
 from django.contrib.auth.tokens import default_token_generator
@@ -42,19 +43,28 @@ class UserData(LoginRequiredMixin, View):
             if peer and peer in user.get_user_connected_users():
                 x = user if user.id > peer.id else peer
                 y = peer if peer.id < user.id else user
+                coderoom = CodeRoomSize.objects.filter(first_user=x, second_user=y).last()
+                if not coderoom:
+                    coderoom = CodeRoomSize(first_user=x, second_user=y)
+                    coderoom.save()
 
                 return HttpResponse(
                     json.dumps({
-                        'username': f"{x.username}_{y.username}"
+                        'username': coderoom.group_name
                     })
                 )
         if user.is_group_share:
             group_id = user.group_id_share
             group = GroupChatModel.objects.filter(id=int(group_id)).last()
             if not group and group not in user.groups.all():
+                coderoom = CodeRoomSize.objects.filter(first_user = user).last()
+                if not coderoom:
+                    coderoom = CodeRoomSize(first_user=user)
+                    coderoom.save()
+
                 return HttpResponse(
                     json.dumps({
-                        'username': user.username
+                        'username': coderoom.group_name
                     }),
                     content_type='application/json'
                 )
@@ -64,9 +74,13 @@ class UserData(LoginRequiredMixin, View):
                 }),
                 content_type='application/json'
             )
+        coderoom = CodeRoomSize.objects.filter(first_user=user).last()
+        if not coderoom:
+            coderoom = CodeRoomSize(first_user=user)
+            coderoom.save()
         return HttpResponse(
             json.dumps({
-                'username': user.username
+                'username': coderoom.group_name
             }),
             content_type='application/json'
         )

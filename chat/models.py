@@ -2,6 +2,8 @@ import datetime
 
 from django.db import models
 
+import users.models
+
 
 class Message(models.Model):
     author = models.ForeignKey('users.User', related_name='author_messages', on_delete=models.CASCADE)
@@ -64,9 +66,20 @@ class GroupChatModel(models.Model):
     company = models.ForeignKey('company.Company', null=True, blank=True, on_delete=models.CASCADE)
 
     pending_connections = models.ManyToManyField('users.User', related_name='group_pending_connections')
-    current_size = models.CharField(max_length=300, null=True, blank=True)
+    current_size = models.CharField(max_length=300, default=0)
+    room_size = models.CharField(max_length=300, default=0)
+
     def __str__(self):
         return str(self.id)
+
+    def get_available_size(self):
+        return int(self.room_size) - int(self.current_size)
+
+    def get_size(self):
+        location = f"/home/jupyter-{self.group_name}/"
+        self.room_size = users.models.get_file_size(location)
+        self.save()
+        return self.room_size
 
     def get_profile_img(self):
         if self.profile_image:
