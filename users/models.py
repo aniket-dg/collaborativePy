@@ -210,7 +210,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_coderoom_valid(self, user):
         coderoom = self.get_coderoom(user)
         if coderoom:
-            return coderoom.get_available_size() > 0
+            return float(coderoom.get_available_size()) > 0
         return True
 
     def get_coderoom(self, user):
