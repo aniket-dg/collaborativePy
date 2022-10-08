@@ -52,7 +52,7 @@ class HomeView(LoginRequiredMixin,IsCompanyPresent, IsNormalCompanyUser):
         return render(self.request, 'company/company.html', context)
 
 
-class CompanyCreateView(IsCompanyUser,IsNormalCompanyUser ,View):
+class CompanyCreateView(View):
     def get(self, *args, **kwargs):
         user = self.request.user
         if user.company:
