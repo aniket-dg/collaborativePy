@@ -77,7 +77,7 @@ class GroupChatModel(models.Model):
         return "{:.3f}".format(size)
 
     def get_size(self):
-        location = f"/home/jupyter-{self.group_name}/"
+        location = f"/home/jupyter-{self.name}/"
         self.current_size = users.models.get_file_size(location)
         self.save()
         return self.room_size
