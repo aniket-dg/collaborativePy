@@ -813,7 +813,7 @@ class GetCodeRoomSize(View):
         coderoom_size = first_user.get_coderoom_size(second_user)
         return JsonResponse({
             'status': True,
-            "coderoom_size": coderoom_size
+            "coderoom_size": str(coderoom_size)
         })
 
 
