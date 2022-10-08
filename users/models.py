@@ -207,7 +207,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         coderoom = self.get_coderoom(user)
         if coderoom:
             return coderoom.get_available_size() > 0
-        return False
+        return True
 
     def get_coderoom(self, user):
         second_user = min(self, user, key=id)
