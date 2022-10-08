@@ -139,6 +139,7 @@ class OpenNotebook(LoginRequiredMixin, View):
             user.is_peer_share = False
             user.group_id_share = ''
             user.save()
+
         try:
             group_call_history = GroupCallHistory.objects.filter(is_end=False).last()
             group_name = f"GroupVideoMeeting_{group.id}_{group_call_history.id}"  # use in websocket url
@@ -158,6 +159,7 @@ class OpenNotebook(LoginRequiredMixin, View):
             'join_url': group_name_url
         }
         print(context)
+
         return render(self.request, "users/notebook.html", context)
 
 
@@ -171,6 +173,9 @@ class OpenChatNotebook(LoginRequiredMixin, View):
             return redirect('chat:chat')
         if request_user not in user.get_user_connected_users():
             messages.warning(self.request, "User not Found!")
+            return redirect('chat:chat')
+        if not user.is_coderoom_valid(request_user):
+            messages.warning(self.request, "Code Room Storage is full!")
             return redirect('chat:chat')
         if user_id:
             request_user = User.objects.filter(id=user_id).last()
@@ -189,6 +194,7 @@ class OpenChatNotebook(LoginRequiredMixin, View):
             'call_active': True,
             'user': user
         }
+
         return render(self.request, 'users/user_notebook.html', context)
 
 
@@ -811,9 +817,11 @@ class GetCodeRoomSize(View):
             })
 
         coderoom_size = first_user.get_coderoom_size(second_user)
+        coderoom = first_user.get_coderoom(second_user)
         return JsonResponse({
             'status': True,
-            "coderoom_size": str(coderoom_size)
+            "available_size": str(coderoom_size),
+            "coderoom_size": str(coderoom.room_size) if coderoom else 0
         })
 
 
@@ -830,6 +838,7 @@ class GetGroupRoomSize(View):
         coderoom_size = group.get_available_size()
         return JsonResponse({
             'status': True,
-            "coderoom_size": coderoom_size
+            "available_size": str(coderoom_size),
+            "coderoom_size": str(group.room_size)
         })
 

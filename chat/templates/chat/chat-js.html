@@ -27,11 +27,6 @@
     {######  End  Variable used for personal notification and seperation of receiver #######}
 
 
-
-
-
-
-
     {#######################    Custom Api calls      ##########################    #}
     function deleteSelectedChat()
     {
@@ -115,10 +110,6 @@
             drawMessage(data['results'][i]);
         }
     });
-
-
-
-
 
     function drawMessage(data) {
         let html = '';
@@ -268,7 +259,6 @@
             }
         });
         return my_data;
-
     }
 
     function getGroupCodeRoomSize(group_id){
@@ -433,6 +423,10 @@ function setReceiver(username,email, id, user_img_url=null,img_url=null, full_na
         refreshMessage();
         // For mobiles
         document.querySelector('main.main').classList.add('is-visible')
+
+        let json_data = getCodeRoomSize(sender, receiver_id);
+        let text = json_data['available_size'] + "/" + json_data["coderoom_size"] + " GB"
+        $('#available_size').text(text);
     }
 
 function showNotification(receiver){

@@ -203,6 +203,18 @@ class User(AbstractBaseUser, PermissionsMixin):
             return 0
         return coderoom.get_available_size()
 
+    def is_coderoom_valid(self, user):
+        coderoom = self.get_coderoom(user)
+        if coderoom:
+            return coderoom.get_available_size() > 0
+        return False
+
+    def get_coderoom(self, user):
+        second_user = min(self, user, key=id)
+        first_user = max(self, user, key=id)
+        coderoom = CodeRoomSize.objects.filter(first_user=first_user, second_user=second_user).last()
+        return coderoom
+
 
 REQUEST_CHOICES = (
     ('Process', 'Process'),
