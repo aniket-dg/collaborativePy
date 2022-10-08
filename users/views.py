@@ -157,6 +157,7 @@ class OpenNotebook(LoginRequiredMixin, View):
             'call_active': call_active,
             'join_url': group_name_url
         }
+        print(context)
         return render(self.request, "users/notebook.html", context)
 
 

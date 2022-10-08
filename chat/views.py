@@ -1017,6 +1017,10 @@ class CheckGroupCompanyValid(LoginRequiredMixin, View):
                 'status': False
             })
         group = GroupChatModel.objects.filter(id=int(id)).last()
+        if not group.company:
+            return JsonResponse({
+                'status': True
+            })
         if group and group in self.request.user.groups.all():
             return JsonResponse({
                 'status': True
