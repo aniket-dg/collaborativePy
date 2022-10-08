@@ -185,7 +185,7 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
         group.valid_till = valid_till
         group.save()
         group.admin.add(user)
-        group_name = f"groupRoom_{group.id}"
+        group_name = f"grouproom_{group.id}"
         group.name = group_name
         group.save()
         group_create_user = self.request.user
