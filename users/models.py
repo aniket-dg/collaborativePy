@@ -226,7 +226,8 @@ class CodeRoomSize(models.Model):
     first_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='user_first')
     second_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='user_second')
     def get_available_size(self):
-        return int(self.room_size) - int(self.current_size)
+        size = float(self.room_size) - float(self.current_size)
+        return "{:.3f}".format(size)
 
     def save(self, *args, **kwargs):
         if self.second_user:

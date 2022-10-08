@@ -73,7 +73,8 @@ class GroupChatModel(models.Model):
         return str(self.id)
 
     def get_available_size(self):
-        return int(self.room_size) - int(self.current_size)
+        size = float(self.room_size) - float(self.current_size)
+        return "{:.3f}".format(size)
 
     def get_size(self):
         location = f"/home/jupyter-{self.group_name}/"
