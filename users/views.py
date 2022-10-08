@@ -815,9 +815,11 @@ class GetCodeRoomSize(View):
                 'status': False,
                 "msg": "User not found"
             })
+        coderoom = first_user.get_coderoom(second_user)
+        coderoom.get_size()
 
         coderoom_size = first_user.get_coderoom_size(second_user)
-        coderoom = first_user.get_coderoom(second_user)
+
         return JsonResponse({
             'status': True,
             "available_size": str(coderoom_size),
@@ -834,7 +836,7 @@ class GetGroupRoomSize(View):
                 'status': False,
                 "msg": "Group not found"
             })
-
+        group.get_size()
         coderoom_size = group.get_available_size()
         return JsonResponse({
             'status': True,
