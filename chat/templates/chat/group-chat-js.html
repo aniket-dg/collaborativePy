@@ -94,6 +94,11 @@
             $('#show-buy-plan-btn').hide();
         }
 
+        let json_data = getGroupCodeRoomSize(groupId);
+        let text = json_data['available_size'] + "/" + json_data["coderoom_size"] + " GB"
+        $('#available_size').text(text);
+        $('#size_panel').show();
+
         // For mobiles
         document.querySelector('main.main').classList.add('is-visible')
     }

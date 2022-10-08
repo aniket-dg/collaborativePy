@@ -427,6 +427,7 @@ function setReceiver(username,email, id, user_img_url=null,img_url=null, full_na
         let json_data = getCodeRoomSize(sender, receiver_id);
         let text = json_data['available_size'] + "/" + json_data["coderoom_size"] + " GB"
         $('#available_size').text(text);
+        $('#size_panel').show();
     }
 
 function showNotification(receiver){
