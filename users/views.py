@@ -797,3 +797,39 @@ class SendTempMail(View):
         user = self.request.user
         send_mail(self.request, user, "Test Message")
         return HttpResponse("Message sent")
+
+class GetCodeRoomSize(View):
+    def get(self, *args, **kwargs):
+        first_id = self.kwargs.get('first_id')
+        second_id = self.kwargs.get('second_id')
+        first_user = User.objects.filter(id=first_id).last()
+        second_user = User.objects.filter(id=second_id).last()
+        if not first_user or not second_user:
+            return JsonResponse({
+                'status': False,
+                "msg": "User not found"
+            })
+
+        coderoom_size = first_user.get_coderoom_size(second_user)
+        return JsonResponse({
+            'status': True,
+            "coderoom_size": coderoom_size
+        })
+
+
+class GetGroupRoomSize(View):
+    def get(self, *args, **kwargs):
+        group_id = self.kwargs.get('group_id')
+        group = GroupChatModel.objects.filter(id=group_id).last()
+        if not group:
+            return JsonResponse({
+                'status': False,
+                "msg": "Group not found"
+            })
+
+        coderoom_size = group.get_available_size()
+        return JsonResponse({
+            'status': True,
+            "coderoom_size": coderoom_size
+        })
+

@@ -255,6 +255,38 @@
     }
 }
 
+    function getCodeRoomSize(first_id, second_id){
+      let my_data = null;
+        $.ajax(
+        {
+            url: `/user/get/coderoom/size/${first_id}/${second_id}/`,
+            dataType: "json",
+            async: false,
+            success: function(data)
+            {
+                my_data = data;
+            }
+        });
+        return my_data;
+
+    }
+
+    function getGroupCodeRoomSize(group_id){
+      let my_data = null;
+        $.ajax(
+        {
+            url: `/user/get/group/coderoom/size/${group_id}/`,
+            dataType: "json",
+            async: false,
+            success: function(data)
+            {
+                my_data = data;
+            }
+        });
+        return my_data;
+
+    }
+
     function getIndividualMsg(id){
       let my_data = null;
         $.ajax(

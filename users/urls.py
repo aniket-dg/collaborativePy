@@ -86,6 +86,8 @@ urlpatterns = [
     path('device/fcm/', api.FCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), name='create_fcm_device'),
 
     path('send/temp/', views.SendTempMail.as_view(), name='send-temp'),
+    path('get/coderoom/size/<int:first_id>/<int:second_id>/', views.GetCodeRoomSize.as_view(), name='get-room-size'),
+    path('get/group/coderoom/size/<int:group_id>/', views.GetGroupRoomSize.as_view(), name='get-group-room-size'),
 ]
 
 if settings.DEBUG:

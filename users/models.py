@@ -195,6 +195,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         else:
             return '/static/images/icon/user.png'
 
+    def get_coderoom_size(self, user):
+        second_user = min(self, user, key=id)
+        first_user = max(self, user, key=id)
+        coderoom = CodeRoomSize.objects.filter(first_user=first_user, second_user=second_user).last()
+        if not coderoom:
+            return 0
+        return coderoom.get_available_size()
+
 
 REQUEST_CHOICES = (
     ('Process', 'Process'),
@@ -232,6 +240,6 @@ class CodeRoomSize(models.Model):
 
     def get_size(self):
         location = f"/home/jupyter-{self.group_name}/"
-        self.room_size = get_file_size(location)
+        self.current_size = get_file_size(location)
         self.save()
         return self.room_size
