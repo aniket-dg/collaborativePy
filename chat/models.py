@@ -65,7 +65,7 @@ class GroupChatModel(models.Model):
 
     company = models.ForeignKey('company.Company', null=True, blank=True, on_delete=models.CASCADE)
 
-    pending_connections = models.ManyToManyField('users.User', related_name='group_pending_connections')
+    pending_connections = models.ManyToManyField('users.User', related_name='group_pending_connections', blank=True)
     current_size = models.CharField(max_length=300, default=0)
     room_size = models.CharField(max_length=300, default=0)
 
