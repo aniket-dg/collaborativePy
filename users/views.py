@@ -253,6 +253,9 @@ class CompanySignUpView(View):
                     messages.warning(self.request, "Invalid registration Link, Contact to your Company's Superuser")
                     return redirect('user:login')
             else:
+                user.user_type = "Company_User"
+                user.is_company_admin = True
+                user.save()
                 send_email_verification_mail(self.request, user)
                 messages.success(self.request,
                              'Thank you for registering with us. We have mailed you a verification link to activate your account.')
@@ -261,6 +264,8 @@ class CompanySignUpView(View):
         print(register_form.errors.as_json())
         messages.warning(self.request, 'Invalid registration information.')
         return redirect('user:register')
+
+
 
 class UserAccountActivateView(View):
     def get(self, *args, **kwargs):
