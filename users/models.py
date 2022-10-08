@@ -196,9 +196,13 @@ class User(AbstractBaseUser, PermissionsMixin):
             return '/static/images/icon/user.png'
 
     def get_coderoom_size(self, user):
-        second_user = min(self, user, key=id)
-        first_user = max(self, user, key=id)
-        coderoom = CodeRoomSize.objects.filter(first_user=first_user, second_user=second_user).last()
+        second_user = user
+        first_user = self
+
+        x = first_user if first_user.id > second_user.id else second_user
+        y = second_user if second_user.id < first_user.id else first_user
+
+        coderoom = CodeRoomSize.objects.filter(first_user=x, second_user=y).last()
         if not coderoom:
             return 0
         return coderoom.get_available_size()
@@ -210,9 +214,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         return True
 
     def get_coderoom(self, user):
-        second_user = min(self, user, key=id)
-        first_user = max(self, user, key=id)
-        coderoom = CodeRoomSize.objects.filter(first_user=first_user, second_user=second_user).last()
+        second_user = user
+        first_user = self
+
+        x = first_user if first_user.id > second_user.id else second_user
+        y = second_user if second_user.id < first_user.id else first_user
+
+        coderoom = CodeRoomSize.objects.filter(first_user=x, second_user=y).last()
         return coderoom
 
 
