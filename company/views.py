@@ -33,7 +33,14 @@ class IsCompanyUser(View):
             return redirect('company:home')
         return super().dispatch(self.request, *args, **kwargs)
 
-class HomeView(LoginRequiredMixin,IsCompanyPresent, IsNormalCompanyUser):
+class IsPlanPurchase(View):
+    def dispatch(self, request, *args, **kwargs):
+        company_user = self.request.user
+        if not company_user.payment:
+            return redirect('company:plan')
+        return super().dispatch(self.request, *args, **kwargs)
+
+class HomeView(LoginRequiredMixin,IsCompanyPresent, IsPlanPurchase,IsNormalCompanyUser):
     def get(self, *args, **kwargs):
         context = {}
         user = self.request.user

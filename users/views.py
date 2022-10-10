@@ -255,6 +255,7 @@ class CompanySignUpView(View):
                 if user_id and company_user:
                     user.user_type = "Company_User"
                     user.company = company_user.company
+                    user.is_active = True
                     user.save()
                 else:
                     messages.warning(self.request, "Invalid registration Link, Contact to your Company's Superuser")
@@ -263,6 +264,7 @@ class CompanySignUpView(View):
                 user.user_type = "Company_User"
                 user.is_company_admin = True
                 user.save()
+                user.is_active = True
                 send_email_verification_mail(self.request, user)
 
                 messages.success(self.request,
