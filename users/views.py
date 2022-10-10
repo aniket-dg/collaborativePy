@@ -245,6 +245,8 @@ class CompanySignUpView(View):
             user = register_form.save()
             if len(user.username.split(" ")) > 1:
                 user.username = user.username.replace(" ", "")
+            #Todo: comment below line to send activation link to user
+            user.is_active = True
             if self.request.GET.get('code'):
                 enc_link = self.request.GET.get('code')
                 dec_link = decrypt_string(enc_link)
@@ -262,6 +264,7 @@ class CompanySignUpView(View):
                 user.is_company_admin = True
                 user.save()
                 send_email_verification_mail(self.request, user)
+
                 messages.success(self.request,
                              'Thank you for registering with us. We have mailed you a verification link to activate your account.')
             return redirect('user:login')

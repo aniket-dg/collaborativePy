@@ -128,7 +128,8 @@
                                 {% if not request.user.is_authenticated %}
                                 <a class="btn-link btn-search mr-4" href="{% url 'user:login' %}"><span><i class="fa fa-user-o"></i> &nbsp;&nbsp;Login</span></a>
 
-                                <a href="{% url 'user:register' %}" class="btn outline radius-xl btn-sign btn-aware">Sign up <span></span></a>
+                                <a href="{% url 'user:register' %}" class="btn outline radius-xl btn-sign btn-aware">Sign up <span></span></a>&nbsp;
+                                <a href="{% url 'user:company-register' %}" class="btn outline radius-xl btn-sign btn-aware">Company Sign up <span></span></a>
                                 {% else %}
                                 <a class="btn-link btn-search mr-4" href="{% url 'user:logout' %}"><span><i class="fas fa-sign-out-alt"></i> &nbsp;&nbsp;Logout</span></a>
                                 {% endif %}
