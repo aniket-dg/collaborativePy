@@ -128,10 +128,6 @@ class OpenNotebook(LoginRequiredMixin, View):
             if not group.is_valid():
                 return redirect('chat:chat')
 
-            if group.is_coderoom_full():
-                messages.warning(self.request, "Code Room Storage is full!")
-                return redirect('chat:chat')
-
         group_name_url = None
         call_active = False
         if group_id and group_share:
@@ -139,7 +135,10 @@ class OpenNotebook(LoginRequiredMixin, View):
             user.is_peer_share = False
             user.group_id_share = group_id
             user.save()
-
+            if group and group.company:
+                if group.is_coderoom_full():
+                    messages.warning(self.request, "Code Room Storage is full!")
+                    return redirect('chat:chat')
         else:
             user.is_group_share = False
             user.is_peer_share = False
