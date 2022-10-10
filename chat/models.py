@@ -78,9 +78,8 @@ class GroupChatModel(models.Model):
         return "{:.3f}".format(size)
 
     def is_coderoom_full(self):
-        if float(self.get_available_size()) <= 0:
-            return True
-        return False
+        self.get_size()
+        return  float(self.current_size) < float(self.room_size)
 
     def get_size(self):
         location = f"/home/jupyter-{self.name}/"
