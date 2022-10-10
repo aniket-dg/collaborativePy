@@ -127,6 +127,11 @@ class OpenNotebook(LoginRequiredMixin, View):
         if group and group in self.request.user.groups.all():
             if not group.is_valid():
                 return redirect('chat:chat')
+
+            if group.is_coderoom_full():
+                messages.warning(self.request, "Code Room Storage is full!")
+                return redirect('chat:chat')
+
         group_name_url = None
         call_active = False
         if group_id and group_share:
@@ -134,6 +139,7 @@ class OpenNotebook(LoginRequiredMixin, View):
             user.is_peer_share = False
             user.group_id_share = group_id
             user.save()
+
         else:
             user.is_group_share = False
             user.is_peer_share = False
@@ -260,8 +266,6 @@ class CompanySignUpView(View):
                 messages.success(self.request,
                              'Thank you for registering with us. We have mailed you a verification link to activate your account.')
             return redirect('user:login')
-        print(register_form.errors)
-        print(register_form.errors.as_json())
         messages.warning(self.request, 'Invalid registration information.')
         return redirect('user:register')
 

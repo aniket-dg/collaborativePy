@@ -77,6 +77,11 @@ class GroupChatModel(models.Model):
         size = float(self.current_size) if float(self.current_size) > 0 else 0
         return "{:.3f}".format(size)
 
+    def is_coderoom_full(self):
+        if float(self.get_available_size()) <= 0:
+            return True
+        return False
+
     def get_size(self):
         location = f"/home/jupyter-{self.name}/"
         self.current_size = users.models.get_file_size(location)
