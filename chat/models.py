@@ -67,7 +67,7 @@ class GroupChatModel(models.Model):
 
     pending_connections = models.ManyToManyField('users.User', related_name='group_pending_connections', blank=True)
     current_size = models.CharField(max_length=300, default=0)
-    room_size = models.FloatField(null=True, blank=True)
+    room_size = models.FloatField(default=0.0)
 
 
     def __str__(self):
