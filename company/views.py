@@ -59,7 +59,7 @@ class HomeView(LoginRequiredMixin,IsNormalCompanyUser,IsCompanyPresent, IsPlanPu
         return render(self.request, 'company/company.html', context)
 
 
-class CompanyCreateView(View):
+class CompanyCreateView(IsNormalCompanyUser,View):
     def get(self, *args, **kwargs):
         user = self.request.user
         if user.company:
@@ -134,7 +134,7 @@ class DisapproveUserView(LoginRequiredMixin,IsNormalCompanyUser, IsCompanyUser,V
         messages.warning(self.request, "Company user verification revoked!")
         return redirect('company:user-list')
 
-class CompanyPlanView(LoginRequiredMixin, View):
+class CompanyPlanView(LoginRequiredMixin, IsNormalCompanyUser,View):
     def get(self, *args, **kwargs):
         context = {}
         plans = Plan.objects.filter(is_company_plan=True)
