@@ -159,6 +159,13 @@
                                 </a>
                             </li>
 
+                        <li data-section="personal" {% if 'company/' in request.path %} class="is-active" {% endif %}>
+                                <a href="{% url 'analytics:company-list' %}">
+                                    <i data-feather="info"></i>
+                                    <span>Company List</span>
+                                </a>
+                            </li>
+
                             <div class="separator"></div>
                     <div class="menu-block">
                         <ul>
