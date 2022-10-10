@@ -79,7 +79,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['phone_number']
 
     def is_company_user(self):
-        return  self.user_type == 'Company_User' or self.is_company_admin
+        return  self.user_type == 'Company_User'
 
     def get_company_users(self):
         return User.objects.filter(user_type='Company_User', company=self.company).exclude(email=self.email)
