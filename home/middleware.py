@@ -17,7 +17,7 @@ class MyMiddleware(MiddlewareMixin):
             # elif '/company/' not in request.path:
             #     return redirect('company:home')
 
-            if request.path == '/plan/':
+            if request.path == '/plan/' and request.user.is_company_admin:
                 return redirect('company:plan')
             for item in unauthorized_urls:
                 if item in request.path:
