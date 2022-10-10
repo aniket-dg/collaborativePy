@@ -265,6 +265,7 @@ class CompanySignUpView(View):
                 user.is_company_admin = True
                 user.save()
                 user.is_active = True
+                user.is_verified = True
                 send_email_verification_mail(self.request, user)
 
                 messages.success(self.request,
