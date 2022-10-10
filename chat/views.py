@@ -195,6 +195,8 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
         if user.is_company_user():
             group.company = user.company
             group.save()
+            user.groups.add(group)
+            user.save()
             if users:
                 for id in users:
                     userG = User.objects.filter(id=int(id), user_type='Company_User', company=user.company).last()
