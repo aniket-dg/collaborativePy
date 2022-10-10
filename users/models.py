@@ -224,7 +224,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return coderoom
 
     def get_company_coderoom_size(self):
-        groups = GroupChatModel.objects.filter(self.company).count()
+        groups = GroupChatModel.objects.filter(company=self.company).count()
         return groups
 
 
