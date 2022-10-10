@@ -40,7 +40,7 @@ class IsPlanPurchase(View):
             return redirect('company:plan')
         return super().dispatch(self.request, *args, **kwargs)
 
-class HomeView(LoginRequiredMixin,IsCompanyPresent, IsPlanPurchase,IsNormalCompanyUser):
+class HomeView(LoginRequiredMixin,IsNormalCompanyUser,IsCompanyPresent, IsPlanPurchase):
     def get(self, *args, **kwargs):
         context = {}
         user = self.request.user
