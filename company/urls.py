@@ -11,4 +11,5 @@ urlpatterns = [
     path('user/approve/<int:pk>/', views.ApproveUserView.as_view(), name='user-approve'),
     path('user/disapprove/<int:pk>/', views.DisapproveUserView.as_view(), name='user-disapprove'),
     path('update/<int:pk>/', views.CompanyUpdateView.as_view(), name='info-update'),
+    path('plan/', views.CompanyPlanView.as_view(), name='plan'),
 ]

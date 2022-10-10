@@ -126,3 +126,10 @@ class DisapproveUserView(LoginRequiredMixin,IsNormalCompanyUser, IsCompanyUser,V
         company_user.save()
         messages.warning(self.request, "Company user verification revoked!")
         return redirect('company:user-list')
+
+class CompanyPlanView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        context = {}
+        plans = Plan.objects.filter(is_company_plan=True)
+        context['object_list'] = plans
+        return render(self.request, 'company/plan.html', context)

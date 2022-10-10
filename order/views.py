@@ -173,6 +173,7 @@ class PaymentRequestView(LoginRequiredMixin, View):
 class PaymentResponseView(View):
     def post(self, *args, **kwargs):
         print(self.request.POST)
+        redirect_url = self.request.META.get('HTTP_REFERER')
         payment_id = self.request.POST.get('udf1')
         user_id = self.request.POST.get('udf2')
         coupon_id = self.request.POST.get('udf3')
@@ -188,6 +189,8 @@ class PaymentResponseView(View):
                 payment.payu_dict = self.request.POST
                 payment.save()
                 messages.warning(self.request, self.request.POST.get('error_Message'))
+                if redirect_url:
+                    return redirect(redirect_url)
                 return redirect('home:plan-list')
             payment.paid = True
             payment.amt_paid = self.request.POST.get('amount')
