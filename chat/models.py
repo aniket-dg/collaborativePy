@@ -67,7 +67,7 @@ class GroupChatModel(models.Model):
 
     pending_connections = models.ManyToManyField('users.User', related_name='group_pending_connections', blank=True)
     current_size = models.CharField(max_length=300, default=0)
-    room_size = models.CharField(max_length=300, default=0)
+    room_size = models.FloatField(null=True, blank=True)
 
 
     def __str__(self):
@@ -79,7 +79,7 @@ class GroupChatModel(models.Model):
 
     def is_coderoom_full(self):
         self.get_size()
-        return  float(self.current_size) < float(self.room_size)
+        return  float(self.current_size) > float(self.room_size)
 
     def get_size(self):
         location = f"/home/jupyter-{self.name}/"
