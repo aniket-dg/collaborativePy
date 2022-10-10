@@ -69,11 +69,12 @@ class GroupChatModel(models.Model):
     current_size = models.CharField(max_length=300, default=0)
     room_size = models.CharField(max_length=300, default=0)
 
+
     def __str__(self):
         return str(self.id)
 
     def get_available_size(self):
-        size = float(self.room_size) - float(self.current_size)
+        size = float(self.current_size) if float(self.current_size) > 0 else 0
         return "{:.3f}".format(size)
 
     def get_size(self):

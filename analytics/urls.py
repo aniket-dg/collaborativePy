@@ -90,4 +90,9 @@ urlpatterns = [
     path('coupon/create/', views.CouponCreateView.as_view(), name="coupon-create"),
     path('coupon/update/<int:pk>/', views.CouponUpdateView.as_view(), name="coupon-update"),
     path('coupon/delete/<int:pk>/', views.CouponDeleteView.as_view(), name="coupon-delete"),
+
+    path('company/list/', views.CompanyListView.as_view(), name='company-list'),
+    path('company/detail/<int:pk>/', views.CompanyDetailView.as_view(), name='company-detail'),
+    path('company/user/list/<int:pk>/', views.CompanyUserListView.as_view(), name='company-user-list'),
+
 ] 

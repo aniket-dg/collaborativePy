@@ -1,0 +1,44 @@
+{% extends 'analytics/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+<h2 class="has-text-centered">
+    Company Detail
+</h2>
+{% endblock title %}
+
+{% block data %}
+<style>
+    .custom-ad-slider{
+        user-select: none;
+        height: 520px;
+    }
+    .custom-ad-slider-item{
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+        object-fit: contain;
+    }
+</style>
+<div class="column is-12">
+    <!-- user stats -->
+        <div class="d-block mb-2">
+            <p>Company Name : {{object.name}}</p>
+        </div>
+
+<div class="d-block mb-2">
+    <p>Website URL: <a href="{{ object.website_url }}">{{ object.website_url }}</a></p>
+    <p>Superuser: {{ object.superuser.first_name }} {{ object.superuser.last_name }}</p>
+
+    <p>Total Company User: {{ company_user_count }}</p>
+    <p>Total Coderoom of the company: {{ total_coderoom }}</p>
+    <p>User List of the company: <a href="{% url 'analytics:company-user-list' object.id %}">View</a></p>
+
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock data %}

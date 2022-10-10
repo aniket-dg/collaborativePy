@@ -9,6 +9,8 @@ from django.views import View
 from django.views.generic import CreateView, UpdateView, DetailView, ListView, DeleteView
 
 from chat.forms import PostCreateForm
+from chat.models import GroupChatModel
+from company.models import Company
 from post.forms import SkeletonPostCreateForm
 from competition.forms import CompetitionCreateForm
 from post.models import Post, FlagInappropriate, SkeletonPost, FirstLevelCategory, SecondLevelCategory, \
@@ -902,6 +904,48 @@ class CouponCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         form.save()
         messages.success(self.request, "Coupon created successfully!")
         return redirect('analytics:coupon-list')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+class CompanyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Company
+    fields = "__all__"
+    template_name = 'analytics/company_list.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+class CompanyDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Company
+    fields = '__all__'
+    template_name = 'analytics/company_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CompanyDetailView, self).get_context_data(**kwargs)
+        company = self.get_object()
+        context['company_user_count'] = User.objects.filter(company=company).count()
+        context['total_coderoom'] = GroupChatModel.objects.filter(company=company).count()
+
+        return context
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class CompanyUserListView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def get(self, *args, **kwargs):
+        id = self.kwargs.get('pk')
+        company = Company.objects.filter(id=int(id)).last()
+        if not company:
+            messages.warning(self.request, "Company not found!")
+            return redirect('analytics:company-list')
+        context = {}
+        user = self.request.user
+        company_user = company.superuser
+        company_users = User.objects.filter(company = company)
+        context['object_list'] = company_users
+        return render(self.request, 'analytics/company_user_list.html', context)
 
     def test_func(self):
         return self.request.user.is_staff
