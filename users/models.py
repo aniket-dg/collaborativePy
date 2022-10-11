@@ -107,7 +107,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
     def get_user_group(self):
-        if self.is_company_user:
+        if self.is_company_user and self.company:
             return GroupChatModel.objects.filter(company=self.company)
         return self.groups.all()
 

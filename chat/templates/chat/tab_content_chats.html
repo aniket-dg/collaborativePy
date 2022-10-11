@@ -96,59 +96,43 @@
                                         </a>
                                         {% endfor %}
                                         {% for object in group_list %}
-                                        <a style="cursor:pointer;background: rgba(49, 133, 252, 0.14);" id="group_receiver_{{ object.id }}"
+                                        <div style="cursor:pointer;background: rgba(49, 133, 252, 0.14);"
+                                            class="card border-0 text-reset">
+
+                                            <div class="card-body" >
+                                                <div class="row gx-5">
+                                                    <div class="col-auto" id="group_receiver_{{ object.id }}"
                                         onclick="setGroup(
                                             `{{ object.name }}`,
                                             `{{ object.profile_image.url|default_if_none:''|escapejs }}`,
                                             `{{ request.user.get_profile_img|default_if_none:''|escapejs }}`,
                                             `{{ object.id }}`,
-                                            `{{ object.group_info }}`,`{{ object.group_name }}`, `{{ object.get_remaining_days }}`)"
-                                            class="card border-0 text-reset">
-                                            <div class="card-body">
-                                                <div class="row gx-5">
-                                                    <div class="col-auto">
+                                            `{{ object.group_info }}`,`{{ object.group_name }}`, `{{ object.get_remaining_days }}`, `{{ object.company }}`)">
 
                                                         <div class="avatar">
                                                             <img src="{{ object.profile_image.url }}" alt="#" style="object-fit: cover;" class="avatar-img">
                                                         </div>
                                                     </div>
 
-                                                    <div class="col">
+                                                    <div class="col" id="group_receiver_{{ object.id }}"
+                                        onclick="setGroup(
+                                            `{{ object.name }}`,
+                                            `{{ object.profile_image.url|default_if_none:''|escapejs }}`,
+                                            `{{ request.user.get_profile_img|default_if_none:''|escapejs }}`,
+                                            `{{ object.id }}`,
+                                            `{{ object.group_info }}`,`{{ object.group_name }}`, `{{ object.get_remaining_days }}`)">
                                                         <div class="d-flex align-items-center mb-3">
                                                             <div>
                                                             <h5 data-search='groupname' class="me-auto mb-0">{{ object.group_name }}</h5>
-                                                            <h6 data-search='username' class="me-auto mb-0" style="color: #68748D;font-size: 13px;">CodeRoom</h6>
+                                                            <p data-search='username' class="me-auto mb-0" style="color: #68748D;font-size: 13px;">CodeRoom</p>
                                                                 {% if request.user.is_company_user %}
-                                                            <h6 data-search='username' class="me-auto mb-0" style="color: #68748D;font-size: 13px;">{{ object.created_by.first_name }} {{ object.created_by.last_name }}</h6>
+                                                            <p data-search='username' class="me-auto mb-0" style="color: #68748D;font-size: 13px;">{{ object.created_by.first_name }} {{ object.created_by.last_name }}</p>
                                                                 {% endif %}
-
                                                             </div>
-
-
-
 {#######################################################################################################################}
                                                         </div>
-
-
-{#                                                        <div class="d-flex align-items-center">#}
-{#                                                            <div class="line-clamp me-auto">#}
-{#                                                                is typing<span class='typing-dots'><span>.</span><span>.</span><span>.</span></span>#}
-{#                                                            </div>#}
-{#                                                        </div>#}
-                                                        <div class="d-flex align-items-center" id="group_notification_{{ object.id }}">
-{#                                                            <div class="line-clamp me-auto">#}
-{#                                                                Hello! Yeah, I'm going to meet friend of mine at the departments stores now.#}
-{#                                                            </div>#}
-{##}
-{#                                                            <div class="badge badge-circle bg-primary ms-5">#}
-{#                                                                <span>3</span>#}
-{#                                                            </div>#}
-                                                        </div>
                                                     </div>
-
-{#                                             ############### this line sploil css of the group   #}
-                                                {% if object.company %}
-                                                    <div class="col-auto">
+                                                <div class="col-auto">
                                                             <!-- Dropdown -->
                                                             <div class="dropdown">
                                                                 <a class="icon text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -165,11 +149,57 @@
                                                                 </ul>
                                                             </div>
                                                         </div>
-                                                {% endif %}
-{#                                             ############### this line sploil css of the group   #}
+
+
                                                 </div>
+
                                             </div><!-- .card-body -->
-                                        </a>
+
+                                        </div>
+                                            {#                                             ############### this line sploil css of the group   #}
+
+{#                                             ############### this line sploil css of the group   #}
+<div class="card border-0">
+                                                <div class="card-body">
+                                                    <div class="row align-items-center gx-5">
+                                                        <div class="col-auto">
+                                                            <a href="#" class="avatar ">
+                                                                <img class="avatar-img" style="object-fit: cover;" src="{{ connection.connection_user.get_profile_img }}" alt="">
+                                                            </a>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <h5><a href="#">{{ connection.connection_user.get_full_name }}</a></h5>
+                                                            <p>{{ connection.connection_user.username }}</p>
+                                                        </div>
+
+                                                        <div class="col-auto">
+                                                            <!-- Dropdown -->
+                                                            <div class="dropdown">
+                                                                <a class="icon text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                                                                </a>
+
+                                                                <ul class="dropdown-menu">
+                                                                    <li onclick="this.querySelector(`button[type='submit']`).click()">
+                                                                        <a class="dropdown-item" href="#">Accept Request</a>
+                                                                        <form method="post" onsubmit="acceptFriendRequest(event, reload=true);" action="">
+                                                                            <input type="hidden" name="id" value="{{ connection.connection_user.id }}">
+                                                                            {% csrf_token %}
+                                                                            <button class="d-none" type="submit"></button>
+                                                                        </form>
+                                                                    </li>
+                                                                    {% comment %} <li><a class="dropdown-item" href="#">Edit contact</a> {% endcomment %}
+                                                                    </li>
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         {% endfor %}
                                         
                                         {% if not group_list.exists and not contact_list.exists %}

@@ -27,7 +27,7 @@
 
     }
 
-    function setGroup(groupName,user_img_url, img_url,groupId=null,groupInfo=null, groupTitleName=null, daysRemaining=null)
+    function setGroup(groupName,user_img_url, img_url,groupId=null,groupInfo=null, groupTitleName=null, daysRemaining=null, isCompanyCodeRoom=null)
     {
         if(checkCompanyGroupValid(groupId) === false) {
             alert("you are not authorized to this group, send request to admin");
@@ -87,11 +87,22 @@
         let is_valid = checkGroupValid(current_group)['status'];
         if(is_valid === false) {
             $('#show-expired-quote').show();
-            $('#show-buy-plan-btn').show();
+            $('#show-buy-plan-btn button').attr('disabled', false);
         }
         else{
             $('#show-expired-quote').hide();
-            $('#show-buy-plan-btn').hide();
+            $('#show-buy-plan-btn button').attr('disabled', true);
+        }
+
+        if(isCompanyCodeRoom!=null)
+        {
+            $('#show-buy-plan-btn button').text("Renew Plan");
+        }
+        else{
+            $('#show-buy-plan-btn button').text("Buy More Storage");
+            $('#show-buy-plan-btn button').attr('disabled', false);
+            $('#show-buy-plan-btn button').attr('title', 'Buy more storage');
+
         }
 
         let json_data = getGroupCodeRoomSize(groupId);

@@ -117,7 +117,9 @@ class ChatRoom(LoginRequiredMixin, RedirectProfileRegister, View):
 class IsGroupPermission:
     def dispatch(self, request, *args, **kwargs):
         user = request.user
-        if user.is_plan_valid():
+        if user.is_company_user() and user.company.get_plan():
+            return super().dispatch(request, *args, **kwargs)
+        elif user.is_plan_valid():
             if user.has_group_create_permission():
                 valid = user.is_new_group_valid()
                 if valid:
@@ -129,8 +131,6 @@ class IsGroupPermission:
             else:
                 messages.warning(self.request, "Sorry, you don't have permission to create groups")
                 return redirect('chat:chat')
-        elif user.is_company_user() and user.company.get_plan():
-            return super().dispatch(request, *args, **kwargs)
         messages.warning(self.request, "You don't have any active plan to create group.")
         return redirect('home:home')
 
@@ -1028,6 +1028,10 @@ class CheckGroupCompanyValid(LoginRequiredMixin, View):
                 'status': True
             })
         if group and group in self.request.user.groups.all():
+            return JsonResponse({
+                'status': True
+            })
+        if group and self.request.user.company == group.company and self.request.user.is_company_admin:
             return JsonResponse({
                 'status': True
             })

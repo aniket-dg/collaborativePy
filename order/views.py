@@ -264,3 +264,6 @@ class PaymentResponseView(View):
 
     # def get(self, *args, **kwargs):
     #     return redirect('chat:chat')
+
+class RequestMoreStorage(View):
+    pass
