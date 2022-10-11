@@ -108,18 +108,6 @@ TEMPLATES = [
     },
 ]
 
-
-DATABASES = {
-    'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'myproject',
-         'USER': 'postgres',
-         'PASSWORD': 'maya',
-         'HOST': 'localhost',
-         'PORT': '5432',
-     }
- }
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -130,7 +118,38 @@ DATABASES = {
 #         'PORT': 5432,
 #     }
 # }
+# DATABASES = {
+#     'default': {
+#          'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#          'NAME': 'myproject',
+#          'USER': 'postgres',
+#          'PASSWORD': 'maya',
+#          'HOST': 'localhost',
+#          'PORT': '5432',
+#      }
+#  }
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'stellar',
+#        'USER': 'postgres',
+#        'PASSWORD': 'siteguide',
+#        'HOST': 'localhost',
+#        'PORT': 5432,
+#    }
+#}
+
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'NAME': 'myproject',
+         'USER': 'sgstellar',
+         'PASSWORD': 'SG@stellar101',
+         'HOST': 'localhost',
+         'PORT': '5432',
+     }
+ }
 
 # DATABASES = {
 #      'default': {
@@ -291,8 +310,8 @@ PAYU_CONFIG = {
     "merchant_key": "gtKFFx",
     "merchant_salt": "4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW",
     "mode": "test",
-    "success_url": "http://127.0.0.1:8000/order/payment/response/",
-    "failure_url": "http://127.0.0.1:8000/order/payment/response/"
+    "success_url" : "https://stellar-ai.in/order/payment/response/",
+    "failure_url": "https://stellar-ai.in/order/payment/response/"
 }
 
 # Change the PAYU_MODE to 'LIVE' for production.
