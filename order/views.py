@@ -353,12 +353,10 @@ class MoreStoragePaymentResponseView(View):
             payment.payu_dict = self.request.POST
             payment.save()
             user = User.objects.filter(id=int(user_id)).last()
-
             group = payment.more_storage.group
             group.room_size += payment.more_storage.storage
             group.save()
-
-            messages.success(self.request, f"Code Room Storage sized increased to ${group.room_size} GB!")
+            messages.success(self.request, f"Code Room Storage sized increased to {group.room_size} GB!")
             return redirect('chat:chat')
         else:
             print("Payment Fail!")
