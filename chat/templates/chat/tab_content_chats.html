@@ -95,7 +95,7 @@
                                             </div><!-- .card-body -->
                                         </a>
                                         {% endfor %}
-                                        <h1>{{ group_list }}</h1>
+                                        <!-- <h1>{{ group_list }}</h1> -->
                                         {% for object in group_list %}
                                         <div style="cursor:pointer;background: rgba(49, 133, 252, 0.14);"
                                             class="card border-0 text-reset">
@@ -115,13 +115,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col" id="group_receiver_{{ object.id }}"
-                                        onclick="setGroup(
-                                            `{{ object.name }}`,
-                                            `{{ object.profile_image.url|default_if_none:''|escapejs }}`,
-                                            `{{ request.user.get_profile_img|default_if_none:''|escapejs }}`,
-                                            `{{ object.id }}`,
-                                            `{{ object.group_info }}`,`{{ object.group_name }}`, `{{ object.get_remaining_days }}`)">
+                                                    <div class="col" id="group_receiver_{{ object.id }}">
                                                         <div class="d-flex align-items-center mb-3">
                                                             <div>
                                                             <h5 data-search='groupname' class="me-auto mb-0">{{ object.group_name }}</h5>
