@@ -25,6 +25,7 @@ class Plan(models.Model):
     group_size = models.IntegerField(default=0, help_text="Number of people that can be added per group.")
 
     is_company_plan = models.BooleanField(default=False)
+    storage = models.IntegerField(default=0)
 
     def get_discounted_price(self):
         if self.discount_percentage:

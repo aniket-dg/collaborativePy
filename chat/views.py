@@ -189,6 +189,8 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
         valid_till = today + timedelta(int(plan.duration))
         group.valid_till = valid_till
         group.save()
+        group.room_size = plan.storage
+        group.save()
         group.admin.add(user)
         if user.company:
             group.admin.add(user.company.superuser)
