@@ -353,12 +353,7 @@ class MoreStoragePaymentResponseView(View):
             payment.payu_dict = self.request.POST
             payment.save()
             user = User.objects.filter(id=int(user_id)).last()
-            if coupon_id != 0:
-                coupon = Coupon.objects.filter(id=coupon_id).last()
-                if coupon:
-                    coupon.used_by.add(user)
-                    coupon.max_limit -= 1
-                    coupon.save()
+
             group = payment.more_storage.group
             group.room_size += payment.more_storage.storage
             group.save()
