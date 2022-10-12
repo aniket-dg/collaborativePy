@@ -190,6 +190,8 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
         group.valid_till = valid_till
         group.save()
         group.admin.add(user)
+        if user.company:
+            group.admin.add(user.company.superuser)
         group_name = f"grouproom_{group.id}"
         group.name = group_name
         group.save()
