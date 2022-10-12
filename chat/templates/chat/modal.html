@@ -759,9 +759,6 @@
             <!-- Modal body -->
             <div class="modal-body py-0">
                 <!-- Header -->
-                <form method="POST" action="{% url 'chat:group-update' %}" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" id="update_group_id" name="group_id" value="">
                     <div class="profile modal-gx-n">
                         <div class="profile-img text-primary rounded-top-xl">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 400 140.74">
@@ -798,17 +795,28 @@
                                 <form>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Enter Size</label>
-                                        <input type="number" class="form-control" id="exampleInputEmail1"
+                                        <input type="number" class="form-control" id="requiredStorage"
                                                aria-describedby="Enter size in GB">
                                         <small id="emailHelp" class="form-text text-muted">Enter Size in GB</small>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Request</button>
-                                </form>
+                                    <button type="button" onclick="buyMoreStorage()" class="btn btn-primary">Request</button>
                             </div>
                         </div>
                     </div>
                 </form>
-
+            <script>
+                function buyMoreStorage()
+                {
+                    let requiredStorage = $('#requiredStorage').val();
+                    if(requiredStorage.length > 5)
+                    {
+                        alert("Bad Request");
+                        return false;
+                    }
+                    window.location.href = `/chat/request/storage/${current_group}/${requiredStorage}/`;
+                    return true;
+                }
+            </script>
             </div>
 
         </div>

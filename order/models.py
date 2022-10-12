@@ -52,9 +52,18 @@ class PlanWithQty(models.Model):
         else:
             return 0
 
+class MoreStorage(models.Model):
+    group = models.ForeignKey('chat.GroupChatModel', on_delete=models.CASCADE)
+    storage = models.IntegerField(default=2)
+
+    def calculate_price_for_storage(self):
+        return int(self.storage) * 100
+
+    def __str__(self):
+        return f"{self.id}_MoreStorage"
 class Payment(models.Model):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, related_name='dummpy_plan_payment', blank=True, null=True)
-
+    more_storage = models.ForeignKey(MoreStorage, on_delete=models.CASCADE, related_name='more_storage_coderoom', blank=True, null=True)
     coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, null=True, blank=True)
     coupon_discount = models.FloatField(default=0.0)
 
@@ -74,6 +83,9 @@ class Payment(models.Model):
         return f"{self.id}_Payment"
 
     def get_calculated_price(self):
+        if self.more_storage:
+            price = self.more_storage.calculate_price_for_storage()
+            return "%.2f" % price
         if self.coupon_discount > 0:
             discount = (float(self.coupon_discount) / 100) * float(self.plan.get_discounted_price())
             price = float(self.plan.get_discounted_price()) - discount
@@ -101,3 +113,4 @@ class Coupon(models.Model):
 
     def __str__(self):
         return f"{self.id} Coupon"
+
