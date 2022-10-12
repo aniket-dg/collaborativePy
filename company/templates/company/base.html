@@ -54,128 +54,15 @@
                                 </a>
                             </li>
 
-                            <li data-section="personal" {% if 'flag/inappropriate/list/' in request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:flag_inappropriate-list' %}">
-                                    <i data-feather="flag"></i>
-                                    <span>Flagged Posts</span>
-                                </a>
-                            </li>
+                            
 
                         </ul>
                     </div>
                     <div class="separator"></div>
-                    <div class="menu-block">
-                        <ul>
-                            <li data-section="personal" {% if 'language/' in request.path or 'scope/' in request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:language-list' %}">
+                    
 
-                                    <i data-feather="info"></i>
-                                    <span>Language And Scope</span>
-                                </a>
-                            </li>
-
-                            <li data-section="personal" {% if 'category/' in request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:first-level-category-list' %}">
-
-                                    <i data-feather="info"></i>
-                                    <span>Skeleton Category</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="separator"></div>
-                    <div class="menu-block">
-                        <ul>
-                            <li data-section="personal" {% if 'competition/list/' in request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:competition-list' %}">
-                                    <i data-feather="award"></i>
-                                    <span>Competitions</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="separator"></div>
-
-                    <div class="menu-block">
-                        <ul>
-
-                            <li data-section="personal" {% if 'plan/list/' in request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:plan-list' %}">
-                                    <i data-feather="clipboard"></i>
-                                    <span>Plans</span>
-                                </a>
-                            </li>
-
-                            <li data-section="personal" {% if 'coupon/list/' in request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:coupon-list' %}">
-                                    <i class="mdi mdi-percent" style="color: #cecece;"></i>
-                                    <span class="pl-4">Coupons</span>
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>
-                    <div class="separator"></div>
-                    <div class="menu-block">
-                        <ul>
-
-                            <li data-section="personal" {% if 'faq/list/' in request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:faq-list' %}">
-                                    <i data-feather="faq"></i>
-                                    <span>Faq</span>
-                                </a>
-                            </li>
-
-                            <li data-section="personal" {% if 'ad/list/' in request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:ad-list' %}">
-                                    <i data-feather="image"></i>
-                                    <span>Ads</span>
-                                </a>
-                            </li>
-
-                            <li data-section="personal" {% if 'contact/list/' in request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:contact-list' %}">
-                                    <i data-feather="mail"></i>
-                                    <span>Contacts</span>
-                                </a>
-                            </li>
-
-                            <li data-section="personal" {% if 'newsletter/list/' in request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:newsletter-list' %}">
-                                    <i data-feather="mail"></i>
-                                    <span>Newsletter List</span>
-                                </a>
-                            </li>
-
-                            <li data-section="personal" {% if 'terms/' in request.path %} class="is-active" {% endif %}>
-                                <a href="{% url 'analytics:terms-update' 1 %}">
-                                    <i data-feather="info"></i>
-                                    <span>Terms</span>
-                                </a>
-                            </li>
-
-                            <div class="separator"></div>
-                    <div class="menu-block">
-                        <ul>
-                            <li data-section="personal">
-                                <a href="https://pictogrammers.github.io/@mdi/font/2.0.46/">
-                                    <i data-feather="faq"></i>
-                                    <span>MDI Icons</span>
-                                </a>
-                            </li>
-
-                            <li data-section="personal">
-                                <a href="https://fontawesome.com/v4/icons/">
-                                    <i data-feather="faq"></i>
-                                    <span>Font Awesome Icons</span>
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>
-
-                        </ul>
-                    </div>
+                    
+                    
 
                 </div>
             </div>
