@@ -1165,7 +1165,7 @@ class RequestMoreStorage(LoginRequiredMixin,View):
         if not user.is_company_user():
             messages.warning(self.request, "Bad Request")
             return redirect('chat:chat')
-        if not user in group.admin.all():
+        if not user in group.admin.all() or not user.is_company_admin:
             messages.warning(self.request, "Only admin can do this operation!")
             return redirect('chat:chat')
         more_storage = MoreStorage(group=group, storage=storage)
