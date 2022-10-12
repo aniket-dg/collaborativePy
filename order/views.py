@@ -359,7 +359,6 @@ class MoreStoragePaymentResponseView(View):
             messages.success(self.request, f"Code Room Storage sized increased to {group.room_size} GB!")
             return redirect('chat:chat')
         else:
-            print("Payment Fail!")
             messages.warning(self.request, "Payment Fail!")
             return redirect('chat:chat')
 
