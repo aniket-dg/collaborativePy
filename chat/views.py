@@ -20,6 +20,7 @@ from chat.forms import GroupCreateForm
 from chat.models import GroupChatModel, P2pChatModel, GroupChatUnreadMessage, GroupChat, UserMedia, UploadedMedia, \
     GroupCallHistory, UserNewNotification
 from chat.serializers import UserModelSerializer
+from order.models import MoreStorage
 from users.models import User
 from cryptography.fernet import Fernet
 
@@ -1144,3 +1145,35 @@ class ApproveCompanyUserToCodeRoom(LoginRequiredMixin, View):
             "status": True,
             "msg": "User admitted to group!"
         })
+
+
+class RequestMoreStorage(LoginRequiredMixin,View):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        group_id = self.kwargs.get('group_id')
+        storage = int(self.kwargs.get('storage')) if self.kwargs.get('storage') else 0
+        if storage < 2:
+            messages.warning(self.request, "Minium storage is 2 GB, Buy 2 GB or more")
+            return redirect('chat:chat')
+        group = GroupChatModel.objects.filter(id=int(group_id)).last()
+        if not group:
+            messages.warning(self.request, "Coderoom not found!")
+            return redirect('chat:chat')
+        if not group.company:
+            messages.warning(self.request, "Not Allowed")
+            return redirect('chat:chat')
+        if not user.is_company_user():
+            messages.warning(self.request, "Bad Request")
+            return redirect('chat:chat')
+        if not user in group.admin.all():
+            messages.warning(self.request, "Only admin can do this operation!")
+            return redirect('chat:chat')
+        more_storage = MoreStorage(group=group, storage=storage)
+        more_storage.save()
+        return redirect('order:more-storage-payment-request',pk=more_storage.id)
+
+
+    def post(self, *args, **kwargs):
+
+        pass
+

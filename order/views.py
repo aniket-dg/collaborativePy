@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 
 from django.views.decorators.csrf import csrf_exempt
 
-from order.models import Plan, Payment, Coupon, PlanWithQty
+from order.models import Plan, Payment, Coupon, PlanWithQty, MoreStorage
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 
@@ -265,5 +265,111 @@ class PaymentResponseView(View):
     # def get(self, *args, **kwargs):
     #     return redirect('chat:chat')
 
-class RequestMoreStorage(View):
-    pass
+
+
+class MoreStoragePaymentRequestView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        more_storage_id = self.kwargs.get('pk')
+        more_storage = MoreStorage.objects.filter(id=int(more_storage_id)).last()
+
+        coupon_code = self.request.GET.get('coupon_code')
+        plan_with_qty = None
+        plan_with_qty_id = None
+        if not more_storage:
+            messages.warning(self.request, "Bad request")
+            return redirect('/')
+        order_id = f"{datetime.now()}_{user.id}"
+        payment = Payment(more_storage=more_storage, order_id=order_id)
+        payment.amt_paid = 0
+        today = datetime.now().date()
+        valid_till = today + timedelta(int(365))
+        payment.valid_till = valid_till
+        payment.save()
+        import uuid
+
+
+        payload = {
+            "amount": payment.get_calculated_price(),
+            "firstname": self.request.user.first_name,
+            "email": self.request.user.email,
+            "phone": self.request.user.phone_number,
+            "lastname": self.request.user.last_name,
+            "productinfo": f"MoreStorage{more_storage.group.id}",
+            # "address1": "",
+            # "address2": "Test Address 2",
+            # "city": "Test city",
+            # "state": "Test state",
+            # "country": "Test country",
+            # "zipcode": 673576,
+            "txnid": str(uuid.uuid1())
+        }
+        plan_title = f"MoreStorage{more_storage.group.id}"
+        coupon_applied = False
+        payu_data = payu.transaction(**payload)
+        if plan_with_qty:
+            plan_with_qty = plan_with_qty_id
+        else:
+            plan_with_qty = 0
+        import hashlib
+        hash = hashlib.sha512(
+            str(f"{merchant_key}|{payload['txnid']}|{payment.get_calculated_price()}|{plan_title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|{coupon_applied}|{plan_with_qty}|||||||{merchant_salt}").encode(
+                "utf-8")).hexdigest()
+        print(str(f"{merchant_key}|{payload['txnid']}|{payment.get_calculated_price()}|{plan_title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|{coupon_applied}|{plan_with_qty}|||||||{merchant_salt}").encode(
+                "utf-8"),"hash value")
+        context = {'payment_id': payment.id, 'posted': payu_data}
+        context['hashh'] = hash
+        context['plan_with_qty'] = plan_with_qty
+        context['payment'] = payment
+        context['coupon_applied'] = False
+        return render(self.request, 'order/payment_redirect_more.html', context=context)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class MoreStoragePaymentResponseView(View):
+    def post(self, *args, **kwargs):
+        print(self.request.POST)
+        redirect_url = self.request.META.get('HTTP_REFERER')
+        payment_id = self.request.POST.get('udf1')
+        user_id = self.request.POST.get('udf2')
+        coupon_id = self.request.POST.get('udf3')
+        is_upgradable_plan = self.request.POST.get('udf4')
+
+        payment = Payment.objects.filter(id=int(payment_id)).last()
+        print("Payment")
+        print(self.request.POST)
+        print(self.request.GET)
+
+        if payment:
+            if not self.request.POST.get('status') == "success":
+                payment.payu_dict = self.request.POST
+                payment.save()
+                messages.warning(self.request, self.request.POST.get('error_Message'))
+                if redirect_url:
+                    return redirect(redirect_url)
+                return redirect('chat:chat')
+            payment.paid = True
+            payment.amt_paid = self.request.POST.get('amount')
+            payment.payu_dict = self.request.POST
+            payment.save()
+            user = User.objects.filter(id=int(user_id)).last()
+            if coupon_id != 0:
+                coupon = Coupon.objects.filter(id=coupon_id).last()
+                if coupon:
+                    coupon.used_by.add(user)
+                    coupon.max_limit -= 1
+                    coupon.save()
+            group = payment.more_storage.group
+            group.room_size += payment.more_storage.storage
+            group.save()
+
+            messages.success(self.request, f"Code Room Storage sized increased to ${group.room_size} GB!")
+            return redirect('chat:chat')
+        else:
+            print("Payment Fail!")
+            messages.warning(self.request, "Payment Fail!")
+            return redirect('chat:chat')
+
+    def get(self, *args, **kwargs):
+        return redirect('chat:chat')
+

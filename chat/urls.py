@@ -83,5 +83,5 @@ urlpatterns = [
 
     path('get/plan/id/', views.GetPlanId.as_view(), name='get-plan-id'),
     path('add/company/group/member/<int:groupId>/<int:userId>/', views.ApproveCompanyUserToCodeRoom.as_view(), name='add-member-to-company-group'),
-
+    path('request/storage/<int:group_id>/<str:storage>/', views.RequestMoreStorage.as_view(), name='request-storage'),
 ]
