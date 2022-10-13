@@ -216,7 +216,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_coderoom(self, user):
         second_user = user
         first_user = self
-
         x = first_user if first_user.id > second_user.id else second_user
         y = second_user if second_user.id < first_user.id else first_user
 
