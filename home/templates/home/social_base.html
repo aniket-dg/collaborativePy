@@ -208,6 +208,7 @@
                             <span class="indicator"></span>
                         </a>
                     </div> -->
+                    {% if not request.user.is_company_user %}
                     <div class="navbar-item is-icon" title="Forums">
                         <a class="icon-link custom-icon {% ifequal request.path path_post %}c-active{% endifequal %}" href="{% url 'post:post' %}">
                             <i class="fa fa-wpforms"></i>
@@ -236,6 +237,7 @@
                         </a>
                     </div>
 
+                        {% endif %}
                         {% endif %}
 
                     {% if all_friend_requests|length > 0 %}
