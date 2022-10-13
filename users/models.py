@@ -247,7 +247,7 @@ class Connection(models.Model):
 class CodeRoomSize(models.Model):
     group_name = models.CharField(max_length=300, null=True, blank=True)
     current_size = models.CharField(max_length=300, default=0)
-    room_size = models.CharField(max_length=300, default=0)
+    room_size = models.CharField(max_length=300, default=0.2)
     first_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='user_first')
     second_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='user_second')
     def get_available_size(self):
