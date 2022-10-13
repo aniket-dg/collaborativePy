@@ -89,9 +89,9 @@
                         <div class="meta">
                             <span>Update Account Status</span>
                             {% if not object.is_verified %}
-                            <a href="{% url 'company:user-approve' object.id  %}" style="background-color:green !important; color: white !important;" class="load-more-button mt-3">Approve</a>
+                                <a href="{% url 'company:user-approve' object.id  %}" style="color: green" class="btn radius-xl btn-sign btn-aware" >Approve <span style="top: -7px; left: 228.1px;"></a>
                             {% else %}
-                                <a href="{% url 'company:user-disapprove' object.id  %}" style="background-color:red !important; color: white !important;" class="load-more-button mt-3" >Disapprove</a>
+                                <a href="{% url 'company:user-disapprove' object.id  %}" style="color: red" class="btn radius-xl btn-sign btn-aware" >Disapprove <span style="top: -7px; left: 228.1px;"></a>
                             {% endif %}
                         </div>
                     </div>

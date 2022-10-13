@@ -838,7 +838,7 @@ class GetCodeRoomSize(View):
 
         return JsonResponse({
             'status': True,
-            "available_size": str(coderoom_size),
+            "available_size": str(coderoom_size) if coderoom_size > 0 else '0.000',
             "coderoom_size": str(coderoom.room_size) if coderoom else 0.2
         })
 

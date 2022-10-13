@@ -204,7 +204,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         coderoom = CodeRoomSize.objects.filter(first_user=x, second_user=y).last()
         if not coderoom:
-            return 0
+            return 0.000
         return coderoom.get_available_size()
 
     def is_coderoom_valid(self, user):
