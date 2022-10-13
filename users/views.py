@@ -232,7 +232,8 @@ class SignUpView(View):
 class CompanySignUpView(View):
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect('')
+            messages.warning(self.request, "Logged in user can't sign up")
+            return redirect('chat:chat')
         register_form = RegistrationForm()
         context = {
             'register_form': register_form,
