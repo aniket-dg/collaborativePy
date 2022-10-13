@@ -831,7 +831,8 @@ class GetCodeRoomSize(View):
                 "msg": "User not found"
             })
         coderoom = first_user.get_coderoom(second_user)
-        coderoom.get_size()
+        if coderoom:
+            coderoom.get_size()
 
         coderoom_size = first_user.get_coderoom_size(second_user)
 
