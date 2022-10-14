@@ -15,7 +15,7 @@
 .pricing-table .block-heading {
   padding-top: 50px;
   margin-bottom: 40px;
-  text-align: center; 
+  text-align: center;
 }
 
 .pricing-table .block-heading h2 {
@@ -26,13 +26,13 @@
   text-align: center;
   max-width: 420px;
   margin: auto;
-  opacity: 0.7; 
+  opacity: 0.7;
 }
 
 .pricing-table .heading {
   text-align: center;
   padding-bottom: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1); 
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .pricing-table .item {
@@ -41,15 +41,15 @@
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
   padding: 30px;
   overflow: hidden;
-  position: relative; 
+  position: relative;
 }
 
 .pricing-table .col-md-5:not(:last-child) .item {
-  margin-bottom: 30px; 
+  margin-bottom: 30px;
 }
 
 .pricing-table .item button {
-  font-weight: 600; 
+  font-weight: 600;
 }
 
 .pricing-table .ribbon {
@@ -65,7 +65,7 @@
   position: absolute;
   right: -42px;
   top: 35px;
-  padding-top: 7px; 
+  padding-top: 7px;
 }
 .heading{
     font-size: 1.8rem;
@@ -73,17 +73,17 @@
 .pricing-table .item p {
   text-align: center;
   margin: 20px 20px;
-  opacity: 0.7; 
+  opacity: 0.7;
 }
 
 .pricing-table .features .feature {
-  font-weight: 600; 
+  font-weight: 600;
 }
 
 .pricing-table .features h4 {
   text-align: center;
   font-size: 18px;
-  padding: 5px; 
+  padding: 5px;
 }
 
 .features p:not(:last-child){
@@ -100,14 +100,14 @@
   margin: 15px 0;
   font-size: 45px;
   text-align: center;
-  color: #5596E6; 
+  color: #5596E6;
 }
 
 .pricing-table .buy-now button {
   text-align: center;
   margin: auto;
   font-weight: 600;
-  padding: 9px 0; 
+  padding: 9px 0;
 }
 
 .discount-section{
@@ -209,51 +209,66 @@ th{
 
                 <tr>
                   <th scope="col" style="width: 30%;"></th>
-                  <th scope="col" style="background: #103783;color: #fff;width: 17.5%;">Enterprise</th>
+                  {% for item in titles %}
+                    <th scope="col" style="background: #103783;color: #fff;width: 17.5%;">{{ item }}</th>
+                  {% endfor %}
                 </tr>
 
                 <tr>
-                  <th scope="row" style="text-align: left;">Admin Access</th>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">Type Of Coderoom</th>
+                   {% for item in type_of_coderoom %}
+                    <td>{{ item }}</td>
+                    {% endfor %}
                 </tr>
 
                 <tr>
-                  <th scope="row" style="text-align: left;">Users</th>
-                  <td>Max 100</td>
+                  <th scope="row" style="text-align: left;">No of Coderoom</th>
+                {% for item in no_of_coderoom %}
+                  <td>Max {{ item }}</td>
+                    {% endfor %}
                 </tr>
                 <tr>
-                  <th scope="row" style="text-align: left;">Coding Interface</th>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">Max Storage Memory</th>
+                     {% for item in max_storage %}
+                    <td>{{ item }} GB</td>
+                    {% endfor %}
                 </tr>
                 <tr>
-                  <th scope="row" style="text-align: left;">Live Video Calling</th>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">RAM</th>
+
+                  {% for item in ram %}
+                    <td>{{ item }} GB</td>
+                    {% endfor %}
                 </tr>
               <tr>
-                  <th scope="row" style="text-align: left;">Live Audio Calling</th>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">vCPUs</th>
+                  {% for item in cpus %}
+                    <td>{{ item }}</td>
+                    {% endfor %}
                 </tr>
 
               <tr>
-                  <th scope="row" style="text-align: left;">Live Chat</th>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">Max Members</th>
+                   {% for item in max_members %}
+                    <td>{{ item }}</td>
+                    {% endfor %}
                 </tr>
 
               <tr>
-                  <th scope="row" style="text-align: left;">Real Time Collaborative Coding</th>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">Cost</th>
+                  {% for item in cost %}
+                    <td>$ {{ item }}</td>
+                    {% endfor %}
                 </tr>
 
               <tr>
-                  <th scope="row" style="text-align: left;">24/7 Support Discord Server Access</th>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">Admin</th>
+                  {% for item in admin %}
+                    <td>{{ item }}</td>
+                    {% endfor %}
                 </tr>
 
-                <tr>
-                  <th scope="row" style="text-align: left;"></th>
-                  <th>₹1000/month</th>
-                </tr>
-                <tr>
+             <tr>
                   <th scope="row" style="text-align: left;"></th>
                      {% for object in object_list %}
                   <th>
@@ -283,7 +298,7 @@ th{
                                             </p>
                                             <p class="c-field">
                                               Cost<br>
-                                              <span>₹{{object.get_discounted_price}}</span>
+                                              <span>$ {{object.get_discounted_price}}</span>
                                             </p>
                                             <p class="c-field">
                                               Duration<br>
@@ -332,6 +347,233 @@ th{
             </table>
             </div>
 
+<!--            <div class="row justify-content-md-center mb-5" style="padding: 2em;border-radius:0.5em;background-color:#fff;">-->
+<!--                <img src="{% static 'images/plans.jpg' %}">-->
+<!--            </div>-->
+        </center>
+<!--            <table>-->
+<!--                <tr>-->
+<!--                    {% for object in object_list %}-->
+
+<!--                    <th>-->
+<!--                        <div class="col-md-5 col-lg-4">-->
+<!--                            <div class="item">-->
+<!--                                <div class="price">-->
+<!--                                    {% if object.discount_percentage > 0 and object.cost %}-->
+<!--                                    <div class="discount-section d-flex align-items-center justify-content-evenly">-->
+<!--                                        <span class="original-price"><s>₹ {{ object.cost|floatformat }}</s></span>-->
+<!--                                        &emsp;-->
+<!--                                        <span class="discount-percent ml-2">Save {{object.discount_percentage|floatformat}}%</span>-->
+<!--                                    </div>-->
+<!--                                    {% endif %}-->
+<!--                                    <h4>-->
+<!--                                        {% if object.cost %}-->
+<!--                                            ₹{{ object.get_discounted_price|floatformat:1 }}-->
+<!--                                        {% else %}-->
+<!--                                            Let's Talk-->
+<!--                                        {% endif %}-->
+<!--                                    </h4>-->
+<!--                                </div>-->
+<!--                                {% if object.cost %}-->
+<!--                                <div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}">-->
+<!--                                 SHOW DETAILS-->
+<!--                                </div>-->
+<!--                                {% else %}-->
+<!--                                <a href="{% url 'home:contact' %}" class="c-button button is-fullwidth">-->
+<!--                                 CONTACT-->
+<!--                                </a>-->
+<!--                                {% endif %}-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div id="plan-details-{{object.id}}" class="modal is-medium has-light-bg">-->
+<!--                          <div class="modal-background"></div>-->
+<!--                          <div class="modal-content" style="max-width: 100vw; width: 460px;">-->
+<!--                              <div class="card p-3">-->
+<!--                                  <div class="card-heading">-->
+<!--                                      <h3 style="font-size: 1.5rem;">Plan Summary</h3>-->
+<!--                                      &lt;!&ndash; Close X button &ndash;&gt;-->
+<!--                                      <div class="close-wrap">-->
+<!--                                          <span class="close-modal">-->
+<!--                                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>-->
+<!--                                          </span>-->
+<!--                                      </div>-->
+<!--                                  </div>-->
+<!--                                  <div class="card-body pb-4">-->
+<!--                                      <div class="columns">-->
+<!--                                          <div class="column is-12 plan-info" style="overflow-y: auto; text-align: center;">-->
+<!--                                            <p class="c-field">-->
+<!--                                              Type<br>-->
+<!--                                              <span>{{object.title}}</span>-->
+<!--                                            </p>-->
+<!--                                            <p class="c-field">-->
+<!--                                              Cost<br>-->
+<!--                                              <span>₹{{object.cost}}</span>-->
+<!--                                            </p>-->
+<!--                                            <p class="c-field">-->
+<!--                                              Duration<br>-->
+<!--                                              <span>{{object.duration}} days</span>-->
+<!--                                            </p>-->
+<!--                                            <p class="c-field">-->
+<!--                                              Total groups allowed<br>-->
+<!--                                              <span>{{object.total_group_create_size}} groups</span>-->
+<!--                                            </p>-->
+<!--                                            <p class="c-field">-->
+<!--                                              Members per group<br>-->
+<!--                                              <span>{{object.group_size}} members</span>-->
+<!--                                            </p>-->
+
+<!--                                            <form action="#" method="POST" class="plan-form">-->
+<!--                                              {% csrf_token %}-->
+<!--                                              <label class="mt-3 mb-4" style="font-weight: 500; justify-content:start;">-->
+<!--                                                <input type="checkbox" style="vertical-align:middle;" onchange="toggleCoupon(event)">-->
+<!--                                                &nbsp;-->
+<!--                                                <span class="mb-1">I want to use a coupon.</span>-->
+<!--                                              </label>-->
+<!--                                              <div class="control has-icon mb-4" data-wrap="coupon-wrap" style="font-size: 1.3rem; width: 80%; text-align: center; display:none;">-->
+<!--                                                <input type="text" class="input" placeholder="Enter code" name="coupon_code">-->
+<!--                                                <div class="form-icon">-->
+<!--                                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>-->
+<!--                                                </div>-->
+<!--                                              </div>-->
+<!--                                              &lt;!&ndash; <button type="submit" class="c-button button is-solid accent-button is-fullwidth mt-5 mb-1"></button> &ndash;&gt;-->
+<!--                                              <a href="{% url 'order:payment-request' object.id %}"-->
+<!--                                                  class="c-button button is-solid accent-button is-fullwidth mt-2 py-4" style="width: 90%;">-->
+<!--                                                Proceed &#10142;-->
+<!--                                              </a>-->
+<!--                                            </form>-->
+<!--                                        </div>-->
+<!--                                      </div>-->
+<!--                                  </div>-->
+<!--                              </div>-->
+<!--                          </div>-->
+<!--                      </div>-->
+<!--                    </th>-->
+<!--                    {% endfor %}-->
+
+<!--                </tr>-->
+<!--            </table>-->
+
+<!--        <div class="row justify-content-md-center">-->
+<!--            {% for object in object_list %}-->
+<!--            <div class="col-md-5 col-lg-4">-->
+<!--                <div class="item">-->
+<!--                    {% if object.is_recommended %}-->
+<!--                    <div class="ribbon">Recommended</div>-->
+<!--                    {% endif %}-->
+<!--                    <div class="heading">-->
+<!--                        <h3>{{object.title}}</h3>-->
+<!--                    </div>-->
+<!--                    <p>{{object.description}}</p>-->
+<!--                    <div class="features">-->
+<!--                        <h4>{{object.features | safe}}</h4>-->
+<!--                    </div>-->
+<!--                    <div class="price">-->
+<!--                        {% if object.discount_percentage > 0 and object.cost %}-->
+<!--                        <div class="discount-section d-flex align-items-center justify-content-evenly">-->
+<!--                            <span class="original-price"><s>₹ {{ object.cost|floatformat }}</s></span>-->
+<!--                            &emsp;-->
+<!--                            <span class="discount-percent ml-2">Save {{object.discount_percentage|floatformat}}%</span>-->
+<!--                        </div>-->
+<!--                        {% endif %}-->
+<!--                        <h4>-->
+<!--                            {% if object.cost %}-->
+<!--                                ₹{{ object.get_discounted_price|floatformat:1 }}-->
+<!--                            {% else %}-->
+<!--                                Let's Talk-->
+<!--                            {% endif %}-->
+<!--                        </h4>-->
+<!--                    </div>-->
+<!--                    {% if object.cost %}-->
+<!--                    <div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}">-->
+<!--                     SHOW DETAILS-->
+<!--                    </div>-->
+<!--                    {% else %}-->
+<!--                    <a href="{% url 'home:contact' %}" class="c-button button is-fullwidth">-->
+<!--                     CONTACT-->
+<!--                    </a>-->
+<!--                    {% endif %}-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div id="plan-details-{{object.id}}" class="modal is-medium has-light-bg">-->
+<!--              <div class="modal-background"></div>-->
+<!--              <div class="modal-content" style="max-width: 100vw; width: 460px;">-->
+<!--                  <div class="card p-3">-->
+<!--                      <div class="card-heading">-->
+<!--                          <h3 style="font-size: 1.5rem;">Plan Summary</h3>-->
+<!--                          &lt;!&ndash; Close X button &ndash;&gt;-->
+<!--                          <div class="close-wrap">-->
+<!--                              <span class="close-modal">-->
+<!--                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>-->
+<!--                              </span>-->
+<!--                          </div>-->
+<!--                      </div>-->
+<!--                      <div class="card-body pb-4">-->
+<!--                          <div class="columns">-->
+<!--                              <div class="column is-12 plan-info" style="overflow-y: auto; text-align: center;">-->
+<!--                                <p class="c-field">-->
+<!--                                  Type<br>-->
+<!--                                  <span>{{object.title}}</span>-->
+<!--                                </p>-->
+<!--                                <p class="c-field">-->
+<!--                                  Cost<br>-->
+<!--                                  <span>₹{{object.cost}}</span>-->
+<!--                                </p>-->
+<!--                                <p class="c-field">-->
+<!--                                  Duration<br>-->
+<!--                                  <span>{{object.duration}} days</span>-->
+<!--                                </p>-->
+<!--                                <p class="c-field">-->
+<!--                                  Total groups allowed<br>-->
+<!--                                  <span>{{object.total_group_create_size}} groups</span>-->
+<!--                                </p>-->
+<!--                                <p class="c-field">-->
+<!--                                  Members per group<br>-->
+<!--                                  <span>{{object.group_size}} members</span>-->
+<!--                                </p>-->
+
+<!--                                <form action="#" method="POST" class="plan-form">-->
+<!--                                  {% csrf_token %}-->
+<!--                                  <label class="mt-3 mb-4" style="font-weight: 500; justify-content:start;">-->
+<!--                                    <input type="checkbox" style="vertical-align:middle;" onchange="toggleCoupon(event)">-->
+<!--                                    &nbsp;-->
+<!--                                    <span class="mb-1">I want to use a coupon.</span>-->
+<!--                                  </label>-->
+<!--                                  <div class="control has-icon mb-4" data-wrap="coupon-wrap" style="font-size: 1.3rem; width: 80%; text-align: center; display:none;">-->
+<!--                                    <input type="text" class="input" placeholder="Enter code" name="coupon_code">-->
+<!--                                    <div class="form-icon">-->
+<!--                                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>-->
+<!--                                    </div>-->
+<!--                                  </div>-->
+<!--                                  &lt;!&ndash; <button type="submit" class="c-button button is-solid accent-button is-fullwidth mt-5 mb-1"></button> &ndash;&gt;-->
+<!--                                  <a href="{% url 'order:payment-request' object.id %}"-->
+<!--                                      class="c-button button is-solid accent-button is-fullwidth mt-2 py-4" style="width: 90%;">-->
+<!--                                    Proceed &#10142;-->
+<!--                                  </a>-->
+<!--                                </form>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                      </div>-->
+<!--                  </div>-->
+<!--              </div>-->
+<!--          </div>-->
+<!--            {% endfor %}-->
+
+
+<!--            <div class="col-md-5 col-lg-4">-->
+<!--                <div class="item">-->
+
+<!--                    <div class="heading">-->
+<!--                        <h3>EnterPrise</h3>-->
+<!--                    </div>-->
+<!--                    <p>More than 500 people in the group.</p>-->
+
+
+<!--                    <a href="{% url 'home:contact' %}" class="c-button button is-fullwidth">-->
+<!--                     CONTACT-->
+<!--                    </a>-->
+
+<!--                </div>-->
+<!--            </div>-->
         </div>
     </div>
     <script>
