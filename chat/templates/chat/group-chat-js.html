@@ -83,7 +83,7 @@
         $('#setReceiverModal').attr('data-bs-target', '#modal-group');
         $('.open-notebook').attr('onclick', `redirectNotebook()`);
         groupInitialize(groupId);
-
+        $('#show_left_days_div').show();
         let is_valid = checkGroupValid(current_group)['status'];
         if(is_valid === false) {
             $('#show-expired-quote').show();
@@ -115,7 +115,6 @@
         let json_data = getGroupCodeRoomSize(groupId);
         let text = json_data['available_size'] + "/" + json_data["coderoom_size"] + " GB"
         $('#available_size').text(text);
-        $('#size_panel').show();
 
         // For mobiles
         document.querySelector('main.main').classList.add('is-visible')
