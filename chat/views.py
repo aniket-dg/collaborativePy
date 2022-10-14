@@ -173,10 +173,11 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
                 return redirect('chat:chat')
 
         users = self.request.POST.getlist('groupMember[]')
-        if len(users) > plan.group_size:
-            msg = f"Only {plan.group_size} member allowed in Group in selected plan"
-            messages.warning(self.request, msg)
-            return redirect('chat:chat')
+
+        # if len(users) > plan.group_size:
+        #     msg = f"Only {plan.group_size} member allowed in Group in selected plan"
+        #     messages.warning(self.request, msg)
+        #     return redirect('chat:chat')
         if user.is_company_user() and user.get_company_coderoom_size() > 10:
             msg = f"Maximum Group Creation limit is reached, Delete old coderoom to create new One!"
             messages.warning(self.request, msg)

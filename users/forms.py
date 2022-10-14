@@ -21,7 +21,7 @@ class RegistrationForm(UserCreationForm):
         model = User
         fields = (
             'email', 'first_name', 'last_name', 'username', 'profile_image', 'bio', 'designation', 'password1',
-            'password2')
+            'password2', 'phone_number')
 
     def clean(self):
         super(RegistrationForm, self).clean()
