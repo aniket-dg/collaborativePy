@@ -169,6 +169,64 @@ class PaymentRequestView(LoginRequiredMixin, View):
         return render(self.request, 'order/payment_redirect.html', context=context)
 
 
+class MoreStoragePaymentRequestView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        more_storage_id = self.kwargs.get('pk')
+        more_storage = MoreStorage.objects.filter(id=int(more_storage_id)).last()
+
+        coupon_code = self.request.GET.get('coupon_code')
+        plan_with_qty = None
+        plan_with_qty_id = None
+        if not more_storage:
+            messages.warning(self.request, "Bad request")
+            return redirect('/')
+        order_id = f"{datetime.now()}_{user.id}"
+        payment = Payment(more_storage=more_storage, order_id=order_id)
+        payment.amt_paid = 0
+        today = datetime.now().date()
+        valid_till = today + timedelta(int(365))
+        payment.valid_till = valid_till
+        payment.save()
+        import uuid
+
+
+        payload = {
+            "amount": payment.get_calculated_price(),
+            "firstname": self.request.user.first_name,
+            "email": self.request.user.email,
+            "phone": f"self.request.user.phone_number{user.id}",
+            "lastname": self.request.user.last_name,
+            "productinfo": f"MoreStorage{more_storage.group.id}",
+            # "address1": "",
+            # "address2": "Test Address 2",
+            # "city": "Test city",
+            # "state": "Test state",
+            # "country": "Test country",
+            # "zipcode": 673576,
+            "txnid": str(uuid.uuid1())
+        }
+        plan_title = f"MoreStorage{more_storage.group.id}"
+        coupon_applied = False
+        payu_data = payu.transaction(**payload)
+        if plan_with_qty:
+            plan_with_qty = plan_with_qty_id
+        else:
+            plan_with_qty = 0
+        import hashlib
+        hash = hashlib.sha512(
+            str(f"{merchant_key}|{payload['txnid']}|{payment.get_calculated_price()}|{plan_title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|{coupon_applied}|{plan_with_qty}|||||||{merchant_salt}").encode(
+                "utf-8")).hexdigest()
+        print(str(f"{merchant_key}|{payload['txnid']}|{payment.get_calculated_price()}|{plan_title}|{self.request.user.first_name}|{self.request.user.email}|{payment.id}|{self.request.user.id}|{coupon_applied}|{plan_with_qty}|||||||{merchant_salt}").encode(
+                "utf-8"),"hash value")
+        context = {'payment_id': payment.id, 'posted': payu_data}
+        context['hashh'] = hash
+        context['plan_with_qty'] = plan_with_qty
+        context['payment'] = payment
+        context['coupon_applied'] = False
+        return render(self.request, 'order/payment_redirect_more.html', context=context)
+
+
 @method_decorator(csrf_exempt, name='dispatch')
 class PaymentResponseView(View):
     def post(self, *args, **kwargs):
