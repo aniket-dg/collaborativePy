@@ -96,19 +96,19 @@
 
         if(isCompanyCodeRoom===null || isCompanyCodeRoom==='None')
         {
-            $('#show-buy-plan-btn button').text("Renew Plan");
-            $('#show-buy-plan-btn button').attr('disabled', false);
-            $('#show-buy-plan-btn button').attr('title', 'Renew Plan');
+            $('#show-buy-plan-btn span span').text("Renew Plan");
+            $('#show-buy-plan-btn').attr('disabled', false);
+            $('#show-buy-plan-btn span').attr('title', 'Renew Plan');
             $('#show-buy-plan-btn').attr('onclick', 'get_plan_id()');
-            $('#show-buy-plan-btn button').attr('data-bs-target', '');
+            $('#show-buy-plan-btn span').attr('data-bs-target', '');
 
         }
         else{
-            $('#show-buy-plan-btn button').text("Buy More Storage");
-            $('#show-buy-plan-btn button').attr('disabled', false);
-            $('#show-buy-plan-btn button').attr('title', 'Buy more storage');
+            $('#show-buy-plan-btn span span').text("Buy More Storage");
+            $('#show-buy-plan-btn span').attr('disabled', false);
+            $('#show-buy-plan-btn span').attr('title', 'Buy more storage');
             $('#show-buy-plan-btn').attr('onclick', '');
-            $('#show-buy-plan-btn button').attr('data-bs-target', '#more-storage');
+            $('#show-buy-plan-btn span').attr('data-bs-target', '#more-storage');
 
         }
 

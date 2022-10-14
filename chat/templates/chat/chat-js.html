@@ -427,6 +427,11 @@ function setReceiver(username,email, id, user_img_url=null,img_url=null, full_na
         let json_data = getCodeRoomSize(sender, receiver_id);
         let text = json_data['available_size'] + "/" + json_data["coderoom_size"] + " GB"
         $('#available_size').text(text);
+        $('#show-buy-plan-btn span span').text("Renew Plan");
+            $('#show-buy-plan-btn').attr('disabled', false);
+            $('#show-buy-plan-btn span').attr('title', 'Renew Plan');
+            $('#show-buy-plan-btn').attr('onclick', 'get_plan_id()');
+            $('#show-buy-plan-btn span').attr('data-bs-target', '');
     }
 
 function showNotification(receiver){
