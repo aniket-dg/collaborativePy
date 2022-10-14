@@ -741,34 +741,33 @@
                                         <!-- Title -->
 
                                         <!-- Toolbar -->
-                                        <div class="col-9 flex-row-reverse">
+                                        <div class="col-9 ">
                                             <div class="row align-items-end justify-content-end gx-6">
 
-                                                <div class="col-2" id="show_left_days_div" style="display: none;">
-                                                        <button type="button" disabled class="btn btn-sm btn-primary py-3" title="Days Left" style="height: 53px;
-    margin-left: 30px;">
-                                                        <span id="days_left"></span>
+                                                <div class="col-2" id="show_left_days_div" style="display: block;height:4.2rem;">
+                                                        <button type="button" disabled class="btn btn-sm btn-primary py-3" title="Days Left" style="height: 4.8rem;padding: 1rem;">
+                                                        <span id="days_left"></span><br>Day Left
                                                         </button>
                                                 </div>
 
-                                                <div class="col-2 open-notebook" title="Open Code Room" onclick="redirectNotebook()" style="height: 53px;">
-                                                    <div class="btn btn-sm btn-primary">
-                                                        Open Code Room
+                                                <div class="col-2 open-notebook" title="Open Code Room" onclick="redirectNotebook()" style="margin-left:0.4rem; height:4.2rem">
+                                                    <div class="btn btn-sm btn-primary" style="height: 4.8rem;padding: 1rem;line-height: 1.0rem;">Open Code Room
                                                     </div>
                                                 </div>
 
-                                                <div class="col-2" title="Available Size" style="height: 53px;" id="size_panel" >
-                                                    <div class="btn btn-sm btn-primary" id="available_size">
+                                                <div class="col-2" title="Available Size" style="margin-left:0.1rem;height:4.2rem;" id="size_panel" >
+                                                    <div class="btn btn-sm btn-primary" id="available_size" style="height: 4.8rem;padding: 1rem;">
+
                                                     </div>
                                                 </div>
 
-                                                <div class="col-2" id="show-buy-plan-btn" style="display: block;" disabled title="Buy new plan" >
-                                                    <button type="button" disabled class="btn btn-sm btn-primary py-3" title="Buy New Plan" data-bs-toggle="modal" data-bs-target="#more-storage" style="height: 53px;">
+                                                <div class="col-2" id="show-buy-plan-btn" disabled title="Buy new plan" style="margin-left:1.2rem;display: block;height:4.2rem;">
+                                                    <button type="button" disabled class="btn btn-sm btn-primary py-3" title="Buy New Plan" data-bs-toggle="modal" data-bs-target="#more-storage" style="height: 4.8rem;padding: 1rem;">
                                                         <span>Renew Plan</span>
                                                         </button>
                                                 </div>
 
-                                                <div class="col-1">
+                                                <div class="col-1" style="margin-left: 0.4rem;">
                                                     <a href="#" class="icon icon-lg text-muted" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-more" aria-controls="offcanvas-more">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
                                                     </a>
