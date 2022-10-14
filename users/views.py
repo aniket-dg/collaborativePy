@@ -219,10 +219,12 @@ class SignUpView(View):
             user = register_form.save()
             if len(user.username.split(" ")) > 1:
                 user.username = user.username.replace(" ", "")
+            user.is_active = True
             user.save()
-            send_email_verification_mail(self.request, user)
-            messages.success(self.request,
-                             'Thank you for registering with us. We have mailed you a verification link to activate your account.')
+            # send_email_verification_mail(self.request, user)
+            # messages.success(self.request,
+            #                  'Thank you for registering with us. We have mailed you a verification link to activate your account.')
+
             return redirect('user:login')
 
         messages.warning(self.request, 'Invalid registration information.')
@@ -267,10 +269,10 @@ class CompanySignUpView(View):
                 user.save()
                 user.is_active = True
                 user.is_verified = True
-                send_email_verification_mail(self.request, user)
+                # send_email_verification_mail(self.request, user)
 
-                messages.success(self.request,
-                             'Thank you for registering with us. We have mailed you a verification link to activate your account.')
+                # messages.success(self.request,
+                #              'Thank you for registering with us. We have mailed you a verification link to activate your account.')
             return redirect('user:login')
         messages.warning(self.request, 'Invalid registration information.')
         return redirect('user:register')
