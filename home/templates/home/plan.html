@@ -209,84 +209,67 @@ th{
 
                 <tr>
                   <th scope="col" style="width: 30%;"></th>
-                  <th scope="col" style="background: #103783;color: #fff;width: 17.5%;">Free</th>
-                  <th scope="col" style="background: #103783;color: #fff;width: 17.5%;">Basic</th>
-                  <th scope="col" style="background: #103783;color: #fff;width: 17.5%;">Premium</th>
-                  <th scope="col" style="background: #103783;color: #fff;width: 17.5%;">Enterprise</th>
+                  {% for item in titles %}
+                    <th scope="col" style="background: #103783;color: #fff;width: 17.5%;">{{ item }}</th>
+                  {% endfor %}
                 </tr>
 
                 <tr>
-                  <th scope="row" style="text-align: left;">Admin Access</th>
-                    <td><i class="fa fa-close" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">Type Of Coderoom</th>
+                   {% for item in type_of_coderoom %}
+                    <td>{{ item }}</td>
+                    {% endfor %}
                 </tr>
 
                 <tr>
-                  <th scope="row" style="text-align: left;">Users</th>
-                  <td>Max 2</td>
-                  <td>Max 10</td>
-                  <td>Max 50</td>
-                  <td>Max 100</td>
+                  <th scope="row" style="text-align: left;">No of Coderoom</th>
+                {% for item in no_of_coderoom %}
+                  <td>Max {{ item }}</td>
+                    {% endfor %}
                 </tr>
                 <tr>
-                  <th scope="row" style="text-align: left;">Coding Interface</th>
-                    <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">Max Storage Memory</th>
+                     {% for item in max_storage %}
+                    <td>{{ item }} GB</td>
+                    {% endfor %}
                 </tr>
                 <tr>
-                  <th scope="row" style="text-align: left;">Live Video Calling</th>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">RAM</th>
+
+                  {% for item in ram %}
+                    <td>{{ item }} GB</td>
+                    {% endfor %}
                 </tr>
               <tr>
-                  <th scope="row" style="text-align: left;">Live Audio Calling</th>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">vCPUs</th>
+                  {% for item in cpus %}
+                    <td>{{ item }}</td>
+                    {% endfor %}
                 </tr>
 
               <tr>
-                  <th scope="row" style="text-align: left;">Live Chat</th>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">Max Members</th>
+                   {% for item in max_members %}
+                    <td>{{ item }}</td>
+                    {% endfor %}
                 </tr>
 
               <tr>
-                  <th scope="row" style="text-align: left;">Real Time Collaborative Coding</th>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">Cost</th>
+                  {% for item in cost %}
+                    <td>$ {{ item }}</td>
+                    {% endfor %}
                 </tr>
 
               <tr>
-                  <th scope="row" style="text-align: left;">24/7 Support Discord Server Access</th>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
-                  <td><i class="fa fa-check" style="color: yellow;"></i></td>
+                  <th scope="row" style="text-align: left;">Admin</th>
+                  {% for item in admin %}
+                    <td>{{ item }}</td>
+                    {% endfor %}
                 </tr>
 
-                <tr>
+             <tr>
                   <th scope="row" style="text-align: left;"></th>
-                  <th>Free</th>
-                  <th>₹300/month</th>
-                  <th>₹500/month</th>
-                  <th>₹1000/month</th>
-                </tr>
-
-                <tr>
-                  <th scope="row" style="text-align: left;"></th>
-                    <th></th>
                      {% for object in object_list %}
                   <th>
                       <div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}" style="margin: 0em;">
@@ -315,7 +298,7 @@ th{
                                             </p>
                                             <p class="c-field">
                                               Cost<br>
-                                              <span>₹{{object.get_discounted_price}}</span>
+                                              <span>$ {{object.get_discounted_price}}</span>
                                             </p>
                                             <p class="c-field">
                                               Duration<br>

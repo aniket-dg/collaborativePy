@@ -6,9 +6,13 @@ from ckeditor.fields import RichTextField
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
+TYPE_OF_CODEROOM = (
+    ('Private Coderoom', 'Private Coderoom'),
+    ('Public Coderoom', 'Public Coderoom'),
+)
+
 class Plan(models.Model):
     title = models.CharField(max_length=100)
-    cost = models.FloatField(help_text="Cost of plan without any discounts.")
     duration = models.IntegerField(null=True, blank=True, help_text="Enter how many days the plan is valid.")
     description = models.TextField(null=True, blank=True, help_text="Short summary for whom this plan would be useful.")
     discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True,
@@ -20,13 +24,19 @@ class Plan(models.Model):
     # Permissions
     group_create = models.BooleanField(default=True, help_text="Has permission to create new groups.")
     add_people = models.BooleanField(default=True, help_text="Has permission to add people to groups.")
-    total_group_create_size = models.IntegerField(default=0,
-                                                  help_text="Total number of groups that can be created under this plan.")
-    group_size = models.IntegerField(default=0, help_text="Number of people that can be added per group.")
 
     is_company_plan = models.BooleanField(default=False)
-    storage = models.IntegerField(default=0)
 
+    type_of_coderoom = models.CharField(max_length=300, default='Public Coderoom', choices=TYPE_OF_CODEROOM)
+    total_group_create_size = models.IntegerField(default=0,help_text="Total number of groups that can be created under this plan.")
+    storage = models.FloatField(default=0)
+    ram = models.CharField(default='0.5', help_text='Enter ram size in GB', max_length=300)
+    vCPUs = models.CharField(default='0.2 - 0.5 vCPUs', max_length=300)
+    group_size = models.IntegerField(default=0, help_text="Number of people that can be added per group.")
+    cost = models.FloatField(help_text="Cost of plan without any discounts.")
+    admin = models.BooleanField(default=True)
+
+    is_visible = models.BooleanField(default=False)
     def get_discounted_price(self):
         if self.discount_percentage:
             return self.discount_cost
@@ -86,12 +96,15 @@ class Payment(models.Model):
     def get_calculated_price(self):
         if self.more_storage:
             price = self.more_storage.calculate_price_for_storage()
+            price = price * 82
             return "%.2f" % price
         if self.coupon_discount > 0:
             discount = (float(self.coupon_discount) / 100) * float(self.plan.get_discounted_price())
             price = float(self.plan.get_discounted_price()) - discount
+            price = price * 82
         else:
             price = float(self.plan.get_discounted_price())
+            price = price * 82
         return "%.2f" % price
 
 

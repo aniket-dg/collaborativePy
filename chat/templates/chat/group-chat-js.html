@@ -299,7 +299,7 @@
             const memIsAdmin = false;
             createOffcanvasGroupPendingMembers({memIsAdmin, memIsCurrentUser, groupId, userId, name, email, username, isCreator, isCurrentUserAdmin})
 
-            html += `<li>${name} &nbsp;&nbsp;<a onclick="approveMemberToCodeRoom(${groupId}, ${userId})" href='#'>Admit User</a></li>`;
+            html += `<li>${name} &nbsp;&nbsp;<a style="cursor:pointer" onclick="approveMemberToCodeRoom(${groupId}, ${userId})">Admit User</a></li>`;
 
         });
         group_list_tag.append(html);
@@ -377,6 +377,7 @@
                 console.log(data);
             },
         });
+        location.reload();
     }
 
 

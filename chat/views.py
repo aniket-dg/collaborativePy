@@ -1146,6 +1146,7 @@ class ApproveCompanyUserToCodeRoom(LoginRequiredMixin, View):
         group.save()
         companyUser.groups.add(group)
         companyUser.save()
+        messages.success(self.request, "User admitted to group!")
         return JsonResponse({
             "status": True,
             "msg": "User admitted to group!"

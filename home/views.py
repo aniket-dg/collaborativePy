@@ -84,6 +84,42 @@ class PlanListView(ListView):
     model = Plan
     template_name = 'home/plan.html'
 
+    def get_queryset(self):
+        return Plan.objects.filter(is_company_plan=False, is_visible=True)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PlanListView, self).get_context_data(**kwargs)
+        plan_list = self.get_queryset()
+        plan_list_zip = zip(plan_list)
+        titles = []
+        type_of_coderoom = []
+        no_of_coderoom = []
+        max_storage = []
+        ram = []
+        cpus = []
+        max_members = []
+        cost = []
+        admin = []
+        for item in plan_list_zip:
+            titles.append(item[0].title)
+            type_of_coderoom.append(item[0].type_of_coderoom)
+            no_of_coderoom.append(item[0].total_group_create_size)
+            max_storage.append(item[0].storage)
+            ram.append(item[0].ram)
+            cpus.append(item[0].vCPUs)
+            max_members.append(item[0].group_size)
+            cost.append(item[0].cost)
+            admin.append(item[0].admin)
+        context['type_of_coderoom'] = type_of_coderoom
+        context['titles'] = titles
+        context['no_of_coderoom'] = no_of_coderoom
+        context['max_storage'] = max_storage
+        context['ram'] = ram
+        context['cpus'] = cpus
+        context['max_members'] = max_members
+        context['cost'] = cost
+        context['admin'] = admin
+        return context
+
 
 class PopUp(View):
     def post(self, *args, **kwargs):
