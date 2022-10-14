@@ -161,6 +161,7 @@
                                         {% endfor %}
                                         
                                         {% if not group_list.exists and not contact_list.exists %}
+                                            {% if not request.user.is_company_user %}
                                             <div class="d-flex align-items-center justify-content-center">
                                                 <img src="{% static 'chat/img/find_connections.svg' %}" class="w-100" style="margin-top: 5rem; max-width: 320px;" alt="">
                                             </div>
@@ -168,6 +169,16 @@
                                                 <h5 style="margin-top: 3rem;">Currently you have no connections!</h5>
                                                 <button onclick="$('#tab-friends')[0].click()" class="mt-5 w-50 btn btn-primary">Find Connections</button>
                                             </div>
+                                                {% else %}
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                <img src="{% static 'chat/img/find_connections.svg' %}" class="w-100" style="margin-top: 5rem; max-width: 320px;" alt="">
+                                            </div>
+                                            <div class="d-flex flex-column mx-auto align-items-center">
+                                                <h5 style="margin-top: 3rem;">Organization has no users yet!</h5>
+{#                                                <button onclick="$('#tab-friends')[0].click()" class="mt-5 w-50 btn btn-primary">Find Connections</button>#}
+                                            </div>
+
+                                                {% endif %}
                                         {% endif %}
                                     </div>
                                     <!-- Chats -->
