@@ -100,8 +100,9 @@ class UserListView(LoginRequiredMixin, IsNormalCompanyUser, ListView):
     paginate_by = 30
     template_name = 'company/user_list.html'
     def get_queryset(self):
-        return User.objects.filter(user_type='Company_User', company=self.request.user.company).exclude(email=self.request.user.email)
-
+        if self.request.user.company:
+            return User.objects.filter(user_type='Company_User', company=self.request.user.company).exclude(email=self.request.user.email)
+        return User.objects.none()
 class UserDetailView(LoginRequiredMixin, IsNormalCompanyUser, View):
     def get(self, *args, **kwargs):
         context = {}
