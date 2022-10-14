@@ -82,8 +82,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         return  self.user_type == 'Company_User'
 
     def get_company_users(self):
-        return User.objects.filter(user_type='Company_User', company=self.company).exclude(email=self.email)
-
+        if self.company:
+            return User.objects.filter(user_type='Company_User', company=self.company).exclude(email=self.email)
+        return User.objects.none()
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
@@ -162,7 +163,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_user_connected_users(self):
         if self.is_company_user():
-            return User.objects.filter(company=self.company, user_type='Company_User').exclude(email=self.email)
+            if self.company:
+                return User.objects.filter(company=self.company, user_type='Company_User').exclude(email=self.email)
+            return User.objects.none()
         emails = [user.connection_user.email for user in self.connections.filter(send_request="Accepted")]
         pending_emails = [user.connection_user.email for user in
                           self.pending_connections.filter(send_request="Accepted")]
