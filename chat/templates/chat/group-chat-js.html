@@ -41,7 +41,7 @@
         $('#sender_img_preview_id').prop("src",user_img_url);
         $('#chatPanel-username').text(groupTitleName);
         $('#show_left_days_div').show();
-        $('#days_left').text(`${daysRemaining}`);
+        $('#show_left_days_div span').text(`Validity : ${daysRemaining} Days Left`);
         {# Modal Body#}
         $('#receiver_group_image_url').prop("src", user_img_url);
         $('#receiver_group_name').text(groupTitleName);
@@ -114,7 +114,7 @@
 
         let json_data = getGroupCodeRoomSize(groupId);
         let text = json_data['available_size'] + "/" + json_data["coderoom_size"] + " GB"
-        $('#available_size').text(text);
+        $('#available_size').text(`Storage: ${text}`);
 
         // For mobiles
         document.querySelector('main.main').classList.add('is-visible')
