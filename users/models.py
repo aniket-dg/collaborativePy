@@ -174,11 +174,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         return users
 
     def get_user_requested_users(self):
-        users = self.connections.filter(request=True, send_request="Process",connection_user__user_type='Company_User')
+        users = self.connections.filter(request=True, send_request="Process",connection_user__user_type='User')
         return users
 
     def get_user_received_users(self):
-        users = self.pending_connections.filter(request=True, send_request="Process",connection_user__user_type='Company_User')
+        users = self.pending_connections.filter(request=True, send_request="Process",connection_user__user_type='User')
         return users
 
     def get_remaining_users(self):
