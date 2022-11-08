@@ -11,7 +11,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'device/gcm', GCMDeviceAuthorizedViewSet)
 
-app_name='user'
+app_name = 'user'
 
 urlpatterns = [
 
@@ -60,17 +60,15 @@ urlpatterns = [
     path('send/request/', views.SendUserRequest.as_view(), name='send-request'),
     path('unfriend/', views.UnfriendUserAJAX.as_view(), name='unfriend-ajax'),
 
-
     path('profile/<int:pk>/', views.UserFriendProfileView.as_view(), name='friend-profile'),
-
 
     # Userdate urls
     path('userdata/', views.UserData.as_view(), name='userdata'),
     path('search/', views.UsersAndPostsSearchView.as_view(), name='search-user-post'),
 
-     #path('send/user/request/<int:user_id>/', views.SendRequest.as_view(), name='send-user-request'),
-     #path('accept/user/request/<int:id>/', views.AcceptRequest.as_view(), name='accept-user-request'),
-     path('unfriend/user/<int:pk>/', views.UnfriendUser.as_view(), name='unfriend-user'),
+    # path('send/user/request/<int:user_id>/', views.SendRequest.as_view(), name='send-user-request'),
+    # path('accept/user/request/<int:id>/', views.AcceptRequest.as_view(), name='accept-user-request'),
+    path('unfriend/user/<int:pk>/', views.UnfriendUser.as_view(), name='unfriend-user'),
 
     path('load/more/friends/', views.LoadMoreFriends.as_view(), name='load-more-friends'),
     path('open/notebook/', views.OpenNotebook.as_view(), name='open-notebook'),

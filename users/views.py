@@ -226,7 +226,7 @@ class SignUpView(View):
             #                  'Thank you for registering with us. We have mailed you a verification link to activate your account.')
 
             return redirect('user:login')
-
+        print(register_form.errors.as_json())
         messages.warning(self.request, 'Invalid registration information.')
         return redirect('user:register')
 
