@@ -147,6 +147,7 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
         user = self.request.user
         if user.is_company_user():
             plan = user.company.get_plan()
+            print(plan, "asdfsadfsadf")
             if not plan:
                 messages.warning(self.request, "Company does not have any valid plan! Ask Company Superuser to buy new plan!")
                 return redirect('chat:chat')
@@ -187,7 +188,9 @@ class GroupCreateView(LoginRequiredMixin, IsGroupPermission, CreateView):
         group.save()
         group.plan = plan
         today = datetime.now().date()
+        print(plan.duration)
         valid_till = today + timedelta(int(plan.duration))
+        print(valid_till, "anikert")
         group.valid_till = valid_till
         group.save()
         group.room_size = plan.storage

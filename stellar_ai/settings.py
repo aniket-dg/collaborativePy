@@ -1,16 +1,12 @@
 from pathlib import Path
 # from .local_settings import *
 from django.contrib.messages import constants as message_constants
-import environ
 import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-a1&)8f(wb1h-3)5)grmf^kp*3-7^@7$22&pj27cx92bybn_o0-'
 #DEBUG = False
 DEBUG = True
 ALLOWED_HOSTS = ['*']
-
-env = environ.Env()
-environ.Env.read_env()
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -114,9 +110,9 @@ TEMPLATES = [
 DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'stellar_prod',
-         'USER': 'ubuntu',
-         'PASSWORD': 'maya',
+         'NAME': 'sample',
+         'USER': 'postgres',
+         'PASSWORD': 'docker',
          'HOST': 'localhost',
          'PORT': '5432',
      }
