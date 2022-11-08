@@ -110,9 +110,9 @@ TEMPLATES = [
 DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'sample',
-         'USER': 'postgres',
-         'PASSWORD': 'docker',
+         'NAME': 'stellar_prod',
+         'USER': 'ubuntu',
+         'PASSWORD': 'maya',
          'HOST': 'localhost',
          'PORT': '5432',
      }
