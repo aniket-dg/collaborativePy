@@ -1075,7 +1075,7 @@ function getMessageById(data) {
         // Redirect to jupyter notebook
         function redirectNotebook(){
             {#let logout_url = 'http://jupyter.stellar-ai.in/jupyter/hub/logout';#}
-            let logout_url = 'http://jupyter.stellar-ai.in/jupyter/hub/logout';
+            let logout_url = 'https://jupyter.stellar-ai.in/jupyter/hub/logout';
             $.ajax({
                 url : logout_url,
                 success : function(data)
@@ -1120,7 +1120,7 @@ function getMessageById(data) {
             }
         }
         function redirectPeerNotebook(user_id){
-            let logout_url = 'http://jupyter.stellar-ai.in/jupyter/hub/logout';
+            let logout_url = 'https://jupyter.stellar-ai.in/jupyter/hub/logout';
             $.ajax({
                 url : logout_url,
                 success : function(data)
