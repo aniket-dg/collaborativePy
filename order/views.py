@@ -6,9 +6,9 @@ from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
 from datetime import datetime, timedelta
-
+import uuid
 from django.views.decorators.csrf import csrf_exempt
-
+import hashlib
 from order.models import Plan, Payment, Coupon, PlanWithQty, MoreStorage
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
@@ -142,12 +142,6 @@ class PaymentRequestView(LoginRequiredMixin, View):
             "phone": self.request.user.phone_number,
             "lastname": self.request.user.last_name,
             "productinfo": plan.title,
-            # "address1": "",
-            # "address2": "Test Address 2",
-            # "city": "Test city",
-            # "state": "Test state",
-            # "country": "Test country",
-            # "zipcode": 673576,
             "txnid": str(uuid.uuid1())
         }
         payu_data = payu.transaction(**payload)
@@ -168,6 +162,99 @@ class PaymentRequestView(LoginRequiredMixin, View):
         context['coupon_applied'] = coupon_applied
         return render(self.request, 'order/payment_redirect.html', context=context)
 
+
+
+class RecurringPaymentRequestView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        si_details = {
+            "billingCycle": "ADHOC",
+            "billingInterval": "1",
+            "billingAmount": "1",
+            "billingCurrency": "INR",
+            "paymentStartDate": "2022-11-18",
+            "paymentEndDate": "2023-11-19",
+            "action": "modify"
+        }
+        context = {}
+        payload = {
+            "amount": "1",
+            "firstname": "Aniket",
+            "email": "aniket.dg25@gmail.com",
+            "phone": "9322861739",
+            "lastname": "Gavali",
+            "productinfo": "Sample Product Info",
+            "txnid": str(uuid.uuid1())
+        }
+        payu_data = payu.transaction(**payload)
+
+        hash = hashlib.sha512(
+            str(f"{merchant_key}|{payload['txnid']}|{payload['amount']}|{payload['productinfo']}|{payload['firstname']}|"
+                f"{payload['email']}|||||||||||{si_details}|{merchant_salt}").encode(
+                "utf-8")).hexdigest()
+        context['key'] = merchant_key
+        context['salt'] = merchant_salt
+        context['hash'] = hash
+        context['si_details'] = si_details
+        context['payload'] = payload
+        return render(self.request, 'order/recurring_payment.html', context)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class RecurringPaymentResponseView(View):
+    def get(self, *args, **kwargs):
+        print(self.request.GET)
+        return HttpResponse("GET Method")
+    def post(self, *args, **kwargs):
+        print(self.request.POST, "Aniket")
+        return HttpResponse(self.request.POST)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PreDebitNotificationView(View):
+    def get(self, *args, **kwargs):
+
+        import requests
+        url = "https://test.payu.in/merchant/"
+        var1 = {
+            "authPayuId": "403993715527779800",
+            "requestId": "231sdfasdf4323abut12123osd14",
+            "debitDate": "2022-12-28",
+            "invoiceDisplayNumber": "1073sfgds1087875",
+            "amount": 10,
+            "action": "retreive"
+        }
+        data = {
+            "key": "gtKFFx",
+            "command": "pre_debit_SI",
+            "var1": var1,
+        }
+        hashh = hashlib.sha512(
+            str(f"{merchant_key}|{data['command']}|{data['var1']}|{merchant_salt}").encode(
+                "utf-8")).hexdigest()
+        data['hash'] = hashh
+
+        # res = requests.post(url, data)
+        # print(res.text)
+        context = {}
+        context['data'] = data
+        context['key'] = merchant_key
+        context['var1'] = var1
+        context['hash'] = hashh
+        return render(self.request, 'order/notify.html', context)
+
+# {
+# 'mihpayid': ['403993715527732067'], 'mode': ['CC'], 'status': ['success'], 'unmappedstatus': ['captured'],
+# 'key': ['gtKFFx'], 'txnid': ['19b11d18-674a-11ed-b42c-00155de45f 4b'], 'amount': ['1.00'], 'cardCategory': [
+# 'domestic'], 'discount': ['0.00'], 'net_amount_debit': ['1'], 'addedon': ['2022-11-18 19:35:48'], 'productinfo': [
+# 'Sample Product Info'], 'fi rstname': ['Aniket'], 'lastname': ['Gavali'], 'address1': [''], 'address2': [''],
+# 'city': [''], 'state': [''], 'country': [''], 'zipcode': [''], 'email': ['aniket.dg25@gmail.com'], 'ph one': [
+# '9322861739'], 'udf1': [''], 'udf2': [''], 'udf3': [''], 'udf4': [''], 'udf5': [''], 'udf6': [''], 'udf7': [''],
+# 'udf8': [''], 'udf9': [''], 'udf10': [''], 'hash': ['1eb787be29b74f3ad178542a'],
+# 'field1': ['229853'], 'field2': ['582217'], 'field3': ['2051'], 'field4': ['0'],
+# 'field5': ['587582782201'], 'field6': ['00'], 'field7': ['AUTHPOSITIVE'],
+# 'field8': ['Approved or completed successfully'], 'field9': ['No Error'], 'payment_source': ['payu'],
+# 'PG_TYPE': ['AXISPG'], 'bank_ref_num': ['229853'], 'bankcode': ['MASTCC'], 'error': ['E000'],
+# 'error_Message': ['No Error'], 'cardnum': ['XXXXXXXXXXXX0603'],
+# 'cardhash': ['This field is no longer supported in postback params.'], 'issuing_bank': ['UNKNOWN'],
+# 'card_type': ['UNKNOWN']}
 
 class MoreStoragePaymentRequestView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
@@ -422,4 +509,5 @@ class MoreStoragePaymentResponseView(View):
 
     def get(self, *args, **kwargs):
         return redirect('chat:chat')
+
 

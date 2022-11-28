@@ -126,8 +126,9 @@
                         <div class="extra-nav">
                             <div class="extra-cell">
                                 {% if not request.user.is_authenticated %}
-                                <a class="btn-link btn-search mr-4" href="{% url 'user:login' %}"><span><i class="fa fa-user-o"></i> &nbsp;&nbsp;Login</span></a>
+{#                                <a class="btn outline radius-xl btn-sign btn-aware" href="{% url 'user:login' %}"><span>&nbsp;&nbsp;Login</span></a>#}
 
+                                    <a href="{% url 'user:login' %}" class="btn outline radius-xl btn-sign btn-aware">Login <span></span></a>&nbsp;
                                 <a href="{% url 'user:register' %}" class="btn outline radius-xl btn-sign btn-aware">Sign up <span></span></a>&nbsp;
                                 <a href="{% url 'user:company-register' %}" class="btn outline radius-xl btn-sign btn-aware">Company Sign up <span></span></a>
                                 {% else %}
@@ -306,7 +307,7 @@
                                 <h5 class="footer-title">Contact</h5>
                                 <ul>
 <!--                                     <li>+088 01912704287</li> -->
-                                    <li style="text-transform: lowercase;">info@stellar-ai.in</li>
+                                    <li style="text-transform: lowercase; color:#4B2142 ">info@stellar-ai.in</li>
                                 </ul>
                             </div>
                             <div class="footer-social">
@@ -335,7 +336,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6 col-md-12 text-left "><span>Copyright © 2021 Stellar AI</span></div>
-                        <div class="col-lg-6 col-md-12 text-right" ><span>Developed by <a href="http://siteguide.co.in/" target="_blank">SiteGuide</a></span></div>
+                        <div class="col-lg-6 col-md-12 text-right" ><span>Developed by <a style="color:#4B2142" href="http://siteguide.co.in/" target="_blank">SiteGuide</a></span></div>
 <!--                        <div class="col-lg-4 col-md-12 text-right ">-->
 <!--                            <div class="widget-link">-->
 <!--                                <ul>-->
