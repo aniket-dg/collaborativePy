@@ -331,3 +331,4 @@ class VideoCallConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             pass
             # print("In send_sdp", e)
+

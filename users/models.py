@@ -271,3 +271,4 @@ class CodeRoomSize(models.Model):
         self.current_size = get_file_size(location)
         self.save()
         return self.room_size
+
