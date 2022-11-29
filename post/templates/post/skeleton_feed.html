@@ -507,7 +507,7 @@
                                         <ul class="submenu" style="display: block;">
                                         {% for second_category in item.firstCat.all %}
                                             <li class="">
-                                                <a class="filter-option" id="second-cat-{{second_category.id}}" onclick="setSecondLevelFilter('{{ second_category.id }}', 'second-cat-{{ second_category.id }}')" style="font-weight: 500;color: #039be5;">{{ second_category.name }}</a>
+                                                <a class="filter-option" id="second-cat-{{second_category.id}}" onclick="setSecondLevelFilter('{{ second_category.id }}', 'second-cat-{{ second_category.id }}')" style="font-weight: 500;color: #74226c;">{{ second_category.name }}</a>
                                                 <ul class="" style="display: block;padding-left: 20px;">
                                                     {% for third_category in second_category.firstCatThird.all %}
                                                     <li class="">

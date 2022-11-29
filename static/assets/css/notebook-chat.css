@@ -4,9 +4,9 @@ body {
   --link-color: #c0c1c5;
   --navigation-bg: #fff;
   --navigation-box-shadow: 0 2px 6px 0 rgba(136, 148, 171, 0.2), 0 24px 20px -24px rgba(71, 82, 107, 0.1);
-  --main-color: #5596E6;
+  --main-color: #4B2142;
   --message-bg: #f3f4f9;
-  --message-bg-2: #5596E6;
+  --message-bg-2: #4B2142;
   --message-text: #2c303a;
   --placeholder-text: #a2a4bc;
   --button-bg: #fff;
@@ -112,7 +112,7 @@ a {
 }
 .message-wrapper.reverse .message-file{
   margin-left: auto;
-  background-color: #5596E6;
+  background-color: #4B2142;
 }
 .message-wrapper.reverse .file-info{
   --message-text: white;

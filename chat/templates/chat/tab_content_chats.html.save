@@ -83,7 +83,7 @@
                                         </a>
                                         {% endfor %}
                                         {% for object in group_list %}
-                                        <a style="cursor:pointer;background: rgba(49, 133, 252, 0.14);" id="group_receiver_{{ object.id }}"
+                                        <a style="cursor:pointer;background: rgb(105 18 110 / 31%);" id="group_receiver_{{ object.id }}"
                                         onclick="setGroup(
                                             `{{ object.name }}`,
                                             `{{ object.profile_image.url|default_if_none:''|escapejs }}`,
