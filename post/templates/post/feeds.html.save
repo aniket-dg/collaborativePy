@@ -41,11 +41,11 @@
 
 
     filter-option:active {
-  background-color: #5596e6;
+  background-color: #4B2142;
 }
 
     filter-option:hover {
-  color: #5596e6;
+  color: #4B2142;
 }
 
 

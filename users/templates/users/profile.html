@@ -26,7 +26,7 @@
         }
         .custom-button{
             min-width: 130px;
-            background: #5596e6;
+            background: #4B2142;
             color: #fff;
         }
         @media (min-width: 767px)  {
@@ -153,7 +153,7 @@
 
                                     {% if profile_user == request.user %}
                                     {% elif profile_user in request.user.get_user_connected_users %}
-                                    <a href="{% url 'chat:chat' %}" class="button has-icon is-bold menu-item" style="min-width: 130px;background: #5596e6;color: #fff;" data-content="education-content">
+                                    <a href="{% url 'chat:chat' %}" class="button has-icon is-bold menu-item" style="min-width: 130px;background: #4B2142;color: #fff;" data-content="education-content">
                                         <i class="mdi mdi-message"></i>
                                           &nbsp;&nbsp;&nbsp;Send Message
                                     </a>
@@ -164,7 +164,7 @@
                                     <form method="POST" onsubmit="sendFriendRequest(event);$(this).next().show();$(this).hide();">
                                         {% csrf_token %}
                                         <input type="hidden" name="id" value="{{profile_user.id}}">
-                                        <button type="submit" class="button has-icon is-bold menu-item" style="min-width: 130px;background: #5596e6;color: #fff;" data-content="education-content">
+                                        <button type="submit" class="button has-icon is-bold menu-item" style="min-width: 130px;background: #4B2142;color: #fff;" data-content="education-content">
                                             <i class="mdi mdi-send"></i>
                                             &nbsp;&nbsp;&nbsp;Send Request
                                         </button>

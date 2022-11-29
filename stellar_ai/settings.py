@@ -110,7 +110,7 @@ TEMPLATES = [
 DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'stellar_prod',
+         'NAME': 'stellar_prod_new',
          'USER': 'postgres',
          'PASSWORD': 'maya',
          'HOST': 'localhost',
