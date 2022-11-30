@@ -168,3 +168,8 @@ cython_debug/
 
 /home/static
 /competition/migrations/
+
+Dockerfile
+chat.zip
+default.jpegZone.Identifier
+docker-compose.yaml
