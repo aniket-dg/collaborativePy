@@ -35,6 +35,12 @@ class Home(View):
         # context['parent_category_list'] = ParentCategory.objects.all()
         return render(self.request, 'home/home.html', context)
 
+class Workspace(View):
+    def get(self, *args, **kwargs):
+        context = {
+            'faq': Faq.objects.filter(is_active=True),
+        }
+        return render(self.request, 'home/temp.html', context)
 
 class NewsLetterCreateView(View):
     def get(self, *args, **kwargs):
