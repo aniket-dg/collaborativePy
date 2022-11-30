@@ -1,0 +1,28 @@
+<html>
+<body>
+<form action='https://test.payu.in/_payment' method='post' >
+    <input type="hidden" name="si_details" value="{{ si_details }}">
+
+    <input type="hidden" name="api_version" value="7">
+    <input type="hidden" name="si" value="1">
+    <input type="hidden" name="pg" value="cc">
+<input type="hidden" name="firstname" value="{{ payload.firstname }}" />
+<input type="hidden" name="lastname" value="{{ payload.lastname }}" />
+<input type="hidden" name="phone" value="{{ payload.phone }}" />
+<input type="hidden" name="key" value="{{ key }}" />
+<input type="hidden" name="hash" value = "{{ hash }}"/>
+<input type="hidden" name="txnid" value="{{ payload.txnid }}" />
+<input type="hidden" name="productinfo" value="{{ payload.productinfo }}" />
+<input type="hidden" name="amount" value="{{ payload.amount }}" />
+<input type="hidden" name="email" value="{{ payload.email }}" />
+<input type="hidden" name="ccnum" value="5123456789012346" />
+<input type="hidden" name="ccexpmon" value="05" />
+<input type="hidden" name="ccexpyr" value="05" />
+<input type="hidden" name="ccvv" value="123" />
+
+    <input type="hidden" name="surl" value="http://127.0.0.1:8000/order/payment/recurring/response/" />
+<input type="hidden" name="furl" value="http://127.0.0.1:8000/order/payment/recurring/response/" />
+<input type= "submit" value="submit">
+</form>
+</body>
+</html>
