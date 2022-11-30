@@ -129,7 +129,9 @@
 {#                                <a class="btn outline radius-xl btn-sign btn-aware" href="{% url 'user:login' %}"><span>&nbsp;&nbsp;Login</span></a>#}
 
                                     <a href="{% url 'user:login' %}" class="btn outline radius-xl btn-sign btn-aware">Login <span></span></a>&nbsp;
+                              {% if not 'workspace' in request.path %}
                                 <a href="{% url 'user:register' %}" class="btn outline radius-xl btn-sign btn-aware">Sign up <span></span></a>&nbsp;
+                                {% endif %}
                                 <a href="{% url 'user:company-register' %}" class="btn outline radius-xl btn-sign btn-aware">Company Sign up <span></span></a>
                                 {% else %}
                                 <a class="btn-link btn-search mr-4" href="{% url 'user:logout' %}"><span><i class="fas fa-sign-out-alt"></i> &nbsp;&nbsp;Logout</span></a>

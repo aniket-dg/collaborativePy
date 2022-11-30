@@ -9,6 +9,7 @@ app_name = 'home'
 
 urlpatterns = [
     path('', views.Home.as_view(), name='home'),
+    path('workspace/', views.Workspace.as_view(), name='workspace'),
     path('contact/', views.ContactView.as_view(), name='contact'),
     path('newsletter/', views.NewsLetterCreateView.as_view(), name='news-letter'),
 
