@@ -57,7 +57,7 @@ class UserData(LoginRequiredMixin, View):
             group_id = user.group_id_share
             group = GroupChatModel.objects.filter(id=int(group_id)).last()
             if not group and group not in user.groups.all():
-                coderoom = CodeRoomSize.objects.filter(first_user = user).last()
+                coderoom = CodeRoomSize.objects.filter(first_user=user).last()
                 if not coderoom:
                     coderoom = CodeRoomSize(first_user=user)
                     coderoom.save()
@@ -248,7 +248,7 @@ class CompanySignUpView(View):
             user = register_form.save()
             if len(user.username.split(" ")) > 1:
                 user.username = user.username.replace(" ", "")
-            #Todo: comment below line to send activation link to user
+            # Todo: comment below line to send activation link to user
             user.is_active = True
             if self.request.GET.get('code'):
                 enc_link = self.request.GET.get('code')
@@ -269,14 +269,14 @@ class CompanySignUpView(View):
                 user.save()
                 user.is_active = True
                 user.is_verified = True
+                user.save()
                 # send_email_verification_mail(self.request, user)
 
-                # messages.success(self.request,
-                #              'Thank you for registering with us. We have mailed you a verification link to activate your account.')
+                # messages.success(self.request, 'Thank you for registering with us. We have mailed you a
+                # verification link to activate your account.')
             return redirect('user:login')
         messages.warning(self.request, 'Invalid registration information.')
         return redirect('user:register')
-
 
 
 class UserAccountActivateView(View):
@@ -821,6 +821,7 @@ class SendTempMail(View):
         send_mail(self.request, user, "Test Message")
         return HttpResponse("Message sent")
 
+
 class GetCodeRoomSize(View):
     def get(self, *args, **kwargs):
         first_id = self.kwargs.get('first_id')
@@ -861,4 +862,3 @@ class GetGroupRoomSize(View):
             "available_size": str(coderoom_size),
             "coderoom_size": str(group.room_size)
         })
-
