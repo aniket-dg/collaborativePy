@@ -26,6 +26,19 @@
     font-weight: 700;
     line-height: 1.2;
 }
+.side-logo{
+            animation-duration: 3s;
+            font-size: 24px;
+            font-family: Quicksand;
+            font-weight: 1000;
+    color:#74226c;
+            margin-top: -21px;
+        }
+.svg_logo{
+        margin-left: 5px;
+        animation-duration: 3s;
+
+    }
 @media(min-width: 1200px) {
     .display-5 {
         font-size: 3rem;
@@ -33,6 +46,20 @@
 }
 @media(max-device-width: 480px)
 {
+
+    .side-logo{
+            animation-duration: 3s;
+            font-size: 24px;
+            font-family: Quicksand;
+            font-weight: 1000;color:#74226c;
+
+        }
+    .svg_logo{
+        margin-left: 5px;
+        animation-duration: 3s;
+
+    }
+
      .features-box {
         padding:0em 3em 1em 12%;
     }
@@ -92,15 +119,46 @@
 <div class="row" style="padding:8em 2em 1em 12%;background-color:#F2F8FE !important;">
         <div class="col-lg-6"  >
 
-          <p id="myheader" class="display-5 mb-3 animated slideInDown"> Make remote coding workspace
-            <span class="code_connect">Code|Connect|Collaborate</span> </p>
-          <p id="mypara" class="animated slideInDown"> CONNABO is a real time collaborative coding workspace for your
-            organization. </p>
+          <p id="myheader" class="display-5 mb-3 animated slideInDown"> Introducing RCW for your teams
+{#            <span class="code_connect">Code|Connect|Collaborate</span> </p>#}
+          <p id="mypara" class="animated slideInDown"> Remote coding workspace are now a possibility with Connabo's proprietary Code-Room Technology</p>
           <a id="mybtn" href="" class="btn btn-primary py-3 px-4 animated slideInDown">Explore More</a>
 
         </div>
+    <style>
+
+    </style>
         <div class="col-lg-6 animated fadeIn text-center">
-          <img class="img-fluid animated pulse infinite" style="animation-duration: 3s" src="{% static 'images/logo/sticky.png' %}" alt="">
+{#          <img class="img-fluid animated pulse infinite" style="animation-duration: 3s" src="{% static 'images/logo/sticky.png' %}" alt="">#}
+            <svg version="1.0" style=" " class="svg_logo img-fluid animated pulse infinite"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 width="200" height="200" viewBox="0 0 1628.000000 1628.000000"
+                                 >
+
+                                <g transform="translate(0.000000,1628.000000) scale(0.100000,-0.100000)"
+                                   fill="#74226c" stroke="none">
+                                    <path d="M7255 14494 c-1161 -78 -2312 -504 -3250 -1206 -644 -481 -1190
+-1086 -1610 -1783 -102 -168 -287 -530 -365 -715 -279 -654 -437 -1299 -491
+-2005 -14 -190 -14 -695 0 -885 114 -1503 740 -2873 1791 -3920 783 -780 1711
+-1314 2785 -1604 906 -244 1938 -269 2865 -70 1954 420 3584 1755 4374 3582
+336 778 506 1600 506 2452 0 978 -218 1897 -660 2780 -585 1172 -1556 2142
+-2734 2732 -1000 501 -2083 718 -3211 642z m670 -834 c820 -39 1565 -244 2287
+-627 984 -522 1830 -1412 2293 -2413 212 -457 358 -917 435 -1372 127 -741 95
+-1526 -91 -2238 -301 -1149 -952 -2140 -1889 -2875 -780 -610 -1783 -1008
+-2765 -1095 -66 -6 -141 -13 -166 -15 -106 -12 -624 -5 -791 10 -1241 112
+-2371 628 -3254 1488 -580 564 -1009 1223 -1288 1979 -348 943 -420 1956 -210
+2953 156 746 507 1508 973 2115 289 377 672 757 1036 1030 848 634 1880 1008
+2920 1059 249 12 280 12 510 1z"/>
+                                    <path d="M5282 10107 c-1007 -1007 -1832 -1837 -1832 -1842 0 -11 3661 -3675
+3673 -3675 4 0 7 321 7 712 l0 713 -1125 1125 -1126 1126 1126 1129 1125 1129
+0 708 c0 389 -3 708 -8 708 -4 0 -832 -825 -1840 -1833z"/>
+                                    <path d="M8027 11804 c-4 -4 -7 -278 -7 -608 l0 -601 1162 -1162 1163 -1163
+-1163 -1163 -1162 -1162 0 -613 c0 -336 3 -612 7 -612 12 0 3543 3534 3543
+3545 0 16 -3535 3547 -3543 3539z"/>
+                                </g>
+                            </svg>
+            <p class="side-logo animated pulse infinite" style="">CONNABO</p>
+            <p class="side-logo animated pulse infinite" style="">Code | Connect | Collaborate</p>
         </div>
       </div>
 {#</div>#}
@@ -110,9 +168,9 @@
   </h1>
 </div>
 
-    <div class="row features-box">
+    <div class="row features-box text-center">
 
-    <div class="col-sm-4 mb-2">
+    <div class="col-sm-4 mb-2 ">
       <div class="card h-100">
         <div class="card-body">
           <h4 style="font-family: 'Quicksand'; color: #74226c; " class="card-title">Cloud Coding </h4>

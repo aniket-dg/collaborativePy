@@ -166,7 +166,6 @@
         <div class="col-lg-6" style="background: white;height: 500px;">
             <center>
                 <video id="myVideo" autoplay muted loop controls style="height: 500px;width: 100%;">
-                    <!--                https://stellar-ai.in/static/video/dark.mp4-->
                     <source src="{% static 'video/dark.mp4' %}" type="video/mp4">
                     <source src="{% static 'video/dark.mp4' %}" type="video/ogg">
                 </video>
@@ -189,10 +188,11 @@
 
 
     <div class="social">
-  <a href="{% url 'home:workspace' %}">
+{#  <a href="{% url 'home:workspace' %}">#}
+  <a href="#">
     <div class="social-btn color-telegram">
       <div class="icons8-telegram-app"></div>
-      <p class="order-1 google-font margin-telgram">Connabo Biz</p>
+      <p class="order-2 google-font">&nbsp;&nbsp;Connabo Biz&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
     </div>
   </a>
 </div>
@@ -200,28 +200,30 @@
     <style>
 .social-btn {
   display: flex;
-  width: 213px;
+  width: 238px;
   align-items: center;
-  justify-content: space-between;
-  padding-left: 30px;
-  padding-right: 10px;
+  {#justify-content: space-between;#}
+  padding-left: 9px;
+  {#padding-left: 10px;#}
   padding-top: 5px;
   padding-bottom: 5px;
   border: 1px;
-  border-bottom-right-radius: 30px;
-  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 30px;
   margin-bottom: 5px;
   position: relative;
-  left: -145px;
+  left: 100px;
   transition: left 1s;
 }
 .social-btn:hover {
-  left: -10px;
+  left: -30px;
   transition: left 1s;
 }
 
 .social {
   position: fixed;
+    {#position:absolute;#}
+    right: -61px;
   top: 143px;
     z-index: 5;
 }
@@ -251,13 +253,83 @@
 }
 
 .icons8-telegram-app {
-  order: 2;
-  display: inline-block;
+  order: 1;
+  {#display: inline-block;#}
   width: 60px;
   height: 60px;
   background: url("{% static 'images/logo/sticky.png' %}")
     50% 50% no-repeat;
   background-size: 100%;
+}
+
+@media(max-device-width: 480px)
+{
+    .social-btn {
+  display: flex;
+  width: 238px;
+  align-items: center;
+  {#justify-content: space-between;#}
+  padding-right: 9px;
+  {#padding-left: 10px;#}
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border: 1px;
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 30px;
+  margin-bottom: 5px;
+  position: relative;
+  right: 0;
+  transition: left 1s;
+}
+.social-btn:hover {
+  left: -30px;
+  transition: left 1s;
+}
+
+.social {
+  position: fixed;
+    {#position:absolute;#}
+    right: -64px;
+  top: 143px;
+    z-index: 5;
+}
+.social a {
+  text-decoration: none;
+}
+
+.color-telegram {
+  background-color: #74226c;
+}
+
+
+.google-font {
+  {#font-family: "Lato", sans-serif;#}
+  font-size: 1.25rem;
+}
+
+.social-btn img {
+  width: 40px;
+}
+
+.social-btn p {
+  color: white;
+
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.icons8-telegram-app {
+  order: 1;
+  {#display: inline-block;#}
+  width: 60px;
+  height: 60px;
+  background: url("{% static 'images/logo/sticky.png' %}")
+    50% 50% no-repeat;
+  background-size: 100%;
+}
+
+
+
 }
 
 
@@ -300,64 +372,7 @@
     <div class="content-block mt-5 bg-white">
         <!-- featured box -->
         <div class="section-full bg-white text-center">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 col-sm-12 m-b30 wow fadeInUp " data-wow-delay="0.2s">
-                        <div class="icon-bx-wraper featured-box style1 shadow radius-md zigzag"
-                             style="background: url('{% static 'images/h-sec/coederoom.png' %}');background-position: 50% 50%;color: #fff;padding: 0em;">
-                            <div style="background: rgb(0, 0, 0);background: rgba(0, 0, 0, 0.5);color: white;padding:2em 3em;height:14.5em;">
-                                <a href="#code">
-                                    <div class="mt-5"
-                                         style="color:#fff;font-weight: 600;font-size:1.5em;position: relative;z-index: 10;">
-                                        AI CODE ROOM
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 m-b30 wow fadeInUp " data-wow-delay="0.2s">
-                        <div class="icon-bx-wraper featured-box style1 shadow radius-md zigzag"
-                             style="background: url('{% static 'images/h-sec/aic.png' %}');background-position: 50% 50%;color: #fff;padding: 0em;">
-                            <div style="background: rgb(0, 0, 0);background: rgba(0, 0, 0, 0.5);color: white;padding:2em 3em;height:14.5em;">
-                                <a href="#forums">
-                                    <div class="mt-5"
-                                         style="color:#fff;font-weight: 600;font-weight: revert;margin:0;font-size:1.3em;text-align:center;">
-                                        AI <br>COMMUNITY
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 m-b30 wow fadeInUp " data-wow-delay="0.2s">
-                        <div class="icon-bx-wraper featured-box style1 shadow radius-md zigzag"
-                             style="background: url('{% static 'images/h-sec/skeleton.png' %}');background-position: 50% 50%;color: #fff;padding: 0em;">
-                            <div style="background: rgb(0, 0, 0);background: rgba(0, 0, 0, 0.5);color: white;padding:2em 3em;height:14.5em;">
-                                <div>
-                                    <a href="#sc">
-                                        <div class="mt-5"
-                                             style="color:#fff;font-weight: 600;font-weight: revert;margin:0;font-size:1.5em;">
-                                            AI SKELETON CODES
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 m-b30 wow fadeInUp " data-wow-delay="0.2s">
-                        <div class="icon-bx-wraper featured-box style1 shadow radius-md zigzag"
-                             style="background: url('{% static 'images/h-sec/comp.png' %}');background-position: 50% 50%;background-size: contain;background-repeat:no-repeat;color: #fff;padding: 0em;">
-                            <div style="background: rgb(0, 0, 0);background: rgba(0, 0, 0, 0.5);color: white;padding:2em 3em;height:14.5em;">
-                                <a href="#comp">
-                                    <div class="mt-5"
-                                         style="color:#fff;font-weight: 600;font-weight: revert;margin:0;font-size:1.5em;">
-                                        AI COMPETITIONS
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
         <!-- featured box End -->
         <!-- about us -->
@@ -609,7 +624,27 @@
 
     <!-- Popup Question Modal -->
     <style>
-        #popup-question-wrap {
+
+    #popup-question-wrap {
+
+            background-color: rgb(240, 240, 240);
+            overflow-x: hidden;
+            overflow-y: scroll;
+            position: fixed;
+            inset: 0px;
+            height: 80vh;
+            {#max-width: 768px;#}
+        max-width: 397px;
+        {#padding-left: 46px;#}
+        }
+
+        @media (min-width: 768px) {
+            #popup-question-wrap {
+                inset: 4rem;
+                width: 75%;
+            }
+
+            #popup-question-wrap {
             background-color: rgb(240, 240, 240);
             overflow-x: hidden;
             overflow-y: scroll;
@@ -618,12 +653,6 @@
             height: 80vh;
             max-width: 768px;
         }
-
-        @media (min-width: 768px) {
-            #popup-question-wrap {
-                inset: 4rem;
-                width: 75%;
-            }
         }
 
         .question-block {
