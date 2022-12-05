@@ -108,7 +108,7 @@
 
     .code_connect_line_class {
         margin-top: -18px;
-        margin-left: 61px;
+        margin-left: 125px;
         font-size: 18px;
         font-family: Quicksand;
         font-weight: 700;
@@ -117,7 +117,7 @@
     }
 
     .by_stellar_class {
-        margin-left: 232px;
+        margin-left: 155px;
         margin-top: -32px;
                 font-size: 12px;
         font-family: Quicksand;
@@ -141,7 +141,7 @@
         }
 
         .by_stellar_class {
-            margin-left: 230px;
+            margin-left: 155px;
             margin-top: -32px;
             font-size: 12px;
         font-family: Quicksand;
@@ -198,8 +198,8 @@
 3545 0 16 -3535 3547 -3543 3539z"/>
                                 </g>
                             </svg>
-                            <p class="code_connect_line_class" style="">Code | Connect | Collaborate</p>
-                            <p class="by_stellar_class" style="">by Stellar </p>
+                            <p class="code_connect_line_class" style="">CONNABO</p>
+                            <p class="by_stellar_class" style="">by Stellar AI</p>
 
                             {#                                <img src="{% static 'images/logo/logo-v1.png' %}"  style="width: 200px; height:77px;" class="p-0">#}
                         </a>
@@ -286,9 +286,11 @@
                             <li><a href="{{ path_contact }}"><span
                                     class="{% ifequal request.path path_contact %}text-primary{% endifequal %}">Contact</span></a>
                             </li>
-                            <li><a href="{% url 'home:plan-list' %}"><span
+                        {% if 'workspace' in request.path %}
+                            <li><a href="{% url 'home:company-plan-list' %}"><span
                                     class="{% ifequal request.path path_plan %}text-primary{% endifequal %}">Plan</span></a>
                             </li>
+                        {% endif %}
                             {% if request.user.is_staff %}
                                 <li><a href="{{ path_analytics }}"><span
                                         class="{% ifequal request.path path_analytics %}text-primary{% endifequal %}">Analytics</span></a>
