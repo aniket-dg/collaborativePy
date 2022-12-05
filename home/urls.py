@@ -30,6 +30,7 @@ urlpatterns = [
     path('popUp_questions/', views.PopUp.as_view(), name='pop-up'),
 
     path('plan/', views.PlanListView.as_view(), name='plan-list'),
+    path('workspace/plan/', views.CompanyPlanView.as_view(), name='company-plan-list'),
 ]
 if settings.DEBUG:
     urlpatterns += static.static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

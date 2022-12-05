@@ -149,3 +149,10 @@ class Sample(View):
         context = {}
 
         return render(self.request, 'home/sample.html',context)
+
+class CompanyPlanView(View):
+    def get(self, *args, **kwargs):
+        context = {}
+        plans = Plan.objects.filter(is_company_plan=True).order_by('id')[:3]
+        context['object_list'] = plans
+        return render(self.request, 'home/company_plan.html', context)
