@@ -275,9 +275,15 @@ th{
                   <th scope="row" style="text-align: left;"></th>
                      {% for object in object_list %}
                   <th>
+                         {% if request.user.is_authenticated %}
                       <div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}" style="margin: 0em;">
                                  Buy Now
-                                </div>
+                      </div>
+                             {% else %}
+                             <a href="{% url 'user:company-register' %}" class="c-button button is-fullwidth" style="margin: 0em;">
+                                 Sign Up
+                      </a>
+                         {% endif %}
 
                     <div id="plan-details-{{object.id}}" class="modal is-medium has-light-bg">
                           <div class="modal-background"></div>
@@ -301,7 +307,7 @@ th{
                                             </p>
                                             <p class="c-field">
                                               Cost<br>
-                                              <span>$ {{object.get_discounted_price}}</span>
+                                              <span>₹ {{object.get_discounted_price}}</span>
                                             </p>
 
                                             <p class="c-field">

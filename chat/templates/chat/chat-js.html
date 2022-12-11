@@ -403,16 +403,18 @@ function setReceiver(username,email, id, user_img_url=null,img_url=null, full_na
         $('#offcanvas-dropdown').hide()
         $('#offcanvas_group_members').hide();
         $('#show_left_days_div').hide();
+                $('#group_menu_right_sidebar').hide();
+
         {# Hiding Call and Chat #}
         // $('#video_call_form').hide()
         // $('#audio_call_form').hide()
         selectedIsUser = true;
         {#$('.open-notebook').hide()#}
-        $('.open-notebook').attr('onclick', `redirectPeerNotebook(${id})`);
+        {#$('.open-notebook').attr('onclick', `redirectPeerNotebook(${id})`);#}
 
         $('#receiver_for_msg_send').val(id);
         $('#chat-group').val("P2p");
-
+        $('#open_code_room_li_btn').hide();
 
 
         receiver = email;
@@ -1119,19 +1121,17 @@ function getMessageById(data) {
 
             }
         }
-        function redirectPeerNotebook(user_id){
-            let logout_url = 'https://jupyter.stellar-ai.in/jupyter/hub/logout';
-            $.ajax({
-                url : logout_url,
-                success : function(data)
-                {
-                    console.log("User logout from previous session in jupyterhub");
-                    location.href = `{% url 'user:open-peer-notebook' %}?user_id=${user_id}`;
-                }
-            });
-
-
-        }
+       {# function redirectPeerNotebook(user_id){#}
+       {#     let logout_url = 'https://jupyter.stellar-ai.in/jupyter/hub/logout';#}
+       {#     $.ajax({#}
+       {#         url : logout_url,#}
+       {#         success : function(data)#}
+       {#         {#}
+       {#             console.log("User logout from previous session in jupyterhub");#}
+       {#             location.href = `{% url 'user:open-peer-notebook' %}?user_id=${user_id}`;#}
+       {#         }#}
+       {#     });#}
+       {#}#}
         // Repeat a task multiple times
         function setIntervalX(callback, delay, repetitions){
             let x = 0;
