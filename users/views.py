@@ -211,6 +211,8 @@ class SignUpView(View):
         context = {
             'register_form': register_form,
         }
+        messages.warning(self.request, 'Invalid registration information.')
+
         return render(self.request, 'users/user_register.html', context)
 
     def post(self, *args, **kwargs):
@@ -226,8 +228,16 @@ class SignUpView(View):
             #                  'Thank you for registering with us. We have mailed you a verification link to activate your account.')
 
             return redirect('user:login')
-        print(register_form.errors.as_json())
+        # print(register_form.errors.as_json())
         messages.warning(self.request, 'Invalid registration information.')
+        # print(register_form.errors)
+        import json
+        json_errors = register_form.errors.as_json()
+        json_e = json.loads(json_errors)
+        for key in json_e:
+            print(key)
+            for item in json_e[key]:
+                messages.warning(self.request, f"{key} : {item['message']}")
         return redirect('user:register')
 
 
@@ -276,6 +286,13 @@ class CompanySignUpView(View):
                 # verification link to activate your account.')
             return redirect('user:login')
         messages.warning(self.request, 'Invalid registration information.')
+        import json
+        json_errors = register_form.errors.as_json()
+        json_e = json.loads(json_errors)
+        for key in json_e:
+            print(key)
+            for item in json_e[key]:
+                messages.warning(self.request, f"{key} : {item['message']}")
         return redirect('user:register')
 
 
