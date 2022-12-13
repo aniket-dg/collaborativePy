@@ -102,7 +102,7 @@ class SaveSessionForNotebook(LoginRequiredMixin, View):
                 user.is_group_share = False
                 user.peer_id = request_user.id
                 user.save()
-                return redirect("https://jupyter.stellar-ai.in/jupyter/")
+                return redirect("https://jupyter.connabo.com/jupyter/")
         if group_share and group_id:
             user.is_group_share = True
             user.is_peer_share = False
@@ -113,7 +113,7 @@ class SaveSessionForNotebook(LoginRequiredMixin, View):
             user.is_peer_share = False
             user.group_id_share = ''
             user.save()
-        return redirect("https://jupyter.stellar-ai.in/jupyter/")
+        return redirect("https://jupyter.connabo.com/jupyter/")
         # return redirect("https://www.google.com/jupyter/")
 
 
