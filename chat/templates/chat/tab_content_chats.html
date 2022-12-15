@@ -140,9 +140,11 @@
                                                                 </a>
 
                                                                 <ul class="dropdown-menu">
+                                                                    {% if request.user.is_company_user %}
                                                                     <li>
                                                                         <a class="dropdown-item" href="#" onclick="sendCompanyGroupRequest({{ object.id }})">Send Admit Request</a>
                                                                     </li>
+                                                                    {% endif %}
                                                                     {% comment %} <li><a class="dropdown-item" href="#">Edit contact</a> {% endcomment %}
                                                                     </li>
 
