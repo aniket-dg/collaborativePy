@@ -272,8 +272,12 @@ th{
                   <th scope="row" style="text-align: left;"></th>
                      {% for object in object_list %}
                   <th>
-                      <div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}" style="margin: 0em;">
-                                 Buy Now
+                      <div class="c-button button is-fullwidth modal-trigger" data-modal="plan-details-{{object.id}}" style="margin: 0em; {% if object.cost < 1 %} background-color:green; color:white{% endif %} " >
+                                 {% if object.cost < 1 %}
+                                     Buy Free Coderoom
+                                 {% else %}
+                                     Buy Now
+                                 {% endif %}
                                 </div>
 
                     <div id="plan-details-{{object.id}}" class="modal is-medium has-light-bg">
