@@ -211,7 +211,7 @@ class SignUpView(View):
         context = {
             'register_form': register_form,
         }
-        messages.warning(self.request, 'Invalid registration information.')
+        # messages.warning(self.request, 'Invalid registration information.')
 
         return render(self.request, 'users/user_register.html', context)
 
