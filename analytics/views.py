@@ -80,6 +80,9 @@ class PlanListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Plan
     template_name = 'analytics/plan_list.html'
 
+    def get_queryset(self):
+        return Plan.objects.filter(is_visisble=True)
+
     def test_func(self):
         return self.request.user.is_staff
 
@@ -242,7 +245,7 @@ class UserDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         user = self.get_object()
         context['plan_exist'] = user.is_plan_available()
         context['remaining_days'] = user.remaining_days()
-        context['plans'] = Plan.objects.all()
+        context['plans'] = Plan.objects.filter(is_visible=True)
         return context
 
     def test_func(self):
