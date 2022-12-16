@@ -81,7 +81,7 @@ class PlanListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'analytics/plan_list.html'
 
     def get_queryset(self):
-        return Plan.objects.filter(is_visisble=True)
+        return Plan.objects.filter(is_visible=True)
 
     def test_func(self):
         return self.request.user.is_staff
