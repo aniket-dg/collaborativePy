@@ -69,6 +69,10 @@ class GroupChatModel(models.Model):
     current_size = models.CharField(max_length=300, default=0)
     room_size = models.FloatField(default=0.0)
 
+    def save(self,*args, **kwargs):
+        if not self.profile_image or self.profile_image=="" or self.profile_image is None:
+            self.profile_image = '/media/profile_image/default_profile.webp'
+        super(GroupChatModel, self).save(*args, **kwargs)
 
     def __str__(self):
         return str(self.id)

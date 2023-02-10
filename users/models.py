@@ -78,6 +78,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['phone_number']
 
+    def save(self, *args, **kwargs):
+        if not self.profile_image or self.profile_image == "" or self.profile_image is None:
+            self.profile_image = '/media/profile_image/default_profile.webp'
+        super(User, self).save(*args, **kwargs)
+    
     def is_company_user(self):
         return  self.user_type == 'Company_User'
 
