@@ -111,8 +111,8 @@ DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.postgresql_psycopg2',
          'NAME': 'stellar_prod',
-         'USER': 'ubuntu',
-         'PASSWORD': 'maya',
+         'USER': 'farmdeskuser',
+         'PASSWORD': 'farmdeskpwd',
          'HOST': 'localhost',
          'PORT': '5432',
      }
