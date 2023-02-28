@@ -5,18 +5,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
-migrations/
 # C extensions
-**/migrations/*
-**/migrations/**
-!**/migrations
-!**/migrations/__init__.py
 *.so
 .idea
 # Distribution / packaging
 .Python
 build/
-*/migrations
 develop-eggs/
 dist/
 downloads/
@@ -158,18 +152,13 @@ cython_debug/
 
 
 
-/analytics/migrations
 
-/chat/migrations
-/home/migrations
-/order/migrations
-/post/migrations
-/users/migrations
 
 /home/static
-/competition/migrations/
 
 Dockerfile
 chat.zip
 default.jpegZone.Identifier
 docker-compose.yaml
+.idea/
+.idea/misc.xml
