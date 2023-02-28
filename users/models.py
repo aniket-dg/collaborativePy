@@ -80,7 +80,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def save(self, *args, **kwargs):
         if not self.profile_image or self.profile_image == "" or self.profile_image is None:
-            self.profile_image = '/media/profile_image/default_profile.webp'
+            self.profile_image = '/profile_image/color-logo.png'
         super(User, self).save(*args, **kwargs)
     
     def is_company_user(self):
