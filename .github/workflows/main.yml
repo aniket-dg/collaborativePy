@@ -12,15 +12,19 @@ jobs:
       matrix:
         python-version: [3.9.16]
         database-name:
-          - collaborativepy_db
+          - collaborativepy
         database-password:
-          - postgres
+          - collaborativepy_pwd
         database-user:
-          - postgres
+          - collaborativepy_user
         database-host:
-          - 127.0.0.1
+          - localhost
         database-port:
           - 5432
+        database-engine:
+          - django.db.backends.postgresql
+        django-debug:
+          - true
 
     services:
       postgres:
@@ -45,57 +49,32 @@ jobs:
       uses: actions/setup-python@v4.5.0
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Format with black
-      run: |
-        pip install black
-        # format the files with black
-        black .
-    - name: Setup test database
+#    - name: Install dependencies
+#      run: |
+#        python -m pip install --upgrade pip
+#        pip install -r requirements.txt
+    - name: Run the Container
       env:
-        POSTGRES_DB_NAME: ${{ matrix.database-name }}
-        POSTGRES_USER: ${{ matrix.database-user }}
-        POSTGRES_PASSWORD: ${{ matrix.database-password }}
-        POSTGRES_DB_HOST: ${{ matrix.database-host }}
-        POSTGRES_DB_PORT: ${{ matrix.database-port }}
-        POSTGRES_DB: ${{ matrix.database-name }}
-      run: |
-        export DATABASE_URL=postgres://${{ matrix.database-user }}:${{ matrix.database-password }}@${{ matrix.database-host }}:${{ matrix.database-port }}/${{ matrix.database-name }}
-        export SECRET_KEY=test-secret-key
-        export DEBUG=1
-    - name: Run migrations
-      run: |
-        export DATABASE_URL=postgres://${{ matrix.database-user }}:${{ matrix.database-password }}@${{ matrix.database-host }}:${{ matrix.database-port }}/${{ matrix.database-name }}
-        export SECRET_KEY=test-secret-key
-        export DEBUG=1
-        export ALLOWED_HOSTS=localhost
-        export GITHUB_WORKFLOW=True
-        export MODE=workflow
-        python manage.py makemigrations
-        python manage.py migrate
-        python manage.py migrate --run-syncdb
-        python manage.py check
-    - name: Run tests
-      run: |
-          python manage.py test
-      env:
-        DATABASE_URL: postgres://${{ matrix.database-user }}:${{ matrix.database-password }}@${{ matrix.database-host }}:${{ matrix.database-port }}/${{ matrix.database-name }}
-        SECRET_KEY: test-secret-key
-        DEBUG: 1
-        ALLOWED_HOSTS: localhost
-        GITHUB_WORKFLOW: True
-        MODE: workflow
-    - uses: actions/checkout@v3.3.0
-    - name: Build the images and start the containers
-      run: |
-        export GITHUB_WORKFLOW=True
-        export MODE="Test"
-        docker-compose -f docker-compose.yaml build
-        docker-compose -f docker-compose.yaml up -d
-        # run: docker-compose up -d --build
+        DATABASE_ENGINE: ${{ matrix.database-engine }}
+        DATABASE_NAME: ${{ matrix.database-name }}
+        DATABASE_USER: ${{ matrix.database-user }}
+        DATABASE_PASSWORD: ${{ matrix.database-password }}
+        DATABASE_HOST: ${{ matrix.database-host }}
+        DATABASE_PORT: ${{ matrix.database-port }}
+        DJANGO_DEBUG: ${{ matrix.django-debug }}
+      run:
+        docker-compose up
+        docker-compose exec server python manage.py migrate
+        docker-compose exec server python manage.py test
+
+#    - uses: actions/checkout@v3.3.0
+#    - name: Build the images and start the containers
+#      run: |
+#        export GITHUB_WORKFLOW=True
+#        export MODE="Test"
+#        docker-compose -f docker-compose.yaml build
+#        docker-compose -f docker-compose.yaml up -d
+#        # run: docker-compose up -d --build
     - name: Stop containers
       if: always()
       run: docker-compose -f "docker-compose.yml" down
