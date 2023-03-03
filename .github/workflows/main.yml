@@ -57,27 +57,6 @@ jobs:
       run:
         docker-compose -f docker-compose.yaml build
         docker-compose -f docker-compose.yaml up -d
-        #        # run: docker-compose up -d --build
         docker-compose exec server python manage.py migrate
         docker-compose exec server python manage.py test
-#    - name: Set up Python ${{ matrix.python-version }}
-#      uses: actions/setup-python@v4.5.0
-#      with:
-#        python-version: ${{ matrix.python-version }}
-#    - name: Install dependencies
-#      run: |
-#        python -m pip install --upgrade pip
-#        pip install -r requirements.txt
 
-
-#    - uses: actions/checkout@v3.3.0
-#    - name: Build the images and start the containers
-#      run: |
-#        export GITHUB_WORKFLOW=True
-#        export MODE="Test"
-#        docker-compose -f docker-compose.yaml build
-#        docker-compose -f docker-compose.yaml up -d
-#        # run: docker-compose up -d --build
-    - name: Stop containers
-      if: always()
-      run: docker-compose -f "docker-compose.yml" down
