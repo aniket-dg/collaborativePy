@@ -1,0 +1,66 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:10-alpine
+    container_name: collaborativepy_db_local
+    environment:
+      POSTGRES_PASSWORD: collaborativepy_pwd
+      POSTGRES_USER: collaborativepy_user
+      POSTGRES_DB: collaborativepy
+    ports:
+      - "5432:5432"
+    volumes:
+      - collaborativepy_postgres_data:/var/lib/postgresql/data
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: "pg_isready -U collaborativepy_user -d collaborativepy"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:6.2
+    ports:
+      - "6379:6379"
+    command: "redis-server --appendonly yes"
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: collaborativepy_backend_server_local
+    volumes:
+      - .:/opt/app
+    command: bash -c "python manage.py migrate && python ./manage.py runserver 0.0.0.0:8000"
+    # command: python ./manage.py runserver_plus 0.0.0.0:8000 --print-sql
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PYTHONUNBUFFERED: 1
+      SECRET_KEY: 'Wu7MJeDm87rCvMETqdlKww'
+      DATABASE_ENGINE: django.db.backends.postgresql
+      DATABASE_NAME: collaborativepy
+      DATABASE_USER: collaborativepy_user
+      DATABASE_PASSWORD: collaborativepy_pwd
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DJANGO_DEBUG: 1
+      ENABLE_DEBUG_TOOLBAR: 0
+
+    env_file:
+      # Env vars that relate to external services are stored in a docker.env file
+      # Currently expected:
+      #   AWS_ACCESS_KEY_ID
+      #   AWS_SECRET_ACCESS_KEY
+      #   AWS_STORAGE_BUCKET_NAME
+      # ... and some other
+      - docker.env
+
+
+volumes:
+  collaborativepy_postgres_data:
