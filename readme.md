@@ -5,6 +5,11 @@
 git clone https://github.com/aniket-dg/collaborativePy.git
 ```
 
+## 2: cd into CollaborativePy folder
+```commandline
+cd collaborativePy
+```
+
 ## 2: Run the Dockerfile using docker-compose
 ```commandline
 docker compose up
