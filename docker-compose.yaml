@@ -25,41 +25,41 @@ services:
       - "6379:6379"
     command: "redis-server --appendonly yes"
 
-  server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: development
-    container_name: collaborativepy_backend_server_local
-    volumes:
-      - .:/opt/app
-    command: bash -c "python manage.py migrate && python ./manage.py runserver 0.0.0.0:8000"
-    # command: python ./manage.py runserver_plus 0.0.0.0:8000 --print-sql
-    ports:
-      - "8000:8000"
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      PYTHONUNBUFFERED: 1
-      SECRET_KEY: 'Wu7MJeDm87rCvMETqdlKww'
-      DATABASE_ENGINE: django.db.backends.postgresql
-      DATABASE_NAME: collaborativepy
-      DATABASE_USER: collaborativepy_user
-      DATABASE_PASSWORD: collaborativepy_pwd
-      DATABASE_HOST: db
-      DATABASE_PORT: 5432
-      DJANGO_DEBUG: 1
-      ENABLE_DEBUG_TOOLBAR: 0
-
-    env_file:
-      # Env vars that relate to external services are stored in a docker.env file
-      # Currently expected:
-      #   AWS_ACCESS_KEY_ID
-      #   AWS_SECRET_ACCESS_KEY
-      #   AWS_STORAGE_BUCKET_NAME
-      # ... and some other
-      - docker.env
+#  server:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#      target: development
+#    container_name: collaborativepy_backend_server_local
+#    volumes:
+#      - .:/opt/app
+#    command: bash -c "python manage.py migrate && python ./manage.py runserver 0.0.0.0:8000"
+#    # command: python ./manage.py runserver_plus 0.0.0.0:8000 --print-sql
+#    ports:
+#      - "8000:8000"
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#    environment:
+#      PYTHONUNBUFFERED: 1
+#      SECRET_KEY: 'Wu7MJeDm87rCvMETqdlKww'
+#      DATABASE_ENGINE: django.db.backends.postgresql
+#      DATABASE_NAME: collaborativepy
+#      DATABASE_USER: collaborativepy_user
+#      DATABASE_PASSWORD: collaborativepy_pwd
+#      DATABASE_HOST: db
+#      DATABASE_PORT: 5432
+#      DJANGO_DEBUG: 1
+#      ENABLE_DEBUG_TOOLBAR: 0
+#
+#    env_file:
+#      # Env vars that relate to external services are stored in a docker.env file
+#      # Currently expected:
+#      #   AWS_ACCESS_KEY_ID
+#      #   AWS_SECRET_ACCESS_KEY
+#      #   AWS_STORAGE_BUCKET_NAME
+#      # ... and some other
+#      - docker.env
 
 
 volumes:
