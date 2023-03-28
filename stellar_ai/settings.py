@@ -6,6 +6,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-a1&)8f(wb1h-3)5)grmf^kp*3-7^@7$22&pj27cx92bybn_o0-'
 #DEBUG = False
 DEBUG = True
+
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+
+
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -75,6 +82,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+
+
 ROOT_URLCONF = 'stellar_ai.urls'
 
 TEMPLATES = [
@@ -121,12 +130,12 @@ if os.getenv('GITHUB_WORKFLOW'):
 else:
     DATABASES = {
         'default': {
-            "ENGINE": os.getenv("DATABASE_ENGINE"),
-            "NAME": os.getenv("DATABASE_NAME"),
-            "USER": os.getenv("DATABASE_USER"),
-            "PASSWORD": os.getenv("DATABASE_PASSWORD"),
-            "HOST": os.getenv("DATABASE_HOST"),
-            "PORT": os.getenv("DATABASE_PORT"),
+            "ENGINE": env("DATABASE_ENGINE"),
+            "NAME": env("DATABASE_NAME"),
+            "USER": env("DATABASE_USER"),
+            "PASSWORD": env("DATABASE_PASSWORD"),
+            "HOST": env("DATABASE_HOST"),
+            "PORT": env("DATABASE_PORT"),
         }
     }
 
