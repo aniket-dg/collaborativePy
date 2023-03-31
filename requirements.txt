@@ -30,6 +30,7 @@ django-ckeditor==6.1.0
 django-cors-middleware==1.5.0
 django-crispy-forms==1.14.0
 django-debug-toolbar==3.2.2
+django-environ==0.10.0
 django-filter==21.1
 django-geoip==0.5.2.1
 django-js-asset==1.2.2
@@ -43,7 +44,6 @@ django-user-sessions==1.7.1
 django-widget-tweaks==1.4.9
 djangorestframework==3.12.4
 entrypoints==0.3
-environ==1.0
 frozenlist==1.2.0
 geoip2==4.4.0
 greenlet==1.1.2
