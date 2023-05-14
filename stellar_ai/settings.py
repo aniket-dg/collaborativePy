@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'post',
     'competition',
     'company',
+    'ide',
     'paywix',
 
     # Third Party Modules
